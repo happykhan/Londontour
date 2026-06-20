@@ -162,16 +162,14 @@ test('vercel serves the app shell with no-store caching', () => {
   }
 });
 
-test('vercel clears stale site data on the HTML entrypoints', () => {
+test('vercel does not clear browser storage on every HTML entrypoint load', () => {
   const vercel = JSON.parse(readFileSync(join(projectRoot, 'vercel.json'), 'utf8'));
   const root = vercel.headers.find((entry) => entry.source === '/');
   const index = vercel.headers.find((entry) => entry.source === '/index.html');
   for (const entry of [root, index]) {
     assert.ok(entry, 'HTML entrypoint should exist');
     const clearHeader = entry.headers.find((header) => header.key === 'Clear-Site-Data');
-    assert.ok(clearHeader, 'Clear-Site-Data should be set');
-    assert.match(clearHeader.value, /"cache"/);
-    assert.match(clearHeader.value, /"storage"/);
+    assert.equal(clearHeader, undefined, 'Clear-Site-Data should not be sent on normal page loads');
   }
 });
 
