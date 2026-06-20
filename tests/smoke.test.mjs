@@ -44,6 +44,8 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="route-highlights"/);
   assert.match(html, /id="layer-list"/);
   assert.match(html, /id="offline-button"/);
+  assert.match(html, /id="browse-picker-button"/);
+  assert.match(html, /id="browse-map-button"/);
   assert.match(html, /name="offline-route"/);
   assert.match(html, /name="offline-tiles"/);
   assert.match(html, /name="offline-layers"/);
@@ -52,22 +54,26 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0130'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0130/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0130/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0145'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0145/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0145/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
   const js = read('assets/app.js');
   assert.match(js, /id: 'london-tour'/);
   assert.match(js, /id: 'secret-ldn-sightseeing'/);
-  assert.match(js, /const initialRoute = routes\.find/);
+  assert.match(js, /const initialBrowseMode = initialSearchParams\.get\('mode'\) === 'browse'/);
+  assert.match(js, /const initialRoute = initialBrowseMode \? undefined : routes\.find/);
   assert.match(js, /document\.body\.classList\.add\('route-view'\)/);
   assert.match(js, /const layerCatalog = \[/);
   assert.match(js, /id: 'supermarkets'/);
   assert.match(js, /function activeLayerPoints/);
   assert.match(js, /function visibleRouteStops/);
   assert.match(js, /function fitSelectedRouteBounds/);
+  assert.match(js, /function enterBrowseMode/);
+  assert.match(js, /function clearRouteOverlays/);
+  assert.match(js, /mode', 'browse'/);
   assert.match(js, /selectedRouteBounds = routeBounds/);
   assert.match(js, /pointMatchesRoute/);
   assert.doesNotMatch(js, /pois: \[/);
@@ -106,7 +112,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v18/);
+  assert.match(sw, /londontour-offline-v19/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);

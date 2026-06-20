@@ -8,8 +8,8 @@
       name="description"
       content="Choose a London tour, see the route on a familiar map, and print the directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-0130" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-0130" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-0145" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-0145" />
   </head>
   <body>
     <main class="app-shell">
@@ -30,6 +30,7 @@
 
         <section class="route-pickers" aria-label="Route choices">
           <div id="route-picker" class="route-picker"></div>
+          <button id="browse-picker-button" class="secondary-button browse-picker-button" type="button">Browse map</button>
         </section>
 
         <section class="layers-panel" aria-label="Map layers">
@@ -82,6 +83,7 @@
         <div class="map-topbar" aria-label="Route controls">
           <button id="change-route-button" class="secondary-button" type="button">Routes</button>
           <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
+          <button id="browse-map-button" class="secondary-button" type="button">Browse</button>
           <button id="map-print-button" type="button">Print</button>
         </div>
         <div class="map-actions">
@@ -91,12 +93,12 @@
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-0130"></script>
-    <script src="assets/app.js?v=20260621-0130"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-0145"></script>
+    <script src="assets/app.js?v=20260621-0145"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-0130').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-0145').catch(() => {});
         });
       }
     </script>

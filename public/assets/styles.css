@@ -94,6 +94,10 @@ body[data-theme="dark"] .secondary-button:focus-visible {
   min-height: 100vh;
 }
 
+body.browse-view .app-shell {
+  grid-template-columns: 1fr;
+}
+
 .tour-panel {
   background: rgba(255, 255, 255, 0.88);
   border-right: 1px solid var(--line);
@@ -101,6 +105,10 @@ body[data-theme="dark"] .secondary-button:focus-visible {
   min-height: 100vh;
   overflow-y: auto;
   padding: 1.25rem;
+}
+
+body.browse-view .tour-panel {
+  display: none;
 }
 
 body[data-theme="dark"] .tour-panel {
@@ -187,6 +195,11 @@ h2 {
 .route-picker {
   display: grid;
   gap: 0.8rem;
+}
+
+.browse-picker-button {
+  margin-top: 0.8rem;
+  width: 100%;
 }
 
 .route-card {
@@ -571,6 +584,10 @@ body[data-theme="dark"] .route-card.is-active {
     --mobile-sheet-height: 34dvh;
   }
 
+  body.browse-view {
+    --mobile-sheet-height: 0px;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
     min-height: 100dvh;
@@ -667,6 +684,10 @@ body[data-theme="dark"] .route-card.is-active {
     height: 100dvh;
   }
 
+  body.browse-view .tour-panel {
+    display: none;
+  }
+
   body.route-view .tour-heading,
   body.route-view .route-pickers {
     display: none;
@@ -687,7 +708,7 @@ body[data-theme="dark"] .route-card.is-active {
   .map-topbar {
     display: grid;
     gap: 0.5rem;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(64px, auto);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.82fr) minmax(58px, auto);
     left: 0.75rem;
     right: 0.75rem;
     top: calc(0.75rem + env(safe-area-inset-top));
@@ -698,7 +719,7 @@ body[data-theme="dark"] .route-card.is-active {
     box-shadow: 0 8px 24px rgba(23, 32, 42, 0.16);
     min-width: 0;
     min-height: 44px;
-    padding: 0.7rem 0.65rem;
+    padding: 0.7rem 0.55rem;
   }
 
   .map-topbar .secondary-button {
@@ -751,6 +772,10 @@ body[data-theme="dark"] .route-card.is-active {
     position: fixed;
     right: 0.75rem;
     z-index: 560;
+  }
+
+  body.browse-view .leaflet-control-attribution {
+    bottom: calc(0.25rem + env(safe-area-inset-bottom));
   }
 
   .directions .segment-divider {

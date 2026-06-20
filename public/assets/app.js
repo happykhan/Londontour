@@ -256,12 +256,17 @@ const printButton = document.querySelector('#print-button');
 const mapPrintButton = document.querySelector('#map-print-button');
 const changeRouteButton = document.querySelector('#change-route-button');
 const recenterButton = document.querySelector('#recenter-button');
+const browsePickerButton = document.querySelector('#browse-picker-button');
+const browseMapButton = document.querySelector('#browse-map-button');
 const themeButton = document.querySelector('#theme-button');
 const shareButton = document.querySelector('#share-button');
 
-const initialRouteId = new URLSearchParams(window.location.search).get('route');
-const initialRoute = routes.find((route) => route.id === initialRouteId);
+const initialSearchParams = new URLSearchParams(window.location.search);
+const initialBrowseMode = initialSearchParams.get('mode') === 'browse';
+const initialRouteId = initialSearchParams.get('route');
+const initialRoute = initialBrowseMode ? undefined : routes.find((route) => route.id === initialRouteId);
 let selectedRoute = initialRoute || routes[0];
+let browseMode = initialBrowseMode;
 let map;
 let routeLineLayers = [];
 let routeMarkers = [];
@@ -274,7 +279,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v18';
+const cacheName = 'londontour-offline-v19';
 const layerStateKey = 'londontour-layer-state-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -333,13 +338,13 @@ function pointMatchesRoute(point, layer, route) {
   return routeDistance(point, route) <= (layer.routeRadius || 0.005);
 }
 
-function activeLayerPoints(route = selectedRoute, includeZoomRules = true) {
-  const zoom = map?.getZoom?.() || route.zoom || 13;
+function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoomRules = !browseMode) {
+  const zoom = map?.getZoom?.() || route?.zoom || 13;
   return layerCatalog.flatMap((layer) => {
     if (!activeLayerIds.has(layer.id)) return [];
     if (includeZoomRules && zoom < layer.minZoom) return [];
     return layer.points
-      .filter((point) => pointMatchesRoute(point, layer, route))
+      .filter((point) => !route || pointMatchesRoute(point, layer, route))
       .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, markerLabel: layer.markerLabel }));
   });
 }
@@ -391,8 +396,8 @@ async function renderOfflineDetails() {
   if (!offlineDetailsEl) return;
   const selections = offlineSelections();
   const parts = ['app shell'];
-  if (selections.route) parts.push(selectedRoute.name);
-  if (selections.layers) parts.push(`${activeLayerPoints(selectedRoute, false).length} selected layer items`);
+  if (selections.route) parts.push(browseMode ? 'browse map' : selectedRoute.name);
+  if (selections.layers) parts.push(`${activeLayerPoints(browseMode ? null : selectedRoute, false).length} selected layer items`);
   if (selections.tiles) {
     const tileManifest = await loadTileManifest();
     parts.push(`${tileManifest.length} local tiles`);
@@ -403,7 +408,7 @@ async function renderOfflineDetails() {
   const isStale =
     state &&
     (state.cacheName !== cacheName ||
-      state.routeId !== selectedRoute.id ||
+      state.routeId !== (browseMode ? 'browse' : selectedRoute.id) ||
       state.layerIds !== selectedLayers ||
       state.includesTiles !== selections.tiles);
 
@@ -416,7 +421,7 @@ function renderPicker() {
   pickerEl.innerHTML = routes
     .map(
       (route) => `
-        <button class="route-card ${route.id === selectedRoute.id ? 'is-active' : ''}" type="button" data-route="${route.id}">
+        <button class="route-card ${!browseMode && route.id === selectedRoute.id ? 'is-active' : ''}" type="button" data-route="${route.id}">
           <span class="route-kind">${route.kind}</span>
           <strong>${route.name}</strong>
           <span class="route-copy">${route.summary}</span>
@@ -500,6 +505,17 @@ function buildStopsBounds(route = selectedRoute) {
   return bounds;
 }
 
+function buildBrowseBounds() {
+  const bounds = L.latLngBounds([]);
+  routes.forEach((route) => {
+    route.stops.forEach((stop) => bounds.extend([stop.lat, stop.lng]));
+  });
+  layerCatalog.forEach((layer) => {
+    layer.points.forEach((point) => bounds.extend([point.lat, point.lng]));
+  });
+  return bounds;
+}
+
 function routeFitPadding() {
   if (window.matchMedia('(max-width: 900px)').matches) {
     return {
@@ -521,6 +537,33 @@ function fitSelectedRouteBounds(options = {}) {
     ...routeFitPadding(),
     animate: options.animate ?? true,
   });
+}
+
+function fitBrowseMap(options = {}) {
+  if (!map) return;
+  const bounds = buildBrowseBounds();
+  if (!bounds.isValid()) return;
+
+  map.invalidateSize();
+  map.fitBounds(bounds, {
+    paddingTopLeft: [36, 92],
+    paddingBottomRight: [36, 128],
+    maxZoom: 14,
+    animate: options.animate ?? true,
+  });
+}
+
+function clearRouteOverlays() {
+  routeRenderToken += 1;
+  routeLineLayers.forEach((layer) => {
+    layer.remove();
+  });
+  routeMarkers.forEach((marker) => {
+    marker.remove();
+  });
+  routeLineLayers = [];
+  routeMarkers = [];
+  selectedRouteBounds = undefined;
 }
 
 function loadRouteGeometry() {
@@ -615,12 +658,16 @@ function buildMap() {
   L.control.zoom({ position: 'bottomright' }).addTo(map);
   map.setView(selectedRoute.center, selectedRoute.zoom);
   map.on('zoomend', () => {
-    renderRouteMarkers();
+    if (!browseMode) renderRouteMarkers();
     renderLayerMarkers();
     renderDetails();
   });
   map.whenReady(() => {
-    renderRouteOnMap();
+    if (browseMode) {
+      renderBrowseMap({ animate: false });
+    } else {
+      renderRouteOnMap();
+    }
   });
 }
 
@@ -701,7 +748,7 @@ async function downloadOfflinePack() {
 
     setOfflineState({
       cacheName,
-      routeId: selectedRoute.id,
+      routeId: browseMode ? 'browse' : selectedRoute.id,
       layerIds: [...activeLayerIds].sort().join(','),
       includesRoute: selections.route,
       includesTiles: selections.tiles,
@@ -776,6 +823,11 @@ function renderRouteMarkers() {
 }
 
 async function renderRouteOnMap() {
+  if (browseMode) {
+    renderBrowseMap({ animate: false });
+    return;
+  }
+
   if (!map) return;
   const renderToken = ++routeRenderToken;
   const routeBounds = L.latLngBounds([]);
@@ -861,16 +913,53 @@ async function renderRouteOnMap() {
 
 function recenterRoute() {
   if (!map) return;
-  fitSelectedRouteBounds({ animate: true });
-  setStatus(`Recentered to show all of ${selectedRoute.name}.`);
+  if (browseMode) {
+    fitBrowseMap({ animate: true });
+    setStatus('Recentered to show the full browse map.');
+  } else {
+    fitSelectedRouteBounds({ animate: true });
+    setStatus(`Recentered to show all of ${selectedRoute.name}.`);
+  }
+}
+
+function renderBrowseMap(options = {}) {
+  if (!map) return;
+  clearRouteOverlays();
+  renderLayerMarkers();
+  if (userLocation) {
+    addOrUpdateUserMarker();
+  }
+  fitBrowseMap({ animate: options.animate ?? false });
+  setStatus('Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
+}
+
+function enterBrowseMode(options = {}) {
+  browseMode = true;
+  document.body.classList.add('route-view', 'browse-view');
+  const url = new URL(window.location.href);
+  url.searchParams.delete('route');
+  url.searchParams.set('mode', 'browse');
+  if (options.updateUrl !== false) {
+    window.history.replaceState({}, '', url);
+  }
+  renderPicker();
+  renderDetails();
+  buildMap();
+  window.setTimeout(() => {
+    map.invalidateSize();
+    renderBrowseMap({ animate: options.animate ?? true });
+  }, 0);
 }
 
 function selectRoute(route) {
+  browseMode = false;
   selectedRoute = route;
   selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
+  document.body.classList.remove('browse-view');
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
+  url.searchParams.delete('mode');
   window.history.replaceState({}, '', url);
   renderPicker();
   renderDetails();
@@ -907,11 +996,17 @@ function toggleTheme() {
 
 async function shareRoute() {
   const url = new URL(window.location.href);
-  url.searchParams.set('route', selectedRoute.id);
+  if (browseMode) {
+    url.searchParams.delete('route');
+    url.searchParams.set('mode', 'browse');
+  } else {
+    url.searchParams.set('route', selectedRoute.id);
+    url.searchParams.delete('mode');
+  }
   window.history.replaceState({}, '', url);
   const shareData = {
-    title: `Londontour: ${selectedRoute.name}`,
-    text: selectedRoute.summary,
+    title: browseMode ? 'Londontour: browse map' : `Londontour: ${selectedRoute.name}`,
+    text: browseMode ? 'Browse the London tour map without a selected route.' : selectedRoute.summary,
     url: url.toString(),
   };
 
@@ -997,7 +1092,14 @@ function addOrUpdateUserMarker() {
 }
 
 function showRoutePicker() {
-  document.body.classList.remove('route-view');
+  browseMode = false;
+  clearRouteOverlays();
+  document.body.classList.remove('route-view', 'browse-view');
+  const url = new URL(window.location.href);
+  url.searchParams.delete('mode');
+  url.searchParams.delete('route');
+  window.history.replaceState({}, '', url);
+  renderPicker();
   setStatus('Pick a route, then the map opens with pins, pan and zoom controls, and directions.');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1015,6 +1117,8 @@ printButton.addEventListener('click', () => window.print());
 mapPrintButton.addEventListener('click', () => window.print());
 changeRouteButton.addEventListener('click', showRoutePicker);
 recenterButton.addEventListener('click', recenterRoute);
+browsePickerButton.addEventListener('click', () => enterBrowseMode());
+browseMapButton.addEventListener('click', () => enterBrowseMode());
 themeButton.addEventListener('click', toggleTheme);
 shareButton.addEventListener('click', shareRoute);
 
@@ -1043,10 +1147,17 @@ applyTheme(localStorage.getItem(themeStateKey) || 'light');
 if (initialRoute) {
   document.body.classList.add('route-view');
 }
+if (browseMode) {
+  document.body.classList.add('route-view', 'browse-view');
+}
 renderLayerControls();
 renderPicker();
 renderDetails();
 buildMap();
 void resetLegacyRuntime();
-void renderRouteOnMap();
-setStatus('Pick the route to open the map, then tap a marker or use my location. Available offline after the first visit.');
+if (browseMode) {
+  renderBrowseMap({ animate: false });
+} else {
+  void renderRouteOnMap();
+  setStatus('Pick the route to open the map, then tap a marker or use my location. Available offline after the first visit.');
+}
