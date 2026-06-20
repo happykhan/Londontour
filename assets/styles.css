@@ -224,6 +224,18 @@ h2 {
   margin-bottom: 0.25rem;
 }
 
+.directions .segment-divider {
+  background: transparent;
+  border: 0;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  list-style: none;
+  padding: 0.35rem 0 0.1rem;
+  text-transform: uppercase;
+}
+
 .map-actions {
   bottom: 1rem;
   display: flex;
@@ -271,6 +283,11 @@ h2 {
 
 .poi-marker span {
   transform: translateY(-0.5px);
+}
+
+.poi-marker-bus {
+  background: var(--accent);
+  box-shadow: 0 8px 18px rgba(20, 108, 100, 0.24);
 }
 
 .user-location-marker {
@@ -439,6 +456,10 @@ h2 {
   .leaflet-control-zoom a {
     height: 42px;
     width: 42px;
+  }
+
+  .directions .segment-divider {
+    padding-top: 0.45rem;
   }
 }
 
