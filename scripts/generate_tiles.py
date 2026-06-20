@@ -103,6 +103,18 @@ PARKS = [
         (51.5174, -0.1312),
         (51.5172, -0.1557),
     ],
+    [
+        (51.5039, -0.1449),
+        (51.5044, -0.1307),
+        (51.5108, -0.1313),
+        (51.5102, -0.1455),
+    ],
+    [
+        (51.5064, -0.1477),
+        (51.5068, -0.1334),
+        (51.5143, -0.1341),
+        (51.5139, -0.1484),
+    ],
 ]
 
 ROADS = [
@@ -112,6 +124,45 @@ ROADS = [
     [(51.5115, -0.117), (51.5119, -0.111), (51.5124, -0.1035), (51.5135, -0.0985)],
     [(51.5008, -0.1322), (51.5042, -0.1298), (51.5078, -0.1281)],
     [(51.5031, -0.118), (51.5057, -0.1105), (51.508, -0.1035), (51.5102, -0.0945), (51.513, -0.086)],
+    [(51.5037, -0.1419), (51.5042, -0.136), (51.5049, -0.1292), (51.5052, -0.1228)],
+    [(51.5079, -0.1379), (51.5086, -0.1302), (51.5099, -0.123), (51.5112, -0.1165)],
+    [(51.5109, -0.1465), (51.5115, -0.1365), (51.5118, -0.1267), (51.5119, -0.1168)],
+    [(51.5138, -0.1088), (51.5134, -0.1017), (51.5128, -0.0943), (51.5122, -0.0871), (51.5116, -0.0798)],
+    [(51.5092, -0.1396), (51.5097, -0.1315), (51.5099, -0.1232), (51.5101, -0.1157)],
+    [(51.507, -0.1226), (51.5082, -0.112), (51.509, -0.1034), (51.5097, -0.0955)],
+]
+
+LANDMARKS = [
+    (51.5014, -0.1419, "Buckingham Palace", "#675b4b", 12),
+    (51.5034, -0.1337, "The Mall", "#7a6b59", 10),
+    (51.5031, -0.1379, "Green Park", "#4f7d3c", 11),
+    (51.5025, -0.134, "St James’s Park", "#4f7d3c", 12),
+    (51.5079, -0.1281, "Trafalgar Square", "#61594f", 12),
+    (51.5091, -0.1342, "Piccadilly Circus", "#61594f", 11),
+    (51.5115, -0.1319, "Leicester Square", "#61594f", 11),
+    (51.5118, -0.123, "Covent Garden", "#61594f", 11),
+    (51.5028, -0.1196, "London Eye", "#1f6f8b", 11),
+    (51.5033, -0.1142, "South Bank", "#61594f", 11),
+    (51.5077, -0.1142, "Southbank Centre", "#61594f", 11),
+    (51.5076, -0.0994, "Tate Modern", "#61594f", 11),
+    (51.5081, -0.0974, "Shakespeare’s Globe", "#61594f", 10),
+    (51.5107, -0.0982, "Millennium Bridge", "#1f6f8b", 10),
+    (51.5138, -0.0984, "St Paul’s Cathedral", "#61594f", 12),
+    (51.5101, -0.0864, "Monument", "#61594f", 11),
+    (51.5081, -0.0761, "Tower of London", "#61594f", 12),
+    (51.5055, -0.0754, "Tower Bridge", "#1f6f8b", 12),
+    (51.5076, -0.0756, "St Katharine Docks", "#61594f", 10),
+    (51.5074, -0.1182, "Westminster", "#61594f", 11),
+    (51.5071, -0.1278, "Charing Cross", "#61594f", 10),
+    (51.5089, -0.1283, "National Gallery", "#61594f", 10),
+    (51.5133, -0.0835, "Leadenhall Market", "#61594f", 10),
+    (51.5127, -0.0758, "Tower Hill", "#61594f", 10),
+    (51.5116, -0.0904, "Bank", "#61594f", 10),
+    (51.5102, -0.0846, "London Bridge", "#61594f", 10),
+    (51.5048, -0.1304, "Whitehall", "#61594f", 11),
+    (51.506, -0.124, "Embankment", "#1f6f8b", 10),
+    (51.5072, -0.1226, "Waterloo", "#61594f", 10),
+    (51.5076, -0.0939, "Borough", "#61594f", 10),
 ]
 
 
@@ -122,6 +173,11 @@ def draw_svg_like_label(draw: ImageDraw.ImageDraw, x: float, y: float, text: str
     h = bbox[3] - bbox[1]
     draw.text((x - w / 2 + 1, y - h / 2 + 1), text, fill="#f8f6f0", font=FONT_SMALL)
     draw.text((x - w / 2, y - h / 2), text, fill="#6f6a5e", font=FONT_SMALL)
+
+
+def draw_poi(draw: ImageDraw.ImageDraw, x: float, y: float, fill: str) -> None:
+    r = 3
+    draw.ellipse((x - r, y - r, x + r, y + r), fill=fill, outline="#ffffff")
 
 
 def render_tile(z: int, x: int, y: int) -> Image.Image:
@@ -161,18 +217,29 @@ def render_tile(z: int, x: int, y: int) -> Image.Image:
         draw.line(road_points, fill="#fdfbf8", width=7, joint="curve")
         draw.line(road_points, fill="#b9aea0", width=1, joint="curve")
 
-    labels = [
-        (51.5074, -0.1182, "Westminster"),
-        (51.509, -0.1345, "St James’s"),
-        (51.513, -0.103, "City of London"),
-        (51.5055, -0.089, "Tower"),
-        (51.5032, -0.1104, "South Bank"),
-        (51.5028, -0.1288, "Whitehall"),
-        (51.5078, -0.144, "Hyde Park"),
-    ]
-    for lat_, lng_, text in labels:
+    for lat_, lng_, text, fill, size in LANDMARKS:
         px, py = local_point(lat_, lng_, z, x, y)
-        draw_svg_like_label(draw, px, py, text)
+        if 0 <= px <= TILE_SIZE and 0 <= py <= TILE_SIZE:
+            draw_poi(draw, px, py, fill)
+            use_font = {12: FONT_LABEL, 10: FONT_SMALL, 9: FONT_TINY}.get(size, FONT_SMALL)
+            bbox = draw.textbbox((0, 0), text, font=use_font)
+            w = bbox[2] - bbox[0]
+            h = bbox[3] - bbox[1]
+            draw.text((px + 7, py - h / 2), text, fill=fill, font=use_font)
+
+    district_labels = [
+        (51.5094, -0.1292, "West End"),
+        (51.5108, -0.0997, "City of London"),
+        (51.5037, -0.118, "Westminster"),
+        (51.5072, -0.1062, "South Bank"),
+        (51.5069, -0.1405, "St James’s"),
+        (51.5067, -0.0798, "Tower Hill"),
+        (51.5132, -0.1502, "Mayfair"),
+    ]
+    for lat_, lng_, text in district_labels:
+        px, py = local_point(lat_, lng_, z, x, y)
+        if 0 <= px <= TILE_SIZE and 0 <= py <= TILE_SIZE:
+            draw_svg_like_label(draw, px, py, text)
 
     return img
 
