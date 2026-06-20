@@ -3,12 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>London Tour</title>
+    <title>Londontour</title>
     <meta
       name="description"
-      content="A printable London walking tour map with user location and free OpenStreetMap tiles."
+      content="Choose a London tour, see the route on a familiar map, and print the directions."
     />
-    <link rel="preconnect" href="https://unpkg.com" />
     <link rel="preconnect" href="https://tile.openstreetmap.org" />
     <link
       rel="stylesheet"
@@ -20,43 +19,44 @@
   </head>
   <body>
     <main class="app-shell">
-      <section class="map-panel" aria-label="London tour map">
-        <div id="map" class="map" aria-label="Interactive map"></div>
-        <div class="map-actions">
-          <button id="locate-button" type="button">Use my location</button>
-          <button id="print-button" type="button">Print directions</button>
-        </div>
-      </section>
-
-      <aside class="tour-panel" aria-label="Tour details">
+      <aside class="tour-panel" aria-label="Tour chooser and details">
         <div class="tour-heading">
-          <p class="kicker">Self-guided route</p>
-          <h1>London Tour</h1>
-          <p id="status" class="status" role="status">
-            Allow location access to add your position to the map.
+          <p class="kicker">Londontour</p>
+          <h1>Choose a route</h1>
+          <p class="status" id="status" role="status">
+            Pick a route, then the map updates with the tour, POI pins, and your position.
           </p>
         </div>
 
-        <section class="route-summary" aria-label="Route summary">
-          <div>
-            <span class="label">Stops</span>
-            <strong>6</strong>
+        <section class="route-pickers" aria-label="Route choices">
+          <div id="route-picker" class="route-picker"></div>
+        </section>
+
+        <section class="route-card-view" aria-label="Selected route">
+          <div class="route-topline">
+            <span class="kicker">Current route</span>
+            <h2 id="route-title"></h2>
           </div>
-          <div>
-            <span class="label">Walk</span>
-            <strong>4.7 km</strong>
-          </div>
-          <div>
-            <span class="label">Time</span>
-            <strong>75-95 min</strong>
-          </div>
+          <p id="route-summary" class="route-summary-text"></p>
+
+          <div id="route-meta" class="route-meta"></div>
         </section>
 
         <section aria-label="Printable directions">
-          <h2>Printable Directions</h2>
+          <div class="section-row">
+            <h2>Printable directions</h2>
+            <button id="print-button" type="button">Print</button>
+          </div>
           <ol id="directions" class="directions"></ol>
         </section>
       </aside>
+
+      <section class="map-panel" aria-label="Map">
+        <div id="map" class="map" aria-label="Interactive map"></div>
+        <div class="map-actions">
+          <button id="locate-button" type="button">Use my location</button>
+        </div>
+      </section>
     </main>
 
     <script
