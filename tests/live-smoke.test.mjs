@@ -17,18 +17,10 @@ test('production shell loads the app scripts', async () => {
   assert.doesNotMatch(html, /openstreetmap|tile\.openstreetmap|openstreetmap\.org/i);
 });
 
-test('production tile endpoint serves self-generated PNG tiles', async () => {
-  const response = await fetch(`${liveUrl}/api/tile?z=14&x=8188&y=5447`, { cache: 'no-store' });
-  assert.equal(response.status, 200);
-  assert.equal(response.headers.get('content-type'), 'image/png');
-  const body = Buffer.from(await response.arrayBuffer());
-  assert.ok(body.length > 0, 'tile body should not be empty');
-});
-
-test('production tiles path rewrites to the self-generated tile endpoint', async () => {
+test('production serves self-generated static PNG tiles', async () => {
   const response = await fetch(`${liveUrl}/tiles/14/8188/5447.png`, { cache: 'no-store' });
   assert.equal(response.status, 200);
   assert.equal(response.headers.get('content-type'), 'image/png');
   const body = Buffer.from(await response.arrayBuffer());
-  assert.ok(body.length > 0, 'rewritten tile body should not be empty');
+  assert.ok(body.length > 0, 'tile body should not be empty');
 });

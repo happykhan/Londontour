@@ -8,9 +8,10 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = json.loads((ROOT / "assets" / "tiles-manifest.json").read_text())
+PUBLIC = ROOT / "public"
+MANIFEST = json.loads((PUBLIC / "assets" / "tiles-manifest.json").read_text())
 TILE_SIZE = 256
-TARGETS = [ROOT / "tiles", ROOT / "public" / "tiles"]
+TILES = PUBLIC / "tiles"
 
 
 def mercator_project(lat: float, lng: float, zoom: int) -> tuple[float, float]:
@@ -249,17 +250,15 @@ def ensure_target(path: Path) -> None:
 
 
 def main() -> None:
-    for target in TARGETS:
-        ensure_target(target)
+    ensure_target(TILES)
 
     for tile_path in MANIFEST:
         _, z, x, y_file = tile_path.lstrip("/").split("/")
         y = y_file.removesuffix(".png")
         image = render_tile(int(z), int(x), int(y))
-        for target in TARGETS:
-            out = target / z / x / f"{y}.png"
-            out.parent.mkdir(parents=True, exist_ok=True)
-            image.save(out, format="PNG")
+        out = TILES / z / x / f"{y}.png"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        image.save(out, format="PNG")
 
 
 if __name__ == "__main__":

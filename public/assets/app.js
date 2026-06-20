@@ -241,36 +241,6 @@ let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
 const cacheName = 'londontour-offline-v7';
-const offlineMapStyle = {
-  version: 8,
-  name: 'Londontour offline',
-  sources: {
-    local: {
-      type: 'raster',
-      tiles: [
-        '/tiles/{z}/{x}/{y}.png',
-      ],
-      tileSize: 256,
-      minzoom: 11,
-      maxzoom: 15,
-      attribution: 'Local London tile pack',
-    },
-  },
-  layers: [
-    {
-      id: 'background',
-      type: 'background',
-      paint: {
-        'background-color': '#f3f5f6',
-      },
-    },
-    {
-      id: 'local-tiles',
-      type: 'raster',
-      source: 'local',
-    },
-  ],
-};
 
 async function resetLegacyRuntime() {
   try {
@@ -394,14 +364,6 @@ function loadTileManifest() {
   return tileManifestPromise;
 }
 
-function tilePathToApiUrl(tilePath) {
-  const match = tilePath.match(/^\/tiles\/(\d+)\/(\d+)\/(\d+)\.png$/);
-  if (!match) return null;
-
-  const [, z, x, y] = match;
-  return `/api/tile?z=${encodeURIComponent(z)}&x=${encodeURIComponent(x)}&y=${encodeURIComponent(y)}`;
-}
-
 async function fetchRouteGeometry(segment, coordinates) {
   if (coordinates.length < 2) {
     return coordinates;
@@ -424,7 +386,7 @@ function buildMap() {
     preferCanvas: true,
   });
 
-  L.tileLayer('/api/tile?z={z}&x={x}&y={y}', {
+  L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     minZoom: 11,
     maxZoom: 15,
     tileSize: 256,
@@ -450,10 +412,7 @@ function segmentStylesFor(segment) {
 }
 
 function tilePathToLocalUrl(tilePath) {
-  const match = tilePath.match(/^\/tiles\/(\d+)\/(\d+)\/(\d+)\.png$/);
-  if (!match) return null;
-
-  return tilePathToApiUrl(tilePath);
+  return /^\/tiles\/\d+\/\d+\/\d+\.png$/.test(tilePath) ? tilePath : null;
 }
 
 async function cacheRequest(cache, url) {
@@ -613,7 +572,7 @@ async function renderRouteOnMap() {
 function recenterRoute() {
   if (!map) return;
   const routeBounds = L.latLngBounds([]);
-  selectedRoute.stops.forEach((stop) => routeBounds.extend([stop.lng, stop.lat]));
+  selectedRoute.stops.forEach((stop) => routeBounds.extend([stop.lat, stop.lng]));
   map.fitBounds(routeBounds, { padding: [56, 56] });
 }
 

@@ -3,14 +3,15 @@ import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import test from 'node:test';
 
-const root = resolve(new URL('..', import.meta.url).pathname);
+const projectRoot = resolve(new URL('..', import.meta.url).pathname);
+const publicRoot = join(projectRoot, 'public');
 
 function read(file) {
-  return readFileSync(join(root, file), 'utf8');
+  return readFileSync(join(publicRoot, file), 'utf8');
 }
 
 function listFiles(dir) {
-  return readdirSync(join(root, dir), { withFileTypes: true })
+  return readdirSync(join(publicRoot, dir), { withFileTypes: true })
     .flatMap((entry) => {
       const fullPath = join(dir, entry.name);
       if (entry.isDirectory()) {
@@ -28,12 +29,13 @@ test('critical assets are present', () => {
     'assets/route-geometry.json',
     'assets/tiles-manifest.json',
     'sw.js',
-    'vercel.json',
     'assets/vendor/leaflet.js',
     'assets/vendor/leaflet.css',
   ]) {
-    assert.ok(existsSync(join(root, file)), `${file} should exist`);
+    assert.ok(existsSync(join(publicRoot, file)), `${file} should exist`);
   }
+
+  assert.ok(existsSync(join(projectRoot, 'vercel.json')), 'vercel.json should exist');
 });
 
 test('index renders the route picker and offline controls', () => {
@@ -53,17 +55,27 @@ test('app uses local tiles and contains both routes', () => {
   const js = read('assets/app.js');
   assert.match(js, /id: 'london-tour'/);
   assert.match(js, /id: 'secret-ldn-sightseeing'/);
-  assert.match(js, /\/api\/tile\?z=\{z\}&x=\{x\}&y=\{y\}/);
+  assert.match(js, /\/tiles\/\{z\}\/\{x\}\/\{y\}\.png/);
+  assert.doesNotMatch(js, /\/api\/tile/);
+  assert.doesNotMatch(js, /maplibre/i);
+  assert.match(js, /routeBounds\.extend\(\[stop\.lat, stop\.lng\]\)/);
+  assert.doesNotMatch(js, /routeBounds\.extend\(\[stop\.lng, stop\.lat\]\)/);
   assert.match(js, /L\.map\('map'/);
   assert.match(js, /L\.tileLayer\('/);
   assert.match(js, /Download offline pack/);
+});
+
+test('public directory is the single deployable app tree', () => {
+  for (const duplicate of ['index.html', 'sw.js', 'assets', 'tiles', 'api']) {
+    assert.ok(!existsSync(join(projectRoot, duplicate)), `${duplicate} should not exist at the repo root`);
+  }
 });
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
   assert.match(sw, /londontour-offline-v7/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
-  assert.match(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
+  assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.css/);
 });
@@ -89,14 +101,14 @@ test('tile manifest maps to real files', () => {
 
   for (const tilePath of manifest) {
     assert.match(tilePath, /^\/tiles\/\d+\/\d+\/\d+\.png$/);
-    assert.ok(existsSync(join(root, tilePath)), `missing tile file ${tilePath}`);
-    const stats = statSync(join(root, tilePath));
+    assert.ok(existsSync(join(publicRoot, tilePath)), `missing tile file ${tilePath}`);
+    const stats = statSync(join(publicRoot, tilePath));
     assert.ok(stats.size > 0, `tile file ${tilePath} should not be empty`);
   }
 });
 
 test('tile renderer includes central London landmarks', () => {
-  const generator = read('scripts/generate_tiles.py');
+  const generator = readFileSync(join(projectRoot, 'scripts/generate_tiles.py'), 'utf8');
   for (const label of [
     'Piccadilly Circus',
     'Covent Garden',
@@ -115,14 +127,16 @@ test('local tile bundle has enough coverage for the manifest', () => {
 });
 
 test('no openstreetmap tiles remain in the app shell', () => {
-  for (const file of ['assets/app.js', 'sw.js', 'index.html', 'README.md']) {
+  for (const file of ['assets/app.js', 'sw.js', 'index.html']) {
     const content = read(file);
     assert.doesNotMatch(content, /openstreetmap|tile\.openstreetmap|openstreetmap\.org/i, `${file} should not reference OSM`);
   }
+
+  assert.doesNotMatch(readFileSync(join(projectRoot, 'README.md'), 'utf8'), /openstreetmap|tile\.openstreetmap|openstreetmap\.org/i);
 });
 
 test('vercel serves the app shell with no-store caching', () => {
-  const vercel = JSON.parse(read('vercel.json'));
+  const vercel = JSON.parse(readFileSync(join(projectRoot, 'vercel.json'), 'utf8'));
   const headerTargets = new Map(
     vercel.headers.map((entry) => [entry.source, entry.headers?.find((header) => header.key === 'Cache-Control')?.value || ''])
   );
@@ -134,7 +148,7 @@ test('vercel serves the app shell with no-store caching', () => {
 });
 
 test('vercel clears stale site data on the HTML entrypoints', () => {
-  const vercel = JSON.parse(read('vercel.json'));
+  const vercel = JSON.parse(readFileSync(join(projectRoot, 'vercel.json'), 'utf8'));
   const root = vercel.headers.find((entry) => entry.source === '/');
   const index = vercel.headers.find((entry) => entry.source === '/index.html');
   for (const entry of [root, index]) {
@@ -146,10 +160,14 @@ test('vercel clears stale site data on the HTML entrypoints', () => {
   }
 });
 
-test('tiles rewrite to the self-generated tile endpoint', () => {
-  const vercel = JSON.parse(read('vercel.json'));
-  assert.ok(Array.isArray(vercel.rewrites), 'rewrites should exist');
-  const tileRewrite = vercel.rewrites.find((entry) => entry.source === '/tiles/:z/:x/:y.png');
-  assert.ok(tileRewrite, 'tiles path should rewrite to the API');
-  assert.equal(tileRewrite.destination, '/api/tile?z=:z&x=:x&y=:y');
+test('vercel serves the static tile bundle directly', () => {
+  const vercel = JSON.parse(readFileSync(join(projectRoot, 'vercel.json'), 'utf8'));
+  assert.ok(!vercel.rewrites, 'static tiles should not be routed through an API rewrite');
+
+  const tileHeader = vercel.headers.find((entry) => entry.source === '/tiles/(.*)');
+  assert.ok(tileHeader, 'tiles should have a cache-control header');
+  assert.match(
+    tileHeader.headers.find((header) => header.key === 'Cache-Control')?.value || '',
+    /immutable/
+  );
 });

@@ -6,7 +6,7 @@ A deployable static Vercel app for a self-guided London walking tour.
 
 - Shows a pre-baked London tour with markers and POIs.
 - Uses browser geolocation to show the user's current position on the map.
-- Uses self-generated local street map tiles with Leaflet and a Vercel tile endpoint.
+- Uses self-generated local street map tiles served directly from `public/tiles`.
 - Includes a printable directions panel with print-specific styling.
 - Caches the app shell, tiles, and route geometry through a service worker.
 - Includes a one-click offline pack download for the current London route.
@@ -17,7 +17,7 @@ A deployable static Vercel app for a self-guided London walking tour.
 npm run tiles
 ```
 
-This regenerates the self-hosted PNG tile set used by both `/tiles/...png` and `/api/tile`.
+This regenerates the self-hosted PNG tile set served from `/tiles/...png`.
 
 ## Local preview
 

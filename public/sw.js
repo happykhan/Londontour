@@ -38,7 +38,6 @@ self.addEventListener('fetch', (event) => {
   const isLocalAsset =
     url.origin === self.location.origin &&
     (url.pathname.startsWith('/assets/') ||
-      url.pathname.startsWith('/api/') ||
       url.pathname.startsWith('/tiles/') ||
       url.pathname === '/' ||
       url.pathname === '/index.html');
