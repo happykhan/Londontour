@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "node --test tests/smoke.test.mjs",
+    "tiles": "python3 scripts/generate_tiles.py",
     "start": "npx --yes serve .",
     "deploy": "npx --yes vercel deploy --prod --yes --scope happykhans-projects"
   }
