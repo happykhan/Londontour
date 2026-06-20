@@ -201,7 +201,7 @@ function buildMap() {
     zoomControl: true,
   }).setView(selectedRoute.center, selectedRoute.zoom);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('/api/tile/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19,
