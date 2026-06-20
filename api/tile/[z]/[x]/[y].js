@@ -52,7 +52,11 @@ module.exports = async function handler(req, res) {
   res.setHeader('Content-Type', tileResponse.headers.get('content-type') || 'image/png');
   res.setHeader(
     'Cache-Control',
-    'public, max-age=0, s-maxage=86400, stale-while-revalidate=604800, stale-if-error=604800'
+    'public, max-age=0, must-revalidate'
+  );
+  res.setHeader(
+    'CDN-Cache-Control',
+    'public, s-maxage=86400, stale-while-revalidate=604800, stale-if-error=604800'
   );
   res.setHeader('X-Content-Type-Options', 'nosniff');
 
