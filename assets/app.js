@@ -142,13 +142,17 @@ const recenterButton = document.querySelector('#recenter-button');
 
 let selectedRoute = routes[0];
 let map;
-let routeLayer;
+let routeLineSourceIds = [];
+let routeMarkers = [];
 let userMarker;
-let userAccuracyCircle;
 let userLocation;
-let userAccuracy = 0;
 let locationRequested = false;
-const londonBounds = L.latLngBounds([51.28, -0.52], [51.70, 0.34]);
+const londonBounds = [[-0.52, 51.28], [0.34, 51.70]];
+
+function isInsideLondon(latLng) {
+  const [latitude, longitude] = latLng;
+  return latitude >= 51.28 && latitude <= 51.70 && longitude >= -0.52 && longitude <= 0.34;
+}
 
 function renderPicker() {
   pickerEl.innerHTML = routes
@@ -193,93 +197,131 @@ function renderDetails() {
 function buildMap() {
   if (map) return;
 
-  map = L.map('map', {
-    bounceAtZoomLimits: false,
-    maxBounds: londonBounds,
-    maxBoundsViscosity: 0.9,
+  map = new maplibregl.Map({
+    container: 'map',
+    style: 'https://tiles.openfreemap.org/styles/liberty',
+    center: [selectedRoute.center[1], selectedRoute.center[0]],
+    zoom: selectedRoute.zoom,
     minZoom: 11,
     maxZoom: 15,
-    scrollWheelZoom: true,
-    tap: true,
-    zoomControl: true,
-  }).setView(selectedRoute.center, selectedRoute.zoom);
+    maxBounds: londonBounds,
+    attributionControl: true,
+  });
 
-  L.tileLayer('/tiles/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 15,
-  }).addTo(map);
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-  routeLayer = L.layerGroup().addTo(map);
+  map.on('load', () => {
+    renderRouteOnMap();
+  });
 }
 
 function renderRouteOnMap() {
-  routeLayer.clearLayers();
+  if (!map) return;
+  if (!map.isStyleLoaded()) {
+    map.once('load', renderRouteOnMap);
+    return;
+  }
 
-  const walkStops = selectedRoute.stops.filter((stop) => stop.segment === 'walk');
-  const busStops = selectedRoute.stops.filter((stop) => stop.segment === 'bus');
-  const routeBounds = L.latLngBounds(selectedRoute.stops.map((stop) => [stop.lat, stop.lng]));
+  const routeBounds = new maplibregl.LngLatBounds();
+  const segmentGroups = {
+    walk: [],
+    bus: [],
+  };
 
-  [
-    { stops: walkStops, color: '#c9483a' },
-    { stops: busStops, color: '#146c64' },
-  ].forEach(({ stops, color }) => {
-    if (stops.length < 2) return;
-    const coordinates = stops.map((stop) => [stop.lat, stop.lng]);
-    L.polyline(coordinates, {
-      color: '#ffffff',
-      opacity: 0.88,
-      weight: 12,
-      lineCap: 'round',
-      lineJoin: 'round',
-    }).addTo(routeLayer);
-    L.polyline(coordinates, {
-      color,
-      opacity: 0.98,
-      weight: 7,
-      lineCap: 'round',
-      lineJoin: 'round',
-    }).addTo(routeLayer);
+  selectedRoute.stops.forEach((stop) => {
+    segmentGroups[stop.segment].push([stop.lng, stop.lat]);
+    routeBounds.extend([stop.lng, stop.lat]);
   });
+
+  const segmentStyles = {
+    walk: '#c9483a',
+    bus: '#146c64',
+  };
+
+  routeLineSourceIds.forEach((id) => {
+    if (map.getLayer(`${id}-casing`)) map.removeLayer(`${id}-casing`);
+    if (map.getLayer(id)) map.removeLayer(id);
+    if (map.getSource(id)) map.removeSource(id);
+  });
+  routeLineSourceIds = [];
+
+  Object.entries(segmentGroups).forEach(([segment, coordinates]) => {
+    if (coordinates.length < 2) return;
+
+    const sourceId = `route-${segment}`;
+    routeLineSourceIds.push(sourceId);
+
+    map.addSource(sourceId, {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        properties: { segment },
+        geometry: {
+          type: 'LineString',
+          coordinates,
+        },
+      },
+    });
+
+    map.addLayer({
+      id: `${sourceId}-casing`,
+      type: 'line',
+      source: sourceId,
+      paint: {
+        'line-color': '#ffffff',
+        'line-opacity': 0.88,
+        'line-width': 12,
+        'line-cap': 'round',
+        'line-join': 'round',
+      },
+    });
+
+    map.addLayer({
+      id: sourceId,
+      type: 'line',
+      source: sourceId,
+      paint: {
+        'line-color': segmentStyles[segment],
+        'line-opacity': 0.98,
+        'line-width': 7,
+        'line-cap': 'round',
+        'line-join': 'round',
+      },
+    });
+  });
+
+  routeMarkers.forEach((marker) => marker.remove());
+  routeMarkers = [];
 
   selectedRoute.stops.forEach((stop, index) => {
-    const icon = L.divIcon({
-      className: `poi-marker ${stop.segment === 'bus' ? 'poi-marker-bus' : ''}`,
-      html: `<span>${index + 1}</span>`,
-      iconSize: [30, 30],
-      iconAnchor: [15, 15],
-    });
+    const element = document.createElement('div');
+    element.className = `poi-marker ${stop.segment === 'bus' ? 'poi-marker-bus' : ''}`;
+    element.innerHTML = `<span>${index + 1}</span>`;
 
-    L.marker([stop.lat, stop.lng], { icon })
-      .addTo(routeLayer)
-      .bindPopup(`<strong>${index + 1}. ${stop.name}</strong><br>${stop.detail}`);
+    const popup = new maplibregl.Popup({ offset: 20 }).setHTML(
+      `<strong>${index + 1}. ${stop.name}</strong><br>${stop.detail}`
+    );
+
+    const marker = new maplibregl.Marker({
+      element,
+      anchor: 'center',
+    });
+    marker.setLngLat([stop.lng, stop.lat]).setPopup(popup).addTo(map);
+    routeMarkers.push(marker);
   });
 
-  map.fitBounds(routeBounds, { padding: [56, 56] });
+  map.fitBounds(routeBounds, { padding: 56, duration: 0 });
 
   if (userLocation) {
-    const icon = L.divIcon({
-      className: 'user-location-marker',
-      iconSize: [22, 22],
-    });
-
-    userMarker = L.marker(userLocation, { icon, zIndexOffset: 1000 })
-      .addTo(routeLayer)
-      .bindPopup('<strong>Your position</strong>');
-    userAccuracyCircle = L.circle(userLocation, {
-      color: '#1d6fe8',
-      fillColor: '#1d6fe8',
-      fillOpacity: 0.12,
-      radius: userAccuracy,
-      weight: 1,
-    }).addTo(routeLayer);
+    addOrUpdateUserMarker();
   }
 }
 
 function recenterRoute() {
   if (!map) return;
-  const coordinates = selectedRoute.stops.map((stop) => [stop.lat, stop.lng]);
-  map.fitBounds(coordinates, { padding: [56, 56] });
+  const routeBounds = new maplibregl.LngLatBounds();
+  selectedRoute.stops.forEach((stop) => routeBounds.extend([stop.lng, stop.lat]));
+  map.fitBounds(routeBounds, { padding: 56, duration: 300 });
 }
 
 function selectRoute(route) {
@@ -289,7 +331,7 @@ function selectRoute(route) {
   renderDetails();
   buildMap();
   setTimeout(() => {
-    map.invalidateSize();
+    map.resize();
     renderRouteOnMap();
     if (!locationRequested) {
       locationRequested = true;
@@ -317,35 +359,16 @@ function locateUser() {
       const { latitude, longitude, accuracy } = position.coords;
       const latLng = [latitude, longitude];
 
-      if (!londonBounds.contains(latLng)) {
+      if (!isInsideLondon(latLng)) {
         setStatus('Your position is outside the London map area. Route pins are still available.');
         return;
       }
 
       userLocation = latLng;
-      userAccuracy = accuracy;
+      addOrUpdateUserMarker();
 
-      if (userMarker) {
-        userMarker.setLatLng(latLng);
-        userAccuracyCircle.setLatLng(latLng).setRadius(accuracy);
-      } else {
-        const icon = L.divIcon({
-          className: 'user-location-marker',
-          iconSize: [22, 22],
-        });
-
-        userMarker = L.marker(latLng, { icon }).addTo(routeLayer).bindPopup('<strong>Your position</strong>');
-        userAccuracyCircle = L.circle(latLng, {
-          color: '#1d6fe8',
-          fillColor: '#1d6fe8',
-          fillOpacity: 0.12,
-          radius: accuracy,
-          weight: 1,
-        }).addTo(routeLayer);
-      }
-
-      map.setView(latLng, Math.max(map.getZoom(), 16));
-      userMarker.openPopup();
+      map.easeTo({ center: [longitude, latitude], zoom: Math.max(map.getZoom(), 16), duration: 600 });
+      if (userMarker && userMarker.getPopup()) userMarker.togglePopup();
       setStatus('Your position is shown on the map.');
     },
     (error) => {
@@ -363,6 +386,26 @@ function locateUser() {
       timeout: 10000,
     }
   );
+}
+
+function addOrUpdateUserMarker() {
+  if (!map || !userLocation) return;
+
+  if (userMarker) {
+    userMarker.remove();
+  }
+
+  const element = document.createElement('div');
+  element.className = 'user-location-marker';
+  element.title = 'Your position';
+
+  userMarker = new maplibregl.Marker({
+    element,
+    anchor: 'center',
+  })
+    .setLngLat([userLocation[1], userLocation[0]])
+    .setPopup(new maplibregl.Popup({ offset: 20 }).setHTML('<strong>Your position</strong>'))
+    .addTo(map);
 }
 
 function showRoutePicker() {
