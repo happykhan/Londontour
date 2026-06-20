@@ -137,6 +137,9 @@ const directionsEl = document.querySelector('#directions');
 const statusEl = document.querySelector('#status');
 const locateButton = document.querySelector('#locate-button');
 const printButton = document.querySelector('#print-button');
+const mapPrintButton = document.querySelector('#map-print-button');
+const changeRouteButton = document.querySelector('#change-route-button');
+const recenterButton = document.querySelector('#recenter-button');
 
 let selectedRoute = routes[0];
 let map;
@@ -145,6 +148,7 @@ let userMarker;
 let userAccuracyCircle;
 let userLocation;
 let userAccuracy = 0;
+const londonBounds = L.latLngBounds([51.28, -0.52], [51.70, 0.34]);
 
 function renderPicker() {
   pickerEl.innerHTML = routes
@@ -188,7 +192,12 @@ function buildMap() {
   if (map) return;
 
   map = L.map('map', {
+    bounceAtZoomLimits: false,
+    maxBounds: londonBounds,
+    maxBoundsViscosity: 0.9,
+    minZoom: 11,
     scrollWheelZoom: true,
+    tap: true,
     zoomControl: true,
   }).setView(selectedRoute.center, selectedRoute.zoom);
 
@@ -205,6 +214,7 @@ function renderRouteOnMap() {
   routeLayer.clearLayers();
 
   const coordinates = selectedRoute.stops.map((stop) => [stop.lat, stop.lng]);
+  const routeBounds = L.latLngBounds(coordinates);
   L.polyline(coordinates, {
     color: selectedRoute.color,
     opacity: 0.95,
@@ -224,7 +234,7 @@ function renderRouteOnMap() {
       .bindPopup(`<strong>${index + 1}. ${stop.name}</strong><br>${stop.detail}`);
   });
 
-  map.fitBounds(coordinates, { padding: [30, 30] });
+  map.fitBounds(routeBounds, { padding: [56, 56] });
 
   if (userLocation) {
     const icon = L.divIcon({
@@ -243,12 +253,22 @@ function renderRouteOnMap() {
   }
 }
 
+function recenterRoute() {
+  if (!map) return;
+  const coordinates = selectedRoute.stops.map((stop) => [stop.lat, stop.lng]);
+  map.fitBounds(coordinates, { padding: [56, 56] });
+}
+
 function selectRoute(route) {
   selectedRoute = route;
+  document.body.classList.add('route-view');
   renderPicker();
   renderDetails();
   buildMap();
-  renderRouteOnMap();
+  setTimeout(() => {
+    map.invalidateSize();
+    renderRouteOnMap();
+  }, 0);
   setStatus(`Viewing ${route.name}. Tap markers for more info, or use my location.`);
 }
 
@@ -268,6 +288,12 @@ function locateUser() {
     (position) => {
       const { latitude, longitude, accuracy } = position.coords;
       const latLng = [latitude, longitude];
+
+      if (!londonBounds.contains(latLng)) {
+        setStatus('Your position is outside the London map area. Route pins are still available.');
+        return;
+      }
+
       userLocation = latLng;
       userAccuracy = accuracy;
 
@@ -311,6 +337,12 @@ function locateUser() {
   );
 }
 
+function showRoutePicker() {
+  document.body.classList.remove('route-view');
+  setStatus('Pick a route, then the map opens with pins, pan and zoom controls, and directions.');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 pickerEl.addEventListener('click', (event) => {
   const target = event.target.closest('button[data-route]');
   if (!target) return;
@@ -320,6 +352,9 @@ pickerEl.addEventListener('click', (event) => {
 
 locateButton.addEventListener('click', locateUser);
 printButton.addEventListener('click', () => window.print());
+mapPrintButton.addEventListener('click', () => window.print());
+changeRouteButton.addEventListener('click', showRoutePicker);
+recenterButton.addEventListener('click', recenterRoute);
 
 renderPicker();
 renderDetails();

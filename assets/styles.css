@@ -9,6 +9,7 @@
   --accent-strong: #0c4d47;
   --route: #c9483a;
   --card: #fbf8f2;
+  --shadow: 0 16px 42px rgba(23, 32, 42, 0.18);
 }
 
 * {
@@ -31,7 +32,7 @@ body {
 
 button {
   border: 0;
-  border-radius: 999px;
+  border-radius: 8px;
   background: var(--accent);
   color: #fff;
   cursor: pointer;
@@ -43,6 +44,17 @@ button {
 button:hover,
 button:focus-visible {
   background: var(--accent-strong);
+}
+
+.secondary-button {
+  background: #fff;
+  border: 1px solid #cfd5da;
+  color: var(--ink);
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible {
+  background: #eef3f6;
 }
 
 .app-shell {
@@ -117,7 +129,7 @@ h2 {
 .route-card {
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 8px;
   color: var(--ink);
   display: grid;
   gap: 0.35rem;
@@ -175,7 +187,7 @@ h2 {
 .route-meta div {
   background: #fafafa;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 0.8rem;
 }
 
@@ -202,7 +214,7 @@ h2 {
 .directions li {
   background: #fff;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 8px;
   line-height: 1.45;
   padding: 0.9rem;
 }
@@ -220,6 +232,22 @@ h2 {
   left: 1rem;
   position: absolute;
   z-index: 500;
+}
+
+.map-topbar {
+  display: flex;
+  gap: 0.5rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 500;
+}
+
+.leaflet-control-zoom a {
+  align-items: center;
+  display: flex;
+  font-size: 1.25rem;
+  justify-content: center;
 }
 
 .leaflet-popup-content strong {
@@ -266,8 +294,18 @@ h2 {
 }
 
 @media (max-width: 900px) {
+  html,
+  body {
+    min-height: 100%;
+  }
+
+  body {
+    background: #f3f5f6;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
+    min-height: 100dvh;
   }
 
   .tour-panel {
@@ -278,12 +316,129 @@ h2 {
 
   .map-panel,
   .map {
-    min-height: 62vh;
-    height: 62vh;
+    min-height: 100dvh;
+    height: 100dvh;
   }
 
   .route-meta {
     grid-template-columns: 1fr;
+  }
+
+  .tour-heading {
+    margin-bottom: 1.1rem;
+    padding-bottom: 1.1rem;
+  }
+
+  h1 {
+    font-size: 2.35rem;
+  }
+
+  .route-card {
+    min-height: 9rem;
+    padding: 1rem;
+  }
+
+  body:not(.route-view) .map-panel {
+    display: none;
+  }
+
+  body:not(.route-view) .tour-panel {
+    min-height: 100dvh;
+    border-bottom: 0;
+    padding: 1rem;
+  }
+
+  body:not(.route-view) .route-card-view,
+  body:not(.route-view) .directions-panel {
+    display: none;
+  }
+
+  body.route-view .tour-panel {
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(215, 220, 224, 0.9);
+    border-bottom: 0;
+    border-radius: 16px 16px 0 0;
+    bottom: 0;
+    box-shadow: var(--shadow);
+    left: 0;
+    max-height: 40dvh;
+    min-height: 0;
+    overflow: auto;
+    padding: 0.9rem 1rem calc(1rem + env(safe-area-inset-bottom));
+    position: fixed;
+    right: 0;
+    top: auto;
+    z-index: 700;
+  }
+
+  body.route-view .map-panel {
+    display: block;
+  }
+
+  body.route-view .map {
+    height: 100dvh;
+  }
+
+  body.route-view .tour-heading,
+  body.route-view .route-pickers {
+    display: none;
+  }
+
+  body.route-view .route-card-view {
+    margin-bottom: 0.75rem;
+  }
+
+  body.route-view .route-summary-text {
+    margin-bottom: 0.75rem;
+  }
+
+  body.route-view .section-row {
+    margin-bottom: 0.75rem;
+  }
+
+  .map-topbar {
+    left: 0.75rem;
+    right: 0.75rem;
+    top: calc(0.75rem + env(safe-area-inset-top));
+  }
+
+  .map-topbar button {
+    box-shadow: 0 8px 24px rgba(23, 32, 42, 0.16);
+    min-height: 44px;
+    padding: 0.7rem 0.85rem;
+  }
+
+  .map-topbar .secondary-button {
+    flex: 1;
+  }
+
+  #map-print-button {
+    flex: 0 0 auto;
+  }
+
+  .map-actions {
+    bottom: calc(40dvh + 0.75rem);
+    left: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .map-actions button {
+    box-shadow: 0 8px 24px rgba(23, 32, 42, 0.16);
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .leaflet-top {
+    top: 3.9rem;
+  }
+
+  .leaflet-left {
+    left: 0.75rem;
+  }
+
+  .leaflet-control-zoom a {
+    height: 42px;
+    width: 42px;
   }
 }
 
@@ -297,6 +452,7 @@ h2 {
   }
 
   .map-panel,
+  .map-topbar,
   .map-actions,
   .leaflet-control-container {
     display: none;

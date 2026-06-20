@@ -42,7 +42,7 @@
           <div id="route-meta" class="route-meta"></div>
         </section>
 
-        <section aria-label="Printable directions">
+        <section class="directions-panel" aria-label="Printable directions">
           <div class="section-row">
             <h2>Printable directions</h2>
             <button id="print-button" type="button">Print</button>
@@ -53,6 +53,11 @@
 
       <section class="map-panel" aria-label="Map">
         <div id="map" class="map" aria-label="Interactive map"></div>
+        <div class="map-topbar" aria-label="Route controls">
+          <button id="change-route-button" class="secondary-button" type="button">Routes</button>
+          <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
+          <button id="map-print-button" type="button">Print</button>
+        </div>
         <div class="map-actions">
           <button id="locate-button" type="button">Use my location</button>
         </div>
