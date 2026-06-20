@@ -273,7 +273,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v15';
+const cacheName = 'londontour-offline-v16';
 const layerStateKey = 'londontour-layer-state-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -503,7 +503,7 @@ function routeFitPadding() {
   if (window.matchMedia('(max-width: 900px)').matches) {
     return {
       paddingTopLeft: [44, 88],
-      paddingBottomRight: [44, Math.round(window.innerHeight * 0.46)],
+      paddingBottomRight: [44, Math.round(window.innerHeight * 0.4)],
     };
   }
 

@@ -52,9 +52,9 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0040'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0040/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0040/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0055'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0055/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0055/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -93,7 +93,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v15/);
+  assert.match(sw, /londontour-offline-v16/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
