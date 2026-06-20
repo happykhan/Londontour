@@ -198,15 +198,16 @@ function buildMap() {
     maxBounds: londonBounds,
     maxBoundsViscosity: 0.9,
     minZoom: 11,
+    maxZoom: 15,
     scrollWheelZoom: true,
     tap: true,
     zoomControl: true,
   }).setView(selectedRoute.center, selectedRoute.zoom);
 
-  L.tileLayer('/api/tile/{z}/{x}/{y}.png', {
+  L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19,
+    maxZoom: 15,
   }).addTo(map);
 
   routeLayer = L.layerGroup().addTo(map);
