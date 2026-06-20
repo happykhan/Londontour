@@ -260,7 +260,8 @@ const themeButton = document.querySelector('#theme-button');
 const shareButton = document.querySelector('#share-button');
 
 const initialRouteId = new URLSearchParams(window.location.search).get('route');
-let selectedRoute = routes.find((route) => route.id === initialRouteId) || routes[0];
+const initialRoute = routes.find((route) => route.id === initialRouteId);
+let selectedRoute = initialRoute || routes[0];
 let map;
 let routeLineLayers = [];
 let routeMarkers = [];
@@ -273,7 +274,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v16';
+const cacheName = 'londontour-offline-v17';
 const layerStateKey = 'londontour-layer-state-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -563,6 +564,9 @@ function buildMap() {
     maxBoundsViscosity: 1.0,
     preferCanvas: true,
   });
+  map.createPane('basemapLabels');
+  map.getPane('basemapLabels').style.zIndex = 430;
+  map.getPane('basemapLabels').style.pointerEvents = 'none';
 
   const offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     minZoom: 11,
@@ -573,8 +577,8 @@ function buildMap() {
     attribution: 'Offline London tile pack',
   });
 
-  const onlineTileLayer = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+  const onlineBaseLayer = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
     {
       subdomains: 'abcd',
       maxZoom: 18,
@@ -582,6 +586,16 @@ function buildMap() {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     }
   );
+  const onlineLabelLayer = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
+    {
+      subdomains: 'abcd',
+      maxZoom: 18,
+      pane: 'basemapLabels',
+      tileSize: 256,
+    }
+  );
+  const onlineTileLayer = L.layerGroup([onlineBaseLayer, onlineLabelLayer]);
 
   const useOfflineTiles = () => {
     if (map.hasLayer(offlineTileLayer)) return;
@@ -590,7 +604,8 @@ function buildMap() {
     setStatus('Using the offline fallback map tiles. Some basemap detail is reduced.');
   };
 
-  onlineTileLayer.once('tileerror', useOfflineTiles);
+  onlineBaseLayer.once('tileerror', useOfflineTiles);
+  onlineLabelLayer.once('tileerror', useOfflineTiles);
   if (navigator.onLine === false) {
     useOfflineTiles();
   } else {
@@ -618,6 +633,16 @@ function segmentStylesFor(segment) {
   };
 
   return colours[segment] || '#c9483a';
+}
+
+function routeStrokeStyle(segment) {
+  const isCompact = window.matchMedia('(max-width: 900px)').matches;
+  return {
+    casingOpacity: isCompact ? 0.74 : 0.88,
+    casingWeight: isCompact ? 8 : 12,
+    lineOpacity: isCompact ? 0.92 : 0.98,
+    lineWeight: segment === 'tube' ? (isCompact ? 6 : 8) : (isCompact ? 5 : 7),
+  };
 }
 
 function tilePathToLocalUrl(tilePath) {
@@ -794,17 +819,18 @@ async function renderRouteOnMap() {
     if (!segment || segment.coordinates.length < 2) return;
 
     const latLngs = segment.coordinates.map((coordinate) => [coordinate[1], coordinate[0]]);
+    const strokeStyle = routeStrokeStyle(segment.segment);
     const casing = L.polyline(latLngs, {
       color: '#ffffff',
-      opacity: 0.88,
-      weight: 12,
+      opacity: strokeStyle.casingOpacity,
+      weight: strokeStyle.casingWeight,
       lineCap: 'round',
       lineJoin: 'round',
     });
     const line = L.polyline(latLngs, {
       color: segmentStylesFor(segment.segment),
-      opacity: 0.98,
-      weight: segment.segment === 'tube' ? 8 : 7,
+      opacity: strokeStyle.lineOpacity,
+      weight: strokeStyle.lineWeight,
       lineCap: 'round',
       lineJoin: 'round',
     });
@@ -1010,6 +1036,9 @@ document.querySelectorAll('.offline-options input').forEach((input) => {
 });
 
 applyTheme(localStorage.getItem(themeStateKey) || 'light');
+if (initialRoute) {
+  document.body.classList.add('route-view');
+}
 renderLayerControls();
 renderPicker();
 renderDetails();

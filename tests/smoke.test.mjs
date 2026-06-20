@@ -52,15 +52,17 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0055'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0055/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0055/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0115'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0115/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0115/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
   const js = read('assets/app.js');
   assert.match(js, /id: 'london-tour'/);
   assert.match(js, /id: 'secret-ldn-sightseeing'/);
+  assert.match(js, /const initialRoute = routes\.find/);
+  assert.match(js, /document\.body\.classList\.add\('route-view'\)/);
   assert.match(js, /const layerCatalog = \[/);
   assert.match(js, /id: 'supermarkets'/);
   assert.match(js, /function activeLayerPoints/);
@@ -69,8 +71,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /selectedRouteBounds = routeBounds/);
   assert.match(js, /pointMatchesRoute/);
   assert.doesNotMatch(js, /pois: \[/);
-  assert.match(js, /basemaps\.cartocdn\.com/);
+  assert.match(js, /basemaps\.cartocdn\.com\/light_nolabels/);
+  assert.match(js, /basemaps\.cartocdn\.com\/light_only_labels/);
+  assert.match(js, /createPane\('basemapLabels'\)/);
   assert.match(js, /OpenStreetMap contributors/);
+  assert.match(js, /function routeStrokeStyle/);
   assert.match(js, /useOfflineTiles/);
   assert.match(js, /\/tiles\/\{z\}\/\{x\}\/\{y\}\.png/);
   assert.doesNotMatch(js, /\/api\/tile/);
@@ -93,7 +98,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v16/);
+  assert.match(sw, /londontour-offline-v17/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
