@@ -269,10 +269,11 @@ let userMarker;
 let userLocation;
 let locationRequested = false;
 let routeRenderToken = 0;
+let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v13';
+const cacheName = 'londontour-offline-v15';
 const layerStateKey = 'londontour-layer-state-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -490,6 +491,35 @@ function groupRouteStops(stops) {
   });
 
   return groups;
+}
+
+function buildStopsBounds(route = selectedRoute) {
+  const bounds = L.latLngBounds([]);
+  route.stops.forEach((stop) => bounds.extend([stop.lat, stop.lng]));
+  return bounds;
+}
+
+function routeFitPadding() {
+  if (window.matchMedia('(max-width: 900px)').matches) {
+    return {
+      paddingTopLeft: [44, 88],
+      paddingBottomRight: [44, Math.round(window.innerHeight * 0.46)],
+    };
+  }
+
+  return { padding: [64, 64] };
+}
+
+function fitSelectedRouteBounds(options = {}) {
+  if (!map) return;
+  const bounds = selectedRouteBounds?.isValid?.() ? selectedRouteBounds : buildStopsBounds();
+  if (!bounds.isValid()) return;
+
+  map.invalidateSize();
+  map.fitBounds(bounds, {
+    ...routeFitPadding(),
+    animate: options.animate ?? true,
+  });
 }
 
 function loadRouteGeometry() {
@@ -745,6 +775,11 @@ async function renderRouteOnMap() {
       const routeCoordinates = await fetchRouteGeometry(segmentGroup.segment, coordinates);
       if (renderToken !== routeRenderToken) return null;
 
+      routeCoordinates.forEach((coordinate) => {
+        routeBounds.extend([coordinate[1], coordinate[0]]);
+        routeHasPoints = true;
+      });
+
       return {
         id: `route-${segmentGroup.segment}-${index}`,
         segment: segmentGroup.segment,
@@ -783,7 +818,8 @@ async function renderRouteOnMap() {
   renderLayerMarkers();
 
   if (routeHasPoints) {
-    map.fitBounds(routeBounds, { padding: [56, 56] });
+    selectedRouteBounds = routeBounds;
+    fitSelectedRouteBounds({ animate: false });
   }
 
   if (userLocation) {
@@ -795,13 +831,13 @@ async function renderRouteOnMap() {
 
 function recenterRoute() {
   if (!map) return;
-  const routeBounds = L.latLngBounds([]);
-  selectedRoute.stops.forEach((stop) => routeBounds.extend([stop.lat, stop.lng]));
-  map.fitBounds(routeBounds, { padding: [56, 56] });
+  fitSelectedRouteBounds({ animate: true });
+  setStatus(`Recentered to show all of ${selectedRoute.name}.`);
 }
 
 function selectRoute(route) {
   selectedRoute = route;
+  selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
