@@ -274,7 +274,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v17';
+const cacheName = 'londontour-offline-v18';
 const layerStateKey = 'londontour-layer-state-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -852,7 +852,11 @@ async function renderRouteOnMap() {
     addOrUpdateUserMarker();
   }
 
-  setStatus(`Viewing ${selectedRoute.name}. Tap markers for more info, or use my location. Available offline after the first visit.`);
+  if (document.body.classList.contains('route-view')) {
+    setStatus(`Viewing ${selectedRoute.name}. Tap markers for more info, or use my location. Available offline after the first visit.`);
+  } else {
+    setStatus('Pick a route, then the map opens with pins, pan and zoom controls, and directions.');
+  }
 }
 
 function recenterRoute() {

@@ -52,9 +52,9 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0115'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0115/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0115/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0130'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0130/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0130/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -90,6 +90,14 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /localStorage\.setItem\(themeStateKey/);
 });
 
+test('dark mode has explicit mobile surfaces and controls', () => {
+  const css = read('assets/styles.css');
+  assert.match(css, /body\[data-theme="dark"\] \.secondary-button/);
+  assert.match(css, /body\[data-theme="dark"\] \.route-card/);
+  assert.match(css, /body\[data-theme="dark"\]:not\(\.route-view\) \.tour-panel/);
+  assert.match(css, /body\[data-theme="dark"\]\.route-view \.tour-panel/);
+});
+
 test('public directory is the single deployable app tree', () => {
   for (const duplicate of ['index.html', 'sw.js', 'assets', 'tiles', 'api']) {
     assert.ok(!existsSync(join(projectRoot, duplicate)), `${duplicate} should not exist at the repo root`);
@@ -98,7 +106,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v17/);
+  assert.match(sw, /londontour-offline-v18/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
