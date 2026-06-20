@@ -11,10 +11,10 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260620-1718/);
-  assert.match(html, /assets\/app\.js\?v=20260620-1718/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260620-1718'\)/);
-  assert.doesNotMatch(html, /openstreetmap|tile\.openstreetmap|openstreetmap\.org/i);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260620-2425/);
+  assert.match(html, /assets\/app\.js\?v=20260620-2425/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260620-2425'\)/);
+  assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
 test('production serves self-generated static PNG tiles', async () => {

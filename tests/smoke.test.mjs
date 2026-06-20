@@ -42,19 +42,34 @@ test('index renders the route picker and offline controls', () => {
   const html = read('index.html');
   assert.match(html, /id="route-picker"/);
   assert.match(html, /id="route-highlights"/);
+  assert.match(html, /id="layer-list"/);
   assert.match(html, /id="offline-button"/);
+  assert.match(html, /name="offline-route"/);
+  assert.match(html, /name="offline-tiles"/);
+  assert.match(html, /name="offline-layers"/);
   assert.match(html, /id="recenter-button"/);
-  assert.match(html, /getRegistrations\(\)/);
-  assert.match(html, /caches\.keys\(\)/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260620-1718'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260620-1718/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260620-1718/);
+  assert.match(html, /id="theme-button"/);
+  assert.match(html, /id="share-button"/);
+  assert.doesNotMatch(html, /getRegistrations\(\)/);
+  assert.doesNotMatch(html, /caches\.keys\(\)/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260620-2425'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260620-2425/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260620-2425/);
 });
 
-test('app uses local tiles and contains both routes', () => {
+test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
   const js = read('assets/app.js');
   assert.match(js, /id: 'london-tour'/);
   assert.match(js, /id: 'secret-ldn-sightseeing'/);
+  assert.match(js, /const layerCatalog = \[/);
+  assert.match(js, /id: 'supermarkets'/);
+  assert.match(js, /function activeLayerPoints/);
+  assert.match(js, /function visibleRouteStops/);
+  assert.match(js, /pointMatchesRoute/);
+  assert.doesNotMatch(js, /pois: \[/);
+  assert.match(js, /basemaps\.cartocdn\.com/);
+  assert.match(js, /OpenStreetMap contributors/);
+  assert.match(js, /useOfflineTiles/);
   assert.match(js, /\/tiles\/\{z\}\/\{x\}\/\{y\}\.png/);
   assert.doesNotMatch(js, /\/api\/tile/);
   assert.doesNotMatch(js, /maplibre/i);
@@ -63,6 +78,8 @@ test('app uses local tiles and contains both routes', () => {
   assert.match(js, /L\.map\('map'/);
   assert.match(js, /L\.tileLayer\('/);
   assert.match(js, /Download offline pack/);
+  assert.match(js, /navigator\.share/);
+  assert.match(js, /localStorage\.setItem\(themeStateKey/);
 });
 
 test('public directory is the single deployable app tree', () => {
@@ -73,7 +90,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v7/);
+  assert.match(sw, /londontour-offline-v13/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
@@ -123,16 +140,14 @@ test('tile renderer includes central London landmarks', () => {
 
 test('local tile bundle has enough coverage for the manifest', () => {
   const tileFiles = listFiles('tiles').filter((file) => file.endsWith('.png'));
-  assert.ok(tileFiles.length >= 80, 'expected at least 80 local tiles');
+  assert.ok(tileFiles.length >= 170, 'expected at least 170 local tiles');
 });
 
-test('no openstreetmap tiles remain in the app shell', () => {
+test('the app avoids direct openstreetmap tile server usage', () => {
   for (const file of ['assets/app.js', 'sw.js', 'index.html']) {
     const content = read(file);
-    assert.doesNotMatch(content, /openstreetmap|tile\.openstreetmap|openstreetmap\.org/i, `${file} should not reference OSM`);
+    assert.doesNotMatch(content, /tile\.openstreetmap\.org/i, `${file} should not use the direct OSM tile server`);
   }
-
-  assert.doesNotMatch(readFileSync(join(projectRoot, 'README.md'), 'utf8'), /openstreetmap|tile\.openstreetmap|openstreetmap\.org/i);
 });
 
 test('vercel serves the app shell with no-store caching', () => {

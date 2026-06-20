@@ -12,6 +12,20 @@
   --shadow: 0 16px 42px rgba(23, 32, 42, 0.18);
 }
 
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #edf2f7;
+  --muted: #aeb8c4;
+  --line: #344152;
+  --surface: #101820;
+  --panel: #182230;
+  --accent: #2fb7a6;
+  --accent-strong: #7ee2d5;
+  --route: #f06a5c;
+  --card: #202c3a;
+  --shadow: 0 16px 42px rgba(0, 0, 0, 0.38);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -28,6 +42,10 @@ body {
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
+}
+
+body[data-theme="dark"] {
+  background: #101820;
 }
 
 button {
@@ -47,7 +65,7 @@ button:focus-visible {
 }
 
 .secondary-button {
-  background: #fff;
+  background: var(--panel);
   border: 1px solid #cfd5da;
   color: var(--ink);
 }
@@ -97,6 +115,23 @@ button:focus-visible {
   margin-bottom: 1rem;
 }
 
+.brand-row {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.utility-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.utility-actions button {
+  min-height: 2.4rem;
+  padding: 0.55rem 0.75rem;
+}
+
 .kicker,
 .label {
   color: var(--muted);
@@ -126,6 +161,8 @@ h2 {
 
 .route-pickers,
 .route-card-view,
+.layers-panel,
+.offline-panel,
 .section-row {
   margin-bottom: 1rem;
 }
@@ -194,7 +231,7 @@ h2 {
 }
 
 .route-meta div {
-  background: #fafafa;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0.8rem;
@@ -288,7 +325,7 @@ h2 {
 }
 
 .poi-item {
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--line);
   border-left: 4px solid var(--accent);
   border-radius: 8px;
@@ -309,6 +346,57 @@ h2 {
 .poi-empty {
   color: var(--muted);
   list-style: none;
+}
+
+.layer-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.layer-toggle {
+  align-items: flex-start;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: auto minmax(0, 1fr);
+  padding: 0.75rem 0.85rem;
+}
+
+.layer-toggle input {
+  margin-top: 0.2rem;
+}
+
+.layer-toggle span {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.layer-toggle small,
+.offline-details {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.offline-options {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 0 0.75rem;
+  padding: 0.8rem 0.9rem;
+}
+
+.offline-options label {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.offline-details {
+  margin: 0;
 }
 
 .map-actions {
@@ -372,6 +460,41 @@ h2 {
   transform: translateY(-0.25px);
 }
 
+.layer-marker {
+  align-items: center;
+  background: #1f2937;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(31, 41, 55, 0.22);
+  color: #fff;
+  display: flex;
+  font-size: 0.68rem;
+  font-weight: 900;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.layer-marker-attractions {
+  background: #7c2d12;
+}
+
+.layer-marker-food {
+  background: #0f766e;
+}
+
+.layer-marker-transport {
+  background: #1d4ed8;
+}
+
+.layer-marker-toilets {
+  background: #4c1d95;
+}
+
+.layer-marker-supermarkets {
+  background: #166534;
+}
+
 .poi-marker-bus {
   background: var(--accent);
   box-shadow: 0 8px 18px rgba(20, 108, 100, 0.24);
@@ -428,6 +551,10 @@ h2 {
     grid-template-columns: 1fr;
   }
 
+  .brand-row {
+    align-items: flex-start;
+  }
+
   .tour-heading {
     margin-bottom: 1.1rem;
     padding-bottom: 1.1rem;
@@ -453,8 +580,10 @@ h2 {
   }
 
   body:not(.route-view) .route-card-view,
+  body:not(.route-view) .layers-panel,
   body:not(.route-view) .directions-panel,
-  body:not(.route-view) .highlights-panel {
+  body:not(.route-view) .highlights-panel,
+  body:not(.route-view) .offline-panel {
     display: none;
   }
 
@@ -571,9 +700,23 @@ h2 {
   .map-panel,
   .map-topbar,
   .map-actions,
-  .leaflet-control-container,
-  .route-overlay {
+  .leaflet-control-container {
     display: none;
+  }
+
+  .map-panel {
+    break-inside: avoid;
+    display: block;
+    margin-bottom: 1rem;
+    min-height: 88mm;
+    position: static;
+  }
+
+  .map {
+    border: 1px solid #999;
+    display: block;
+    height: 88mm;
+    width: 100%;
   }
 
   .tour-panel {
@@ -591,6 +734,12 @@ h2 {
   }
 
   .route-pickers {
+    display: none;
+  }
+
+  .layers-panel,
+  .offline-panel,
+  .utility-actions {
     display: none;
   }
 

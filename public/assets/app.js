@@ -12,44 +12,6 @@ const routes = [
     color: '#c9483a',
     center: [51.5078, -0.121],
     zoom: 14,
-    pois: [
-      {
-        name: 'Horse Guards Parade',
-        lat: 51.5046,
-        lng: -0.1289,
-        detail: 'A good photo stop between Whitehall and Trafalgar Square.',
-      },
-      {
-        name: 'The National Gallery',
-        lat: 51.5089,
-        lng: -0.1283,
-        detail: 'Right on the edge of Trafalgar Square, ideal for a quick museum break.',
-      },
-      {
-        name: 'Somerset House',
-        lat: 51.5112,
-        lng: -0.117,
-        detail: 'Useful highlight near the Strand between the walk and bus sections.',
-      },
-      {
-        name: 'St Paul’s Cathedral',
-        lat: 51.5138,
-        lng: -0.0984,
-        detail: 'The main landmark on the Bus 15 section.',
-      },
-      {
-        name: 'Leadenhall Market',
-        lat: 51.5133,
-        lng: -0.0835,
-        detail: 'Short detour in the City if you want an extra historic stop.',
-      },
-      {
-        name: 'Tower Pier',
-        lat: 51.5071,
-        lng: -0.0773,
-        detail: 'Handy riverside option if you later add a boat leg.',
-      },
-    ],
     stops: [
       {
         name: 'Buckingham Palace',
@@ -178,16 +140,6 @@ const routes = [
     color: '#146c64',
     center: [51.5074, -0.1105],
     zoom: 13,
-    pois: [
-      { name: 'The Mall', lat: 51.5027, lng: -0.1324, detail: 'The ceremonial stretch towards Buckingham Palace.' },
-      { name: 'London Eye', lat: 51.5033, lng: -0.1196, detail: 'South Bank landmark on the river bend.' },
-      { name: 'Southbank Centre', lat: 51.5077, lng: -0.1142, detail: 'One of the article’s key mid-route stops.' },
-      { name: 'Tate Modern', lat: 51.5076, lng: -0.0994, detail: 'Major riverside gallery on the South Bank stretch.' },
-      { name: 'St Paul’s Cathedral', lat: 51.5138, lng: -0.0984, detail: 'The route’s dramatic mid-point across the Thames.' },
-      { name: 'The Monument', lat: 51.5101, lng: -0.0864, detail: 'The Great Fire memorial on the City stretch.' },
-      { name: 'Tower Bridge', lat: 51.5055, lng: -0.0754, detail: 'The obvious riverside photo finish.' },
-      { name: 'The Dickens Inn', lat: 51.5076, lng: -0.0756, detail: 'A neat pub finish at St Katharine Docks.' },
-    ],
     stops: [
       { name: 'Trafalgar Square', lat: 51.5079, lng: -0.1281, segment: 'walk', segmentLabel: 'Walking route', detail: 'Start in the square and head west via the Mall.' },
       { name: 'The Mall', lat: 51.5034, lng: -0.1337, segment: 'walk', segmentLabel: 'Walking route', detail: 'Take the ceremonial route to Buckingham Palace.' },
@@ -214,6 +166,81 @@ const routes = [
   },
 ];
 
+const layerCatalog = [
+  {
+    id: 'attractions',
+    label: 'Major attractions',
+    defaultVisible: true,
+    minZoom: 13,
+    markerLabel: 'A',
+    routeRadius: 0.0065,
+    points: [
+      { id: 'horse-guards', name: 'Horse Guards Parade', lat: 51.5046, lng: -0.1289, detail: 'Photo stop between Whitehall and Trafalgar Square.' },
+      { id: 'national-gallery', name: 'The National Gallery', lat: 51.5089, lng: -0.1283, detail: 'Major gallery on Trafalgar Square.' },
+      { id: 'somerset-house', name: 'Somerset House', lat: 51.5112, lng: -0.117, detail: 'Useful stop near the Strand.' },
+      { id: 'st-pauls', name: 'St Paul’s Cathedral', lat: 51.5138, lng: -0.0984, detail: 'Cathedral landmark on the City section.' },
+      { id: 'leadenhall-market', name: 'Leadenhall Market', lat: 51.5133, lng: -0.0835, detail: 'Historic covered market near the route.' },
+      { id: 'tower-bridge', name: 'Tower Bridge', lat: 51.5055, lng: -0.0754, detail: 'Classic riverside photo stop.' },
+      { id: 'london-eye', name: 'London Eye', lat: 51.5033, lng: -0.1196, detail: 'South Bank landmark on the river bend.' },
+      { id: 'tate-modern', name: 'Tate Modern', lat: 51.5076, lng: -0.0994, detail: 'Major riverside gallery.' },
+      { id: 'monument', name: 'The Monument', lat: 51.5101, lng: -0.0864, detail: 'Great Fire memorial near the City stretch.' },
+    ],
+  },
+  {
+    id: 'food',
+    label: 'Pubs and rest stops',
+    defaultVisible: true,
+    minZoom: 13,
+    markerLabel: 'P',
+    routeRadius: 0.005,
+    points: [
+      { id: 'dickens-inn', name: 'The Dickens Inn', lat: 51.5068, lng: -0.0757, detail: 'Pub finish at St Katharine Docks.' },
+      { id: 'southbank-centre', name: 'Southbank Centre', lat: 51.5077, lng: -0.1142, detail: 'Good indoor pause on the South Bank.' },
+      { id: 'covent-garden', name: 'Covent Garden', lat: 51.5118, lng: -0.123, detail: 'Food, toilets, and market cover near the route.' },
+    ],
+  },
+  {
+    id: 'transport',
+    label: 'Transport links',
+    defaultVisible: false,
+    minZoom: 12,
+    markerLabel: 'T',
+    routeRadius: 0.005,
+    points: [
+      { id: 'charing-cross', name: 'Charing Cross', lat: 51.508, lng: -0.1247, detail: 'Rail and Underground interchange.' },
+      { id: 'westminster-station', name: 'Westminster Underground', lat: 51.501, lng: -0.1254, detail: 'Tube access by Parliament Square.' },
+      { id: 'tower-hill', name: 'Tower Hill Underground', lat: 51.5104, lng: -0.0766, detail: 'Tube access for the Tower finish.' },
+      { id: 'tower-pier', name: 'Tower Pier', lat: 51.5071, lng: -0.0773, detail: 'Uber Boat stop for a future river leg.' },
+    ],
+  },
+  {
+    id: 'toilets',
+    label: 'Public toilets',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'WC',
+    routeRadius: 0.004,
+    points: [
+      { id: 'trafalgar-wc', name: 'Trafalgar Square toilets', lat: 51.5081, lng: -0.128, detail: 'Central convenience near the route start.' },
+      { id: 'southbank-wc', name: 'South Bank toilets', lat: 51.5068, lng: -0.1149, detail: 'Useful riverside stop near Waterloo Bridge.' },
+      { id: 'tower-wc', name: 'Tower Hill toilets', lat: 51.5087, lng: -0.0766, detail: 'Public facilities near the route finish.' },
+    ],
+  },
+  {
+    id: 'supermarkets',
+    label: 'Supermarkets',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'S',
+    routeRadius: 0.0045,
+    points: [
+      { id: 'coop-strand', name: 'Co-op Strand', lat: 51.5111, lng: -0.1199, detail: 'Small supermarket hook for future grocery layers.' },
+      { id: 'sainsburys-strand', name: 'Sainsbury’s Local Strand', lat: 51.5112, lng: -0.1221, detail: 'Central convenience grocery stop.' },
+      { id: 'tesco-tower', name: 'Tesco Express Tower Hill', lat: 51.5107, lng: -0.0787, detail: 'Supermarket near the Tower finish.' },
+    ],
+  },
+];
+
 const pickerEl = document.querySelector('#route-picker');
 const titleEl = document.querySelector('#route-title');
 const summaryEl = document.querySelector('#route-summary');
@@ -221,18 +248,23 @@ const metaEl = document.querySelector('#route-meta');
 const directionsEl = document.querySelector('#directions');
 const highlightsEl = document.querySelector('#route-highlights');
 const statusEl = document.querySelector('#status');
+const layerListEl = document.querySelector('#layer-list');
+const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
 const printButton = document.querySelector('#print-button');
 const mapPrintButton = document.querySelector('#map-print-button');
 const changeRouteButton = document.querySelector('#change-route-button');
 const recenterButton = document.querySelector('#recenter-button');
+const themeButton = document.querySelector('#theme-button');
+const shareButton = document.querySelector('#share-button');
 
-let selectedRoute = routes[0];
+const initialRouteId = new URLSearchParams(window.location.search).get('route');
+let selectedRoute = routes.find((route) => route.id === initialRouteId) || routes[0];
 let map;
 let routeLineLayers = [];
 let routeMarkers = [];
-let routePoiMarkers = [];
+let layerMarkers = [];
 let userMarker;
 let userLocation;
 let locationRequested = false;
@@ -240,15 +272,13 @@ let routeRenderToken = 0;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v7';
+const cacheName = 'londontour-offline-v13';
+const layerStateKey = 'londontour-layer-state-v1';
+const themeStateKey = 'londontour-theme';
+const offlineStateKey = 'londontour-offline-state-v1';
 
 async function resetLegacyRuntime() {
   try {
-    if ('serviceWorker' in navigator) {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(registrations.map((registration) => registration.unregister()));
-    }
-
     if (window.caches) {
       const keys = await caches.keys();
       await Promise.all(keys.map((key) => (key === cacheName ? null : caches.delete(key))));
@@ -261,6 +291,123 @@ async function resetLegacyRuntime() {
 function isInsideLondon(latLng) {
   const [latitude, longitude] = latLng;
   return latitude >= 51.28 && latitude <= 51.70 && longitude >= -0.52 && longitude <= 0.34;
+}
+
+function loadActiveLayerIds() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(layerStateKey) || '[]');
+    const validIds = new Set(layerCatalog.map((layer) => layer.id));
+    const selected = stored.filter((id) => validIds.has(id));
+    if (selected.length) return new Set(selected);
+  } catch (error) {
+    // Use defaults when storage is unavailable.
+  }
+
+  return new Set(layerCatalog.filter((layer) => layer.defaultVisible).map((layer) => layer.id));
+}
+
+let activeLayerIds = loadActiveLayerIds();
+
+function saveActiveLayerIds() {
+  try {
+    localStorage.setItem(layerStateKey, JSON.stringify([...activeLayerIds]));
+  } catch (error) {
+    // Layer state is still usable for the current session.
+  }
+}
+
+function routeDistance(point, route) {
+  return Math.min(
+    ...route.stops.map((stop) => {
+      const latDiff = point.lat - stop.lat;
+      const lngDiff = point.lng - stop.lng;
+      return Math.sqrt(latDiff * latDiff + lngDiff * lngDiff);
+    })
+  );
+}
+
+function pointMatchesRoute(point, layer, route) {
+  if (point.routes) return point.routes.includes(route.id);
+  return routeDistance(point, route) <= (layer.routeRadius || 0.005);
+}
+
+function activeLayerPoints(route = selectedRoute, includeZoomRules = true) {
+  const zoom = map?.getZoom?.() || route.zoom || 13;
+  return layerCatalog.flatMap((layer) => {
+    if (!activeLayerIds.has(layer.id)) return [];
+    if (includeZoomRules && zoom < layer.minZoom) return [];
+    return layer.points
+      .filter((point) => pointMatchesRoute(point, layer, route))
+      .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, markerLabel: layer.markerLabel }));
+  });
+}
+
+function renderLayerControls() {
+  if (!layerListEl) return;
+
+  layerListEl.innerHTML = layerCatalog
+    .map((layer) => {
+      const count = layer.points.length;
+      return `
+        <label class="layer-toggle">
+          <input type="checkbox" value="${layer.id}" ${activeLayerIds.has(layer.id) ? 'checked' : ''} />
+          <span>
+            <strong>${layer.label}</strong>
+            <small>${count} item${count === 1 ? '' : 's'} · visible from zoom ${layer.minZoom}</small>
+          </span>
+        </label>
+      `;
+    })
+    .join('');
+}
+
+function offlineSelections() {
+  return {
+    route: document.querySelector('input[name="offline-route"]')?.checked ?? true,
+    tiles: document.querySelector('input[name="offline-tiles"]')?.checked ?? true,
+    layers: document.querySelector('input[name="offline-layers"]')?.checked ?? true,
+  };
+}
+
+function getOfflineState() {
+  try {
+    return JSON.parse(localStorage.getItem(offlineStateKey) || 'null');
+  } catch (error) {
+    return null;
+  }
+}
+
+function setOfflineState(state) {
+  try {
+    localStorage.setItem(offlineStateKey, JSON.stringify(state));
+  } catch (error) {
+    // Offline cache still works without the summary state.
+  }
+}
+
+async function renderOfflineDetails() {
+  if (!offlineDetailsEl) return;
+  const selections = offlineSelections();
+  const parts = ['app shell'];
+  if (selections.route) parts.push(selectedRoute.name);
+  if (selections.layers) parts.push(`${activeLayerPoints(selectedRoute, false).length} selected layer items`);
+  if (selections.tiles) {
+    const tileManifest = await loadTileManifest();
+    parts.push(`${tileManifest.length} local tiles`);
+  }
+
+  const state = getOfflineState();
+  const selectedLayers = [...activeLayerIds].sort().join(',');
+  const isStale =
+    state &&
+    (state.cacheName !== cacheName ||
+      state.routeId !== selectedRoute.id ||
+      state.layerIds !== selectedLayers ||
+      state.includesTiles !== selections.tiles);
+
+  offlineDetailsEl.textContent = state
+    ? `${isStale ? 'Needs refresh' : 'Ready'}: ${parts.join(', ')}. Last saved ${new Date(state.savedAt).toLocaleString()}.`
+    : `Not downloaded yet. Will include ${parts.join(', ')}.`;
 }
 
 function renderPicker() {
@@ -276,7 +423,6 @@ function renderPicker() {
       `
     )
     .join('');
-
 }
 
 function renderDetails() {
@@ -307,20 +453,22 @@ function renderDetails() {
     .join('');
 
   if (highlightsEl) {
-    const pois = selectedRoute.pois || [];
+    const pois = activeLayerPoints(selectedRoute, false);
     highlightsEl.innerHTML = pois.length
       ? pois
           .map(
             (poi) => `
               <li class="poi-item">
                 <strong>${poi.name}</strong>
-                <span>${poi.detail}</span>
+                <span>${poi.layerLabel}: ${poi.detail}</span>
               </li>
             `
           )
           .join('')
-      : '<li class="poi-empty">No extra POIs on this route yet.</li>';
+      : '<li class="poi-empty">No selected layers have nearby items for this route.</li>';
   }
+
+  void renderOfflineDetails();
 }
 
 function groupRouteStops(stops) {
@@ -380,21 +528,52 @@ function buildMap() {
   map = L.map('map', {
     zoomControl: false,
     minZoom: 11,
-    maxZoom: 15,
+    maxZoom: 18,
     maxBounds: londonBounds,
     maxBoundsViscosity: 1.0,
     preferCanvas: true,
   });
 
-  L.tileLayer('/tiles/{z}/{x}/{y}.png', {
+  const offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     minZoom: 11,
-    maxZoom: 15,
+    maxZoom: 18,
+    maxNativeZoom: 15,
+    bounds: londonBounds,
     tileSize: 256,
-    attribution: 'Local London tile pack',
-  }).addTo(map);
+    attribution: 'Offline London tile pack',
+  });
+
+  const onlineTileLayer = L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {
+      subdomains: 'abcd',
+      maxZoom: 18,
+      tileSize: 256,
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+    }
+  );
+
+  const useOfflineTiles = () => {
+    if (map.hasLayer(offlineTileLayer)) return;
+    if (map.hasLayer(onlineTileLayer)) onlineTileLayer.remove();
+    offlineTileLayer.addTo(map);
+    setStatus('Using the offline fallback map tiles. Some basemap detail is reduced.');
+  };
+
+  onlineTileLayer.once('tileerror', useOfflineTiles);
+  if (navigator.onLine === false) {
+    useOfflineTiles();
+  } else {
+    onlineTileLayer.addTo(map);
+  }
 
   L.control.zoom({ position: 'bottomright' }).addTo(map);
   map.setView(selectedRoute.center, selectedRoute.zoom);
+  map.on('zoomend', () => {
+    renderRouteMarkers();
+    renderLayerMarkers();
+    renderDetails();
+  });
   map.whenReady(() => {
     renderRouteOnMap();
   });
@@ -428,43 +607,117 @@ async function downloadOfflinePack() {
     return;
   }
 
+  const selections = offlineSelections();
   offlineButton.disabled = true;
   offlineButton.textContent = 'Downloading...';
-  setStatus('Downloading the offline pack for this route...');
+  setStatus('Downloading the selected offline pack...');
 
   try {
     const cache = await caches.open(cacheName);
-    const tileManifest = await loadTileManifest();
     await cacheRequest(cache, '/');
     await cacheRequest(cache, '/index.html');
     await cacheRequest(cache, '/assets/app.js');
     await cacheRequest(cache, '/assets/styles.css');
     await cacheRequest(cache, '/assets/vendor/leaflet.js');
     await cacheRequest(cache, '/assets/vendor/leaflet.css');
-    await cacheRequest(cache, '/assets/route-geometry.json');
-    await cacheRequest(cache, '/assets/tiles-manifest.json');
+    if (selections.route) {
+      await cacheRequest(cache, '/assets/route-geometry.json');
+    }
 
-    const tileUrls = tileManifest
-      .map(tilePathToLocalUrl)
-      .filter(Boolean);
-
+    let tileTotal = 0;
     let cachedTiles = 0;
-    for (const url of tileUrls) {
-      try {
-        await cacheRequest(cache, url);
-        cachedTiles += 1;
-      } catch (error) {
-        // Skip bad tiles and keep going.
+    if (selections.tiles) {
+      await cacheRequest(cache, '/assets/tiles-manifest.json');
+      const tileManifest = await loadTileManifest();
+      const tileUrls = tileManifest
+        .map(tilePathToLocalUrl)
+        .filter(Boolean);
+      tileTotal = tileUrls.length;
+
+      for (const url of tileUrls) {
+        try {
+          await cacheRequest(cache, url);
+          cachedTiles += 1;
+        } catch (error) {
+          // Skip bad tiles and keep going.
+        }
       }
     }
 
-    setStatus(`Offline pack ready. Cached ${cachedTiles} local tiles and route geometry for the selected tour.`);
+    setOfflineState({
+      cacheName,
+      routeId: selectedRoute.id,
+      layerIds: [...activeLayerIds].sort().join(','),
+      includesRoute: selections.route,
+      includesTiles: selections.tiles,
+      includesLayers: selections.layers,
+      cachedTiles,
+      tileTotal,
+      savedAt: new Date().toISOString(),
+    });
+
+    const tileSummary = selections.tiles ? ` Cached ${cachedTiles}/${tileTotal} local tiles.` : '';
+    setStatus(`Offline pack ready for ${selectedRoute.name}.${tileSummary}`);
+    await renderOfflineDetails();
   } catch (error) {
     setStatus('Offline pack download failed.');
   } finally {
     offlineButton.disabled = false;
     offlineButton.textContent = 'Download offline pack';
   }
+}
+
+function renderLayerMarkers() {
+  if (!map) return;
+
+  layerMarkers.forEach((marker) => marker.remove());
+  layerMarkers = [];
+
+  activeLayerPoints().forEach((point) => {
+    const marker = L.marker([point.lat, point.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: `<div class="layer-marker layer-marker-${point.layerId}"><span>${point.markerLabel}</span></div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+      }),
+    }).bindPopup(`<strong>${point.name}</strong><br>${point.layerLabel}<br>${point.detail}`);
+    marker.addTo(map);
+    layerMarkers.push(marker);
+  });
+}
+
+function visibleRouteStops() {
+  if (!map || map.getZoom() >= 13) {
+    return selectedRoute.stops.map((stop, index) => ({ stop, index }));
+  }
+
+  return selectedRoute.stops
+    .map((stop, index) => ({ stop, index }))
+    .filter(({ stop, index }) => {
+      const previous = selectedRoute.stops[index - 1];
+      return index === 0 || index === selectedRoute.stops.length - 1 || previous?.segment !== stop.segment;
+    });
+}
+
+function renderRouteMarkers() {
+  if (!map) return;
+
+  routeMarkers.forEach((marker) => marker.remove());
+  routeMarkers = [];
+
+  visibleRouteStops().forEach(({ stop, index }) => {
+    const marker = L.marker([stop.lat, stop.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: `<div class="poi-marker ${stop.segment === 'bus' ? 'poi-marker-bus' : ''}"><span>${index + 1}</span></div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      }),
+    }).bindPopup(`<strong>${index + 1}. ${stop.name}</strong><br>${stop.detail}`);
+    marker.addTo(map);
+    routeMarkers.push(marker);
+  });
 }
 
 async function renderRouteOnMap() {
@@ -526,37 +779,8 @@ async function renderRouteOnMap() {
     routeLineLayers.push(casing, line);
   });
 
-  routeMarkers.forEach((marker) => marker.remove());
-  routeMarkers = [];
-
-  routePoiMarkers.forEach((marker) => marker.remove());
-  routePoiMarkers = [];
-
-  selectedRoute.stops.forEach((stop, index) => {
-    const marker = L.marker([stop.lat, stop.lng], {
-      icon: L.divIcon({
-        className: '',
-        html: `<div class="poi-marker ${stop.segment === 'bus' ? 'poi-marker-bus' : ''}"><span>${index + 1}</span></div>`,
-        iconSize: [28, 28],
-        iconAnchor: [14, 14],
-      }),
-    }).bindPopup(`<strong>${index + 1}. ${stop.name}</strong><br>${stop.detail}`);
-    marker.addTo(map);
-    routeMarkers.push(marker);
-  });
-
-  (selectedRoute.pois || []).forEach((poi, index) => {
-    const marker = L.marker([poi.lat, poi.lng], {
-      icon: L.divIcon({
-        className: '',
-        html: '<div class="poi-marker poi-marker-poi"><span>✦</span></div>',
-        iconSize: [26, 26],
-        iconAnchor: [13, 13],
-      }),
-    }).bindPopup(`<strong>${poi.name}</strong><br>${poi.detail}`);
-    marker.addTo(map);
-    routePoiMarkers.push(marker);
-  });
+  renderRouteMarkers();
+  renderLayerMarkers();
 
   if (routeHasPoints) {
     map.fitBounds(routeBounds, { padding: [56, 56] });
@@ -579,6 +803,9 @@ function recenterRoute() {
 function selectRoute(route) {
   selectedRoute = route;
   document.body.classList.add('route-view');
+  const url = new URL(window.location.href);
+  url.searchParams.set('route', route.id);
+  window.history.replaceState({}, '', url);
   renderPicker();
   renderDetails();
   buildMap();
@@ -595,6 +822,50 @@ function selectRoute(route) {
 
 function setStatus(message) {
   statusEl.textContent = message;
+}
+
+function applyTheme(theme) {
+  const activeTheme = theme === 'dark' ? 'dark' : 'light';
+  document.body.dataset.theme = activeTheme;
+  themeButton.textContent = activeTheme === 'dark' ? 'Light' : 'Dark';
+  try {
+    localStorage.setItem(themeStateKey, activeTheme);
+  } catch (error) {
+    // Theme changes can remain session-only.
+  }
+}
+
+function toggleTheme() {
+  applyTheme(document.body.dataset.theme === 'dark' ? 'light' : 'dark');
+}
+
+async function shareRoute() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('route', selectedRoute.id);
+  window.history.replaceState({}, '', url);
+  const shareData = {
+    title: `Londontour: ${selectedRoute.name}`,
+    text: selectedRoute.summary,
+    url: url.toString(),
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+      setStatus('Route shared.');
+      return;
+    }
+
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(shareData.url);
+      setStatus('Route link copied.');
+      return;
+    }
+
+    setStatus('Route link is ready in the address bar.');
+  } catch (error) {
+    setStatus('Route link is ready in the address bar.');
+  }
 }
 
 function locateUser() {
@@ -678,7 +949,32 @@ printButton.addEventListener('click', () => window.print());
 mapPrintButton.addEventListener('click', () => window.print());
 changeRouteButton.addEventListener('click', showRoutePicker);
 recenterButton.addEventListener('click', recenterRoute);
+themeButton.addEventListener('click', toggleTheme);
+shareButton.addEventListener('click', shareRoute);
 
+layerListEl.addEventListener('change', (event) => {
+  const target = event.target.closest('input[type="checkbox"]');
+  if (!target) return;
+  if (target.checked) {
+    activeLayerIds.add(target.value);
+  } else {
+    activeLayerIds.delete(target.value);
+  }
+  saveActiveLayerIds();
+  renderLayerControls();
+  renderLayerMarkers();
+  renderDetails();
+  setStatus('Map layers updated.');
+});
+
+document.querySelectorAll('.offline-options input').forEach((input) => {
+  input.addEventListener('change', () => {
+    void renderOfflineDetails();
+  });
+});
+
+applyTheme(localStorage.getItem(themeStateKey) || 'light');
+renderLayerControls();
 renderPicker();
 renderDetails();
 buildMap();

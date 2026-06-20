@@ -8,14 +8,20 @@
       name="description"
       content="Choose a London tour, see the route on a familiar map, and print the directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260620-1718" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260620-1718" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260620-2425" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260620-2425" />
   </head>
   <body>
     <main class="app-shell">
       <aside class="tour-panel" aria-label="Tour chooser and details">
         <div class="tour-heading">
-          <p class="kicker">Londontour</p>
+          <div class="brand-row">
+            <p class="kicker">Londontour</p>
+            <div class="utility-actions" aria-label="App actions">
+              <button id="theme-button" class="secondary-button" type="button">Dark</button>
+              <button id="share-button" class="secondary-button" type="button">Share</button>
+            </div>
+          </div>
           <h1>Choose a route</h1>
           <p class="status" id="status" role="status">
             Pick a route, then the map updates with the tour, POI pins, and your position.
@@ -24,6 +30,13 @@
 
         <section class="route-pickers" aria-label="Route choices">
           <div id="route-picker" class="route-picker"></div>
+        </section>
+
+        <section class="layers-panel" aria-label="Map layers">
+          <div class="section-row">
+            <h2>Map layers</h2>
+          </div>
+          <div id="layer-list" class="layer-list"></div>
         </section>
 
         <section class="route-card-view" aria-label="Selected route">
@@ -46,9 +59,21 @@
 
         <section class="highlights-panel" aria-label="Route highlights">
           <div class="section-row">
-            <h2>POIs on route</h2>
+            <h2>Selected layer stops</h2>
           </div>
           <ul id="route-highlights" class="poi-list"></ul>
+        </section>
+
+        <section class="offline-panel" aria-label="Offline pack manager">
+          <div class="section-row">
+            <h2>Offline pack</h2>
+          </div>
+          <fieldset class="offline-options">
+            <label><input type="checkbox" name="offline-route" checked /> Selected route</label>
+            <label><input type="checkbox" name="offline-tiles" checked /> Local map tiles</label>
+            <label><input type="checkbox" name="offline-layers" checked /> Visible layers</label>
+          </fieldset>
+          <p id="offline-details" class="offline-details"></p>
         </section>
       </aside>
 
@@ -66,28 +91,12 @@
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260620-1718"></script>
-    <script src="assets/app.js?v=20260620-1718"></script>
+    <script src="assets/vendor/leaflet.js?v=20260620-2425"></script>
+    <script src="assets/app.js?v=20260620-2425"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          const resetStorage = async () => {
-            try {
-              const registrations = await navigator.serviceWorker.getRegistrations();
-              await Promise.all(registrations.map((registration) => registration.unregister()));
-
-              if (window.caches) {
-                const cacheKeys = await caches.keys();
-                await Promise.all(cacheKeys.map((key) => caches.delete(key)));
-              }
-            } catch (error) {
-              // Ignore reset failures and proceed with the fresh worker.
-            }
-          };
-
-          resetStorage()
-            .then(() => navigator.serviceWorker.register('/sw.js?v=20260620-1718'))
-            .catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260620-2425').catch(() => {});
         });
       }
     </script>
