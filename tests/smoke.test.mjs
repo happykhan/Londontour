@@ -95,6 +95,20 @@ test('tile manifest maps to real files', () => {
   }
 });
 
+test('tile renderer includes central London landmarks', () => {
+  const generator = read('scripts/generate_tiles.py');
+  for (const label of [
+    'Piccadilly Circus',
+    'Covent Garden',
+    'London Eye',
+    'St Paul’s Cathedral',
+    'Tower Bridge',
+    'Trafalgar Square',
+  ]) {
+    assert.match(generator, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+});
+
 test('local tile bundle has enough coverage for the manifest', () => {
   const tileFiles = listFiles('tiles').filter((file) => file.endsWith('.png'));
   assert.ok(tileFiles.length >= 80, 'expected at least 80 local tiles');
