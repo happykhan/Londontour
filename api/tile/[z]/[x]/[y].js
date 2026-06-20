@@ -25,8 +25,9 @@ async function fetchTile(host, z, x, y) {
 
 module.exports = async function handler(req, res) {
   const { z, x, y } = req.query;
+  const normalisedY = typeof y === 'string' ? y.replace(/\.png$/i, '') : y;
 
-  if (!isSafeSegment(z) || !isSafeSegment(x) || !isSafeSegment(y)) {
+  if (!isSafeSegment(z) || !isSafeSegment(x) || !isSafeSegment(normalisedY)) {
     res.status(400).send('Invalid tile coordinates');
     return;
   }
@@ -36,7 +37,7 @@ module.exports = async function handler(req, res) {
 
   for (const host of TILE_HOSTS) {
     try {
-      tileResponse = await fetchTile(host, z, x, y);
+      tileResponse = await fetchTile(host, z, x, normalisedY);
       break;
     } catch (error) {
       lastError = error;
