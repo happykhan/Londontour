@@ -61,9 +61,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0940'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0940/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0940/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1020'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1020/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1020/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -104,7 +104,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0940'/);
+  assert.match(js, /const assetVersion = '20260621-1020'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -112,6 +112,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /target="_blank"/);
   assert.match(js, /transportType/);
   assert.match(js, /layer-marker-transport-/);
+  assert.match(js, /boat-marker-icon/);
   assert.match(js, /const majorTubeStationMinZoom = 12/);
   assert.match(js, /const tubeStationMinZoom = 13/);
   assert.match(js, /function isMajorTubeStation/);
@@ -168,6 +169,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.layer-marker\.is-editor-must-show/);
   assert.match(css, /\.editor-output/);
   assert.match(css, /\.layer-marker-transport-boat/);
+  assert.match(css, /\.boat-marker-icon::before/);
   assert.match(css, /\.tube-station-marker\.is-major/);
   assert.match(css, /\.basemap-repair-label/);
 });
@@ -180,7 +182,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v38/);
+  assert.match(sw, /londontour-offline-v39/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -196,7 +198,7 @@ test('service worker precaches the local tile pack', () => {
 test('generated layer catalog imports substantial external OpenStreetMap data', () => {
   const catalog = JSON.parse(read('assets/layers.json'));
   const tubeNetwork = JSON.parse(read('assets/tube-network.json'));
-  assert.equal(catalog.source, 'OpenStreetMap via Overpass API');
+  assert.equal(catalog.source, 'OpenStreetMap via Overpass API and TfL StopPoint river-bus piers');
   assert.ok(catalog.generatedAt, 'generatedAt should be recorded');
   assert.deepEqual(catalog.bbox, tubeNetwork.bbox, 'layer catalog should cover the same zone 1-4 bbox as the tube network');
 
@@ -208,7 +210,7 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   assert.ok(counts.get('monuments') >= 400, 'statues and monuments should cover the zone 1-4 generated dataset');
   assert.ok(counts.get('plaques') >= 300, 'plaques should cover the zone 1-4 generated dataset');
   assert.ok(counts.get('pubs') >= 500, 'pubs should cover the zone 1-4 generated dataset');
-  assert.ok(counts.get('transport') >= 45, 'public transport links should include river piers across the widened bbox');
+  assert.ok(counts.get('transport') >= 24, 'public transport links should include TfL river piers across the widened bbox');
   assert.ok(counts.get('bus-planning') >= 1500, 'bus stops should remain available across the widened route editing area');
   assert.ok(counts.get('toilets') >= 300, 'public toilets should cover the zone 1-4 generated dataset');
   assert.ok(counts.get('supermarkets') >= 400, 'supermarkets should cover the zone 1-4 generated dataset');
@@ -229,7 +231,10 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
     assert.equal(typeof layer.previewLimit, 'number', `${layer.id} should define a browse preview limit`);
     assert.equal(typeof layer.fullZoom, 'number', `${layer.id} should define a full reveal zoom`);
     for (const point of layer.points) {
-      assert.ok(point.source?.startsWith('OpenStreetMap'), `${point.name} should retain its OSM source`);
+      assert.ok(
+        point.source?.startsWith(layer.id === 'transport' ? 'TfL StopPoint' : 'OpenStreetMap'),
+        `${point.name} should retain its data source`
+      );
       assert.equal(typeof point.lat, 'number');
       assert.equal(typeof point.lng, 'number');
       assert.equal(typeof point.priority, 'number', `${point.name} should retain a layer priority rank`);
@@ -265,11 +270,18 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   const tubeStationNames = new Set(tubeNetwork.stations.map((station) => station.name.toLowerCase()));
   const transportLayer = catalog.layers.find((layer) => layer.id === 'transport');
   assert.ok(transportLayer, 'transport layer should exist');
+  assert.equal(transportLayer.minZoom, 14, 'boat pier markers should wait until the river is legible');
+  assert.equal(transportLayer.fullZoom, 16, 'boat pier markers should fully reveal only at close zoom');
+  assert.ok(transportLayer.points.some((point) => point.name === 'Barking Riverside Pier'), 'expanded TfL pier set should include the eastern river bus terminus');
+  assert.ok(transportLayer.points.some((point) => point.name === 'Putney Pier'), 'expanded TfL pier set should include the western river bus terminus');
+  assert.ok(transportLayer.points.some((point) => point.name === 'Rotherhithe Pier'), 'expanded TfL pier set should include RB4');
   const transportCounts = new Map();
   for (const point of transportLayer.points) {
     transportCounts.set(point.transportType, (transportCounts.get(point.transportType) || 0) + 1);
     assert.equal(point.transportType, 'boat', `${point.name} should be a public river pier`);
     assert.equal(point.markerLabel, 'Boat', `${point.name} should have a boat marker label`);
+    assert.ok(point.source.startsWith('TfL StopPoint'), `${point.name} should use TfL StopPoint source data`);
+    assert.match(point.detail, /River Bus pier|WOOLWICH FERRY/, `${point.name} should expose river service info`);
     assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|railway|stop position/i);
     const transportName = point.name.replace(/\s+Station$/i, '').toLowerCase();
     assert.ok(!tubeStationNames.has(transportName), `${point.name} should not duplicate a tube station marker`);

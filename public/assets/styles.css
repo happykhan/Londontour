@@ -621,7 +621,40 @@ body.route-view:not(.editor-mode) .layer-marker {
 
 .layer-marker-transport-boat {
   background: #0369a1;
-  font-size: 0.52rem;
+  border-width: 2px;
+  box-shadow: 0 6px 14px rgba(3, 105, 161, 0.22);
+  font-size: 0;
+  height: 22px;
+  width: 22px;
+}
+
+.boat-marker-icon {
+  height: 11px;
+  position: relative;
+  width: 13px;
+}
+
+.boat-marker-icon::before {
+  background: #fff;
+  border-radius: 1px 1px 5px 5px;
+  bottom: 2px;
+  content: "";
+  height: 5px;
+  left: 1px;
+  position: absolute;
+  transform: skewX(-18deg);
+  width: 11px;
+}
+
+.boat-marker-icon::after {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  bottom: -1px;
+  content: "";
+  height: 4px;
+  left: 0;
+  position: absolute;
+  width: 13px;
 }
 
 .layer-marker-toilets {

@@ -70,12 +70,12 @@ const layerDefinitions = [
     id: 'transport',
     label: 'Tube and river links',
     defaultVisible: false,
-    minZoom: 12,
+    minZoom: 14,
     markerLabel: 'Boat',
     routeRadiusMeters: 500,
     maxItems: 90,
-    previewLimit: 70,
-    fullZoom: 14,
+    previewLimit: 24,
+    fullZoom: 16,
   },
   {
     id: 'bus-planning',
@@ -253,6 +253,66 @@ async function fetchTubeStations() {
       lat: station.lat,
       lng: station.lon,
     }));
+}
+
+function isInBounds(point, bounds = BBOX) {
+  return point.lat >= bounds.south && point.lat <= bounds.north && point.lng >= bounds.west && point.lng <= bounds.east;
+}
+
+function cleanRiverPierName(name = '') {
+  return name
+    .replace(/\.+$/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function riverPierLines(stopPoint) {
+  const rawLines = [
+    ...(stopPoint.lines || []).map((line) => line.name || line.id),
+    ...(stopPoint.lineModeGroups || []).flatMap((group) => group.lineIdentifier || []),
+    ...(stopPoint.children || []).flatMap((child) => [
+      ...(child.lines || []).map((line) => line.name || line.id),
+      ...(child.lineModeGroups || []).flatMap((group) => group.lineIdentifier || []),
+    ]),
+  ];
+
+  return [...new Set(rawLines
+    .map((line) => String(line || '').toUpperCase())
+    .filter((line) => line.startsWith('RB') || line === 'WOOLWICH FERRY'))]
+    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+}
+
+async function fetchRiverPiers() {
+  const response = await fetch('https://api.tfl.gov.uk/StopPoint/Mode/river-bus', {
+    headers: {
+      'User-Agent': USER_AGENT,
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) return [];
+  const data = await response.json();
+  return (data.stopPoints || [])
+    .filter((point) => point.stopType === 'NaptanFerryPort' && Number.isFinite(point.lat) && Number.isFinite(point.lon))
+    .map((point) => {
+      const lines = riverPierLines(point);
+      const name = cleanRiverPierName(point.commonName);
+      return {
+        layerId: 'transport',
+        point: {
+          id: `transport-tfl-${String(point.id || point.naptanId).toLowerCase()}-${slugify(name)}`,
+          name,
+          lat: Number(point.lat.toFixed(6)),
+          lng: Number(point.lon.toFixed(6)),
+          detail: `River Bus pier${lines.length ? ` · ${lines.join(' · ')}` : ''} from TfL StopPoint.`,
+          source: `TfL StopPoint ${point.id || point.naptanId}`,
+          transportType: 'boat',
+          markerLabel: 'Boat',
+        },
+        score: 160 + lines.length * 8,
+      };
+    })
+    .filter((item) => item.point.name && isInBounds(item.point));
 }
 
 function coordinateFor(element) {
@@ -613,12 +673,16 @@ function dedupe(points) {
   return kept;
 }
 
-function buildLayers(elements, tubeStations) {
+function buildLayers(elements, tubeStations, riverPiers) {
   const pointsByLayer = new Map(layerDefinitions.map((layer) => [layer.id, []]));
   elements.map(cleanPoint).filter(Boolean).forEach((item) => {
+    if (item.layerId === 'transport') return;
     if (isDuplicateTubeTransport(item, tubeStations)) return;
     pointsByLayer.get(item.layerId)?.push(item);
   });
+  for (const pier of riverPiers) {
+    pointsByLayer.get('transport')?.push(pier);
+  }
 
   return layerDefinitions.map(({ maxItems, ...layer }) => {
     const points = dedupe(pointsByLayer.get(layer.id) || [])
@@ -634,12 +698,12 @@ function buildLayers(elements, tubeStations) {
   });
 }
 
-const [overpassData, tubeStations] = await Promise.all([fetchOverpass(), fetchTubeStations()]);
+const [overpassData, tubeStations, riverPiers] = await Promise.all([fetchOverpass(), fetchTubeStations(), fetchRiverPiers()]);
 const output = {
   generatedAt: new Date().toISOString(),
-  source: 'OpenStreetMap via Overpass API',
+  source: 'OpenStreetMap via Overpass API and TfL StopPoint river-bus piers',
   bbox: BBOX,
-  layers: buildLayers(overpassData.elements || [], tubeStations),
+  layers: buildLayers(overpassData.elements || [], tubeStations, riverPiers),
 };
 
 await writeFile(OUTPUT_FILE, `${JSON.stringify(output, null, 2)}\n`);

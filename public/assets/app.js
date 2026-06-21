@@ -232,7 +232,7 @@ const fallbackLayerCatalog = [
     id: 'transport',
     label: 'Tube and river links',
     defaultVisible: false,
-    minZoom: 12,
+    minZoom: 14,
     markerLabel: 'Boat',
     routeRadiusMeters: 500,
     points: [
@@ -370,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0940';
-const cacheName = 'londontour-offline-v38';
+const assetVersion = '20260621-1020';
+const cacheName = 'londontour-offline-v39';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1301,12 +1301,17 @@ function renderLayerMarkers() {
     const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
     const editorStateClass = editorPointState(point) ? ` is-editor-${editorPointState(point)}` : '';
     const routeStateClass = !browseMode && routeMustShowPoint(point) ? ' is-route-required' : routeMustHidePoint(point) ? ' is-route-hidden' : '';
+    const isBoatMarker = point.transportType === 'boat';
+    const markerSize = isBoatMarker ? [22, 22] : [30, 30];
+    const markerHtml = isBoatMarker
+      ? '<span class="boat-marker-icon" aria-hidden="true"></span>'
+      : `<span>${markerLabel}</span>`;
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}"><span>${markerLabel}</span></div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
+        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}" title="${escapeHtml(point.name)}">${markerHtml}</div>`,
+        iconSize: markerSize,
+        iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
     }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}${editorPopupControls(point)}`);
     marker.addTo(map);
