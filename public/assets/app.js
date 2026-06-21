@@ -304,6 +304,12 @@ const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
 const printButton = document.querySelector('#print-button');
 const menuButton = document.querySelector('#menu-button');
+const searchButton = document.querySelector('#search-button');
+const searchPanel = document.querySelector('#search-panel');
+const searchForm = document.querySelector('#search-form');
+const searchInput = document.querySelector('#search-input');
+const searchResultsEl = document.querySelector('#search-results');
+const searchCloseButton = document.querySelector('#search-close-button');
 const changeRouteButton = document.querySelector('#change-route-button');
 const recenterButton = document.querySelector('#recenter-button');
 const browsePickerButton = document.querySelector('#browse-picker-button');
@@ -375,8 +381,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1340';
-const cacheName = 'londontour-offline-v50';
+const assetVersion = '20260621-1405';
+const cacheName = 'londontour-offline-v51';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -427,6 +433,7 @@ function loadActiveLayerIds() {
 
 let activeLayerIds = loadActiveLayerIds();
 let editorDraft = loadEditorDraft();
+let searchResults = [];
 
 function saveActiveLayerIds() {
   try {
@@ -798,6 +805,203 @@ function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoo
     return displayPoints
       .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, layerMarkerLabel: layer.markerLabel }));
   });
+}
+
+function normaliseSearchText(value = '') {
+  return String(value)
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function searchableLayerCatalog() {
+  return editorMode ? visibleLayerCatalog() : publicLayerCatalog();
+}
+
+function buildSearchableItems() {
+  const routeItems = routes.flatMap((route) =>
+    route.stops.map((stop, index) => ({
+      id: `route-${route.id}-${index}`,
+      type: 'Route stop',
+      label: route.name,
+      name: stop.name,
+      detail: stop.detail,
+      lat: stop.lat,
+      lng: stop.lng,
+      routeId: route.id,
+      routeStopIndex: index,
+      priority: index,
+    }))
+  );
+
+  const layerItems = searchableLayerCatalog().flatMap((layer) =>
+    layer.points.map((point) => ({
+      ...point,
+      id: `layer-${layer.id}-${point.id}`,
+      sourcePointId: point.id,
+      type: layer.label,
+      label: point.transportType === 'boat' ? 'River pier' : layer.label,
+      detail: point.detail,
+      layerId: layer.id,
+      layerLabel: layer.label,
+      priority: pointPriority(point),
+      point,
+    }))
+  );
+
+  const tubeItems = tubeNetworkData.stations.map((station) => {
+    const lines = station.lines
+      .map((lineId) => tubeNetworkData.lines.find((line) => line.id === lineId)?.label)
+      .filter(Boolean);
+    return {
+      id: `tube-${station.id}`,
+      type: 'Tube station',
+      label: lines.length ? lines.join(' · ') : 'Tube station',
+      name: station.name,
+      detail: [station.zone ? `Zone ${station.zone}` : null, station.source || 'TfL station data'].filter(Boolean).join(' · '),
+      lat: station.lat,
+      lng: station.lng,
+      stationId: station.id,
+      stationLines: lines,
+      priority: isMajorTubeStation(station) ? 0 : 30,
+    };
+  });
+
+  return [...routeItems, ...layerItems, ...tubeItems].map((item) => ({
+    ...item,
+    searchText: normaliseSearchText(`${item.name} ${item.label} ${item.type} ${item.detail || ''}`),
+  }));
+}
+
+function scoreSearchItem(item, terms, query) {
+  const name = normaliseSearchText(item.name);
+  let score = item.priority || 0;
+  if (name === query) score -= 100;
+  if (name.startsWith(query)) score -= 60;
+  if (name.includes(query)) score -= 35;
+  if (item.searchText.includes(query)) score -= 18;
+  terms.forEach((term) => {
+    if (name.startsWith(term)) score -= 12;
+    if (name.includes(term)) score -= 8;
+    if (item.searchText.includes(term)) score -= 4;
+  });
+  return score;
+}
+
+async function searchMapItems(query) {
+  const normalisedQuery = normaliseSearchText(query);
+  if (normalisedQuery.length < 2) return [];
+  await loadTubeNetwork();
+  const terms = normalisedQuery.split(/\s+/).filter(Boolean);
+  return buildSearchableItems()
+    .filter((item) => terms.every((term) => item.searchText.includes(term)))
+    .map((item) => ({ ...item, score: scoreSearchItem(item, terms, normalisedQuery) }))
+    .sort((a, b) => a.score - b.score || a.name.localeCompare(b.name))
+    .slice(0, 40);
+}
+
+function renderSearchResults(query = searchInput?.value || '') {
+  if (!searchResultsEl) return;
+  const normalisedQuery = normaliseSearchText(query);
+  if (normalisedQuery.length < 2) {
+    searchResults = [];
+    searchResultsEl.innerHTML = '<p class="search-empty">Type at least 2 letters.</p>';
+    return;
+  }
+
+  if (!searchResults.length) {
+    searchResultsEl.innerHTML = '<p class="search-empty">No matching places found.</p>';
+    return;
+  }
+
+  searchResultsEl.innerHTML = searchResults
+    .map((item, index) => `
+      <button class="search-result" type="button" role="option" data-search-index="${index}">
+        <strong>${escapeHtml(item.name)}</strong>
+        <span>${escapeHtml(item.label || item.type)}</span>
+        <small>${escapeHtml(item.detail || '')}</small>
+      </button>
+    `)
+    .join('');
+}
+
+async function runSearch() {
+  const query = searchInput?.value || '';
+  searchResults = await searchMapItems(query);
+  renderSearchResults(query);
+}
+
+function setSearchOpen(open) {
+  const isOpen = Boolean(open);
+  if (!searchPanel || !searchButton) return;
+  document.body.classList.toggle('search-open', isOpen);
+  searchPanel.hidden = !isOpen;
+  searchButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (isOpen) {
+    document.body.classList.add('route-view');
+    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open');
+    setBrowseLayersOpen(false);
+    setRouteMenuOpen(false);
+    setOfflineMenuOpen(false);
+    window.setTimeout(() => {
+      searchInput?.focus();
+      searchInput?.select();
+    }, 0);
+    void runSearch();
+    setStatus('Search the map by place, layer item, pier, or tube station.');
+  }
+}
+
+function searchPopupContent(item) {
+  if (item.stationId) {
+    const lines = item.stationLines?.length ? item.stationLines.join(' · ') : 'Tube station';
+    return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(lines)}<br>${escapeHtml(item.detail || '')}`;
+  }
+
+  if (item.layerId && item.point) {
+    return `${popupTitle(item.point)}<br>${escapeHtml(item.layerLabel)}<br>${escapeHtml(item.detail || '')}${editorPopupControls(item.point)}`;
+  }
+
+  return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.label || item.type)}<br>${escapeHtml(item.detail || '')}`;
+}
+
+function activateSearchLayer(item) {
+  if (!item.layerId || activeLayerIds.has(item.layerId)) return false;
+  activeLayerIds.add(item.layerId);
+  saveActiveLayerIds();
+  renderLayerControls();
+  return true;
+}
+
+function focusSearchResult(item) {
+  if (!map || !item) return;
+  const layerChanged = activateSearchLayer(item);
+  const targetZoom = item.stationId ? 15 : item.layerId === 'transport' ? 16 : 16;
+
+  setSearchOpen(false);
+  map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), targetZoom), { duration: 0.45 });
+
+  window.setTimeout(() => {
+    renderLayerMarkers();
+    if (item.stationId) {
+      activeLayerIds.add('transport');
+      saveActiveLayerIds();
+      renderLayerControls();
+      selectedTubeStationId = item.stationId;
+      void renderTubeNetwork(item.stationId);
+    } else {
+      void renderTubeNetwork();
+      L.popup()
+        .setLatLng([item.lat, item.lng])
+        .setContent(searchPopupContent(item))
+        .openOn(map);
+    }
+    renderDetails();
+    const layerMessage = layerChanged ? ` ${item.layerLabel || item.label} layer enabled.` : '';
+    setStatus(`${item.name} selected from search.${layerMessage}`);
+  }, 500);
 }
 
 function renderLayerControls() {
@@ -1647,6 +1851,7 @@ function setBrowseLayersOpen(open) {
   document.body.classList.toggle('browse-layers-open', isOpen);
   if (isOpen) {
     document.body.classList.remove('route-menu-open', 'offline-menu-open');
+    setSearchOpen(false);
   }
   browseMapButton.textContent = isOpen ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
@@ -1665,6 +1870,7 @@ function setRouteMenuOpen(open) {
   document.body.classList.toggle('route-menu-open', isOpen);
   if (isOpen) {
     document.body.classList.remove('browse-layers-open', 'offline-menu-open');
+    setSearchOpen(false);
   }
   changeRouteButton.textContent = isOpen ? 'Close' : 'Routes';
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
@@ -1680,6 +1886,7 @@ function setOfflineMenuOpen(open) {
   document.body.classList.toggle('offline-menu-open', isOpen);
   if (isOpen) {
     document.body.classList.remove('browse-layers-open', 'route-menu-open');
+    setSearchOpen(false);
     void renderOfflineDetails();
   }
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
@@ -1896,6 +2103,20 @@ pickerEl.addEventListener('click', (event) => {
 locateButton.addEventListener('click', locateUser);
 offlineButton.addEventListener('click', handleOfflineButtonClick);
 printButton.addEventListener('click', () => window.print());
+searchButton.addEventListener('click', () => setSearchOpen(!document.body.classList.contains('search-open')));
+searchCloseButton.addEventListener('click', () => setSearchOpen(false));
+searchForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  void runSearch();
+});
+searchInput.addEventListener('input', () => {
+  void runSearch();
+});
+searchResultsEl.addEventListener('click', (event) => {
+  const resultButton = event.target.closest('button[data-search-index]');
+  if (!resultButton) return;
+  focusSearchResult(searchResults[Number(resultButton.dataset.searchIndex)]);
+});
 menuButton.addEventListener('click', toggleMenu);
 changeRouteButton.addEventListener('click', toggleRouteMenu);
 recenterButton.addEventListener('click', recenterRoute);
@@ -1940,6 +2161,12 @@ document.addEventListener('click', (event) => {
   const action = button.dataset.editorAction;
   setEditorPointState(pointId, action === 'must-show' || action === 'must-hide' ? action : '');
   setStatus(action === 'must-show' ? 'Point marked as must show.' : action === 'must-hide' ? 'Point marked as must hide.' : 'Point editor tag cleared.');
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && document.body.classList.contains('search-open')) {
+    setSearchOpen(false);
+  }
 });
 
 layerListEl.addEventListener('change', (event) => {

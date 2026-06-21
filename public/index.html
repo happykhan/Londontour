@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1340" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-1340" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1405" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-1405" />
   </head>
   <body>
     <main class="app-shell">
@@ -113,19 +113,33 @@
           <button id="change-route-button" class="secondary-button" type="button">Routes</button>
           <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
           <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Layers</button>
+          <button id="search-button" class="icon-button" type="button" aria-label="Search map" aria-controls="search-panel" aria-expanded="false" title="Search map"><span class="search-icon" aria-hidden="true"></span></button>
           <button id="locate-button" class="icon-button" type="button" aria-label="Use my location" title="Use my location"><span class="location-icon" aria-hidden="true"></span></button>
           <button id="theme-button" class="icon-button" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="theme-icon" aria-hidden="true"></span></button>
           <button id="menu-button" class="icon-button" type="button" aria-label="Open menu" aria-controls="menu-panel offline-panel" aria-expanded="false" title="Menu"><span class="menu-icon" aria-hidden="true"></span></button>
         </div>
+        <section id="search-panel" class="search-panel" role="dialog" aria-labelledby="search-title" hidden>
+          <div class="search-header">
+            <h2 id="search-title">Search map</h2>
+            <button id="search-close-button" class="secondary-button compact-button" type="button">Cancel</button>
+          </div>
+          <form id="search-form" class="search-form" role="search">
+            <input id="search-input" type="search" autocomplete="off" placeholder="Search places, stations, piers" aria-label="Search places, stations, piers" />
+            <button type="submit">Search</button>
+          </form>
+          <div id="search-results" class="search-results" role="listbox" aria-label="Search results">
+            <p class="search-empty">Type at least 2 letters.</p>
+          </div>
+        </section>
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-1340"></script>
-    <script src="assets/app.js?v=20260621-1340"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-1405"></script>
+    <script src="assets/app.js?v=20260621-1405"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-1340').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-1405').catch(() => {});
         });
       }
     </script>
