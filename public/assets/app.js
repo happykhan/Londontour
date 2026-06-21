@@ -310,6 +310,12 @@ const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
 const searchResultsEl = document.querySelector('#search-results');
 const searchCloseButton = document.querySelector('#search-close-button');
+const radiusButton = document.querySelector('#radius-button');
+const radiusPanel = document.querySelector('#radius-panel');
+const radiusSummaryEl = document.querySelector('#radius-summary');
+const radiusResultsEl = document.querySelector('#radius-results');
+const radiusCloseButton = document.querySelector('#radius-close-button');
+const radiusClearButton = document.querySelector('#radius-clear-button');
 const changeRouteButton = document.querySelector('#change-route-button');
 const recenterButton = document.querySelector('#recenter-button');
 const browsePickerButton = document.querySelector('#browse-picker-button');
@@ -381,8 +387,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1405';
-const cacheName = 'londontour-offline-v51';
+const assetVersion = '20260621-1435';
+const cacheName = 'londontour-offline-v52';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -434,6 +440,17 @@ function loadActiveLayerIds() {
 let activeLayerIds = loadActiveLayerIds();
 let editorDraft = loadEditorDraft();
 let searchResults = [];
+let radiusState = {
+  active: false,
+  center: null,
+  centerName: '',
+  radiusMeters: 0,
+  edge: null,
+  dragging: false,
+  results: [],
+};
+let radiusOverlayLayers = [];
+let radiusResultMarkers = [];
 
 function saveActiveLayerIds() {
   try {
@@ -578,7 +595,7 @@ function renderEditorDraftOverlays() {
 }
 
 function handleEditorMapClick(event) {
-  if (!editorMode) return;
+  if (!editorMode || radiusState.active) return;
   const target = event.originalEvent?.target;
   if (target?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-control, .map-topbar')) return;
   editorDraft.path.push({
@@ -624,6 +641,14 @@ function editorPopupControls(point) {
       <button type="button" data-editor-action="must-show" ${state === 'must-show' ? 'aria-pressed="true"' : ''}>Must show</button>
       <button type="button" data-editor-action="must-hide" ${state === 'must-hide' ? 'aria-pressed="true"' : ''}>Must hide</button>
       <button type="button" data-editor-action="clear">Clear</button>
+    </div>
+  `;
+}
+
+function nearbyPopupButton(lat, lng, name) {
+  return `
+    <div class="nearby-popup-actions">
+      <button class="secondary-button" type="button" data-nearby-center data-lat="${Number(lat)}" data-lng="${Number(lng)}" data-name="${escapeHtml(name)}">Nearby</button>
     </div>
   `;
 }
@@ -942,6 +967,7 @@ function setSearchOpen(open) {
   if (isOpen) {
     document.body.classList.add('route-view');
     document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open');
+    setRadiusOpen(false);
     setBrowseLayersOpen(false);
     setRouteMenuOpen(false);
     setOfflineMenuOpen(false);
@@ -957,14 +983,14 @@ function setSearchOpen(open) {
 function searchPopupContent(item) {
   if (item.stationId) {
     const lines = item.stationLines?.length ? item.stationLines.join(' · ') : 'Tube station';
-    return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(lines)}<br>${escapeHtml(item.detail || '')}`;
+    return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(lines)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}`;
   }
 
   if (item.layerId && item.point) {
-    return `${popupTitle(item.point)}<br>${escapeHtml(item.layerLabel)}<br>${escapeHtml(item.detail || '')}${editorPopupControls(item.point)}`;
+    return `${popupTitle(item.point)}<br>${escapeHtml(item.layerLabel)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}${editorPopupControls(item.point)}`;
   }
 
-  return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.label || item.type)}<br>${escapeHtml(item.detail || '')}`;
+  return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.label || item.type)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}`;
 }
 
 function activateSearchLayer(item) {
@@ -1002,6 +1028,256 @@ function focusSearchResult(item) {
     const layerMessage = layerChanged ? ` ${item.layerLabel || item.label} layer enabled.` : '';
     setStatus(`${item.name} selected from search.${layerMessage}`);
   }, 500);
+}
+
+function formatDistance(meters) {
+  if (meters >= 1000) {
+    const kilometres = meters / 1000;
+    return `${Number.isInteger(kilometres) ? kilometres.toFixed(0) : kilometres.toFixed(1)} km`;
+  }
+  return `${Math.round(meters)} m`;
+}
+
+function setRadiusOpen(open) {
+  const isOpen = Boolean(open);
+  if (!radiusPanel || !radiusButton) return;
+  radiusState.active = isOpen;
+  document.body.classList.toggle('radius-open', isOpen);
+  radiusPanel.hidden = !isOpen;
+  radiusButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (isOpen) {
+    document.body.classList.add('route-view');
+    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open');
+    setSearchOpen(false);
+    setBrowseLayersOpen(false);
+    setRouteMenuOpen(false);
+    setOfflineMenuOpen(false);
+    setStatus(radiusState.center ? 'Drag on the map to set the nearby radius.' : 'Drop a nearby search pin on the map.');
+  } else {
+    radiusState.dragging = false;
+    if (map?.dragging) map.dragging.enable();
+  }
+  renderRadiusPanel();
+  renderRadiusOverlays();
+}
+
+function clearRadiusExplore() {
+  radiusState = {
+    active: false,
+    center: null,
+    centerName: '',
+    radiusMeters: 0,
+    edge: null,
+    dragging: false,
+    results: [],
+  };
+  radiusOverlayLayers.forEach((layer) => layer.remove());
+  radiusResultMarkers.forEach((marker) => marker.remove());
+  radiusOverlayLayers = [];
+  radiusResultMarkers = [];
+  if (radiusPanel) radiusPanel.hidden = true;
+  document.body.classList.remove('radius-open');
+  radiusButton?.setAttribute('aria-expanded', 'false');
+  if (map?.dragging) map.dragging.enable();
+  renderRadiusPanel();
+}
+
+function startRadiusFromCenter(lat, lng, name = 'Selected point') {
+  if (!map) return;
+  radiusState.active = true;
+  radiusState.center = L.latLng(Number(lat), Number(lng));
+  radiusState.centerName = name;
+  radiusState.radiusMeters = 0;
+  radiusState.edge = null;
+  radiusState.results = [];
+  setRadiusOpen(true);
+  map.closePopup();
+  map.panTo(radiusState.center, { animate: true });
+  setStatus(`${name}: drag out a nearby search radius.`);
+}
+
+function radiusSearchItems() {
+  const items = buildSearchableItems();
+  return items.filter((item) => Number.isFinite(item.lat) && Number.isFinite(item.lng));
+}
+
+function radiusResultsFor(center, radiusMeters) {
+  if (!center || radiusMeters <= 0) return [];
+  return radiusSearchItems()
+    .map((item) => ({
+      ...item,
+      distanceMeters: map.distance(center, [item.lat, item.lng]),
+    }))
+    .filter((item) => item.distanceMeters <= radiusMeters)
+    .sort((a, b) => a.distanceMeters - b.distanceMeters || a.name.localeCompare(b.name));
+}
+
+function renderRadiusPanel() {
+  if (!radiusSummaryEl || !radiusResultsEl) return;
+  if (!radiusState.center) {
+    radiusSummaryEl.textContent = 'Drop a pin on the map, then drag out the radius.';
+    radiusResultsEl.innerHTML = '<p class="search-empty">No radius selected yet.</p>';
+    return;
+  }
+
+  if (!radiusState.radiusMeters) {
+    radiusSummaryEl.textContent = `${radiusState.centerName || 'Selected point'} is the centre. Drag on the map to set the radius.`;
+    radiusResultsEl.innerHTML = '<p class="search-empty">Drag out from the centre to reveal nearby places.</p>';
+    return;
+  }
+
+  radiusSummaryEl.textContent = `${radiusState.results.length} result${radiusState.results.length === 1 ? '' : 's'} within ${formatDistance(radiusState.radiusMeters)} of ${radiusState.centerName || 'the pin'}.`;
+  radiusResultsEl.innerHTML = radiusState.results.length
+    ? radiusState.results
+        .map((item, index) => `
+          <button class="search-result" type="button" role="option" data-radius-index="${index}">
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>${escapeHtml(item.label || item.type)} · ${escapeHtml(formatDistance(item.distanceMeters))}</span>
+            <small>${escapeHtml(item.detail || '')}</small>
+          </button>
+        `)
+        .join('')
+    : '<p class="search-empty">No mapped places inside this circle.</p>';
+}
+
+function markerForRadiusResult(item) {
+  const fillColor = item.stationId ? '#111827' : item.layerId === 'transport' ? '#0369a1' : item.layerId ? '#146c64' : '#c9483a';
+  return L.circleMarker([item.lat, item.lng], {
+    radius: 5,
+    color: '#ffffff',
+    fillColor,
+    fillOpacity: 0.95,
+    pane: 'markerPane',
+    weight: 2,
+  }).bindPopup(searchPopupContent(item));
+}
+
+function renderRadiusOverlays() {
+  if (!map) return;
+  radiusOverlayLayers.forEach((layer) => layer.remove());
+  radiusResultMarkers.forEach((marker) => marker.remove());
+  radiusOverlayLayers = [];
+  radiusResultMarkers = [];
+  if (!radiusState.active || !radiusState.center) return;
+
+  const centerMarker = L.marker(radiusState.center, {
+    interactive: false,
+    icon: L.divIcon({
+      className: '',
+      html: '<div class="radius-center-marker"></div>',
+      iconSize: [18, 18],
+      iconAnchor: [9, 9],
+    }),
+  }).addTo(map);
+  radiusOverlayLayers.push(centerMarker);
+
+  if (!radiusState.radiusMeters) return;
+
+  const circle = L.circle(radiusState.center, {
+    radius: radiusState.radiusMeters,
+    color: '#146c64',
+    dashArray: '8 8',
+    fillColor: '#25a99b',
+    fillOpacity: 0.08,
+    interactive: false,
+    weight: 2,
+  }).addTo(map);
+  radiusOverlayLayers.push(circle);
+
+  if (radiusState.edge) {
+    const line = L.polyline([radiusState.center, radiusState.edge], {
+      color: '#0c4d47',
+      dashArray: '6 6',
+      interactive: false,
+      weight: 2,
+    }).addTo(map);
+    radiusOverlayLayers.push(line);
+
+    for (let tick = 200; tick <= radiusState.radiusMeters; tick += 200) {
+      const ratio = tick / radiusState.radiusMeters;
+      const lat = radiusState.center.lat + (radiusState.edge.lat - radiusState.center.lat) * ratio;
+      const lng = radiusState.center.lng + (radiusState.edge.lng - radiusState.center.lng) * ratio;
+      const tickMarker = L.marker([lat, lng], {
+        interactive: false,
+        icon: L.divIcon({
+          className: '',
+          html: `<span class="radius-tick-label">${escapeHtml(formatDistance(tick))}</span>`,
+          iconSize: [48, 18],
+          iconAnchor: [24, 9],
+        }),
+      }).addTo(map);
+      radiusOverlayLayers.push(tickMarker);
+    }
+  }
+
+  radiusState.results.forEach((item) => {
+    const marker = markerForRadiusResult(item).addTo(map);
+    radiusResultMarkers.push(marker);
+  });
+}
+
+async function updateRadiusFromEdge(latLng) {
+  if (!map || !radiusState.center) return;
+  await loadTubeNetwork();
+  const distance = Math.min(2000, Math.max(50, map.distance(radiusState.center, latLng)));
+  radiusState.radiusMeters = Math.round(distance / 25) * 25;
+  radiusState.edge = latLng;
+  radiusState.results = radiusResultsFor(radiusState.center, radiusState.radiusMeters);
+  renderRadiusPanel();
+  renderRadiusOverlays();
+}
+
+function handleRadiusMapClick(event) {
+  if (!radiusState.active || radiusState.center) return;
+  startRadiusFromCenter(event.latlng.lat, event.latlng.lng, 'Dropped pin');
+}
+
+function handleRadiusPointerStart(event) {
+  if (!radiusState.active || !radiusState.center) return;
+  const target = event.target;
+  if (target?.closest?.('.leaflet-popup, .leaflet-control, .map-topbar, .search-panel, .radius-panel')) return;
+  event.preventDefault();
+  radiusState.dragging = true;
+  event.currentTarget?.setPointerCapture?.(event.pointerId);
+  if (map?.dragging) map.dragging.disable();
+  void updateRadiusFromEdge(map.mouseEventToLatLng(event));
+}
+
+function handleRadiusPointerMove(event) {
+  if (!radiusState.active || !radiusState.dragging) return;
+  event.preventDefault();
+  void updateRadiusFromEdge(map.mouseEventToLatLng(event));
+}
+
+function handleRadiusPointerEnd(event) {
+  if (!radiusState.active || !radiusState.dragging) return;
+  event.preventDefault();
+  radiusState.dragging = false;
+  event.currentTarget?.releasePointerCapture?.(event.pointerId);
+  if (map?.dragging) map.dragging.enable();
+  void updateRadiusFromEdge(map.mouseEventToLatLng(event));
+  setStatus(`Nearby radius set to ${formatDistance(radiusState.radiusMeters)}.`);
+}
+
+function focusRadiusResult(item) {
+  if (!map || !item) return;
+  if (item.layerId) activateSearchLayer(item);
+  if (item.stationId) {
+    activeLayerIds.add('transport');
+    saveActiveLayerIds();
+    renderLayerControls();
+    selectedTubeStationId = item.stationId;
+  }
+  map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), 16), { duration: 0.35 });
+  window.setTimeout(() => {
+    renderLayerMarkers();
+    void renderTubeNetwork(item.stationId);
+    L.popup()
+      .setLatLng([item.lat, item.lng])
+      .setContent(searchPopupContent(item))
+      .openOn(map);
+    setStatus(`${item.name} selected from nearby results.`);
+  }, 400);
 }
 
 function renderLayerControls() {
@@ -1360,7 +1636,13 @@ function buildMap() {
     renderLayerMarkers();
     void renderTubeNetwork();
     renderDetails();
+    renderRadiusOverlays();
   });
+  map.on('click', handleRadiusMapClick);
+  map.getContainer().addEventListener('pointerdown', handleRadiusPointerStart);
+  map.getContainer().addEventListener('pointermove', handleRadiusPointerMove);
+  map.getContainer().addEventListener('pointerup', handleRadiusPointerEnd);
+  map.getContainer().addEventListener('pointercancel', handleRadiusPointerEnd);
   if (editorMode) {
     map.on('click', handleEditorMapClick);
   }
@@ -1540,7 +1822,7 @@ function renderLayerMarkers() {
         iconSize: markerSize,
         iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
-    }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}${editorPopupControls(point)}`);
+    }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}${nearbyPopupButton(point.lat, point.lng, point.name)}${editorPopupControls(point)}`);
     marker.addTo(map);
     layerMarkers.push(marker);
   });
@@ -1651,7 +1933,7 @@ async function renderTubeNetwork(openStationId) {
       station.facilities?.length ? escapeHtml(station.facilities.slice(0, 4).join(' · ')) : null,
       escapeHtml(station.source || 'TfL station data'),
     ].filter(Boolean);
-    const popupContent = `<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>${stationInfo.join('<br>')}`;
+    const popupContent = `<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>${stationInfo.join('<br>')}${nearbyPopupButton(station.lat, station.lng, station.name)}`;
     const marker = L.marker([station.lat, station.lng], {
       icon: L.divIcon({
         className: '',
@@ -1713,7 +1995,7 @@ function renderRouteMarkers() {
         iconSize: [28, 28],
         iconAnchor: [14, 14],
       }),
-    }).bindPopup(`<strong>${index + 1}. ${escapeHtml(stop.name)}</strong><br>${escapeHtml(stop.detail)}`);
+    }).bindPopup(`<strong>${index + 1}. ${escapeHtml(stop.name)}</strong><br>${escapeHtml(stop.detail)}${nearbyPopupButton(stop.lat, stop.lng, stop.name)}`);
     marker.addTo(map);
     routeMarkers.push(marker);
   });
@@ -1852,6 +2134,7 @@ function setBrowseLayersOpen(open) {
   if (isOpen) {
     document.body.classList.remove('route-menu-open', 'offline-menu-open');
     setSearchOpen(false);
+    setRadiusOpen(false);
   }
   browseMapButton.textContent = isOpen ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
@@ -1871,6 +2154,7 @@ function setRouteMenuOpen(open) {
   if (isOpen) {
     document.body.classList.remove('browse-layers-open', 'offline-menu-open');
     setSearchOpen(false);
+    setRadiusOpen(false);
   }
   changeRouteButton.textContent = isOpen ? 'Close' : 'Routes';
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
@@ -1887,6 +2171,7 @@ function setOfflineMenuOpen(open) {
   if (isOpen) {
     document.body.classList.remove('browse-layers-open', 'route-menu-open');
     setSearchOpen(false);
+    setRadiusOpen(false);
     void renderOfflineDetails();
   }
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
@@ -2064,7 +2349,7 @@ function addOrUpdateUserMarker() {
       iconAnchor: [11, 11],
     }),
   })
-    .bindPopup('<strong>Your position</strong>')
+    .bindPopup(`<strong>Your position</strong>${nearbyPopupButton(userLocation[0], userLocation[1], 'Your position')}`)
     .addTo(map);
 }
 
@@ -2117,6 +2402,17 @@ searchResultsEl.addEventListener('click', (event) => {
   if (!resultButton) return;
   focusSearchResult(searchResults[Number(resultButton.dataset.searchIndex)]);
 });
+radiusButton.addEventListener('click', () => setRadiusOpen(!document.body.classList.contains('radius-open')));
+radiusCloseButton.addEventListener('click', () => setRadiusOpen(false));
+radiusClearButton.addEventListener('click', () => {
+  clearRadiusExplore();
+  setStatus('Nearby radius cleared.');
+});
+radiusResultsEl.addEventListener('click', (event) => {
+  const resultButton = event.target.closest('button[data-radius-index]');
+  if (!resultButton) return;
+  focusRadiusResult(radiusState.results[Number(resultButton.dataset.radiusIndex)]);
+});
 menuButton.addEventListener('click', toggleMenu);
 changeRouteButton.addEventListener('click', toggleRouteMenu);
 recenterButton.addEventListener('click', recenterRoute);
@@ -2163,9 +2459,19 @@ document.addEventListener('click', (event) => {
   setStatus(action === 'must-show' ? 'Point marked as must show.' : action === 'must-hide' ? 'Point marked as must hide.' : 'Point editor tag cleared.');
 });
 
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-nearby-center]');
+  if (!button) return;
+  startRadiusFromCenter(button.dataset.lat, button.dataset.lng, button.dataset.name || 'Selected point');
+});
+
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && document.body.classList.contains('search-open')) {
     setSearchOpen(false);
+    return;
+  }
+  if (event.key === 'Escape' && document.body.classList.contains('radius-open')) {
+    setRadiusOpen(false);
   }
 });
 

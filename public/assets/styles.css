@@ -688,7 +688,39 @@ body[data-theme="dark"] .theme-icon::before {
   width: 9px;
 }
 
-.search-panel {
+.radius-icon {
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  display: block;
+  height: 21px;
+  position: relative;
+  width: 21px;
+}
+
+.radius-icon::before {
+  background: currentColor;
+  border-radius: 999px;
+  content: "";
+  height: 5px;
+  left: 6px;
+  position: absolute;
+  top: 6px;
+  width: 5px;
+}
+
+.radius-icon::after {
+  border-top: 2px dashed currentColor;
+  content: "";
+  left: 10px;
+  position: absolute;
+  top: 8px;
+  transform: rotate(-28deg);
+  transform-origin: left center;
+  width: 15px;
+}
+
+.search-panel,
+.radius-panel {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(207, 213, 218, 0.95);
   border-radius: 10px;
@@ -705,11 +737,13 @@ body[data-theme="dark"] .theme-icon::before {
   z-index: 720;
 }
 
-.search-panel[hidden] {
+.search-panel[hidden],
+.radius-panel[hidden] {
   display: none;
 }
 
-body[data-theme="dark"] .search-panel {
+body[data-theme="dark"] .search-panel,
+body[data-theme="dark"] .radius-panel {
   background: rgba(23, 29, 26, 0.96);
   border-color: rgba(58, 70, 64, 0.95);
 }
@@ -785,6 +819,57 @@ body[data-theme="dark"] .search-result:focus-visible {
 
 .search-empty {
   margin: 0;
+}
+
+.radius-summary {
+  color: var(--muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.radius-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.nearby-popup-actions {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+
+.nearby-popup-actions button {
+  min-height: 34px;
+  padding: 0.45rem 0.65rem;
+}
+
+.radius-center-marker {
+  background: var(--accent);
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(20, 108, 100, 0.24);
+  height: 18px;
+  width: 18px;
+}
+
+.radius-tick-label {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(20, 108, 100, 0.28);
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(23, 32, 42, 0.14);
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.24rem 0.38rem;
+  white-space: nowrap;
+}
+
+body[data-theme="dark"] .radius-tick-label {
+  background: rgba(23, 29, 26, 0.94);
+  border-color: rgba(37, 169, 155, 0.36);
+  color: var(--accent-strong);
 }
 
 .leaflet-control-zoom a {
@@ -1270,6 +1355,15 @@ body.route-view:not(.editor-mode) .layer-marker {
   }
 
   .search-panel {
+    left: 0.75rem;
+    max-height: calc(100dvh - 8.75rem - env(safe-area-inset-top));
+    right: 0.75rem;
+    top: calc(7.25rem + env(safe-area-inset-top));
+    width: auto;
+    z-index: 760;
+  }
+
+  .radius-panel {
     left: 0.75rem;
     max-height: calc(100dvh - 8.75rem - env(safe-area-inset-top));
     right: 0.75rem;

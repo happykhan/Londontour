@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1405" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-1405" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1435" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-1435" />
   </head>
   <body>
     <main class="app-shell">
@@ -114,6 +114,7 @@
           <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
           <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Layers</button>
           <button id="search-button" class="icon-button" type="button" aria-label="Search map" aria-controls="search-panel" aria-expanded="false" title="Search map"><span class="search-icon" aria-hidden="true"></span></button>
+          <button id="radius-button" class="icon-button" type="button" aria-label="Explore nearby" aria-controls="radius-panel" aria-expanded="false" title="Explore nearby"><span class="radius-icon" aria-hidden="true"></span></button>
           <button id="locate-button" class="icon-button" type="button" aria-label="Use my location" title="Use my location"><span class="location-icon" aria-hidden="true"></span></button>
           <button id="theme-button" class="icon-button" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="theme-icon" aria-hidden="true"></span></button>
           <button id="menu-button" class="icon-button" type="button" aria-label="Open menu" aria-controls="menu-panel offline-panel" aria-expanded="false" title="Menu"><span class="menu-icon" aria-hidden="true"></span></button>
@@ -131,15 +132,28 @@
             <p class="search-empty">Type at least 2 letters.</p>
           </div>
         </section>
+        <section id="radius-panel" class="radius-panel" role="dialog" aria-labelledby="radius-title" hidden>
+          <div class="search-header">
+            <h2 id="radius-title">Explore nearby</h2>
+            <button id="radius-close-button" class="secondary-button compact-button" type="button">Cancel</button>
+          </div>
+          <p id="radius-summary" class="radius-summary">Drop a pin on the map, then drag out the radius.</p>
+          <div class="radius-actions">
+            <button id="radius-clear-button" class="secondary-button compact-button" type="button">Clear</button>
+          </div>
+          <div id="radius-results" class="search-results" role="listbox" aria-label="Nearby results">
+            <p class="search-empty">No radius selected yet.</p>
+          </div>
+        </section>
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-1405"></script>
-    <script src="assets/app.js?v=20260621-1405"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-1435"></script>
+    <script src="assets/app.js?v=20260621-1435"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-1405').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-1435').catch(() => {});
         });
       }
     </script>

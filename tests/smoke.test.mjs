@@ -67,6 +67,13 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="search-input"/);
   assert.match(html, /placeholder="Search places, stations, piers"/);
   assert.match(html, /id="search-results"/);
+  assert.match(html, /id="radius-button"/);
+  assert.match(html, /aria-label="Explore nearby"/);
+  assert.match(html, /class="radius-icon"/);
+  assert.match(html, /id="radius-panel"/);
+  assert.match(html, /id="radius-summary"/);
+  assert.match(html, /id="radius-results"/);
+  assert.match(html, /Drop a pin on the map, then drag out the radius/);
   assert.match(html, /id="menu-panel"/);
   assert.match(html, /id="editor-link"/);
   assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
@@ -92,9 +99,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1405'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1405/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1405/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1435'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1435/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1435/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -136,12 +143,34 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /const menuButton = document\.querySelector\('#menu-button'\)/);
   assert.match(js, /const searchButton = document\.querySelector\('#search-button'\)/);
   assert.match(js, /const searchInput = document\.querySelector\('#search-input'\)/);
+  assert.match(js, /const radiusButton = document\.querySelector\('#radius-button'\)/);
+  assert.match(js, /const radiusResultsEl = document\.querySelector\('#radius-results'\)/);
   assert.match(js, /let searchResults = \[\]/);
+  assert.match(js, /let radiusState = \{/);
+  assert.match(js, /let radiusOverlayLayers = \[\]/);
+  assert.match(js, /let radiusResultMarkers = \[\]/);
   assert.match(js, /function normaliseSearchText/);
   assert.match(js, /function buildSearchableItems/);
   assert.match(js, /function searchMapItems/);
   assert.match(js, /function renderSearchResults/);
   assert.match(js, /function focusSearchResult/);
+  assert.match(js, /function nearbyPopupButton/);
+  assert.match(js, /data-nearby-center/);
+  assert.match(js, /function setRadiusOpen/);
+  assert.match(js, /function startRadiusFromCenter/);
+  assert.match(js, /function updateRadiusFromEdge/);
+  assert.match(js, /function renderRadiusOverlays/);
+  assert.match(js, /function renderRadiusPanel/);
+  assert.match(js, /function radiusResultsFor/);
+  assert.match(js, /radiusState\.radiusMeters/);
+  assert.match(js, /for \(let tick = 200; tick <= radiusState\.radiusMeters; tick \+= 200\)/);
+  assert.match(js, /function handleRadiusPointerStart/);
+  assert.match(js, /function handleRadiusPointerMove/);
+  assert.match(js, /function handleRadiusPointerEnd/);
+  assert.match(js, /addEventListener\('pointerdown', handleRadiusPointerStart\)/);
+  assert.match(js, /addEventListener\('pointermove', handleRadiusPointerMove\)/);
+  assert.match(js, /addEventListener\('pointerup', handleRadiusPointerEnd\)/);
+  assert.match(js, /setRadiusOpen\(!document\.body\.classList\.contains\('radius-open'\)\)/);
   assert.match(js, /setSearchOpen\(!document\.body\.classList\.contains\('search-open'\)\)/);
   assert.match(js, /activeLayerIds\.add\(item\.layerId\)/);
   assert.match(js, /activeLayerIds\.add\('transport'\)/);
@@ -159,7 +188,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1405'/);
+  assert.match(js, /const assetVersion = '20260621-1435'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -250,6 +279,11 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.search-results/);
   assert.match(css, /\.search-result/);
   assert.match(css, /\.search-panel\[hidden\]/);
+  assert.match(css, /\.radius-icon/);
+  assert.match(css, /\.radius-panel/);
+  assert.match(css, /\.radius-center-marker/);
+  assert.match(css, /\.radius-tick-label/);
+  assert.match(css, /\.nearby-popup-actions/);
   assert.match(css, /\.location-icon/);
   assert.match(css, /\.theme-icon/);
   assert.match(css, /body\[data-theme="dark"\] \.theme-icon::before/);
@@ -314,7 +348,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v51/);
+  assert.match(sw, /londontour-offline-v52/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
