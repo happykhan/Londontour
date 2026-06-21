@@ -288,7 +288,8 @@ let tubeNetworkPromise;
 let tubeNetworkData = { lines: [], stations: [] };
 let selectedTubeStationId;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v24';
+const tubeStationMinZoom = 13;
+const cacheName = 'londontour-offline-v25';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -985,7 +986,13 @@ async function renderTubeNetwork() {
     tubeLineLayers.push(polyline);
   });
 
+  const currentZoom = map.getZoom();
+  const selectedStationOnly = currentZoom < tubeStationMinZoom && selectedTubeStationId;
+  if (currentZoom < tubeStationMinZoom && !selectedStationOnly) return;
+
   tubeNetwork.stations.forEach((station) => {
+    if (selectedStationOnly && station.id !== selectedTubeStationId) return;
+
     const stationLines = station.lines
       .map((lineId) => tubeNetwork.lines.find((line) => line.id === lineId)?.label)
       .filter(Boolean);
