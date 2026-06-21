@@ -11,26 +11,28 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0908/);
-  assert.match(html, /assets\/app\.js\?v=20260621-0908/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0908'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0912/);
+  assert.match(html, /assets\/app\.js\?v=20260621-0912/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0912'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
 test('production serves generated OpenStreetMap layers', async () => {
   const catalog = JSON.parse(await readText(`${liveUrl}/assets/layers.json`));
+  const tubeNetwork = JSON.parse(await readText(`${liveUrl}/assets/tube-network.json`));
+  assert.deepEqual(catalog.bbox, tubeNetwork.bbox);
   const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
   assert.equal(counts.has('attractions'), false);
   assert.equal(counts.has('food'), false);
   assert.ok(counts.get('landmarks') >= 20);
-  assert.ok(counts.get('museums') >= 80);
-  assert.ok(counts.get('monuments') >= 100);
-  assert.ok(counts.get('plaques') >= 80);
-  assert.ok(counts.get('pubs') >= 80);
-  assert.ok(counts.get('transport') >= 8);
-  assert.ok(counts.get('bus-planning') >= 100);
-  assert.ok(counts.get('toilets') >= 60);
-  assert.ok(counts.get('supermarkets') >= 60);
+  assert.ok(counts.get('museums') >= 300);
+  assert.ok(counts.get('monuments') >= 400);
+  assert.ok(counts.get('plaques') >= 300);
+  assert.ok(counts.get('pubs') >= 500);
+  assert.ok(counts.get('transport') >= 45);
+  assert.ok(counts.get('bus-planning') >= 1500);
+  assert.ok(counts.get('toilets') >= 300);
+  assert.ok(counts.get('supermarkets') >= 400);
 
   const museums = catalog.layers.find((layer) => layer.id === 'museums');
   assert.ok(museums.points.every((point) => /^https?:\/\//.test(point.url)));

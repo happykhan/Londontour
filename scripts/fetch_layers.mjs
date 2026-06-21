@@ -1,10 +1,10 @@
 import { writeFile } from 'node:fs/promises';
 
 const BBOX = {
-  south: 51.495,
-  west: -0.145,
-  north: 51.523,
-  east: -0.068,
+  south: 51.38,
+  west: -0.42,
+  north: 51.66,
+  east: 0.15,
 };
 
 const OUTPUT_FILE = new URL('../public/assets/layers.json', import.meta.url);
@@ -18,7 +18,7 @@ const layerDefinitions = [
     minZoom: 13,
     markerLabel: 'L',
     routeRadiusMeters: 700,
-    maxItems: 45,
+    maxItems: 160,
   },
   {
     id: 'museums',
@@ -27,7 +27,7 @@ const layerDefinitions = [
     minZoom: 13,
     markerLabel: 'M',
     routeRadiusMeters: 650,
-    maxItems: 90,
+    maxItems: 320,
   },
   {
     id: 'monuments',
@@ -36,7 +36,7 @@ const layerDefinitions = [
     minZoom: 13,
     markerLabel: 'Mon',
     routeRadiusMeters: 550,
-    maxItems: 120,
+    maxItems: 420,
   },
   {
     id: 'plaques',
@@ -45,7 +45,7 @@ const layerDefinitions = [
     minZoom: 14,
     markerLabel: 'Plq',
     routeRadiusMeters: 350,
-    maxItems: 100,
+    maxItems: 320,
   },
   {
     id: 'pubs',
@@ -54,7 +54,7 @@ const layerDefinitions = [
     minZoom: 13,
     markerLabel: 'P',
     routeRadiusMeters: 500,
-    maxItems: 90,
+    maxItems: 520,
   },
   {
     id: 'transport',
@@ -63,7 +63,7 @@ const layerDefinitions = [
     minZoom: 12,
     markerLabel: 'Boat',
     routeRadiusMeters: 500,
-    maxItems: 40,
+    maxItems: 90,
   },
   {
     id: 'bus-planning',
@@ -73,7 +73,7 @@ const layerDefinitions = [
     minZoom: 15,
     markerLabel: 'Bus',
     routeRadiusMeters: 250,
-    maxItems: 180,
+    maxItems: 1600,
   },
   {
     id: 'toilets',
@@ -82,7 +82,7 @@ const layerDefinitions = [
     minZoom: 13,
     markerLabel: 'WC',
     routeRadiusMeters: 400,
-    maxItems: 80,
+    maxItems: 320,
   },
   {
     id: 'supermarkets',
@@ -91,16 +91,16 @@ const layerDefinitions = [
     minZoom: 13,
     markerLabel: 'S',
     routeRadiusMeters: 450,
-    maxItems: 80,
+    maxItems: 420,
   },
 ];
 
-function bboxString() {
-  return `${BBOX.south},${BBOX.west},${BBOX.north},${BBOX.east}`;
+function bboxString(bounds = BBOX) {
+  return `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`;
 }
 
-function overpassQuery() {
-  const bbox = bboxString();
+function overpassQuery(bounds = BBOX) {
+  const bbox = bboxString(bounds);
   return `[out:json][timeout:25];(
   node[amenity~"^(pub|bar)$"](${bbox});
   way[amenity~"^(pub|bar)$"](${bbox});
@@ -145,20 +145,77 @@ function overpassQuery() {
 );out center tags qt;`;
 }
 
-async function fetchOverpass() {
-  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery())}`;
-  const response = await fetch(url, {
-    headers: {
-      'User-Agent': USER_AGENT,
-      Accept: 'application/json',
-    },
-  });
+function bboxChunks(rows = 4, cols = 4) {
+  const chunks = [];
+  const latStep = (BBOX.north - BBOX.south) / rows;
+  const lngStep = (BBOX.east - BBOX.west) / cols;
 
-  if (!response.ok) {
-    throw new Error(`Overpass request failed: ${response.status} ${response.statusText}`);
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      chunks.push({
+        south: Number((BBOX.south + row * latStep).toFixed(6)),
+        west: Number((BBOX.west + col * lngStep).toFixed(6)),
+        north: Number((BBOX.south + (row + 1) * latStep).toFixed(6)),
+        east: Number((BBOX.west + (col + 1) * lngStep).toFixed(6)),
+      });
+    }
   }
 
-  return response.json();
+  return chunks;
+}
+
+async function fetchOverpassChunk(bounds, index, total) {
+  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery(bounds))}`;
+  const maxAttempts = 5;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': USER_AGENT,
+        Accept: 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`Overpass chunk ${index}/${total}: ${data.elements?.length || 0} raw elements`);
+      return data.elements || [];
+    }
+
+    if (response.status !== 429 && response.status < 500) {
+      throw new Error(`Overpass request ${index}/${total} failed: ${response.status} ${response.statusText}`);
+    }
+
+    const retryAfterSeconds = Number(response.headers.get('retry-after'));
+    const waitSeconds = Math.max(Number.isFinite(retryAfterSeconds) ? retryAfterSeconds : attempt * 8, attempt * 5);
+    console.log(`Overpass chunk ${index}/${total} attempt ${attempt} returned ${response.status}; waiting ${waitSeconds}s`);
+    await sleep(waitSeconds * 1000);
+  }
+
+  throw new Error(`Overpass request ${index}/${total} failed after ${maxAttempts} attempts`);
+}
+
+async function fetchOverpass() {
+  const chunks = bboxChunks();
+  const elementByKey = new Map();
+
+  for (const [index, chunk] of chunks.entries()) {
+    const elements = await fetchOverpassChunk(chunk, index + 1, chunks.length);
+    for (const element of elements) {
+      elementByKey.set(`${element.type}/${element.id}`, element);
+    }
+    await sleep(2000);
+  }
+
+  const elements = [...elementByKey.values()];
+  if (!elements.length) throw new Error(`Overpass returned no layer data for ${bboxString(BBOX)}`);
+  return { elements };
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 async function fetchTubeStations() {

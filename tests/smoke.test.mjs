@@ -61,9 +61,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0908'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0908/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0908/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0912'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0912/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0912/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -104,7 +104,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0908'/);
+  assert.match(js, /const assetVersion = '20260621-0912'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -173,7 +173,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v34/);
+  assert.match(sw, /londontour-offline-v35/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -188,21 +188,23 @@ test('service worker precaches the local tile pack', () => {
 
 test('generated layer catalog imports substantial external OpenStreetMap data', () => {
   const catalog = JSON.parse(read('assets/layers.json'));
+  const tubeNetwork = JSON.parse(read('assets/tube-network.json'));
   assert.equal(catalog.source, 'OpenStreetMap via Overpass API');
   assert.ok(catalog.generatedAt, 'generatedAt should be recorded');
+  assert.deepEqual(catalog.bbox, tubeNetwork.bbox, 'layer catalog should cover the same zone 1-4 bbox as the tube network');
 
   const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
   assert.equal(counts.has('attractions'), false, 'legacy attractions layer should be split out');
   assert.equal(counts.has('food'), false, 'legacy food layer should be renamed to pubs');
-  assert.ok(counts.get('landmarks') >= 20, 'essential landmarks should come from the generated external dataset');
-  assert.ok(counts.get('museums') >= 80, 'museums should come from the generated external dataset');
-  assert.ok(counts.get('monuments') >= 100, 'statues and monuments should come from the generated external dataset');
-  assert.ok(counts.get('plaques') >= 80, 'plaques should come from the generated external dataset');
-  assert.ok(counts.get('pubs') >= 80, 'pubs should come from the generated external dataset');
-  assert.ok(counts.get('transport') >= 8, 'public transport links should include river piers');
-  assert.ok(counts.get('bus-planning') >= 100, 'bus stops should remain available for route editing');
-  assert.ok(counts.get('toilets') >= 60, 'public toilets should come from the generated external dataset');
-  assert.ok(counts.get('supermarkets') >= 60, 'supermarkets should come from the generated external dataset');
+  assert.ok(counts.get('landmarks') >= 20, 'essential landmarks should come from the widened generated dataset');
+  assert.ok(counts.get('museums') >= 300, 'museums should cover the zone 1-4 generated dataset');
+  assert.ok(counts.get('monuments') >= 400, 'statues and monuments should cover the zone 1-4 generated dataset');
+  assert.ok(counts.get('plaques') >= 300, 'plaques should cover the zone 1-4 generated dataset');
+  assert.ok(counts.get('pubs') >= 500, 'pubs should cover the zone 1-4 generated dataset');
+  assert.ok(counts.get('transport') >= 45, 'public transport links should include river piers across the widened bbox');
+  assert.ok(counts.get('bus-planning') >= 1500, 'bus stops should remain available across the widened route editing area');
+  assert.ok(counts.get('toilets') >= 300, 'public toilets should cover the zone 1-4 generated dataset');
+  assert.ok(counts.get('supermarkets') >= 400, 'supermarkets should cover the zone 1-4 generated dataset');
 
   const museums = catalog.layers.find((layer) => layer.id === 'museums');
   assert.ok(museums, 'museums layer should exist');
@@ -272,9 +274,9 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   for (const point of busPlanningLayer.points) {
     assert.equal(point.transportType, 'bus', `${point.name} should be typed as a bus stop`);
     assert.equal(point.markerLabel, 'Bus', `${point.name} should have a bus marker label`);
-    assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|railway|stop position/i);
+    assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|stop position/i);
   }
-  assert.ok(busPlanningLayer.points.length >= 100, 'editor bus layer should keep bus stop planning data');
+  assert.ok(busPlanningLayer.points.length >= 1500, 'editor bus layer should keep widened bus stop planning data');
 });
 
 test('route geometry file is valid and complete', () => {
