@@ -370,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0925';
-const cacheName = 'londontour-offline-v36';
+const assetVersion = '20260621-0929';
+const cacheName = 'londontour-offline-v37';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1375,6 +1375,7 @@ async function renderTubeNetwork(openStationId) {
       station.facilities?.length ? escapeHtml(station.facilities.slice(0, 4).join(' · ')) : null,
       escapeHtml(station.source || 'TfL station data'),
     ].filter(Boolean);
+    const popupContent = `<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>${stationInfo.join('<br>')}`;
     const marker = L.marker([station.lat, station.lng], {
       icon: L.divIcon({
         className: '',
@@ -1382,9 +1383,17 @@ async function renderTubeNetwork(openStationId) {
         iconSize: isMajorStation ? [22, 22] : [18, 18],
         iconAnchor: isMajorStation ? [11, 11] : [9, 9],
       }),
-    }).bindPopup(`<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>${stationInfo.join('<br>')}`);
+    });
 
     marker.on('click', () => {
+      if (selectedTubeStationId === station.id) {
+        selectedTubeStationId = undefined;
+        map.closePopup();
+        void renderTubeNetwork();
+        setStatus(`${station.name}: tube line filter cleared.`);
+        return;
+      }
+
       selectedTubeStationId = station.id;
       void renderTubeNetwork(station.id);
       setStatus(`${station.name}: showing ${stationLines.join(', ')} tube lines.`);
@@ -1392,7 +1401,10 @@ async function renderTubeNetwork(openStationId) {
 
     marker.addTo(map);
     if (station.id === openStationId) {
-      marker.openPopup();
+      L.popup()
+        .setLatLng([station.lat, station.lng])
+        .setContent(popupContent)
+        .openOn(map);
     }
     tubeStationMarkers.push(marker);
   });
