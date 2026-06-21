@@ -375,8 +375,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1300';
-const cacheName = 'londontour-offline-v48';
+const assetVersion = '20260621-1315';
+const cacheName = 'londontour-offline-v49';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1624,7 +1624,9 @@ function renderBrowseMap(options = {}) {
   if (userLocation) {
     addOrUpdateUserMarker();
   }
-  map.setView([51.5074, -0.11], 13, { animate: options.animate ?? false });
+  if (!options.preserveView) {
+    map.setView([51.5074, -0.11], 13, { animate: options.animate ?? false });
+  }
   updateZoomIndicator();
   renderEditorPanel();
   setStatus(editorMode ? 'Editor mode: click the map to draw a draft route, or tag layer points from popups.' : 'Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
@@ -1634,6 +1636,10 @@ function updateMenuButtonState() {
   const isOpen = document.body.classList.contains('offline-menu-open');
   menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+}
+
+function updateBrowsePickerButtonState() {
+  browsePickerButton.textContent = browseMode && document.body.classList.contains('route-menu-open') ? 'Cancel' : 'Browse map';
 }
 
 function setBrowseLayersOpen(open) {
@@ -1646,6 +1652,7 @@ function setBrowseLayersOpen(open) {
   browseMapButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
   updateMenuButtonState();
+  updateBrowsePickerButtonState();
 
   if (!map) return;
   window.setTimeout(() => {
@@ -1663,6 +1670,7 @@ function setRouteMenuOpen(open) {
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
   updateMenuButtonState();
+  updateBrowsePickerButtonState();
   if (isOpen) setStatus('Choose a route, or keep browsing the map.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
@@ -1678,6 +1686,7 @@ function setOfflineMenuOpen(open) {
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
   changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
   updateMenuButtonState();
+  updateBrowsePickerButtonState();
   if (isOpen) setStatus('Menu opened. Offline downloads are under Offline pack.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
@@ -1703,7 +1712,7 @@ function enterBrowseMode(options = {}) {
   buildMap();
   window.setTimeout(() => {
     map.invalidateSize();
-    renderBrowseMap({ animate: options.animate ?? true });
+    renderBrowseMap({ animate: options.animate ?? true, preserveView: options.preserveView ?? false });
   }, 0);
 }
 
@@ -1867,6 +1876,16 @@ function handleOfflineButtonClick() {
   void downloadOfflinePack();
 }
 
+function handleBrowsePickerClick() {
+  if (browseMode && document.body.classList.contains('route-menu-open')) {
+    setRouteMenuOpen(false);
+    setStatus('Route chooser closed.');
+    return;
+  }
+
+  enterBrowseMode({ preserveView: true });
+}
+
 pickerEl.addEventListener('click', (event) => {
   const target = event.target.closest('button[data-route]');
   if (!target) return;
@@ -1880,7 +1899,7 @@ printButton.addEventListener('click', () => window.print());
 menuButton.addEventListener('click', toggleMenu);
 changeRouteButton.addEventListener('click', toggleRouteMenu);
 recenterButton.addEventListener('click', recenterRoute);
-browsePickerButton.addEventListener('click', () => enterBrowseMode());
+browsePickerButton.addEventListener('click', handleBrowsePickerClick);
 browseMapButton.addEventListener('click', toggleBrowseLayers);
 themeButton.addEventListener('click', toggleTheme);
 shareButton.addEventListener('click', shareRoute);

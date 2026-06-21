@@ -80,9 +80,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1300'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1300/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1300/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1315'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1315/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1315/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -113,6 +113,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function visibleRouteStops/);
   assert.match(js, /function fitSelectedRouteBounds/);
   assert.match(js, /function enterBrowseMode/);
+  assert.match(js, /function updateBrowsePickerButtonState/);
+  assert.match(js, /function handleBrowsePickerClick/);
+  assert.match(js, /textContent = browseMode && document\.body\.classList\.contains\('route-menu-open'\) \? 'Cancel' : 'Browse map'/);
+  assert.match(js, /enterBrowseMode\(\{ preserveView: true \}\)/);
+  assert.match(js, /preserveView: options\.preserveView \?\? false/);
   assert.match(js, /function toggleBrowseLayers/);
   assert.match(js, /function toggleRouteMenu/);
   assert.match(js, /function toggleMenu/);
@@ -130,7 +135,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1300'/);
+  assert.match(js, /const assetVersion = '20260621-1315'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -242,7 +247,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v48/);
+  assert.match(sw, /londontour-offline-v49/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
