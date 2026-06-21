@@ -511,7 +511,7 @@ body[data-theme="dark"] .route-card.is-active {
 .menu-actions {
   display: grid;
   gap: 0.6rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 1rem;
 }
 
@@ -566,6 +566,43 @@ body[data-theme="dark"] .route-card.is-active {
 .location-icon::after {
   height: 26px;
   width: 2px;
+}
+
+.theme-icon {
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  display: block;
+  height: 20px;
+  position: relative;
+  width: 20px;
+}
+
+.theme-icon::before {
+  background: var(--surface);
+  border-radius: 999px;
+  content: "";
+  height: 18px;
+  left: 7px;
+  position: absolute;
+  top: -3px;
+  width: 18px;
+}
+
+body[data-theme="dark"] .theme-icon::before {
+  background: currentColor;
+  box-shadow:
+    0 -10px 0 -7px currentColor,
+    0 10px 0 -7px currentColor,
+    -10px 0 0 -7px currentColor,
+    10px 0 0 -7px currentColor,
+    7px 7px 0 -7px currentColor,
+    -7px -7px 0 -7px currentColor,
+    7px -7px 0 -7px currentColor,
+    -7px 7px 0 -7px currentColor;
+  height: 4px;
+  left: 6px;
+  top: 6px;
+  width: 4px;
 }
 
 .menu-icon {
@@ -1057,7 +1094,7 @@ body.route-view:not(.editor-mode) .layer-marker {
   .map-topbar {
     display: grid;
     gap: 0.5rem;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.86fr) 46px 46px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.86fr) 46px 46px 46px;
     left: 0.75rem;
     right: 0.75rem;
     top: calc(0.75rem + env(safe-area-inset-top));
@@ -1080,7 +1117,7 @@ body.route-view:not(.editor-mode) .layer-marker {
   }
 
   .menu-actions {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .leaflet-popup-content {

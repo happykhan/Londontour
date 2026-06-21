@@ -64,16 +64,19 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="recenter-button"/);
   assert.match(html, /id="locate-button"/);
   assert.match(html, /aria-label="Use my location"/);
+  assert.match(html, /id="theme-button" class="icon-button"/);
+  assert.match(html, /aria-label="Switch to dark mode"/);
   assert.match(html, /class="location-icon"/);
+  assert.match(html, /class="theme-icon"/);
   assert.match(html, /class="menu-icon"/);
   assert.match(html, /id="theme-button"/);
   assert.match(html, /id="share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1145'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1145/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1145/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1200'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1200/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1200/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -120,7 +123,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1145'/);
+  assert.match(js, /const assetVersion = '20260621-1200'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -194,6 +197,8 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\.route-view\.offline-menu-open \.menu-panel/);
   assert.match(css, /\.icon-button/);
   assert.match(css, /\.location-icon/);
+  assert.match(css, /\.theme-icon/);
+  assert.match(css, /body\[data-theme="dark"\] \.theme-icon::before/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
   assert.match(css, /\.layer-marker-landmarks/);
@@ -218,7 +223,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v43/);
+  assert.match(sw, /londontour-offline-v44/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

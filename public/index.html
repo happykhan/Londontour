@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1145" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-1145" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1200" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-1200" />
   </head>
   <body>
     <main class="app-shell">
@@ -82,7 +82,6 @@
             <h2>Menu</h2>
           </div>
           <div class="menu-actions" aria-label="App actions">
-            <button id="theme-button" class="secondary-button" type="button">Dark</button>
             <button id="share-button" class="secondary-button" type="button">Share</button>
             <button id="print-button" class="secondary-button" type="button">Print</button>
           </div>
@@ -109,17 +108,18 @@
           <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
           <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Layers</button>
           <button id="locate-button" class="icon-button" type="button" aria-label="Use my location" title="Use my location"><span class="location-icon" aria-hidden="true"></span></button>
+          <button id="theme-button" class="icon-button" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="theme-icon" aria-hidden="true"></span></button>
           <button id="menu-button" class="icon-button" type="button" aria-label="Open menu" aria-controls="menu-panel offline-panel" aria-expanded="false" title="Menu"><span class="menu-icon" aria-hidden="true"></span></button>
         </div>
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-1145"></script>
-    <script src="assets/app.js?v=20260621-1145"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-1200"></script>
+    <script src="assets/app.js?v=20260621-1200"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-1145').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-1200').catch(() => {});
         });
       }
     </script>

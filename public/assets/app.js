@@ -374,8 +374,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1145';
-const cacheName = 'londontour-offline-v43';
+const assetVersion = '20260621-1200';
+const cacheName = 'londontour-offline-v44';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1727,8 +1727,10 @@ function setStatus(message) {
 
 function applyTheme(theme) {
   const activeTheme = theme === 'dark' ? 'dark' : 'light';
+  const nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
   document.body.dataset.theme = activeTheme;
-  themeButton.textContent = activeTheme === 'dark' ? 'Light' : 'Dark';
+  themeButton.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
+  themeButton.setAttribute('title', `Switch to ${nextTheme} mode`);
   applyBasemapTheme();
   try {
     localStorage.setItem(themeStateKey, activeTheme);
