@@ -1,4 +1,4 @@
-const CACHE_NAME = 'londontour-offline-v30';
+const CACHE_NAME = 'londontour-offline-v31';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -29,6 +29,18 @@ self.addEventListener('activate', (event) => {
       const keys = await caches.keys();
       await Promise.all(keys.map((key) => (key === CACHE_NAME ? null : caches.delete(key))));
       await self.clients.claim();
+      const clients = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+      await Promise.all(
+        clients.map((client) => {
+          try {
+            const url = new URL(client.url);
+            if (url.origin !== self.location.origin) return null;
+            return client.navigate(client.url);
+          } catch (error) {
+            return null;
+          }
+        })
+      );
     })()
   );
 });
