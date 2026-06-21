@@ -8,8 +8,8 @@
       name="description"
       content="Choose a London tour, see the route on a familiar map, and print the directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-0840" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-0840" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-0844" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-0844" />
   </head>
   <body>
     <main class="app-shell">
@@ -42,6 +42,19 @@
             </div>
           </div>
           <div id="layer-list" class="layer-list"></div>
+        </section>
+
+        <section id="editor-panel" class="editor-panel" aria-label="Route editor" hidden>
+          <div class="section-row">
+            <h2>Route editor</h2>
+            <div class="layer-actions" aria-label="Editor actions">
+              <button id="editor-undo-button" class="secondary-button compact-button" type="button">Undo</button>
+              <button id="editor-clear-button" class="secondary-button compact-button" type="button">Clear</button>
+            </div>
+          </div>
+          <p id="editor-summary" class="offline-details"></p>
+          <textarea id="editor-output" class="editor-output" readonly aria-label="Route editor JSON"></textarea>
+          <button id="editor-copy-button" class="secondary-button" type="button">Copy route draft JSON</button>
         </section>
 
         <section class="route-card-view" aria-label="Selected route">
@@ -97,12 +110,12 @@
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-0840"></script>
-    <script src="assets/app.js?v=20260621-0840"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-0844"></script>
+    <script src="assets/app.js?v=20260621-0844"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-0840').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-0844').catch(() => {});
         });
       }
     </script>

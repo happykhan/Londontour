@@ -58,12 +58,22 @@ const layerDefinitions = [
   },
   {
     id: 'transport',
-    label: 'Transport links',
+    label: 'Tube and river links',
     defaultVisible: false,
     minZoom: 12,
-    markerLabel: 'Bus',
+    markerLabel: 'Boat',
     routeRadiusMeters: 500,
-    maxItems: 120,
+    maxItems: 40,
+  },
+  {
+    id: 'bus-planning',
+    label: 'Bus stops (route editor)',
+    defaultVisible: false,
+    editorOnly: true,
+    minZoom: 15,
+    markerLabel: 'Bus',
+    routeRadiusMeters: 250,
+    maxItems: 180,
   },
   {
     id: 'toilets',
@@ -221,7 +231,8 @@ function classify(tags = {}) {
   if (/^(pub|bar)$/.test(tags.amenity)) return 'pubs';
   if (tags.amenity === 'toilets') return 'toilets';
   if (/^(supermarket|convenience)$/.test(tags.shop)) return 'supermarkets';
-  if (transportType(tags)) return 'transport';
+  if (transportType(tags) === 'boat') return 'transport';
+  if (transportType(tags) === 'bus') return 'bus-planning';
   if (isMuseum(tags)) return 'museums';
   if (isPlaque(tags)) return 'plaques';
   if (isEssentialLandmark(tags)) return 'landmarks';
@@ -317,7 +328,8 @@ function titleCase(value = '') {
 
 function fallbackName(layerId, tags) {
   if (layerId === 'toilets') return 'Public toilets';
-  if (layerId === 'transport') return transportType(tags) === 'boat' ? 'River pier' : 'Bus stop';
+  if (layerId === 'transport') return 'River pier';
+  if (layerId === 'bus-planning') return 'Bus stop';
   if (layerId === 'supermarkets') return titleCase(tags.shop || 'Supermarket');
   if (layerId === 'pubs') return titleCase(tags.amenity || 'Pub');
   if (layerId === 'museums') return titleCase(tags.tourism || 'Museum');
@@ -349,10 +361,16 @@ function detailFor(layerId, tags = {}) {
   }
 
   if (layerId === 'transport') {
-    const type = transportType(tags);
-    const bits = [type === 'boat' ? 'River pier' : 'Bus stop'];
+    const bits = ['River pier'];
+    if (tags.ref) bits.push(`pier ${tags.ref}`);
+    if (tags.operator) bits.push(tags.operator);
+    if (tags.network) bits.push(tags.network);
+    return `${bits.join(' · ')} from OpenStreetMap.`;
+  }
+
+  if (layerId === 'bus-planning') {
+    const bits = ['Bus stop'];
     if (tags.local_ref) bits.push(`stop ${tags.local_ref}`);
-    if (tags.ref && type === 'boat') bits.push(`pier ${tags.ref}`);
     if (tags.operator) bits.push(tags.operator);
     if (tags.network) bits.push(tags.network);
     return `${bits.join(' · ')} from OpenStreetMap.`;
@@ -442,15 +460,15 @@ function cleanPoint(element) {
   const layerId = classify(tags);
   const coordinate = coordinateFor(element);
   if (!layerId || !coordinate) return null;
-  const pointTransportType = layerId === 'transport' ? transportType(tags) : null;
-  if (layerId === 'transport' && (!pointTransportType || isRailOrTubeTransport(tags))) return null;
-  if (layerId === 'transport' && tags.public_transport === 'stop_position') return null;
+  const pointTransportType = layerId === 'transport' || layerId === 'bus-planning' ? transportType(tags) : null;
+  if ((layerId === 'transport' || layerId === 'bus-planning') && (!pointTransportType || isRailOrTubeTransport(tags))) return null;
+  if ((layerId === 'transport' || layerId === 'bus-planning') && tags.public_transport === 'stop_position') return null;
   const pointUrl = layerId === 'museums' ? urlFromTags(tags) : undefined;
   if (layerId === 'museums' && !pointUrl) return null;
 
   const name = (tags.name || tags['name:en'] || fallbackName(layerId, tags)).trim();
   if (!name) return null;
-  if (layerId === 'transport' && /^\d+[A-Z]?$/.test(name)) return null;
+  if ((layerId === 'transport' || layerId === 'bus-planning') && /^\d+[A-Z]?$/.test(name)) return null;
 
   return {
     layerId,
@@ -491,7 +509,7 @@ function normaliseName(value = '') {
 }
 
 function isDuplicateTubeTransport(point, tubeStations) {
-  if (point.layerId !== 'transport') return false;
+  if (point.layerId !== 'transport' && point.layerId !== 'bus-planning') return false;
   const name = normaliseName(point.point.name);
   return tubeStations.some((station) => {
     const stationName = normaliseName(station.name);
@@ -509,7 +527,7 @@ function dedupe(points) {
       if (existing.point.transportType !== item.point.transportType) return false;
       if (normaliseName(existing.point.name) !== normaliseName(item.point.name)) return false;
       if (item.layerId === 'landmarks') return true;
-      const threshold = item.layerId === 'transport' ? 180 : 35;
+      const threshold = item.layerId === 'transport' || item.layerId === 'bus-planning' ? 180 : 35;
       return distanceMeters(existing.point, item.point) <= threshold;
     });
 

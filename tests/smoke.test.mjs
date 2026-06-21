@@ -47,6 +47,8 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="layer-list"/);
   assert.match(html, /id="layers-all-button"/);
   assert.match(html, /id="layers-none-button"/);
+  assert.match(html, /id="editor-panel"/);
+  assert.match(html, /id="editor-output"/);
   assert.match(html, /id="offline-button"/);
   assert.match(html, /id="browse-picker-button"/);
   assert.match(html, /id="browse-map-button"/);
@@ -59,16 +61,17 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0840'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0840/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0840/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0844'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0844/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0844/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
   const js = read('assets/app.js');
   assert.match(js, /id: 'london-tour'/);
   assert.match(js, /id: 'secret-ldn-sightseeing'/);
-  assert.match(js, /const initialBrowseMode = initialSearchParams\.get\('mode'\) === 'browse'/);
+  assert.match(js, /const editorMode = initialSearchParams\.get\('editor'\) === '1'/);
+  assert.match(js, /const initialBrowseMode = editorMode \|\| initialSearchParams\.get\('mode'\) === 'browse'/);
   assert.match(js, /const initialRoute = initialBrowseMode \? undefined : routes\.find/);
   assert.match(js, /document\.body\.classList\.add\('route-view'\)/);
   assert.match(js, /const fallbackLayerCatalog = \[/);
@@ -80,6 +83,12 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /id: 'monuments'/);
   assert.match(js, /id: 'plaques'/);
   assert.match(js, /id: 'pubs'/);
+  assert.match(js, /id: 'bus-planning'/);
+  assert.match(js, /function visibleLayerCatalog/);
+  assert.match(js, /function loadEditorDraft/);
+  assert.match(js, /function renderEditorDraftOverlays/);
+  assert.match(js, /mustShowPointIds/);
+  assert.match(js, /mustHidePointIds/);
   assert.match(js, /function activeLayerPoints/);
   assert.match(js, /function visibleRouteStops/);
   assert.match(js, /function fitSelectedRouteBounds/);
@@ -95,7 +104,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0840'/);
+  assert.match(js, /const assetVersion = '20260621-0844'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -141,7 +150,9 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.layer-marker-monuments/);
   assert.match(css, /\.layer-marker-plaques/);
   assert.match(css, /\.layer-marker-pubs/);
-  assert.match(css, /\.layer-marker-transport-bus/);
+  assert.match(css, /\.layer-marker-bus-planning/);
+  assert.match(css, /\.layer-marker\.is-editor-must-show/);
+  assert.match(css, /\.editor-output/);
   assert.match(css, /\.layer-marker-transport-boat/);
   assert.match(css, /\.tube-station-marker\.is-major/);
 });
@@ -154,7 +165,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v31/);
+  assert.match(sw, /londontour-offline-v32/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -180,7 +191,8 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   assert.ok(counts.get('monuments') >= 100, 'statues and monuments should come from the generated external dataset');
   assert.ok(counts.get('plaques') >= 80, 'plaques should come from the generated external dataset');
   assert.ok(counts.get('pubs') >= 80, 'pubs should come from the generated external dataset');
-  assert.ok(counts.get('transport') >= 100, 'transport links should come from the generated external dataset');
+  assert.ok(counts.get('transport') >= 8, 'public transport links should include river piers');
+  assert.ok(counts.get('bus-planning') >= 100, 'bus stops should remain available for route editing');
   assert.ok(counts.get('toilets') >= 60, 'public toilets should come from the generated external dataset');
   assert.ok(counts.get('supermarkets') >= 60, 'supermarkets should come from the generated external dataset');
 
@@ -189,6 +201,11 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   for (const point of museums.points) {
     assert.match(point.url, /^https?:\/\//, `${point.name} should expose a museum URL for the popup title`);
   }
+
+  const publicTransport = catalog.layers.find((layer) => layer.id === 'transport');
+  const busPlanning = catalog.layers.find((layer) => layer.id === 'bus-planning');
+  assert.equal(publicTransport.label, 'Tube and river links');
+  assert.equal(busPlanning.editorOnly, true, 'bus stops should be hidden from normal browse controls');
 
   for (const layer of catalog.layers) {
     assert.equal(typeof layer.routeRadiusMeters, 'number', `${layer.id} should define a metre detour radius`);
@@ -222,16 +239,25 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   const transportCounts = new Map();
   for (const point of transportLayer.points) {
     transportCounts.set(point.transportType, (transportCounts.get(point.transportType) || 0) + 1);
-    assert.ok(['bus', 'boat'].includes(point.transportType), `${point.name} should be typed as bus or boat`);
-    assert.ok(['Bus', 'Boat'].includes(point.markerLabel), `${point.name} should have a bus or boat marker label`);
+    assert.equal(point.transportType, 'boat', `${point.name} should be a public river pier`);
+    assert.equal(point.markerLabel, 'Boat', `${point.name} should have a boat marker label`);
     assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|railway|stop position/i);
     const transportName = point.name.replace(/\s+Station$/i, '').toLowerCase();
     assert.ok(!tubeStationNames.has(transportName), `${point.name} should not duplicate a tube station marker`);
     assert.doesNotMatch(point.name, /^\d+[A-Z]?$/);
     assert.doesNotMatch(point.name, /platforms?/i);
   }
-  assert.ok(transportCounts.get('bus') >= 80, 'transport layer should include bus stops');
   assert.ok(transportCounts.get('boat') >= 8, 'transport layer should include river piers');
+
+  const busPlanningLayer = catalog.layers.find((layer) => layer.id === 'bus-planning');
+  assert.ok(busPlanningLayer, 'bus-planning layer should exist for route editing');
+  assert.equal(busPlanningLayer.editorOnly, true, 'bus stops should be editor-only');
+  for (const point of busPlanningLayer.points) {
+    assert.equal(point.transportType, 'bus', `${point.name} should be typed as a bus stop`);
+    assert.equal(point.markerLabel, 'Bus', `${point.name} should have a bus marker label`);
+    assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|railway|stop position/i);
+  }
+  assert.ok(busPlanningLayer.points.length >= 100, 'editor bus layer should keep bus stop planning data');
 });
 
 test('route geometry file is valid and complete', () => {

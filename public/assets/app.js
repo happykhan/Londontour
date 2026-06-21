@@ -230,15 +230,26 @@ const fallbackLayerCatalog = [
   },
   {
     id: 'transport',
-    label: 'Transport links',
+    label: 'Tube and river links',
     defaultVisible: false,
     minZoom: 12,
-    markerLabel: 'Bus',
+    markerLabel: 'Boat',
     routeRadiusMeters: 500,
     points: [
-      { id: 'trafalgar-square-bus', name: 'Trafalgar Square', lat: 51.508, lng: -0.1281, detail: 'Bus stop near the route.', transportType: 'bus', markerLabel: 'Bus' },
       { id: 'westminster-pier', name: 'Westminster Pier', lat: 51.5019, lng: -0.1234, detail: 'River pier near Parliament.', transportType: 'boat', markerLabel: 'Boat' },
       { id: 'tower-pier', name: 'Tower Millennium Pier', lat: 51.5075, lng: -0.0792, detail: 'River pier near the Tower.', transportType: 'boat', markerLabel: 'Boat' },
+    ],
+  },
+  {
+    id: 'bus-planning',
+    label: 'Bus stops (route editor)',
+    defaultVisible: false,
+    editorOnly: true,
+    minZoom: 15,
+    markerLabel: 'Bus',
+    routeRadiusMeters: 250,
+    points: [
+      { id: 'trafalgar-square-bus', name: 'Trafalgar Square', lat: 51.508, lng: -0.1281, detail: 'Bus stop near the route.', transportType: 'bus', markerLabel: 'Bus' },
     ],
   },
   {
@@ -281,6 +292,12 @@ const statusEl = document.querySelector('#status');
 const layerListEl = document.querySelector('#layer-list');
 const layersAllButton = document.querySelector('#layers-all-button');
 const layersNoneButton = document.querySelector('#layers-none-button');
+const editorPanel = document.querySelector('#editor-panel');
+const editorSummary = document.querySelector('#editor-summary');
+const editorOutput = document.querySelector('#editor-output');
+const editorUndoButton = document.querySelector('#editor-undo-button');
+const editorClearButton = document.querySelector('#editor-clear-button');
+const editorCopyButton = document.querySelector('#editor-copy-button');
 const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
@@ -294,7 +311,8 @@ const themeButton = document.querySelector('#theme-button');
 const shareButton = document.querySelector('#share-button');
 
 const initialSearchParams = new URLSearchParams(window.location.search);
-const initialBrowseMode = initialSearchParams.get('mode') === 'browse';
+const editorMode = initialSearchParams.get('editor') === '1';
+const initialBrowseMode = editorMode || initialSearchParams.get('mode') === 'browse';
 const initialRouteId = initialSearchParams.get('route');
 const initialRoute = initialBrowseMode ? undefined : routes.find((route) => route.id === initialRouteId);
 let selectedRoute = initialRoute || routes[0];
@@ -305,6 +323,7 @@ let routeMarkers = [];
 let layerMarkers = [];
 let tubeLineLayers = [];
 let tubeStationMarkers = [];
+let editorDraftLayers = [];
 let userMarker;
 let userLocation;
 let locationRequested = false;
@@ -348,9 +367,11 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0840';
-const cacheName = 'londontour-offline-v31';
+const assetVersion = '20260621-0844';
+const cacheName = 'londontour-offline-v32';
 const layerStateKey = 'londontour-layer-state-v2';
+const editorLayerStateKey = 'londontour-editor-layer-state-v1';
+const editorDraftStateKey = 'londontour-editor-draft-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
 
@@ -374,24 +395,34 @@ function isInsideLondon(latLng) {
   return latitude >= 51.28 && latitude <= 51.70 && longitude >= -0.52 && longitude <= 0.34;
 }
 
+function visibleLayerCatalog() {
+  return layerCatalog.filter((layer) => editorMode || !layer.editorOnly);
+}
+
+function publicLayerCatalog() {
+  return layerCatalog.filter((layer) => !layer.editorOnly);
+}
+
 function loadActiveLayerIds() {
   try {
-    const stored = JSON.parse(localStorage.getItem(layerStateKey) || '[]');
-    const validIds = new Set(layerCatalog.map((layer) => layer.id));
+    const stored = JSON.parse(localStorage.getItem(editorMode ? editorLayerStateKey : layerStateKey) || '[]');
+    const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
     const selected = stored.filter((id) => validIds.has(id));
     if (selected.length) return new Set(selected);
   } catch (error) {
     // Use defaults when storage is unavailable.
   }
 
-  return new Set(layerCatalog.filter((layer) => layer.defaultVisible).map((layer) => layer.id));
+  if (editorMode) return new Set(visibleLayerCatalog().map((layer) => layer.id));
+  return new Set(publicLayerCatalog().filter((layer) => layer.defaultVisible).map((layer) => layer.id));
 }
 
 let activeLayerIds = loadActiveLayerIds();
+let editorDraft = loadEditorDraft();
 
 function saveActiveLayerIds() {
   try {
-    localStorage.setItem(layerStateKey, JSON.stringify([...activeLayerIds]));
+    localStorage.setItem(editorMode ? editorLayerStateKey : layerStateKey, JSON.stringify([...activeLayerIds]));
   } catch (error) {
     // Layer state is still usable for the current session.
   }
@@ -407,6 +438,144 @@ function applyLayerSelection(ids, message = 'Map layers updated.') {
   });
   renderDetails();
   setStatus(message);
+}
+
+function loadEditorDraft() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(editorDraftStateKey) || '{}');
+    return {
+      path: Array.isArray(parsed.path)
+        ? parsed.path
+            .map((point) => ({ lat: Number(point.lat), lng: Number(point.lng) }))
+            .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
+        : [],
+      mustShow: Array.isArray(parsed.mustShow) ? parsed.mustShow.map(String) : [],
+      mustHide: Array.isArray(parsed.mustHide) ? parsed.mustHide.map(String) : [],
+    };
+  } catch (error) {
+    return { path: [], mustShow: [], mustHide: [] };
+  }
+}
+
+function saveEditorDraft() {
+  try {
+    localStorage.setItem(editorDraftStateKey, JSON.stringify(editorDraft));
+  } catch (error) {
+    // Editor export still works for the current page session.
+  }
+}
+
+function findLayerPoint(pointId) {
+  for (const layer of layerCatalog) {
+    const point = layer.points.find((item) => item.id === pointId);
+    if (point) return { ...point, layerId: layer.id, layerLabel: layer.label, layerMarkerLabel: layer.markerLabel };
+  }
+  return null;
+}
+
+function editorPointState(point) {
+  if (!editorMode) return '';
+  if (editorDraft.mustShow.includes(point.id)) return 'must-show';
+  if (editorDraft.mustHide.includes(point.id)) return 'must-hide';
+  return '';
+}
+
+function setEditorPointState(pointId, state) {
+  editorDraft.mustShow = editorDraft.mustShow.filter((id) => id !== pointId);
+  editorDraft.mustHide = editorDraft.mustHide.filter((id) => id !== pointId);
+  if (state === 'must-show') editorDraft.mustShow.push(pointId);
+  if (state === 'must-hide') editorDraft.mustHide.push(pointId);
+  saveEditorDraft();
+  renderEditorPanel();
+  renderLayerMarkers();
+}
+
+function editorExport() {
+  const pointForExport = (pointId) => {
+    const point = findLayerPoint(pointId);
+    return point
+      ? {
+          id: point.id,
+          name: point.name,
+          layerId: point.layerId,
+          layerLabel: point.layerLabel,
+          lat: point.lat,
+          lng: point.lng,
+        }
+      : { id: pointId };
+  };
+
+  return {
+    routeDraft: {
+      path: editorDraft.path,
+      mustShowPointIds: editorDraft.mustShow,
+      mustHidePointIds: editorDraft.mustHide,
+      mustShowPoints: editorDraft.mustShow.map(pointForExport),
+      mustHidePoints: editorDraft.mustHide.map(pointForExport),
+    },
+  };
+}
+
+function renderEditorPanel() {
+  if (!editorPanel) return;
+  editorPanel.hidden = !editorMode;
+  if (!editorMode) return;
+
+  const pathCount = editorDraft.path.length;
+  const mustShowCount = editorDraft.mustShow.length;
+  const mustHideCount = editorDraft.mustHide.length;
+  editorSummary.textContent = `${pathCount} path point${pathCount === 1 ? '' : 's'} · ${mustShowCount} must show · ${mustHideCount} must hide. Click the map to draw; use point popups to tag items.`;
+  editorOutput.value = JSON.stringify(editorExport(), null, 2);
+}
+
+function clearEditorDraftLayers() {
+  editorDraftLayers.forEach((layer) => layer.remove());
+  editorDraftLayers = [];
+}
+
+function renderEditorDraftOverlays() {
+  if (!map || !editorMode) return;
+  clearEditorDraftLayers();
+  if (!editorDraft.path.length) return;
+
+  const latLngs = editorDraft.path.map((point) => [point.lat, point.lng]);
+  if (latLngs.length > 1) {
+    const line = L.polyline(latLngs, {
+      color: '#111827',
+      dashArray: '8 6',
+      opacity: 0.82,
+      weight: 4,
+      lineCap: 'round',
+      lineJoin: 'round',
+    }).addTo(map);
+    editorDraftLayers.push(line);
+  }
+
+  latLngs.forEach((latLng, index) => {
+    const marker = L.circleMarker(latLng, {
+      radius: 5,
+      color: '#ffffff',
+      fillColor: '#111827',
+      fillOpacity: 1,
+      weight: 2,
+    }).bindPopup(`<strong>Draft path ${index + 1}</strong>`);
+    marker.addTo(map);
+    editorDraftLayers.push(marker);
+  });
+}
+
+function handleEditorMapClick(event) {
+  if (!editorMode) return;
+  const target = event.originalEvent?.target;
+  if (target?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-control, .map-topbar, .map-actions')) return;
+  editorDraft.path.push({
+    lat: Number(event.latlng.lat.toFixed(6)),
+    lng: Number(event.latlng.lng.toFixed(6)),
+  });
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus('Editor path point added.');
 }
 
 function escapeHtml(value = '') {
@@ -432,6 +601,18 @@ function popupTitle(point) {
   const url = safeExternalUrl(point.url);
   if (!url) return `<strong>${name}</strong>`;
   return `<strong><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a></strong>`;
+}
+
+function editorPopupControls(point) {
+  if (!editorMode) return '';
+  const state = editorPointState(point);
+  return `
+    <div class="editor-popup-actions" data-point-id="${escapeHtml(point.id)}">
+      <button type="button" data-editor-action="must-show" ${state === 'must-show' ? 'aria-pressed="true"' : ''}>Must show</button>
+      <button type="button" data-editor-action="must-hide" ${state === 'must-hide' ? 'aria-pressed="true"' : ''}>Must hide</button>
+      <button type="button" data-editor-action="clear">Clear</button>
+    </div>
+  `;
 }
 
 function normaliseLayerCatalog(data) {
@@ -461,6 +642,7 @@ function normaliseLayerCatalog(data) {
         id: String(layer.id || ''),
         label: String(layer.label || layer.id || 'Layer'),
         defaultVisible: Boolean(layer.defaultVisible),
+        editorOnly: Boolean(layer.editorOnly),
         minZoom: Number(layer.minZoom || 13),
         markerLabel: String(layer.markerLabel || '').slice(0, 3) || '•',
         routeRadiusMeters: Number(layer.routeRadiusMeters || layer.routeRadius * 100000 || 500),
@@ -481,10 +663,12 @@ async function loadLayerCatalog() {
     if (!catalog) throw new Error('Layer catalog is empty or invalid');
 
     layerCatalog = catalog;
-    const validIds = new Set(layerCatalog.map((layer) => layer.id));
+    const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
     activeLayerIds = new Set([...activeLayerIds].filter((id) => validIds.has(id)));
     if (!activeLayerIds.size) {
-      activeLayerIds = new Set(layerCatalog.filter((layer) => layer.defaultVisible).map((layer) => layer.id));
+      activeLayerIds = editorMode
+        ? new Set(visibleLayerCatalog().map((layer) => layer.id))
+        : new Set(publicLayerCatalog().filter((layer) => layer.defaultVisible).map((layer) => layer.id));
     }
 
     renderLayerControls();
@@ -540,17 +724,33 @@ function routeDistanceMeters(point, route) {
 }
 
 function pointMatchesRoute(point, layer, route) {
+  if (route?.mustHidePointIds?.includes(point.id)) return false;
+  if (route?.mustShowPointIds?.includes(point.id)) return true;
   if (point.routes) return point.routes.includes(route.id);
   return routeDistanceMeters(point, route) <= (layer.routeRadiusMeters || 500);
 }
 
+function routeMustShowPoint(point, route = selectedRoute) {
+  return Boolean(route?.mustShowPointIds?.includes(point.id));
+}
+
+function routeMustHidePoint(point, route = selectedRoute) {
+  return Boolean(route?.mustHidePointIds?.includes(point.id));
+}
+
 function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoomRules = !browseMode) {
   const zoom = map?.getZoom?.() || route?.zoom || 13;
-  return layerCatalog.flatMap((layer) => {
-    if (!activeLayerIds.has(layer.id)) return [];
-    if (includeZoomRules && zoom < layer.minZoom) return [];
+  return visibleLayerCatalog().flatMap((layer) => {
+    const layerActive = activeLayerIds.has(layer.id);
+    const forcedPointIds = new Set(route?.mustShowPointIds || []);
+    if (!layerActive && !forcedPointIds.size) return [];
     return layer.points
-      .filter((point) => !route || pointMatchesRoute(point, layer, route))
+      .filter((point) => {
+        const forced = forcedPointIds.has(point.id);
+        if (!layerActive && !forced) return false;
+        if (includeZoomRules && zoom < layer.minZoom && !forced) return false;
+        return !route || pointMatchesRoute(point, layer, route);
+      })
       .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, layerMarkerLabel: layer.markerLabel }));
   });
 }
@@ -558,7 +758,7 @@ function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoo
 function renderLayerControls() {
   if (!layerListEl) return;
 
-  layerListEl.innerHTML = layerCatalog
+  layerListEl.innerHTML = visibleLayerCatalog()
     .map((layer) => {
       const count = layer.points.length;
       const layerId = escapeHtml(layer.id);
@@ -718,7 +918,7 @@ function buildBrowseBounds() {
   routes.forEach((route) => {
     route.stops.forEach((stop) => bounds.extend([stop.lat, stop.lng]));
   });
-  layerCatalog.forEach((layer) => {
+  visibleLayerCatalog().forEach((layer) => {
     layer.points.forEach((point) => bounds.extend([point.lat, point.lng]));
   });
   if (activeLayerIds.has('transport')) {
@@ -896,6 +1096,9 @@ function buildMap() {
     void renderTubeNetwork();
     renderDetails();
   });
+  if (editorMode) {
+    map.on('click', handleEditorMapClick);
+  }
   map.whenReady(() => {
     if (browseMode) {
       renderBrowseMap({ animate: false });
@@ -1020,17 +1223,20 @@ function renderLayerMarkers() {
     const layerLabel = escapeHtml(point.layerLabel);
     const detail = escapeHtml(point.detail);
     const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
+    const editorStateClass = editorPointState(point) ? ` is-editor-${editorPointState(point)}` : '';
+    const routeStateClass = !browseMode && routeMustShowPoint(point) ? ' is-route-required' : routeMustHidePoint(point) ? ' is-route-hidden' : '';
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}"><span>${markerLabel}</span></div>`,
+        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}"><span>${markerLabel}</span></div>`,
         iconSize: [30, 30],
         iconAnchor: [15, 15],
       }),
-    }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}`);
+    }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}${editorPopupControls(point)}`);
     marker.addTo(map);
     layerMarkers.push(marker);
   });
+  renderEditorDraftOverlays();
 }
 
 function normaliseTubeStationName(name) {
@@ -1279,7 +1485,8 @@ function renderBrowseMap(options = {}) {
     addOrUpdateUserMarker();
   }
   fitBrowseMap({ animate: options.animate ?? false });
-  setStatus('Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
+  renderEditorPanel();
+  setStatus(editorMode ? 'Editor mode: click the map to draw a draft route, or tag layer points from popups.' : 'Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
 }
 
 function setBrowseLayersOpen(open) {
@@ -1311,6 +1518,7 @@ function enterBrowseMode(options = {}) {
   const url = new URL(window.location.href);
   url.searchParams.delete('route');
   url.searchParams.set('mode', 'browse');
+  if (editorMode) url.searchParams.set('editor', '1');
   if (options.updateUrl !== false) {
     window.history.replaceState({}, '', url);
   }
@@ -1333,6 +1541,7 @@ function selectRoute(route) {
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
   url.searchParams.delete('mode');
+  if (!editorMode) url.searchParams.delete('editor');
   window.history.replaceState({}, '', url);
   renderPicker();
   renderDetails();
@@ -1472,6 +1681,7 @@ function showRoutePicker() {
   const url = new URL(window.location.href);
   url.searchParams.delete('mode');
   url.searchParams.delete('route');
+  if (!editorMode) url.searchParams.delete('editor');
   window.history.replaceState({}, '', url);
   renderPicker();
   setStatus('Pick a route, then the map opens with pins, pan and zoom controls, and directions.');
@@ -1495,6 +1705,44 @@ browsePickerButton.addEventListener('click', () => enterBrowseMode());
 browseMapButton.addEventListener('click', toggleBrowseLayers);
 themeButton.addEventListener('click', toggleTheme);
 shareButton.addEventListener('click', shareRoute);
+editorUndoButton.addEventListener('click', () => {
+  if (!editorMode) return;
+  editorDraft.path.pop();
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus('Last editor path point removed.');
+});
+editorClearButton.addEventListener('click', () => {
+  if (!editorMode) return;
+  editorDraft = { path: [], mustShow: [], mustHide: [] };
+  saveEditorDraft();
+  renderEditorPanel();
+  renderLayerMarkers();
+  renderEditorDraftOverlays();
+  setStatus('Editor draft cleared.');
+});
+editorCopyButton.addEventListener('click', async () => {
+  if (!editorMode) return;
+  renderEditorPanel();
+  try {
+    await navigator.clipboard.writeText(editorOutput.value);
+    setStatus('Route draft JSON copied.');
+  } catch (error) {
+    editorOutput.select();
+    setStatus('Route draft JSON is selected.');
+  }
+});
+
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-editor-action]');
+  if (!button || !editorMode) return;
+  const pointId = button.closest('.editor-popup-actions')?.dataset.pointId;
+  if (!pointId) return;
+  const action = button.dataset.editorAction;
+  setEditorPointState(pointId, action === 'must-show' || action === 'must-hide' ? action : '');
+  setStatus(action === 'must-show' ? 'Point marked as must show.' : action === 'must-hide' ? 'Point marked as must hide.' : 'Point editor tag cleared.');
+});
 
 layerListEl.addEventListener('change', (event) => {
   const target = event.target.closest('input[type="checkbox"]');
@@ -1508,7 +1756,7 @@ layerListEl.addEventListener('change', (event) => {
 });
 
 layersAllButton.addEventListener('click', () => {
-  applyLayerSelection(layerCatalog.map((layer) => layer.id), 'All map layers are visible.');
+  applyLayerSelection(visibleLayerCatalog().map((layer) => layer.id), 'All map layers are visible.');
 });
 
 layersNoneButton.addEventListener('click', () => {
@@ -1528,10 +1776,14 @@ if (initialRoute) {
 if (browseMode) {
   document.body.classList.add('route-view', 'browse-view');
 }
-setBrowseLayersOpen(false);
+if (editorMode) {
+  document.body.classList.add('editor-mode');
+}
+setBrowseLayersOpen(editorMode);
 renderLayerControls();
 renderPicker();
 renderDetails();
+renderEditorPanel();
 buildMap();
 void loadLayerCatalog();
 void resetLegacyRuntime();

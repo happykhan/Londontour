@@ -11,9 +11,9 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0840/);
-  assert.match(html, /assets\/app\.js\?v=20260621-0840/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0840'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0844/);
+  assert.match(html, /assets\/app\.js\?v=20260621-0844/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0844'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
@@ -27,12 +27,19 @@ test('production serves generated OpenStreetMap layers', async () => {
   assert.ok(counts.get('monuments') >= 100);
   assert.ok(counts.get('plaques') >= 80);
   assert.ok(counts.get('pubs') >= 80);
-  assert.ok(counts.get('transport') >= 100);
+  assert.ok(counts.get('transport') >= 8);
+  assert.ok(counts.get('bus-planning') >= 100);
   assert.ok(counts.get('toilets') >= 60);
   assert.ok(counts.get('supermarkets') >= 60);
 
   const museums = catalog.layers.find((layer) => layer.id === 'museums');
   assert.ok(museums.points.every((point) => /^https?:\/\//.test(point.url)));
+  const transport = catalog.layers.find((layer) => layer.id === 'transport');
+  const busPlanning = catalog.layers.find((layer) => layer.id === 'bus-planning');
+  assert.equal(transport.label, 'Tube and river links');
+  assert.ok(transport.points.every((point) => point.transportType === 'boat'));
+  assert.equal(busPlanning.editorOnly, true);
+  assert.ok(busPlanning.points.every((point) => point.transportType === 'bus'));
 });
 
 test('production serves generated tube network', async () => {

@@ -556,6 +556,10 @@ body[data-theme="dark"] .route-card.is-active {
   width: 30px;
 }
 
+body.route-view:not(.editor-mode) .layer-marker {
+  opacity: 0.76;
+}
+
 .layer-marker-landmarks {
   background: #7c2d12;
 }
@@ -582,8 +586,20 @@ body[data-theme="dark"] .route-card.is-active {
   background: #374151;
 }
 
+.layer-marker-bus-planning {
+  background: #92400e;
+  font-size: 0.52rem;
+  opacity: 0.58;
+}
+
 .layer-marker-transport-bus {
   background: #b45309;
+}
+
+.layer-marker-bus-planning.layer-marker-transport-bus {
+  background: #92400e;
+  font-size: 0.52rem;
+  opacity: 0.58;
 }
 
 .layer-marker-transport-boat {
@@ -597,6 +613,66 @@ body[data-theme="dark"] .route-card.is-active {
 
 .layer-marker-supermarkets {
   background: #166534;
+}
+
+.layer-marker.is-editor-must-show,
+.layer-marker.is-route-required {
+  border-color: #facc15;
+  box-shadow: 0 0 0 5px rgba(250, 204, 21, 0.28), 0 10px 24px rgba(17, 24, 39, 0.3);
+  opacity: 1;
+  transform: scale(1.18);
+}
+
+.layer-marker.is-editor-must-hide,
+.layer-marker.is-route-hidden {
+  filter: grayscale(1);
+  opacity: 0.28;
+}
+
+.editor-popup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+}
+
+.editor-popup-actions button {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #111827;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.28rem 0.4rem;
+}
+
+.editor-popup-actions button[aria-pressed="true"] {
+  background: #111827;
+  border-color: #111827;
+  color: #fff;
+}
+
+.editor-panel {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.editor-output {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font: 0.78rem/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  min-height: 11rem;
+  padding: 0.75rem;
+  resize: vertical;
+  width: 100%;
+}
+
+.editor-panel[hidden] {
+  display: none;
 }
 
 .tube-station-marker {
