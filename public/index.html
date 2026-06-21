@@ -6,10 +6,10 @@
     <title>Londontour</title>
     <meta
       name="description"
-      content="Choose a London tour, see the route on a familiar map, and print the directions."
+      content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1040" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-1040" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-1105" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-1105" />
   </head>
   <body>
     <main class="app-shell">
@@ -22,9 +22,9 @@
               <button id="share-button" class="secondary-button" type="button">Share</button>
             </div>
           </div>
-          <h1>Choose a route</h1>
+          <h1>Routes</h1>
           <p class="status" id="status" role="status">
-            Pick a route, then the map updates with the tour, POI pins, and your position.
+            Browse the map, then choose a route when you want a guided itinerary.
           </p>
         </div>
 
@@ -100,22 +100,22 @@
         <div class="map-topbar" aria-label="Route controls">
           <button id="change-route-button" class="secondary-button" type="button">Routes</button>
           <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
-          <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Browse</button>
+          <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Layers</button>
           <button id="map-print-button" type="button">Print</button>
         </div>
         <div class="map-actions">
           <button id="locate-button" type="button">Use my location</button>
-          <button id="offline-button" class="secondary-button" type="button">Download offline pack</button>
+          <button id="offline-button" class="secondary-button" type="button">Offline</button>
         </div>
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-1040"></script>
-    <script src="assets/app.js?v=20260621-1040"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-1105"></script>
+    <script src="assets/app.js?v=20260621-1105"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-1040').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-1105').catch(() => {});
         });
       }
     </script>

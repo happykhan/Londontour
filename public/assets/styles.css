@@ -98,6 +98,10 @@ body.browse-view .app-shell {
   grid-template-columns: 1fr;
 }
 
+body.route-view .app-shell {
+  grid-template-columns: 1fr;
+}
+
 .tour-panel {
   background: rgba(255, 255, 255, 0.88);
   border-right: 1px solid var(--line);
@@ -111,16 +115,56 @@ body.browse-view .tour-panel {
   display: none;
 }
 
-body.browse-view.browse-layers-open .app-shell {
-  grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
+body.route-view .tour-panel {
+  border: 1px solid rgba(215, 220, 224, 0.9);
+  border-radius: 12px;
+  bottom: 1rem;
+  box-shadow: var(--shadow);
+  display: none;
+  left: 1rem;
+  max-height: calc(100vh - 2rem);
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+  position: fixed;
+  top: 1rem;
+  width: min(420px, calc(100vw - 2rem));
+  z-index: 700;
 }
 
-body.browse-view.browse-layers-open .tour-panel {
+body.route-view.route-menu-open .tour-panel,
+body.route-view.browse-layers-open .tour-panel,
+body.route-view.offline-menu-open .tour-panel {
   display: block;
 }
 
-body.browse-view .tour-heading,
-body.browse-view .route-pickers,
+body.route-view .tour-heading,
+body.route-view .route-pickers,
+body.route-view .route-card-view,
+body.route-view .layers-panel,
+body.route-view .directions-panel,
+body.route-view .highlights-panel,
+body.route-view .offline-panel,
+body.route-view .editor-panel {
+  display: none;
+}
+
+body.route-view.route-menu-open .tour-heading,
+body.route-view.route-menu-open .route-pickers,
+body.route-view.browse-layers-open .layers-panel,
+body.route-view.offline-menu-open .offline-panel,
+body.route-view.editor-mode.browse-layers-open .editor-panel {
+  display: block;
+}
+
+body.route-view.route-menu-open .tour-heading {
+  margin-bottom: 1rem;
+}
+
+body.route-view.route-menu-open .tour-heading h1 {
+  font-size: 2rem;
+}
+
 body.browse-view .route-card-view,
 body.browse-view .directions-panel,
 body.browse-view .highlights-panel {
@@ -817,6 +861,14 @@ body.route-view:not(.editor-mode) .layer-marker {
     --mobile-sheet-height: 42dvh;
   }
 
+  body.route-menu-open {
+    --mobile-sheet-height: 58dvh;
+  }
+
+  body.offline-menu-open {
+    --mobile-sheet-height: 34dvh;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
     min-height: 100dvh;
@@ -1074,15 +1126,25 @@ body.route-view:not(.editor-mode) .layer-marker {
   .tour-panel {
     border: 0;
     background: #fff;
+    display: block !important;
     min-height: auto;
     overflow: visible;
     padding: 0;
+    position: static;
+    width: auto;
   }
 
   .tour-heading {
     border-bottom: 2px solid #111;
+    display: block !important;
     margin-bottom: 1rem;
     padding-bottom: 0.75rem;
+  }
+
+  .route-card-view,
+  .directions-panel,
+  .highlights-panel {
+    display: block !important;
   }
 
   .route-pickers {

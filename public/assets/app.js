@@ -312,9 +312,9 @@ const shareButton = document.querySelector('#share-button');
 
 const initialSearchParams = new URLSearchParams(window.location.search);
 const editorMode = initialSearchParams.get('editor') === '1';
-const initialBrowseMode = editorMode || initialSearchParams.get('mode') === 'browse';
 const initialRouteId = initialSearchParams.get('route');
-const initialRoute = initialBrowseMode ? undefined : routes.find((route) => route.id === initialRouteId);
+const initialRoute = routes.find((route) => route.id === initialRouteId);
+const initialBrowseMode = editorMode || initialSearchParams.get('mode') === 'browse' || !initialRoute;
 let selectedRoute = initialRoute || routes[0];
 let browseMode = initialBrowseMode;
 let map;
@@ -370,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1040';
-const cacheName = 'londontour-offline-v40';
+const assetVersion = '20260621-1105';
+const cacheName = 'londontour-offline-v41';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -436,9 +436,7 @@ function applyLayerSelection(ids, message = 'Map layers updated.') {
   saveActiveLayerIds();
   renderLayerControls();
   renderLayerMarkers();
-  void renderTubeNetwork().then(() => {
-    if (browseMode) fitBrowseMap({ animate: false });
-  });
+  void renderTubeNetwork();
   renderDetails();
   setStatus(message);
 }
@@ -681,7 +679,6 @@ async function loadLayerCatalog() {
     renderDetails();
     renderLayerMarkers();
     void renderTubeNetwork();
-    if (browseMode) fitBrowseMap({ animate: false });
     await renderOfflineDetails();
   } catch (error) {
     // Keep the bundled fallback layer catalog if the generated dataset cannot load.
@@ -1283,7 +1280,7 @@ async function downloadOfflinePack() {
     setStatus('Offline pack download failed.');
   } finally {
     offlineButton.disabled = false;
-    offlineButton.textContent = 'Download offline pack';
+    offlineButton.textContent = document.body.classList.contains('offline-menu-open') ? 'Download offline pack' : 'Offline';
   }
 }
 
@@ -1608,29 +1605,58 @@ function renderBrowseMap(options = {}) {
 
 function setBrowseLayersOpen(open) {
   const isOpen = Boolean(open);
-  document.body.classList.toggle('browse-layers-open', browseMode && isOpen);
-  browseMapButton.textContent = browseMode ? (isOpen ? 'Close' : 'Layers') : 'Browse';
-  browseMapButton.setAttribute('aria-expanded', browseMode && isOpen ? 'true' : 'false');
+  document.body.classList.toggle('browse-layers-open', isOpen);
+  if (isOpen) {
+    document.body.classList.remove('route-menu-open', 'offline-menu-open');
+  }
+  browseMapButton.textContent = isOpen ? 'Close' : 'Layers';
+  browseMapButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
+  offlineButton.textContent = document.body.classList.contains('offline-menu-open') ? 'Download offline pack' : 'Offline';
 
   if (!map) return;
   window.setTimeout(() => {
     map.invalidateSize();
-    if (browseMode) fitBrowseMap({ animate: false });
   }, 0);
 }
 
-function toggleBrowseLayers() {
-  if (!browseMode) {
-    enterBrowseMode({ openLayers: true });
-    return;
+function setRouteMenuOpen(open) {
+  const isOpen = Boolean(open);
+  document.body.classList.toggle('route-menu-open', isOpen);
+  if (isOpen) {
+    document.body.classList.remove('browse-layers-open', 'offline-menu-open');
   }
+  changeRouteButton.textContent = isOpen ? 'Close' : 'Routes';
+  browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
+  browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
+  offlineButton.textContent = document.body.classList.contains('offline-menu-open') ? 'Download offline pack' : 'Offline';
+  if (isOpen) setStatus('Choose a route, or keep browsing the map.');
+  if (map) window.setTimeout(() => map.invalidateSize(), 0);
+}
 
+function setOfflineMenuOpen(open) {
+  const isOpen = Boolean(open);
+  document.body.classList.toggle('offline-menu-open', isOpen);
+  if (isOpen) {
+    document.body.classList.remove('browse-layers-open', 'route-menu-open');
+    void renderOfflineDetails();
+  }
+  offlineButton.textContent = isOpen ? 'Download offline pack' : 'Offline';
+  browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
+  browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
+  changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
+  if (isOpen) setStatus('Choose what to keep offline, then download the pack.');
+  if (map) window.setTimeout(() => map.invalidateSize(), 0);
+}
+
+function toggleBrowseLayers() {
   setBrowseLayersOpen(!document.body.classList.contains('browse-layers-open'));
 }
 
 function enterBrowseMode(options = {}) {
   browseMode = true;
   document.body.classList.add('route-view', 'browse-view');
+  document.body.classList.remove('route-menu-open', 'offline-menu-open');
   setBrowseLayersOpen(options.openLayers ?? false);
   const url = new URL(window.location.href);
   url.searchParams.delete('route');
@@ -1653,7 +1679,7 @@ function selectRoute(route) {
   selectedRoute = route;
   selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
-  document.body.classList.remove('browse-view', 'browse-layers-open');
+  document.body.classList.remove('browse-view', 'browse-layers-open', 'route-menu-open', 'offline-menu-open');
   setBrowseLayersOpen(false);
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
@@ -1790,19 +1816,19 @@ function addOrUpdateUserMarker() {
     .addTo(map);
 }
 
-function showRoutePicker() {
-  browseMode = false;
-  clearRouteOverlays();
-  document.body.classList.remove('route-view', 'browse-view', 'browse-layers-open');
-  setBrowseLayersOpen(false);
-  const url = new URL(window.location.href);
-  url.searchParams.delete('mode');
-  url.searchParams.delete('route');
-  if (!editorMode) url.searchParams.delete('editor');
-  window.history.replaceState({}, '', url);
+function toggleRouteMenu() {
+  document.body.classList.add('route-view');
+  setRouteMenuOpen(!document.body.classList.contains('route-menu-open'));
   renderPicker();
-  setStatus('Pick a route, then the map opens with pins, pan and zoom controls, and directions.');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleOfflineButtonClick() {
+  if (!document.body.classList.contains('offline-menu-open')) {
+    setOfflineMenuOpen(true);
+    return;
+  }
+
+  void downloadOfflinePack();
 }
 
 pickerEl.addEventListener('click', (event) => {
@@ -1813,10 +1839,10 @@ pickerEl.addEventListener('click', (event) => {
 });
 
 locateButton.addEventListener('click', locateUser);
-offlineButton.addEventListener('click', downloadOfflinePack);
+offlineButton.addEventListener('click', handleOfflineButtonClick);
 printButton.addEventListener('click', () => window.print());
 mapPrintButton.addEventListener('click', () => window.print());
-changeRouteButton.addEventListener('click', showRoutePicker);
+changeRouteButton.addEventListener('click', toggleRouteMenu);
 recenterButton.addEventListener('click', recenterRoute);
 browsePickerButton.addEventListener('click', () => enterBrowseMode());
 browseMapButton.addEventListener('click', toggleBrowseLayers);
