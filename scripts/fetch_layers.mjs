@@ -69,7 +69,7 @@ const layerDefinitions = [
   {
     id: 'transport',
     label: 'Tube and river links',
-    defaultVisible: false,
+    defaultVisible: true,
     minZoom: 14,
     markerLabel: 'Boat',
     routeRadiusMeters: 500,

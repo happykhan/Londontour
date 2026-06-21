@@ -11,7 +11,7 @@ const routes = [
     transport: 'Walk + Bus 15',
     color: '#c9483a',
     center: [51.5078, -0.121],
-    zoom: 14,
+    zoom: 13,
     stops: [
       {
         name: 'Buckingham Palace',
@@ -231,7 +231,7 @@ const fallbackLayerCatalog = [
   {
     id: 'transport',
     label: 'Tube and river links',
-    defaultVisible: false,
+    defaultVisible: true,
     minZoom: 14,
     markerLabel: 'Boat',
     routeRadiusMeters: 500,
@@ -375,9 +375,9 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1230';
-const cacheName = 'londontour-offline-v46';
-const layerStateKey = 'londontour-layer-state-v2';
+const assetVersion = '20260621-1245';
+const cacheName = 'londontour-offline-v47';
+const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
 const themeStateKey = 'londontour-theme';
@@ -997,6 +997,9 @@ function fitSelectedRouteBounds(options = {}) {
     ...routeFitPadding(),
     animate: options.animate ?? true,
   });
+  if (options.minZoom && map.getZoom() < options.minZoom) {
+    map.setZoom(options.minZoom, { animate: options.animate ?? true });
+  }
 }
 
 function fitBrowseMap(options = {}) {
@@ -1588,7 +1591,7 @@ async function renderRouteOnMap() {
 
   if (routeHasPoints) {
     selectedRouteBounds = routeBounds;
-    fitSelectedRouteBounds({ animate: false });
+    fitSelectedRouteBounds({ animate: false, minZoom: 13 });
   }
 
   if (userLocation) {
@@ -1621,7 +1624,8 @@ function renderBrowseMap(options = {}) {
   if (userLocation) {
     addOrUpdateUserMarker();
   }
-  fitBrowseMap({ animate: options.animate ?? false });
+  map.setView([51.5074, -0.11], 13, { animate: options.animate ?? false });
+  updateZoomIndicator();
   renderEditorPanel();
   setStatus(editorMode ? 'Editor mode: click the map to draw a draft route, or tag layer points from popups.' : 'Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
 }

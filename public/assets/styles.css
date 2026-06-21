@@ -517,13 +517,18 @@ body[data-theme="dark"] .route-card.is-active {
 .menu-actions {
   display: grid;
   gap: 0.6rem;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-bottom: 1rem;
 }
 
 .menu-actions button,
+.menu-actions a,
 #offline-button {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
   min-height: 44px;
+  text-decoration: none;
   width: 100%;
 }
 
@@ -1164,7 +1169,7 @@ body.route-view:not(.editor-mode) .layer-marker {
   }
 
   .menu-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .leaflet-popup-content {

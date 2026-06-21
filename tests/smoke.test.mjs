@@ -56,6 +56,8 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="menu-button"/);
   assert.match(html, /aria-label="Open menu"/);
   assert.match(html, /id="menu-panel"/);
+  assert.match(html, /id="editor-link"/);
+  assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
   assert.match(html, /id="offline-button"/);
   assert.match(html, />Download offline pack<\/button>/);
   assert.doesNotMatch(html, /class="map-actions"/);
@@ -78,14 +80,15 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1230'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1230/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1230/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1245'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1245/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1245/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
   const js = read('assets/app.js');
   assert.match(js, /id: 'london-tour'/);
+  assert.match(js, /zoom: 13/);
   assert.match(js, /id: 'secret-ldn-sightseeing'/);
   assert.match(js, /const editorMode = initialSearchParams\.get\('editor'\) === '1'/);
   assert.match(js, /const initialRoute = routes\.find/);
@@ -127,7 +130,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1230'/);
+  assert.match(js, /const assetVersion = '20260621-1245'/);
+  assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
   assert.match(js, /Zoom \$\{map\.getZoom\(\)\}/);
@@ -183,7 +187,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.doesNotMatch(js, /\/api\/tile/);
   assert.doesNotMatch(js, /maplibre/i);
   assert.match(js, /routeCoordinates\.forEach/);
-  assert.match(js, /fitSelectedRouteBounds\(\{ animate: false \}\)/);
+  assert.match(js, /fitSelectedRouteBounds\(\{ animate: false, minZoom: 13 \}\)/);
   assert.doesNotMatch(js, /routeBounds\.extend\(\[stop\.lng, stop\.lat\]\)/);
   assert.match(js, /L\.map\('map'/);
   assert.match(js, /L\.tileLayer\('/);
@@ -208,6 +212,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.zoom-indicator/);
   assert.match(css, /body\.route-view \.zoom-indicator/);
   assert.match(css, /body\.browse-view\.browse-layers-open \.zoom-indicator/);
+  assert.match(css, /\.menu-actions a/);
   assert.match(css, /\.icon-button/);
   assert.match(css, /\.location-icon/);
   assert.match(css, /\.theme-icon/);
@@ -236,7 +241,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v46/);
+  assert.match(sw, /londontour-offline-v47/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -278,6 +283,7 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   const publicTransport = catalog.layers.find((layer) => layer.id === 'transport');
   const busPlanning = catalog.layers.find((layer) => layer.id === 'bus-planning');
   assert.equal(publicTransport.label, 'Tube and river links');
+  assert.equal(publicTransport.defaultVisible, true, 'tube and river links should be enabled by default');
   assert.equal(busPlanning.editorOnly, true, 'bus stops should be hidden from normal browse controls');
 
   for (const layer of catalog.layers) {
