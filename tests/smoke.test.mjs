@@ -10,6 +10,10 @@ function read(file) {
   return readFileSync(join(publicRoot, file), 'utf8');
 }
 
+function readProjectJson(file) {
+  return JSON.parse(readFileSync(join(projectRoot, file), 'utf8'));
+}
+
 function listFiles(dir) {
   return readdirSync(join(publicRoot, dir), { withFileTypes: true })
     .flatMap((entry) => {
@@ -80,9 +84,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1315'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1315/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1315/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1340'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1340/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1340/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -135,7 +139,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1315'/);
+  assert.match(js, /const assetVersion = '20260621-1340'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -234,9 +238,46 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.layer-marker\.is-editor-must-show/);
   assert.match(css, /\.editor-output/);
   assert.match(css, /\.layer-marker-transport-boat/);
-  assert.match(css, /\.boat-marker-icon::before/);
+  assert.match(css, /\.boat-marker-icon/);
+  assert.doesNotMatch(css, /\.boat-marker-icon::before/);
+  assert.doesNotMatch(css, /\.boat-marker-icon::after/);
   assert.match(css, /\.tube-station-marker\.is-major/);
   assert.match(css, /\.basemap-repair-label/);
+});
+
+test('boat marker browser fixture targets a real visible pier at close zoom', () => {
+  const fixtures = readProjectJson('tests/map-view-fixtures.json');
+  const fixture = fixtures.fixtures.banksidePierBoatMarker;
+  const catalog = JSON.parse(read('assets/layers.json'));
+  const routeGeometry = JSON.parse(read('assets/route-geometry.json'));
+  const js = read('assets/app.js');
+  const css = read('assets/styles.css');
+
+  assert.equal(fixture.url, '/?route=london-tour');
+  assert.equal(fixture.route, 'london-tour');
+  assert.deepEqual(fixture.viewport, { width: 1280, height: 900 });
+  assert.equal(fixture.zoom, 16);
+  assert.equal(fixture.zoomInClicksFromRouteFit, 2);
+  assert.equal(fixture.expectedMarkerSelector, '.layer-marker-transport-boat svg.boat-marker-icon');
+  assert.ok(routeGeometry[fixture.route], 'fixture route should have route geometry');
+
+  const transportLayer = catalog.layers.find((layer) => layer.id === fixture.targetLayer);
+  assert.ok(transportLayer, 'fixture target layer should exist');
+  assert.equal(transportLayer.id, 'transport');
+  assert.ok(fixture.zoom >= transportLayer.fullZoom, 'fixture zoom should fully reveal boat markers');
+
+  const point = transportLayer.points.find((item) => item.id === fixture.targetPointId);
+  assert.ok(point, 'fixture target pier should exist in transport data');
+  assert.equal(point.name, fixture.targetPointName);
+  assert.equal(point.transportType, 'boat');
+  assert.equal(point.markerLabel, 'Boat');
+  assert.equal(point.lat, fixture.target.lat);
+  assert.equal(point.lng, fixture.target.lng);
+  assert.ok(point.priority <= transportLayer.previewLimit, 'fixture pier should appear in priority preview before all markers reveal');
+
+  assert.match(js, /<svg class="boat-marker-icon" viewBox="0 0 24 24"/);
+  assert.match(css, /\.layer-marker-transport-boat[\s\S]*color: #fff/);
+  assert.match(css, /\.boat-marker-icon[\s\S]*fill: currentColor/);
 });
 
 test('public directory is the single deployable app tree', () => {
@@ -247,7 +288,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v49/);
+  assert.match(sw, /londontour-offline-v50/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

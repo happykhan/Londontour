@@ -1,0 +1,23 @@
+{
+  "fixtures": {
+    "banksidePierBoatMarker": {
+      "description": "Stable browser-check view for the river pier marker icon.",
+      "url": "/?route=london-tour",
+      "route": "london-tour",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "zoom": 16,
+      "zoomInClicksFromRouteFit": 2,
+      "targetLayer": "transport",
+      "targetPointId": "transport-tfl-930gswk-bankside-pier",
+      "targetPointName": "Bankside Pier",
+      "target": {
+        "lat": 51.508388,
+        "lng": -0.096384
+      },
+      "expectedMarkerSelector": ".layer-marker-transport-boat svg.boat-marker-icon"
+    }
+  }
+}

@@ -375,8 +375,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1315';
-const cacheName = 'londontour-offline-v49';
+const assetVersion = '20260621-1340';
+const cacheName = 'londontour-offline-v50';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1327,7 +1327,7 @@ function renderLayerMarkers() {
     const isBoatMarker = point.transportType === 'boat';
     const markerSize = isBoatMarker ? [22, 22] : [30, 30];
     const markerHtml = isBoatMarker
-      ? '<span class="boat-marker-icon" aria-hidden="true"></span>'
+      ? '<svg class="boat-marker-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v5h2.2l1.8 6H2l1.8-6H6V3Zm2 2v3h8V5H8Zm-1.5 5-1 3h13l-1-3h-11Z"/><path d="M4 17c1.4 0 1.4 1 2.8 1s1.4-1 2.8-1 1.4 1 2.8 1 1.4-1 2.8-1 1.4 1 2.8 1 1.4-1 2.8-1v2c-1.4 0-1.4 1-2.8 1s-1.4-1-2.8-1-1.4 1-2.8 1-1.4-1-2.8-1-1.4 1-2.8 1S5.4 19 4 19v-2Z"/></svg>'
       : `<span>${markerLabel}</span>`;
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
