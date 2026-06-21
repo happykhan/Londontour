@@ -1082,6 +1082,7 @@ body.route-view:not(.editor-mode) .layer-marker {
     position: fixed;
     right: 0;
     top: auto;
+    width: auto;
     z-index: 700;
   }
 
