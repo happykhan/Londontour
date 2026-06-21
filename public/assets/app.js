@@ -289,6 +289,7 @@ const metaEl = document.querySelector('#route-meta');
 const directionsEl = document.querySelector('#directions');
 const highlightsEl = document.querySelector('#route-highlights');
 const statusEl = document.querySelector('#status');
+const zoomIndicator = document.querySelector('#zoom-indicator');
 const layerListEl = document.querySelector('#layer-list');
 const layersAllButton = document.querySelector('#layers-all-button');
 const layersNoneButton = document.querySelector('#layers-none-button');
@@ -374,8 +375,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1215';
-const cacheName = 'londontour-offline-v45';
+const assetVersion = '20260621-1230';
+const cacheName = 'londontour-offline-v46';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1145,7 +1146,9 @@ function buildMap() {
 
   L.control.zoom({ position: 'bottomright' }).addTo(map);
   map.setView(selectedRoute.center, selectedRoute.zoom);
+  updateZoomIndicator();
   map.on('zoomend', () => {
+    updateZoomIndicator();
     if (!browseMode) renderRouteMarkers();
     renderLayerMarkers();
     void renderTubeNetwork();
@@ -1161,6 +1164,11 @@ function buildMap() {
       renderRouteOnMap();
     }
   });
+}
+
+function updateZoomIndicator() {
+  if (!map || !zoomIndicator) return;
+  zoomIndicator.textContent = `Zoom ${map.getZoom()}`;
 }
 
 function cartoBasemapUrl(layerKind) {

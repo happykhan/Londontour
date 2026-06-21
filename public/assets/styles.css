@@ -536,6 +536,28 @@ body[data-theme="dark"] .route-card.is-active {
   z-index: 500;
 }
 
+.zoom-indicator {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(184, 193, 199, 0.9);
+  border-radius: 6px;
+  bottom: 2.1rem;
+  box-shadow: 0 8px 20px rgba(23, 32, 42, 0.14);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.42rem 0.55rem;
+  pointer-events: none;
+  position: absolute;
+  right: 1rem;
+  z-index: 560;
+}
+
+body[data-theme="dark"] .zoom-indicator {
+  background: rgba(20, 26, 23, 0.9);
+  border-color: rgba(64, 76, 70, 0.95);
+}
+
 .icon-button {
   align-items: center;
   aspect-ratio: 1;
@@ -1189,12 +1211,27 @@ body.route-view:not(.editor-mode) .layer-marker {
     z-index: 560;
   }
 
+  body.route-view .zoom-indicator {
+    bottom: calc(var(--mobile-sheet-height, 34dvh) + 1.55rem);
+    position: fixed;
+    right: 0.75rem;
+    z-index: 570;
+  }
+
   body.browse-view .leaflet-control-attribution {
     bottom: calc(0.25rem + env(safe-area-inset-bottom));
   }
 
+  body.browse-view .zoom-indicator {
+    bottom: calc(1.55rem + env(safe-area-inset-bottom));
+  }
+
   body.browse-view.browse-layers-open .leaflet-control-attribution {
     bottom: calc(var(--mobile-sheet-height) + 0.25rem);
+  }
+
+  body.browse-view.browse-layers-open .zoom-indicator {
+    bottom: calc(var(--mobile-sheet-height) + 1.55rem);
   }
 
   .directions .segment-divider {
@@ -1221,6 +1258,7 @@ body.route-view:not(.editor-mode) .layer-marker {
 
   .map-panel,
   .map-topbar,
+  .zoom-indicator,
   .leaflet-control-container {
     display: none;
   }

@@ -45,6 +45,8 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="route-picker"/);
   assert.match(html, /class="route-picker-heading"/);
   assert.match(html, />Choose a route<\/h2>/);
+  assert.match(html, /id="zoom-indicator"/);
+  assert.match(html, /class="zoom-indicator"/);
   assert.match(html, /id="route-highlights"/);
   assert.match(html, /id="layer-list"/);
   assert.match(html, /id="layers-all-button"/);
@@ -76,9 +78,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1215'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1215/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1215/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1230'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1230/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1230/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -125,7 +127,10 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1215'/);
+  assert.match(js, /const assetVersion = '20260621-1230'/);
+  assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
+  assert.match(js, /function updateZoomIndicator/);
+  assert.match(js, /Zoom \$\{map\.getZoom\(\)\}/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -200,6 +205,9 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\.route-view\.route-menu-open \.route-card/);
   assert.match(css, /body\.route-view\.offline-menu-open \.tour-panel/);
   assert.match(css, /body\.route-view\.offline-menu-open \.menu-panel/);
+  assert.match(css, /\.zoom-indicator/);
+  assert.match(css, /body\.route-view \.zoom-indicator/);
+  assert.match(css, /body\.browse-view\.browse-layers-open \.zoom-indicator/);
   assert.match(css, /\.icon-button/);
   assert.match(css, /\.location-icon/);
   assert.match(css, /\.theme-icon/);
@@ -228,7 +236,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v45/);
+  assert.match(sw, /londontour-offline-v46/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
