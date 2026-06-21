@@ -26,6 +26,7 @@ test('critical assets are present', () => {
     'index.html',
     'assets/app.js',
     'assets/styles.css',
+    'assets/layers.json',
     'assets/route-geometry.json',
     'assets/tiles-manifest.json',
     'sw.js',
@@ -54,9 +55,9 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0145'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0145/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0145/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0215'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0215/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0215/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -66,7 +67,9 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /const initialBrowseMode = initialSearchParams\.get\('mode'\) === 'browse'/);
   assert.match(js, /const initialRoute = initialBrowseMode \? undefined : routes\.find/);
   assert.match(js, /document\.body\.classList\.add\('route-view'\)/);
-  assert.match(js, /const layerCatalog = \[/);
+  assert.match(js, /const fallbackLayerCatalog = \[/);
+  assert.match(js, /async function loadLayerCatalog/);
+  assert.match(js, /\/assets\/layers\.json/);
   assert.match(js, /id: 'supermarkets'/);
   assert.match(js, /function activeLayerPoints/);
   assert.match(js, /function visibleRouteStops/);
@@ -112,11 +115,33 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v19/);
+  assert.match(sw, /londontour-offline-v20/);
+  assert.match(sw, /\/assets\/layers\.json/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.css/);
+});
+
+test('generated layer catalog imports substantial external OpenStreetMap data', () => {
+  const catalog = JSON.parse(read('assets/layers.json'));
+  assert.equal(catalog.source, 'OpenStreetMap via Overpass API');
+  assert.ok(catalog.generatedAt, 'generatedAt should be recorded');
+
+  const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
+  assert.ok(counts.get('attractions') >= 80, 'attractions should come from the generated external dataset');
+  assert.ok(counts.get('food') >= 80, 'food and rest stops should come from the generated external dataset');
+  assert.ok(counts.get('transport') >= 100, 'transport links should come from the generated external dataset');
+  assert.ok(counts.get('toilets') >= 60, 'public toilets should come from the generated external dataset');
+  assert.ok(counts.get('supermarkets') >= 60, 'supermarkets should come from the generated external dataset');
+
+  for (const layer of catalog.layers) {
+    for (const point of layer.points) {
+      assert.ok(point.source?.startsWith('OpenStreetMap'), `${point.name} should retain its OSM source`);
+      assert.equal(typeof point.lat, 'number');
+      assert.equal(typeof point.lng, 'number');
+    }
+  }
 });
 
 test('route geometry file is valid and complete', () => {

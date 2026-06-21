@@ -755,6 +755,13 @@ body[data-theme="dark"] .route-card.is-active {
     width: 42px;
   }
 
+  .layer-marker {
+    border-width: 2px;
+    font-size: 0.62rem;
+    height: 24px;
+    width: 24px;
+  }
+
   body.route-view .leaflet-control-zoom {
     margin: 0;
     position: fixed;

@@ -1,0 +1,3742 @@
+{
+  "generatedAt": "2026-06-21T00:07:22.684Z",
+  "source": "OpenStreetMap via Overpass API",
+  "bbox": {
+    "south": 51.495,
+    "west": -0.145,
+    "north": 51.523,
+    "east": -0.068
+  },
+  "layers": [
+    {
+      "id": "attractions",
+      "label": "Major attractions",
+      "defaultVisible": true,
+      "minZoom": 13,
+      "markerLabel": "A",
+      "routeRadius": 0.0065,
+      "points": [
+        {
+          "id": "attractions-relation-1879842-10-downing-street",
+          "name": "10 Downing Street",
+          "lat": 51.503499,
+          "lng": -0.127554,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/1879842"
+        },
+        {
+          "id": "attractions-node-540449834-15-inch-mk1-naval-guns",
+          "name": "15-inch Mk1 Naval Guns",
+          "lat": 51.496527,
+          "lng": -0.108585,
+          "detail": "Cannon from OpenStreetMap.",
+          "source": "OpenStreetMap node/540449834"
+        },
+        {
+          "id": "attractions-node-3688180043-a-conversation-with-oscar-wilde",
+          "name": "A Conversation with Oscar Wilde",
+          "lat": 51.508719,
+          "lng": -0.125857,
+          "detail": "Artwork from OpenStreetMap.",
+          "source": "OpenStreetMap node/3688180043"
+        },
+        {
+          "id": "attractions-node-3163016900-a-pear-and-a-fig",
+          "name": "A Pear and a Fig",
+          "lat": 51.519086,
+          "lng": -0.077698,
+          "detail": "Artwork from OpenStreetMap.",
+          "source": "OpenStreetMap node/3163016900"
+        },
+        {
+          "id": "attractions-node-382800994-abraham-lincoln",
+          "name": "Abraham Lincoln",
+          "lat": 51.500525,
+          "lng": -0.127713,
+          "detail": "Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/382800994"
+        },
+        {
+          "id": "attractions-node-10178203017-ada-van-dantzig",
+          "name": "Ada Van Dantzig",
+          "lat": 51.512032,
+          "lng": -0.136942,
+          "detail": "Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/10178203017"
+        },
+        {
+          "id": "attractions-node-5502330246-admiral-sir-john-franklin",
+          "name": "Admiral Sir John Franklin",
+          "lat": 51.506487,
+          "lng": -0.132308,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/5502330246"
+        },
+        {
+          "id": "attractions-node-6109669976-alison-jacques-gallery",
+          "name": "Alison Jacques Gallery",
+          "lat": 51.517447,
+          "lng": -0.136678,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/6109669976"
+        },
+        {
+          "id": "attractions-node-13849155689-arte-delux",
+          "name": "ARTE DELUX",
+          "lat": 51.510875,
+          "lng": -0.088776,
+          "detail": "Gallery · ARTE DELUX from OpenStreetMap.",
+          "source": "OpenStreetMap node/13849155689"
+        },
+        {
+          "id": "attractions-node-6307073869-arthur-sullivan",
+          "name": "Arthur Sullivan",
+          "lat": 51.509484,
+          "lng": -0.119667,
+          "detail": "Artwork from OpenStreetMap.",
+          "source": "OpenStreetMap node/6307073869"
+        },
+        {
+          "id": "attractions-node-4513341393-bank-of-england",
+          "name": "Bank of England",
+          "lat": 51.514197,
+          "lng": -0.08768,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/4513341393"
+        },
+        {
+          "id": "attractions-way-104081033-benjamin-franklin-house",
+          "name": "Benjamin Franklin House",
+          "lat": 51.507651,
+          "lng": -0.124892,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/104081033"
+        },
+        {
+          "id": "attractions-relation-177044-british-museum",
+          "name": "British Museum",
+          "lat": 51.519312,
+          "lng": -0.126877,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap relation/177044"
+        },
+        {
+          "id": "attractions-node-5323721988-british-optical-association-museum",
+          "name": "British Optical Association Museum",
+          "lat": 51.507892,
+          "lng": -0.125392,
+          "detail": "Museum · The College of Optometrists from OpenStreetMap.",
+          "source": "OpenStreetMap node/5323721988"
+        },
+        {
+          "id": "attractions-node-12551995914-british-red-cross-museum",
+          "name": "British Red Cross Museum",
+          "lat": 51.519238,
+          "lng": -0.088524,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12551995914"
+        },
+        {
+          "id": "attractions-way-554358276-camera-museum",
+          "name": "Camera Museum",
+          "lat": 51.517693,
+          "lng": -0.125213,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/554358276"
+        },
+        {
+          "id": "attractions-way-153342466-charles-james-napier",
+          "name": "Charles James Napier",
+          "lat": 51.507757,
+          "lng": -0.128528,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/153342466"
+        },
+        {
+          "id": "attractions-way-197206542-churchill-war-rooms",
+          "name": "Churchill War Rooms",
+          "lat": 51.502209,
+          "lng": -0.129251,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/197206542"
+        },
+        {
+          "id": "attractions-way-82770797-clink-prison-museum",
+          "name": "Clink Prison Museum",
+          "lat": 51.506972,
+          "lng": -0.091898,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/82770797"
+        },
+        {
+          "id": "attractions-node-2244751330-dennis-severs-house",
+          "name": "Dennis Severs' House",
+          "lat": 51.520943,
+          "lng": -0.07779,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/2244751330"
+        },
+        {
+          "id": "attractions-node-25507035-douglas-haig",
+          "name": "Douglas Haig",
+          "lat": 51.504278,
+          "lng": -0.126245,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/25507035"
+        },
+        {
+          "id": "attractions-way-43706245-dr-johnsons-house",
+          "name": "Dr Johnson's House",
+          "lat": 51.514909,
+          "lng": -0.108166,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/43706245"
+        },
+        {
+          "id": "attractions-way-866222968-dr-johnsons-house",
+          "name": "Dr. Johnsons House",
+          "lat": 51.515041,
+          "lng": -0.108164,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/866222968"
+        },
+        {
+          "id": "attractions-way-1395753985-earl-roberts",
+          "name": "Earl Roberts",
+          "lat": 51.504538,
+          "lng": -0.127357,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/1395753985"
+        },
+        {
+          "id": "attractions-node-12556923049-faraday-museum",
+          "name": "Faraday Museum",
+          "lat": 51.509702,
+          "lng": -0.142279,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12556923049"
+        },
+        {
+          "id": "attractions-way-101154182-fashion-and-textile-museum",
+          "name": "Fashion and Textile Museum",
+          "lat": 51.501187,
+          "lng": -0.081666,
+          "detail": "Museum · Newham College of Further Education from OpenStreetMap.",
+          "source": "OpenStreetMap way/101154182"
+        },
+        {
+          "id": "attractions-way-54949420-first-world-war-memorial",
+          "name": "First World War Memorial",
+          "lat": 51.509567,
+          "lng": -0.077637,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/54949420"
+        },
+        {
+          "id": "attractions-node-5053344048-for-the-child",
+          "name": "For the Child",
+          "lat": 51.517687,
+          "lng": -0.081984,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/5053344048"
+        },
+        {
+          "id": "attractions-way-153342477-fourth-plinth",
+          "name": "Fourth Plinth",
+          "lat": 51.508179,
+          "lng": -0.128709,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/153342477"
+        },
+        {
+          "id": "attractions-way-193463784-fusiliers-museum",
+          "name": "Fusiliers Museum",
+          "lat": 51.508309,
+          "lng": -0.075237,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/193463784"
+        },
+        {
+          "id": "attractions-way-117047225-garden-museum",
+          "name": "Garden Museum",
+          "lat": 51.494895,
+          "lng": -0.119975,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/117047225"
+        },
+        {
+          "id": "attractions-node-345876970-george-iii",
+          "name": "George III",
+          "lat": 51.507784,
+          "lng": -0.130562,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/345876970"
+        },
+        {
+          "id": "attractions-node-12877095810-george-iv",
+          "name": "George IV",
+          "lat": 51.508367,
+          "lng": -0.127572,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/12877095810"
+        },
+        {
+          "id": "attractions-node-10270502651-gordon-museum",
+          "name": "Gordon Museum",
+          "lat": 51.503563,
+          "lng": -0.089571,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/10270502651"
+        },
+        {
+          "id": "attractions-way-156172966-guildhall-art-gallery",
+          "name": "Guildhall Art Gallery",
+          "lat": 51.515558,
+          "lng": -0.091404,
+          "detail": "Gallery · City of London Corporation from OpenStreetMap.",
+          "source": "OpenStreetMap way/156172966"
+        },
+        {
+          "id": "attractions-way-25913653-hayward-gallery",
+          "name": "Hayward Gallery",
+          "lat": 51.50617,
+          "lng": -0.11549,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/25913653"
+        },
+        {
+          "id": "attractions-way-153342473-henry-havelock",
+          "name": "Henry Havelock",
+          "lat": 51.507943,
+          "lng": -0.127406,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/153342473"
+        },
+        {
+          "id": "attractions-way-5006061-hms-belfast",
+          "name": "HMS Belfast",
+          "lat": 51.506563,
+          "lng": -0.08131,
+          "detail": "Museum · Imperial War Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/5006061"
+        },
+        {
+          "id": "attractions-node-5071252726-household-cavalry-museum",
+          "name": "Household Cavalry Museum",
+          "lat": 51.50501,
+          "lng": -0.127247,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/5071252726"
+        },
+        {
+          "id": "attractions-node-3349882188-hunterian-museum",
+          "name": "Hunterian Museum",
+          "lat": 51.515283,
+          "lng": -0.11587,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/3349882188"
+        },
+        {
+          "id": "attractions-way-8614496-imperial-war-museum-london",
+          "name": "Imperial War Museum London",
+          "lat": 51.495801,
+          "lng": -0.108591,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/8614496"
+        },
+        {
+          "id": "attractions-way-82459230-kirkaldy-testing-museum",
+          "name": "Kirkaldy Testing Museum",
+          "lat": 51.505966,
+          "lng": -0.101544,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/82459230"
+        },
+        {
+          "id": "attractions-node-294898184-little-ben",
+          "name": "Little Ben",
+          "lat": 51.49646,
+          "lng": -0.142679,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/294898184"
+        },
+        {
+          "id": "attractions-way-44599803-london-transport-museum",
+          "name": "London Transport Museum",
+          "lat": 51.511987,
+          "lng": -0.121221,
+          "detail": "Museum · Transport for London (TfL) from OpenStreetMap.",
+          "source": "OpenStreetMap way/44599803"
+        },
+        {
+          "id": "attractions-node-5671022803-messums",
+          "name": "Messum's",
+          "lat": 51.510471,
+          "lng": -0.141435,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/5671022803"
+        },
+        {
+          "id": "attractions-relation-13656740-michael-faraday-memorial-substation",
+          "name": "Michael Faraday Memorial substation",
+          "lat": 51.495106,
+          "lng": -0.100638,
+          "detail": "Artwork · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap relation/13656740"
+        },
+        {
+          "id": "attractions-node-12541989407-museum-of-freemasonry",
+          "name": "Museum of Freemasonry",
+          "lat": 51.515009,
+          "lng": -0.121267,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12541989407"
+        },
+        {
+          "id": "attractions-node-1686474834-museum-of-the-order-of-st-john",
+          "name": "Museum of the Order of St John",
+          "lat": 51.522006,
+          "lng": -0.102556,
+          "detail": "Museum · Order of St John from OpenStreetMap.",
+          "source": "OpenStreetMap node/1686474834"
+        },
+        {
+          "id": "attractions-way-4372002-national-gallery",
+          "name": "National Gallery",
+          "lat": 51.508889,
+          "lng": -0.128752,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/4372002"
+        },
+        {
+          "id": "attractions-way-59161723-national-portrait-gallery",
+          "name": "National Portrait Gallery",
+          "lat": 51.509304,
+          "lng": -0.128212,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/59161723"
+        },
+        {
+          "id": "attractions-way-150920358-nelsons-column",
+          "name": "Nelson's Column",
+          "lat": 51.507759,
+          "lng": -0.12793,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/150920358"
+        },
+        {
+          "id": "attractions-node-4030635565-new-london-architecture",
+          "name": "New London Architecture",
+          "lat": 51.516054,
+          "lng": -0.092855,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/4030635565"
+        },
+        {
+          "id": "attractions-node-1156568777-october-gallery",
+          "name": "October Gallery",
+          "lat": 51.520656,
+          "lng": -0.121793,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/1156568777"
+        },
+        {
+          "id": "attractions-way-90404358-old-operating-theatre-museum",
+          "name": "Old Operating Theatre Museum",
+          "lat": 51.505047,
+          "lng": -0.088515,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/90404358"
+        },
+        {
+          "id": "attractions-way-553157396-paul-stolper",
+          "name": "Paul Stolper",
+          "lat": 51.517906,
+          "lng": -0.125999,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/553157396"
+        },
+        {
+          "id": "attractions-way-161420186-prince-henrys-room",
+          "name": "Prince Henry's Room",
+          "lat": 51.513729,
+          "lng": -0.110916,
+          "detail": "Museum · City of London Corporation from OpenStreetMap.",
+          "source": "OpenStreetMap way/161420186"
+        },
+        {
+          "id": "attractions-way-629776387-queen-anne",
+          "name": "Queen Anne",
+          "lat": 51.513682,
+          "lng": -0.099934,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/629776387"
+        },
+        {
+          "id": "attractions-node-12539364474-riba-library",
+          "name": "RIBA Library",
+          "lat": 51.521377,
+          "lng": -0.14481,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12539364474"
+        },
+        {
+          "id": "attractions-node-1253814492-robert-raikes",
+          "name": "Robert Raikes",
+          "lat": 51.509326,
+          "lng": -0.120264,
+          "detail": "Artwork from OpenStreetMap.",
+          "source": "OpenStreetMap node/1253814492"
+        },
+        {
+          "id": "attractions-way-96237005-royal-academy",
+          "name": "Royal Academy",
+          "lat": 51.509741,
+          "lng": -0.140134,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/96237005"
+        },
+        {
+          "id": "attractions-way-31510288-royal-academy-of-arts",
+          "name": "Royal Academy of Arts",
+          "lat": 51.509264,
+          "lng": -0.139698,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/31510288"
+        },
+        {
+          "id": "attractions-way-110753809-royal-institute-of-british-architects",
+          "name": "Royal Institute of British Architects",
+          "lat": 51.521271,
+          "lng": -0.144865,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/110753809"
+        },
+        {
+          "id": "attractions-node-12557420113-royal-pharmaceutical-society-museum",
+          "name": "Royal Pharmaceutical Society Museum",
+          "lat": 51.50902,
+          "lng": -0.068357,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12557420113"
+        },
+        {
+          "id": "attractions-node-3012192162-samuel-plimsoll",
+          "name": "Samuel Plimsoll",
+          "lat": 51.505311,
+          "lng": -0.123202,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/3012192162"
+        },
+        {
+          "id": "attractions-way-61453261-sir-john-soanes-museum",
+          "name": "Sir John Soane's Museum",
+          "lat": 51.517075,
+          "lng": -0.117469,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/61453261"
+        },
+        {
+          "id": "attractions-node-452226949-sothebys-auction-house",
+          "name": "Sotheby's Auction House",
+          "lat": 51.511815,
+          "lng": -0.143763,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/452226949"
+        },
+        {
+          "id": "attractions-node-4354554594-st-bartholomews-hospital-museum",
+          "name": "St Bartholomew's Hospital museum",
+          "lat": 51.517723,
+          "lng": -0.100473,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/4354554594"
+        },
+        {
+          "id": "attractions-way-24642569-tate-modern",
+          "name": "Tate Modern",
+          "lat": 51.507429,
+          "lng": -0.099386,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/24642569"
+        },
+        {
+          "id": "attractions-node-7261799916-the-cartoon-museum",
+          "name": "The Cartoon Museum",
+          "lat": 51.517577,
+          "lng": -0.138581,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/7261799916"
+        },
+        {
+          "id": "attractions-node-5247197725-the-charterhouse",
+          "name": "The Charterhouse",
+          "lat": 51.521464,
+          "lng": -0.099784,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/5247197725"
+        },
+        {
+          "id": "attractions-node-2647639741-the-courtauld-gallery",
+          "name": "The Courtauld Gallery",
+          "lat": 51.511624,
+          "lng": -0.1177,
+          "detail": "Gallery · The Courtauld Institute of Art from OpenStreetMap.",
+          "source": "OpenStreetMap node/2647639741"
+        },
+        {
+          "id": "attractions-node-452238452-the-fine-art-society",
+          "name": "The Fine Art Society",
+          "lat": 51.511342,
+          "lng": -0.143659,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/452238452"
+        },
+        {
+          "id": "attractions-node-5741257603-the-florence-nightingale-museum",
+          "name": "The Florence Nightingale Museum",
+          "lat": 51.500007,
+          "lng": -0.11767,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/5741257603"
+        },
+        {
+          "id": "attractions-node-4749096025-the-guards-museum",
+          "name": "The Guards Museum",
+          "lat": 51.500048,
+          "lng": -0.136125,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/4749096025"
+        },
+        {
+          "id": "attractions-node-1289223308-the-kings-gallery",
+          "name": "The King's Gallery",
+          "lat": 51.499828,
+          "lng": -0.142551,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/1289223308"
+        },
+        {
+          "id": "attractions-node-12492312902-the-lion-of-knidos",
+          "name": "The Lion of Knidos",
+          "lat": 51.519111,
+          "lng": -0.12695,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/12492312902"
+        },
+        {
+          "id": "attractions-relation-3374550-the-monument-to-the-great-fire-of-london",
+          "name": "The Monument to the Great Fire of London",
+          "lat": 51.510142,
+          "lng": -0.085949,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/3374550"
+        },
+        {
+          "id": "attractions-node-2102604123-the-museum-of-immigration-and-diversity-at-19-pr",
+          "name": "The Museum of Immigration and Diversity at 19 Princelet Street",
+          "lat": 51.519846,
+          "lng": -0.072486,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/2102604123"
+        },
+        {
+          "id": "attractions-way-65489529-the-photographers-gallery",
+          "name": "The Photographers' Gallery",
+          "lat": 51.514926,
+          "lng": -0.139018,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/65489529"
+        },
+        {
+          "id": "attractions-node-472152158-topolski-century",
+          "name": "Topolski Century",
+          "lat": 51.504803,
+          "lng": -0.115651,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/472152158"
+        },
+        {
+          "id": "attractions-node-2079674503-tower-bridge",
+          "name": "Tower Bridge",
+          "lat": 51.505517,
+          "lng": -0.075366,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap node/2079674503"
+        },
+        {
+          "id": "attractions-node-11346255514-twist-museum",
+          "name": "Twist Museum",
+          "lat": 51.515332,
+          "lng": -0.143008,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/11346255514"
+        },
+        {
+          "id": "attractions-way-98485763-two-temple-place",
+          "name": "Two Temple Place",
+          "lat": 51.51165,
+          "lng": -0.112284,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/98485763"
+        },
+        {
+          "id": "attractions-node-9425465875-unit-london",
+          "name": "Unit London",
+          "lat": 51.513608,
+          "lng": -0.142943,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/9425465875"
+        },
+        {
+          "id": "attractions-way-374945234-victoria-memorial",
+          "name": "Victoria Memorial",
+          "lat": 51.50184,
+          "lng": -0.140587,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/374945234"
+        },
+        {
+          "id": "attractions-way-1395753986-viscount-wolseley",
+          "name": "Viscount Wolseley",
+          "lat": 51.50497,
+          "lng": -0.127496,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/1395753986"
+        },
+        {
+          "id": "attractions-node-4677431580-visionary-britmuseum",
+          "name": "Visionary BritMuseum",
+          "lat": 51.518774,
+          "lng": -0.124969,
+          "detail": "Gallery · Degard from OpenStreetMap.",
+          "source": "OpenStreetMap node/4677431580"
+        },
+        {
+          "id": "attractions-way-369136185-waterloo-block",
+          "name": "Waterloo Block",
+          "lat": 51.508605,
+          "lng": -0.076021,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/369136185"
+        },
+        {
+          "id": "attractions-way-102403106-white-cube",
+          "name": "White Cube",
+          "lat": 51.499448,
+          "lng": -0.082329,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/102403106"
+        },
+        {
+          "id": "attractions-way-264131965-whitechapel-gallery",
+          "name": "Whitechapel Gallery",
+          "lat": 51.516163,
+          "lng": -0.070356,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/264131965"
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "label": "Pubs and rest stops",
+      "defaultVisible": false,
+      "minZoom": 13,
+      "markerLabel": "P",
+      "routeRadius": 0.005,
+      "points": [
+        {
+          "id": "food-way-157779526-admiral-duncan",
+          "name": "Admiral Duncan",
+          "lat": 51.51292,
+          "lng": -0.13228,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/157779526"
+        },
+        {
+          "id": "food-node-269859953-anchor-brewhouse",
+          "name": "Anchor Brewhouse",
+          "lat": 51.504108,
+          "lng": -0.07531,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/269859953"
+        },
+        {
+          "id": "food-way-93710851-anchor-tap",
+          "name": "Anchor Tap",
+          "lat": 51.503549,
+          "lng": -0.075925,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/93710851"
+        },
+        {
+          "id": "food-way-538990064-bag-o-nails",
+          "name": "Bag O Nails",
+          "lat": 51.498022,
+          "lng": -0.144129,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/538990064"
+        },
+        {
+          "id": "food-way-161420156-bagelmania",
+          "name": "Bagelmania",
+          "lat": 51.513864,
+          "lng": -0.109992,
+          "detail": "Cafe from OpenStreetMap.",
+          "source": "OpenStreetMap way/161420156"
+        },
+        {
+          "id": "food-node-12045676386-bricklayers-arms",
+          "name": "Bricklayers Arms",
+          "lat": 51.517691,
+          "lng": -0.133371,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap node/12045676386"
+        },
+        {
+          "id": "food-way-90650944-bunch-of-grapes",
+          "name": "Bunch of Grapes",
+          "lat": 51.50499,
+          "lng": -0.089193,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/90650944"
+        },
+        {
+          "id": "food-way-481710040-cabmens-shelter",
+          "name": "Cabmen's Shelter",
+          "lat": 51.511038,
+          "lng": -0.114684,
+          "detail": "Cafe from OpenStreetMap.",
+          "source": "OpenStreetMap way/481710040"
+        },
+        {
+          "id": "food-way-75422589-cittie-of-yorke",
+          "name": "Cittie of Yorke",
+          "lat": 51.518524,
+          "lng": -0.112823,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/75422589"
+        },
+        {
+          "id": "food-node-9008497216-cloudwater",
+          "name": "Cloudwater",
+          "lat": 51.497742,
+          "lng": -0.072581,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap node/9008497216"
+        },
+        {
+          "id": "food-way-338696812-coach-and-horses",
+          "name": "Coach and Horses",
+          "lat": 51.510809,
+          "lng": -0.143771,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/338696812"
+        },
+        {
+          "id": "food-way-157322970-commercial-tavern",
+          "name": "Commercial Tavern",
+          "lat": 51.52165,
+          "lng": -0.075684,
+          "detail": "Pub · Pizza from OpenStreetMap.",
+          "source": "OpenStreetMap way/157322970"
+        },
+        {
+          "id": "food-node-1937328128-comptons-of-soho",
+          "name": "Comptons of Soho",
+          "lat": 51.512605,
+          "lng": -0.132515,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/1937328128"
+        },
+        {
+          "id": "food-way-993439403-de-hems-cafe-bar",
+          "name": "De Hems Cafe Bar",
+          "lat": 51.512115,
+          "lng": -0.131179,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/993439403"
+        },
+        {
+          "id": "food-way-77739560-doggetts-coat-badge",
+          "name": "Doggett's Coat & Badge",
+          "lat": 51.508422,
+          "lng": -0.104815,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/77739560"
+        },
+        {
+          "id": "food-way-153672706-dr-hammer",
+          "name": "Dr Hammer",
+          "lat": 51.517278,
+          "lng": -0.121676,
+          "detail": "Cafe · Bubble Tea from OpenStreetMap.",
+          "source": "OpenStreetMap way/153672706"
+        },
+        {
+          "id": "food-way-98535850-duke-of-york",
+          "name": "Duke of York",
+          "lat": 51.518725,
+          "lng": -0.135964,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/98535850"
+        },
+        {
+          "id": "food-way-231202433-east-india-arms",
+          "name": "East India Arms",
+          "lat": 51.512326,
+          "lng": -0.079211,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/231202433"
+        },
+        {
+          "id": "food-way-138339524-fitzroy-tavern",
+          "name": "Fitzroy Tavern",
+          "lat": 51.518648,
+          "lng": -0.134645,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/138339524"
+        },
+        {
+          "id": "food-way-97175520-fox-and-anchor",
+          "name": "Fox and Anchor",
+          "lat": 51.520438,
+          "lng": -0.100757,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/97175520"
+        },
+        {
+          "id": "food-way-280985110-french-house",
+          "name": "French House",
+          "lat": 51.512739,
+          "lng": -0.131714,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/280985110"
+        },
+        {
+          "id": "food-node-1497452179-george-and-vulture",
+          "name": "George and Vulture",
+          "lat": 51.512915,
+          "lng": -0.08577,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/1497452179"
+        },
+        {
+          "id": "food-way-90830736-george-inn",
+          "name": "George Inn",
+          "lat": 51.504182,
+          "lng": -0.089999,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/90830736"
+        },
+        {
+          "id": "food-node-12529152052-goodmans-field",
+          "name": "Goodman's Field",
+          "lat": 51.511524,
+          "lng": -0.072723,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap node/12529152052"
+        },
+        {
+          "id": "food-node-383980821-green-man",
+          "name": "Green Man",
+          "lat": 51.515545,
+          "lng": -0.136658,
+          "detail": "Pub · Fish And Chips from OpenStreetMap.",
+          "source": "OpenStreetMap node/383980821"
+        },
+        {
+          "id": "food-node-366073245-hamilton-hall",
+          "name": "Hamilton Hall",
+          "lat": 51.517401,
+          "lng": -0.08096,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/366073245"
+        },
+        {
+          "id": "food-node-266324793-hole-in-the-wall",
+          "name": "Hole In the Wall",
+          "lat": 51.504106,
+          "lng": -0.11372,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/266324793"
+        },
+        {
+          "id": "food-node-288045288-hoop-and-grapes",
+          "name": "Hoop and Grapes",
+          "lat": 51.514254,
+          "lng": -0.074202,
+          "detail": "Pub · Local · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap node/288045288"
+        },
+        {
+          "id": "food-node-1497452168-jamaica-wine-house",
+          "name": "Jamaica Wine House",
+          "lat": 51.51297,
+          "lng": -0.085664,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/1497452168"
+        },
+        {
+          "id": "food-way-993282930-jen-cafe",
+          "name": "Jen Café",
+          "lat": 51.511922,
+          "lng": -0.129462,
+          "detail": "Cafe from OpenStreetMap.",
+          "source": "OpenStreetMap way/993282930"
+        },
+        {
+          "id": "food-node-347542399-jen-tea",
+          "name": "Jen Tea",
+          "lat": 51.518185,
+          "lng": -0.077688,
+          "detail": "Cafe from OpenStreetMap.",
+          "source": "OpenStreetMap node/347542399"
+        },
+        {
+          "id": "food-way-143407596-joe-the-juice",
+          "name": "Joe & The Juice",
+          "lat": 51.511594,
+          "lng": -0.08917,
+          "detail": "Cafe · Coffee Shop from OpenStreetMap.",
+          "source": "OpenStreetMap way/143407596"
+        },
+        {
+          "id": "food-node-840177920-kastina-and-ovens",
+          "name": "Kastina And Ovens",
+          "lat": 51.513453,
+          "lng": -0.122717,
+          "detail": "Cafe from OpenStreetMap.",
+          "source": "OpenStreetMap node/840177920"
+        },
+        {
+          "id": "food-way-100799936-kings-arms",
+          "name": "King's Arms",
+          "lat": 51.502908,
+          "lng": -0.090917,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/100799936"
+        },
+        {
+          "id": "food-way-529246743-lexpress-coffee",
+          "name": "Lexpress Coffee",
+          "lat": 51.511503,
+          "lng": -0.088695,
+          "detail": "Cafe from OpenStreetMap.",
+          "source": "OpenStreetMap way/529246743"
+        },
+        {
+          "id": "food-way-349935005-maison-bertaux",
+          "name": "Maison Bertaux",
+          "lat": 51.51332,
+          "lng": -0.130198,
+          "detail": "Cafe · Cake;coffee Shop · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/349935005"
+        },
+        {
+          "id": "food-way-226909129-marquis-of-granby",
+          "name": "Marquis of Granby",
+          "lat": 51.518013,
+          "lng": -0.134644,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/226909129"
+        },
+        {
+          "id": "food-node-12920922057-monmouth-coffee-company",
+          "name": "Monmouth Coffee Company",
+          "lat": 51.514366,
+          "lng": -0.1268,
+          "detail": "Cafe · Coffee Shop from OpenStreetMap.",
+          "source": "OpenStreetMap node/12920922057"
+        },
+        {
+          "id": "food-way-553157392-museum-tavern",
+          "name": "Museum Tavern",
+          "lat": 51.518174,
+          "lng": -0.125862,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/553157392"
+        },
+        {
+          "id": "food-way-39335870-nagare-coffee",
+          "name": "Nagare Coffee",
+          "lat": 51.518962,
+          "lng": -0.076943,
+          "detail": "Cafe · Coffee Shop from OpenStreetMap.",
+          "source": "OpenStreetMap way/39335870"
+        },
+        {
+          "id": "food-way-487479499-nell-gwynne-tavern",
+          "name": "Nell Gwynne Tavern",
+          "lat": 51.510236,
+          "lng": -0.122837,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/487479499"
+        },
+        {
+          "id": "food-way-986920651-nell-of-old-drury",
+          "name": "Nell of Old Drury",
+          "lat": 51.512585,
+          "lng": -0.120629,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/986920651"
+        },
+        {
+          "id": "food-way-648689210-newman-arms",
+          "name": "Newman Arms",
+          "lat": 51.51813,
+          "lng": -0.13525,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/648689210"
+        },
+        {
+          "id": "food-way-159751191-old-doctor-butlers-head",
+          "name": "Old Doctor Butler's Head",
+          "lat": 51.515677,
+          "lng": -0.090279,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/159751191"
+        },
+        {
+          "id": "food-way-90650951-old-kings-head",
+          "name": "Old King's Head",
+          "lat": 51.504626,
+          "lng": -0.08948,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/90650951"
+        },
+        {
+          "id": "food-way-1194233515-penderels-oak",
+          "name": "Penderel's Oak",
+          "lat": 51.517962,
+          "lng": -0.115549,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/1194233515"
+        },
+        {
+          "id": "food-way-236653740-pride-of-spitalfields",
+          "name": "Pride of Spitalfields",
+          "lat": 51.518952,
+          "lng": -0.071219,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/236653740"
+        },
+        {
+          "id": "food-way-97237916-princess-louise",
+          "name": "Princess Louise",
+          "lat": 51.517302,
+          "lng": -0.12156,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/97237916"
+        },
+        {
+          "id": "food-way-430451203-rising-sun",
+          "name": "Rising Sun",
+          "lat": 51.519118,
+          "lng": -0.099854,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/430451203"
+        },
+        {
+          "id": "food-way-458258126-russell-square-cabmens-shelter",
+          "name": "Russell Square Cabmen's Shelter",
+          "lat": 51.521936,
+          "lng": -0.127671,
+          "detail": "Cafe · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/458258126"
+        },
+        {
+          "id": "food-way-277929219-shakespeares-head",
+          "name": "Shakespeare's Head",
+          "lat": 51.51688,
+          "lng": -0.119309,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/277929219"
+        },
+        {
+          "id": "food-way-325208608-shaws-booksellers",
+          "name": "Shaw's Booksellers",
+          "lat": 51.512472,
+          "lng": -0.101522,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/325208608"
+        },
+        {
+          "id": "food-node-21593236-ship-tavern",
+          "name": "Ship Tavern",
+          "lat": 51.517252,
+          "lng": -0.119179,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/21593236"
+        },
+        {
+          "id": "food-way-547522392-silver-cross",
+          "name": "Silver Cross",
+          "lat": 51.506591,
+          "lng": -0.126979,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/547522392"
+        },
+        {
+          "id": "food-way-102403099-simon-the-tanner",
+          "name": "Simon the Tanner",
+          "lat": 51.498317,
+          "lng": -0.082952,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/102403099"
+        },
+        {
+          "id": "food-node-1497452177-simpsons-tavern",
+          "name": "Simpson's Tavern",
+          "lat": 51.513028,
+          "lng": -0.085951,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/1497452177"
+        },
+        {
+          "id": "food-way-42935883-smiths-of-smithfield",
+          "name": "Smiths of Smithfield",
+          "lat": 51.519527,
+          "lng": -0.102759,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/42935883"
+        },
+        {
+          "id": "food-node-267432002-st-stephens-tavern",
+          "name": "St Stephen's Tavern",
+          "lat": 51.501146,
+          "lng": -0.125595,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap node/267432002"
+        },
+        {
+          "id": "food-way-1472842938-sugar-loaf",
+          "name": "Sugar Loaf",
+          "lat": 51.512309,
+          "lng": -0.092842,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/1472842938"
+        },
+        {
+          "id": "food-way-153698493-sun-and-13-cantons",
+          "name": "Sun and 13 Cantons",
+          "lat": 51.512656,
+          "lng": -0.136579,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/153698493"
+        },
+        {
+          "id": "food-node-581058547-the-admiralty",
+          "name": "The Admiralty",
+          "lat": 51.507275,
+          "lng": -0.128886,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/581058547"
+        },
+        {
+          "id": "food-way-161490892-the-albert",
+          "name": "The Albert",
+          "lat": 51.497709,
+          "lng": -0.135547,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/161490892"
+        },
+        {
+          "id": "food-way-82770817-the-anchor",
+          "name": "The Anchor",
+          "lat": 51.507261,
+          "lng": -0.093041,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/82770817"
+        },
+        {
+          "id": "food-way-153690421-the-angel",
+          "name": "The Angel",
+          "lat": 51.51549,
+          "lng": -0.127841,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/153690421"
+        },
+        {
+          "id": "food-node-499350848-the-argyll-arms",
+          "name": "The Argyll Arms",
+          "lat": 51.515063,
+          "lng": -0.141263,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/499350848"
+        },
+        {
+          "id": "food-way-778627033-the-artful-dodger",
+          "name": "The Artful Dodger",
+          "lat": 51.510456,
+          "lng": -0.07013,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/778627033"
+        },
+        {
+          "id": "food-way-155428083-the-bell",
+          "name": "The Bell",
+          "lat": 51.511009,
+          "lng": -0.089399,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/155428083"
+        },
+        {
+          "id": "food-way-166320158-the-blackfriar",
+          "name": "The Blackfriar",
+          "lat": 51.512152,
+          "lng": -0.103656,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/166320158"
+        },
+        {
+          "id": "food-way-81459093-the-bloomsbury",
+          "name": "The Bloomsbury",
+          "lat": 51.516845,
+          "lng": -0.125753,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/81459093"
+        },
+        {
+          "id": "food-way-97209483-the-blue-posts",
+          "name": "The Blue Posts",
+          "lat": 51.516973,
+          "lng": -0.135467,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/97209483"
+        },
+        {
+          "id": "food-way-257334015-the-brown-bear",
+          "name": "The Brown Bear",
+          "lat": 51.511393,
+          "lng": -0.068461,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/257334015"
+        },
+        {
+          "id": "food-way-157767121-the-cambridge",
+          "name": "The Cambridge",
+          "lat": 51.513579,
+          "lng": -0.129534,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/157767121"
+        },
+        {
+          "id": "food-node-475933772-the-castle",
+          "name": "The Castle",
+          "lat": 51.520219,
+          "lng": -0.104174,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/475933772"
+        },
+        {
+          "id": "food-way-651644530-the-champion",
+          "name": "The Champion",
+          "lat": 51.516884,
+          "lng": -0.137281,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/651644530"
+        },
+        {
+          "id": "food-way-142300246-the-chandos",
+          "name": "The Chandos",
+          "lat": 51.509575,
+          "lng": -0.126676,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/142300246"
+        },
+        {
+          "id": "food-node-25746185-the-cheshire-cheese",
+          "name": "The Cheshire Cheese",
+          "lat": 51.512389,
+          "lng": -0.113185,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/25746185"
+        },
+        {
+          "id": "food-way-272198116-the-clachan",
+          "name": "The Clachan",
+          "lat": 51.513527,
+          "lng": -0.140227,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/272198116"
+        },
+        {
+          "id": "food-way-140515796-the-clarence",
+          "name": "The Clarence",
+          "lat": 51.506152,
+          "lng": -0.126723,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/140515796"
+        },
+        {
+          "id": "food-way-157771389-the-coach-horses",
+          "name": "The Coach & Horses",
+          "lat": 51.513882,
+          "lng": -0.129687,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/157771389"
+        },
+        {
+          "id": "food-way-279533213-the-coach-and-horses",
+          "name": "The Coach and Horses",
+          "lat": 51.513269,
+          "lng": -0.130144,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/279533213"
+        },
+        {
+          "id": "food-way-559282490-the-coal-hole",
+          "name": "The Coal Hole",
+          "lat": 51.510327,
+          "lng": -0.1212,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/559282490"
+        },
+        {
+          "id": "food-way-244772127-the-cock-tavern",
+          "name": "The Cock Tavern",
+          "lat": 51.516782,
+          "lng": -0.141403,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/244772127"
+        },
+        {
+          "id": "food-way-165589488-the-cockpit",
+          "name": "The Cockpit",
+          "lat": 51.512707,
+          "lng": -0.101498,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/165589488"
+        },
+        {
+          "id": "food-way-274708128-the-counting-house",
+          "name": "The Counting House",
+          "lat": 51.513212,
+          "lng": -0.085081,
+          "detail": "Pub · Local from OpenStreetMap.",
+          "source": "OpenStreetMap way/274708128"
+        },
+        {
+          "id": "food-node-12920922066-the-cross-keys",
+          "name": "The Cross Keys",
+          "lat": 51.514514,
+          "lng": -0.124739,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/12920922066"
+        },
+        {
+          "id": "food-way-863516669-the-crosse-keys",
+          "name": "The Crosse Keys",
+          "lat": 51.512759,
+          "lng": -0.084979,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/863516669"
+        },
+        {
+          "id": "food-node-12920922056-the-crown",
+          "name": "The Crown",
+          "lat": 51.513943,
+          "lng": -0.126853,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/12920922056"
+        },
+        {
+          "id": "food-way-183366008-the-crown",
+          "name": "The Crown",
+          "lat": 51.516841,
+          "lng": -0.126399,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/183366008"
+        },
+        {
+          "id": "food-way-280980550-the-crown-two-chairmen",
+          "name": "The Crown & Two Chairmen",
+          "lat": 51.513869,
+          "lng": -0.132461,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/280980550"
+        },
+        {
+          "id": "food-node-266680230-the-crown-and-anchor",
+          "name": "The Crown and Anchor",
+          "lat": 51.513976,
+          "lng": -0.124985,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/266680230"
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "label": "Transport links",
+      "defaultVisible": false,
+      "minZoom": 12,
+      "markerLabel": "T",
+      "routeRadius": 0.005,
+      "points": [
+        {
+          "id": "transport-way-204258603-0",
+          "name": "0",
+          "lat": 51.501923,
+          "lng": -0.113393,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/204258603"
+        },
+        {
+          "id": "transport-way-1463789013-1",
+          "name": "1",
+          "lat": 51.501748,
+          "lng": -0.112694,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1463789013"
+        },
+        {
+          "id": "transport-way-1160780910-1",
+          "name": "1",
+          "lat": 51.511507,
+          "lng": -0.127725,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1160780910"
+        },
+        {
+          "id": "transport-way-1470420383-1",
+          "name": "1",
+          "lat": 51.504131,
+          "lng": -0.105941,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1470420383"
+        },
+        {
+          "id": "transport-way-303304455-1",
+          "name": "1",
+          "lat": 51.51185,
+          "lng": -0.095216,
+          "detail": "Platform · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap way/303304455"
+        },
+        {
+          "id": "transport-way-1470421790-10",
+          "name": "10",
+          "lat": 51.50194,
+          "lng": -0.113428,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1470421790"
+        },
+        {
+          "id": "transport-way-1470422306-11",
+          "name": "11",
+          "lat": 51.502041,
+          "lng": -0.113533,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1470422306"
+        },
+        {
+          "id": "transport-way-204258726-12",
+          "name": "12",
+          "lat": 51.502066,
+          "lng": -0.113586,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/204258726"
+        },
+        {
+          "id": "transport-way-373313036-13",
+          "name": "13",
+          "lat": 51.494337,
+          "lng": -0.145144,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/373313036"
+        },
+        {
+          "id": "transport-way-325934113-13",
+          "name": "13",
+          "lat": 51.502131,
+          "lng": -0.113715,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/325934113"
+        },
+        {
+          "id": "transport-way-1471818163-14",
+          "name": "14",
+          "lat": 51.502146,
+          "lng": -0.11375,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1471818163"
+        },
+        {
+          "id": "transport-way-325934114-15",
+          "name": "15",
+          "lat": 51.502182,
+          "lng": -0.113879,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/325934114"
+        },
+        {
+          "id": "transport-way-1471818464-16",
+          "name": "16",
+          "lat": 51.502196,
+          "lng": -0.113913,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1471818464"
+        },
+        {
+          "id": "transport-way-1471818852-17",
+          "name": "17",
+          "lat": 51.502202,
+          "lng": -0.114049,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1471818852"
+        },
+        {
+          "id": "transport-way-164404767-18",
+          "name": "18",
+          "lat": 51.502213,
+          "lng": -0.114079,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/164404767"
+        },
+        {
+          "id": "transport-way-1471823464-19",
+          "name": "19",
+          "lat": 51.501491,
+          "lng": -0.114347,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1471823464"
+        },
+        {
+          "id": "transport-way-140284232-2",
+          "name": "2",
+          "lat": 51.493616,
+          "lng": -0.144658,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/140284232"
+        },
+        {
+          "id": "transport-way-163748587-2",
+          "name": "2",
+          "lat": 51.501766,
+          "lng": -0.112724,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/163748587"
+        },
+        {
+          "id": "transport-way-1160780909-2",
+          "name": "2",
+          "lat": 51.511576,
+          "lng": -0.127644,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1160780909"
+        },
+        {
+          "id": "transport-way-1470421483-2",
+          "name": "2",
+          "lat": 51.50436,
+          "lng": -0.105896,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1470421483"
+        },
+        {
+          "id": "transport-way-303304456-2",
+          "name": "2",
+          "lat": 51.51187,
+          "lng": -0.095219,
+          "detail": "Platform · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap way/303304456"
+        },
+        {
+          "id": "transport-way-40781754-20",
+          "name": "20",
+          "lat": 51.501499,
+          "lng": -0.11439,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/40781754"
+        },
+        {
+          "id": "transport-way-1471823465-21",
+          "name": "21",
+          "lat": 51.501611,
+          "lng": -0.114565,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1471823465"
+        },
+        {
+          "id": "transport-way-249695786-22",
+          "name": "22",
+          "lat": 51.501622,
+          "lng": -0.114598,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/249695786"
+        },
+        {
+          "id": "transport-way-609272072-23",
+          "name": "23",
+          "lat": 51.501861,
+          "lng": -0.114751,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/609272072"
+        },
+        {
+          "id": "transport-way-1471824231-24",
+          "name": "24",
+          "lat": 51.501871,
+          "lng": -0.114792,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1471824231"
+        },
+        {
+          "id": "transport-way-140284213-3",
+          "name": "3",
+          "lat": 51.494315,
+          "lng": -0.144105,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/140284213"
+        },
+        {
+          "id": "transport-way-1463789500-3",
+          "name": "3",
+          "lat": 51.501832,
+          "lng": -0.112832,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1463789500"
+        },
+        {
+          "id": "transport-way-303304457-3",
+          "name": "3",
+          "lat": 51.511965,
+          "lng": -0.095234,
+          "detail": "Platform · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap way/303304457"
+        },
+        {
+          "id": "transport-way-1470430331-4",
+          "name": "4",
+          "lat": 51.494324,
+          "lng": -0.144134,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1470430331"
+        },
+        {
+          "id": "transport-way-163748588-4",
+          "name": "4",
+          "lat": 51.501848,
+          "lng": -0.11286,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/163748588"
+        },
+        {
+          "id": "transport-way-1470430857-5",
+          "name": "5",
+          "lat": 51.494203,
+          "lng": -0.144404,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1470430857"
+        },
+        {
+          "id": "transport-way-1463790292-5",
+          "name": "5",
+          "lat": 51.501924,
+          "lng": -0.112983,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/1463790292"
+        },
+        {
+          "id": "transport-way-373313028-6",
+          "name": "6",
+          "lat": 51.494209,
+          "lng": -0.144428,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/373313028"
+        },
+        {
+          "id": "transport-way-173309938-6",
+          "name": "6",
+          "lat": 51.501938,
+          "lng": -0.113011,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap way/173309938"
+        },
+        {
+          "id": "transport-node-3788735981-aldgate",
+          "name": "Aldgate",
+          "lat": 51.514248,
+          "lng": -0.075719,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3788735981"
+        },
+        {
+          "id": "transport-node-4984999298-aldgate-east",
+          "name": "Aldgate East",
+          "lat": 51.515619,
+          "lng": -0.070839,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/4984999298"
+        },
+        {
+          "id": "transport-relation-15707898-aldgate-east-tube-station-building-and-tunnels",
+          "name": "Aldgate East Tube Station (building and tunnels)",
+          "lat": 51.515557,
+          "lng": -0.071003,
+          "detail": "Station · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap relation/15707898"
+        },
+        {
+          "id": "transport-way-107278484-aldgate-station",
+          "name": "Aldgate Station",
+          "lat": 51.513469,
+          "lng": -0.075157,
+          "detail": "Station · TfL from OpenStreetMap.",
+          "source": "OpenStreetMap way/107278484"
+        },
+        {
+          "id": "transport-node-1637578440-bank",
+          "name": "Bank",
+          "lat": 51.513105,
+          "lng": -0.089375,
+          "detail": "Station · London Underground · London Underground;Docklands Light Railway from OpenStreetMap.",
+          "source": "OpenStreetMap node/1637578440"
+        },
+        {
+          "id": "transport-node-734575014-bankside-pier",
+          "name": "Bankside Pier",
+          "lat": 51.508771,
+          "lng": -0.096797,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/734575014"
+        },
+        {
+          "id": "transport-way-204064488-bankside-pier",
+          "name": "Bankside Pier",
+          "lat": 51.508657,
+          "lng": -0.096835,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/204064488"
+        },
+        {
+          "id": "transport-node-3076573910-barbican",
+          "name": "Barbican",
+          "lat": 51.52018,
+          "lng": -0.098634,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3076573910"
+        },
+        {
+          "id": "transport-node-3763522921-blackfriars",
+          "name": "Blackfriars",
+          "lat": 51.511585,
+          "lng": -0.103767,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3763522921"
+        },
+        {
+          "id": "transport-node-4532431074-blackfriars-pier",
+          "name": "Blackfriars Pier",
+          "lat": 51.510637,
+          "lng": -0.100943,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/4532431074"
+        },
+        {
+          "id": "transport-node-6797794418-borough",
+          "name": "Borough",
+          "lat": 51.501144,
+          "lng": -0.093293,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/6797794418"
+        },
+        {
+          "id": "transport-node-3637449659-cannon-street",
+          "name": "Cannon Street",
+          "lat": 51.511381,
+          "lng": -0.090363,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3637449659"
+        },
+        {
+          "id": "transport-node-3076573915-chancery-lane",
+          "name": "Chancery Lane",
+          "lat": 51.518174,
+          "lng": -0.111764,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3076573915"
+        },
+        {
+          "id": "transport-node-3660442172-charing-cross",
+          "name": "Charing Cross",
+          "lat": 51.507966,
+          "lng": -0.126394,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3660442172"
+        },
+        {
+          "id": "transport-node-7140186755-charing-cross",
+          "name": "Charing Cross",
+          "lat": 51.507497,
+          "lng": -0.123689,
+          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/7140186755"
+        },
+        {
+          "id": "transport-node-3637195703-city-thameslink",
+          "name": "City Thameslink",
+          "lat": 51.515126,
+          "lng": -0.103564,
+          "detail": "Station · Govia Thameslink Railway (Thameslink) · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/3637195703"
+        },
+        {
+          "id": "transport-node-6400752013-covent-garden",
+          "name": "Covent Garden",
+          "lat": 51.513094,
+          "lng": -0.12427,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/6400752013"
+        },
+        {
+          "id": "transport-relation-15698857-covent-garden-tube-station-building-and-tunnels",
+          "name": "Covent Garden Tube Station (Building and tunnels)",
+          "lat": 51.513089,
+          "lng": -0.124297,
+          "detail": "Station from OpenStreetMap.",
+          "source": "OpenStreetMap relation/15698857"
+        },
+        {
+          "id": "transport-node-5207123395-embankment",
+          "name": "Embankment",
+          "lat": 51.507214,
+          "lng": -0.122241,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5207123395"
+        },
+        {
+          "id": "transport-node-701436249-embankment",
+          "name": "Embankment",
+          "lat": 51.50699,
+          "lng": -0.121334,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/701436249"
+        },
+        {
+          "id": "transport-way-37691336-embankment-pier",
+          "name": "Embankment Pier",
+          "lat": 51.507248,
+          "lng": -0.121161,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/37691336"
+        },
+        {
+          "id": "transport-node-3284103165-farringdon",
+          "name": "Farringdon",
+          "lat": 51.519964,
+          "lng": -0.104555,
+          "detail": "Station · London Underground · National Rail;London Underground;Elizabeth line from OpenStreetMap.",
+          "source": "OpenStreetMap node/3284103165"
+        },
+        {
+          "id": "transport-node-1141549004-festival-pier",
+          "name": "Festival Pier",
+          "lat": 51.507012,
+          "lng": -0.117787,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/1141549004"
+        },
+        {
+          "id": "transport-way-204064487-festival-pier",
+          "name": "Festival Pier",
+          "lat": 51.506897,
+          "lng": -0.117571,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/204064487"
+        },
+        {
+          "id": "transport-node-6414100096-goodge-street",
+          "name": "Goodge Street",
+          "lat": 51.520598,
+          "lng": -0.134357,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/6414100096"
+        },
+        {
+          "id": "transport-node-6407577779-green-park",
+          "name": "Green Park",
+          "lat": 51.506624,
+          "lng": -0.142944,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/6407577779"
+        },
+        {
+          "id": "transport-node-10563633053-hanover-square",
+          "name": "Hanover Square",
+          "lat": 51.514054,
+          "lng": -0.144498,
+          "detail": "Subway Entrance · TfL · Elizabeth Line from OpenStreetMap.",
+          "source": "OpenStreetMap node/10563633053"
+        },
+        {
+          "id": "transport-node-3693265703-holborn",
+          "name": "Holborn",
+          "lat": 51.517115,
+          "lng": -0.120066,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3693265703"
+        },
+        {
+          "id": "transport-node-26746932-holborn",
+          "name": "Holborn",
+          "lat": 51.517645,
+          "lng": -0.119322,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/26746932"
+        },
+        {
+          "id": "transport-node-1637578327-holborn",
+          "name": "Holborn",
+          "lat": 51.517695,
+          "lng": -0.119335,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/1637578327"
+        },
+        {
+          "id": "transport-node-2405959747-holborn",
+          "name": "Holborn",
+          "lat": 51.517418,
+          "lng": -0.120467,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/2405959747"
+        },
+        {
+          "id": "transport-node-2405959800-holborn",
+          "name": "Holborn",
+          "lat": 51.517003,
+          "lng": -0.120507,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/2405959800"
+        },
+        {
+          "id": "transport-node-3773122118-lambeth-north",
+          "name": "Lambeth North",
+          "lat": 51.498933,
+          "lng": -0.112014,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3773122118"
+        },
+        {
+          "id": "transport-node-3370671078-leicester-square",
+          "name": "Leicester Square",
+          "lat": 51.511464,
+          "lng": -0.128264,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3370671078"
+        },
+        {
+          "id": "transport-relation-15698821-leicester-square-tube-station-buildings-and-tunn",
+          "name": "Leicester Square Tube Station (buildings and tunnels)",
+          "lat": 51.511662,
+          "lng": -0.127958,
+          "detail": "Station from OpenStreetMap.",
+          "source": "OpenStreetMap relation/15698821"
+        },
+        {
+          "id": "transport-node-12286269903-liverpool-street",
+          "name": "Liverpool Street",
+          "lat": 51.517647,
+          "lng": -0.086441,
+          "detail": "Station · Transport for London · Elizabeth line from OpenStreetMap.",
+          "source": "OpenStreetMap node/12286269903"
+        },
+        {
+          "id": "transport-node-3637436407-liverpool-street",
+          "name": "Liverpool Street",
+          "lat": 51.517678,
+          "lng": -0.08252,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3637436407"
+        },
+        {
+          "id": "transport-node-7159509695-london-blackfriars",
+          "name": "London Blackfriars",
+          "lat": 51.510487,
+          "lng": -0.103242,
+          "detail": "Station · Govia Thameslink Railway (Thameslink) · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/7159509695"
+        },
+        {
+          "id": "transport-node-5182456569-london-bridge",
+          "name": "London Bridge",
+          "lat": 51.505412,
+          "lng": -0.088699,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5182456569"
+        },
+        {
+          "id": "transport-node-4290857012-london-bridge",
+          "name": "London Bridge",
+          "lat": 51.504876,
+          "lng": -0.085147,
+          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/4290857012"
+        },
+        {
+          "id": "transport-way-282348817-london-bridge-bus-station",
+          "name": "London Bridge Bus Station",
+          "lat": 51.505285,
+          "lng": -0.086941,
+          "detail": "Station · Transport for London · London Buses from OpenStreetMap.",
+          "source": "OpenStreetMap way/282348817"
+        },
+        {
+          "id": "transport-way-122815198-london-bridge-city-pier",
+          "name": "London Bridge City Pier",
+          "lat": 51.506778,
+          "lng": -0.084658,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/122815198"
+        },
+        {
+          "id": "transport-node-64694457-london-bridge-city-pier",
+          "name": "London Bridge City Pier",
+          "lat": 51.506946,
+          "lng": -0.084637,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/64694457"
+        },
+        {
+          "id": "transport-node-3637449660-london-cannon-street",
+          "name": "London Cannon Street",
+          "lat": 51.510669,
+          "lng": -0.090605,
+          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/3637449660"
+        },
+        {
+          "id": "transport-node-701436252-london-eye-waterloo-pier",
+          "name": "London Eye - Waterloo Pier",
+          "lat": 51.503448,
+          "lng": -0.120471,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/701436252"
+        },
+        {
+          "id": "transport-node-5114697934-london-fenchurch-street",
+          "name": "London Fenchurch Street",
+          "lat": 51.511328,
+          "lng": -0.077419,
+          "detail": "Station · c2c · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/5114697934"
+        },
+        {
+          "id": "transport-node-3637436408-london-liverpool-street",
+          "name": "London Liverpool Street",
+          "lat": 51.518211,
+          "lng": -0.081427,
+          "detail": "Station · Network Rail · National Rail;London Overground;Elizabeth line from OpenStreetMap.",
+          "source": "OpenStreetMap node/3637436408"
+        },
+        {
+          "id": "transport-node-3638795617-london-waterloo",
+          "name": "London Waterloo",
+          "lat": 51.502838,
+          "lng": -0.112801,
+          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/3638795617"
+        },
+        {
+          "id": "transport-node-18395696-mansion-house",
+          "name": "Mansion House",
+          "lat": 51.511892,
+          "lng": -0.095223,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/18395696"
+        },
+        {
+          "id": "transport-node-3076574237-monument",
+          "name": "Monument",
+          "lat": 51.510633,
+          "lng": -0.086127,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3076574237"
+        },
+        {
+          "id": "transport-node-5702714876-moorgate",
+          "name": "Moorgate",
+          "lat": 51.518252,
+          "lng": -0.089063,
+          "detail": "Station · London Underground · National Rail;London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5702714876"
+        },
+        {
+          "id": "transport-node-5614077964-oxford-circus",
+          "name": "Oxford Circus",
+          "lat": 51.515442,
+          "lng": -0.141956,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5614077964"
+        },
+        {
+          "id": "transport-node-248200076-oxford-circus",
+          "name": "Oxford Circus",
+          "lat": 51.515656,
+          "lng": -0.142017,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/248200076"
+        },
+        {
+          "id": "transport-node-1637478196-oxford-circus",
+          "name": "Oxford Circus",
+          "lat": 51.515361,
+          "lng": -0.140779,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/1637478196"
+        },
+        {
+          "id": "transport-node-1637478197-oxford-circus",
+          "name": "Oxford Circus",
+          "lat": 51.515462,
+          "lng": -0.140811,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/1637478197"
+        },
+        {
+          "id": "transport-node-1742756469-oxford-circus",
+          "name": "Oxford Circus",
+          "lat": 51.515658,
+          "lng": -0.141769,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/1742756469"
+        },
+        {
+          "id": "transport-relation-6408268-oxford-circus-tube-station-building-and-tunnels",
+          "name": "Oxford Circus Tube Station (building and tunnels)",
+          "lat": 51.51568,
+          "lng": -0.141333,
+          "detail": "Station · Transport for London · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap relation/6408268"
+        },
+        {
+          "id": "transport-node-3638779316-piccadilly-circus",
+          "name": "Piccadilly Circus",
+          "lat": 51.509819,
+          "lng": -0.134548,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3638779316"
+        },
+        {
+          "id": "transport-node-2138171124-saint-katharines-pier",
+          "name": "Saint Katharine's Pier",
+          "lat": 51.505972,
+          "lng": -0.073516,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/2138171124"
+        },
+        {
+          "id": "transport-node-5350830014-southwark",
+          "name": "Southwark",
+          "lat": 51.503925,
+          "lng": -0.104966,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5350830014"
+        },
+        {
+          "id": "transport-node-386204370-southwark",
+          "name": "Southwark",
+          "lat": 51.504111,
+          "lng": -0.10589,
+          "detail": "Stop · Transport for London · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/386204370"
+        },
+        {
+          "id": "transport-node-5359381248-southwark",
+          "name": "Southwark",
+          "lat": 51.504393,
+          "lng": -0.105878,
+          "detail": "Stop · Transport for London · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5359381248"
+        },
+        {
+          "id": "transport-way-203818671-st-katharines-pier",
+          "name": "St Katharine's Pier",
+          "lat": 51.506113,
+          "lng": -0.073759,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/203818671"
+        },
+        {
+          "id": "transport-node-25524263-st-jamess-park",
+          "name": "St. James's Park",
+          "lat": 51.499282,
+          "lng": -0.134594,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/25524263"
+        },
+        {
+          "id": "transport-node-5475675298-st-pauls",
+          "name": "St. Paul's",
+          "lat": 51.514914,
+          "lng": -0.097588,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5475675298"
+        },
+        {
+          "id": "transport-node-1637578467-st-pauls",
+          "name": "St. Paul's",
+          "lat": 51.515546,
+          "lng": -0.09913,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/1637578467"
+        },
+        {
+          "id": "transport-node-2761481019-st-pauls",
+          "name": "St. Paul's",
+          "lat": 51.515484,
+          "lng": -0.099157,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/2761481019"
+        },
+        {
+          "id": "transport-node-6368951709-temple",
+          "name": "Temple",
+          "lat": 51.510966,
+          "lng": -0.114335,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/6368951709"
+        },
+        {
+          "id": "transport-node-9754554222-tottenham-court-road",
+          "name": "Tottenham Court Road",
+          "lat": 51.515335,
+          "lng": -0.13252,
+          "detail": "Station · Transport for London · Elizabeth line from OpenStreetMap.",
+          "source": "OpenStreetMap node/9754554222"
+        },
+        {
+          "id": "transport-node-5462552522-tottenham-court-road",
+          "name": "Tottenham Court Road",
+          "lat": 51.515971,
+          "lng": -0.130513,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/5462552522"
+        },
+        {
+          "id": "transport-node-4277734060-tottenham-court-road",
+          "name": "Tottenham Court Road",
+          "lat": 51.516134,
+          "lng": -0.1328,
+          "detail": "Stop · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/4277734060"
+        },
+        {
+          "id": "transport-node-21508069-tottenham-court-road",
+          "name": "Tottenham Court Road",
+          "lat": 51.516006,
+          "lng": -0.130379,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/21508069"
+        },
+        {
+          "id": "transport-node-70833764-tottenham-court-road",
+          "name": "Tottenham Court Road",
+          "lat": 51.515311,
+          "lng": -0.12988,
+          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/70833764"
+        },
+        {
+          "id": "transport-node-1785339687-tottenham-court-road",
+          "name": "Tottenham Court Road",
+          "lat": 51.516385,
+          "lng": -0.130979,
+          "detail": "Stop · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/1785339687"
+        },
+        {
+          "id": "transport-node-6514289544-tower-gateway",
+          "name": "Tower Gateway",
+          "lat": 51.510629,
+          "lng": -0.073951,
+          "detail": "Station · KeolisAmey Docklands Ltd · Docklands Light Railway from OpenStreetMap.",
+          "source": "OpenStreetMap node/6514289544"
+        },
+        {
+          "id": "transport-node-6260922569-tower-hill",
+          "name": "Tower Hill",
+          "lat": 51.509848,
+          "lng": -0.076699,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/6260922569"
+        },
+        {
+          "id": "transport-relation-2734159-tower-millennium-pier",
+          "name": "Tower Millennium Pier",
+          "lat": 51.507496,
+          "lng": -0.079175,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap relation/2734159"
+        },
+        {
+          "id": "transport-node-2131782103-tower-millennium-pier",
+          "name": "Tower Millennium Pier",
+          "lat": 51.507272,
+          "lng": -0.078891,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/2131782103"
+        },
+        {
+          "id": "transport-node-441947584-victoria",
+          "name": "Victoria",
+          "lat": 51.496369,
+          "lng": -0.143152,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/441947584"
+        },
+        {
+          "id": "transport-way-302110969-victoria-bus-station",
+          "name": "Victoria Bus Station",
+          "lat": 51.496038,
+          "lng": -0.143977,
+          "detail": "Station · Transport for London · London Buses from OpenStreetMap.",
+          "source": "OpenStreetMap way/302110969"
+        },
+        {
+          "id": "transport-node-3638795618-waterloo",
+          "name": "Waterloo",
+          "lat": 51.503002,
+          "lng": -0.113981,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/3638795618"
+        },
+        {
+          "id": "transport-node-7159130435-waterloo-east",
+          "name": "Waterloo East",
+          "lat": 51.504217,
+          "lng": -0.108203,
+          "detail": "Station · Southeastern · National Rail from OpenStreetMap.",
+          "source": "OpenStreetMap node/7159130435"
+        },
+        {
+          "id": "transport-node-25534427-westminster",
+          "name": "Westminster",
+          "lat": 51.501356,
+          "lng": -0.12493,
+          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
+          "source": "OpenStreetMap node/25534427"
+        },
+        {
+          "id": "transport-relation-2739442-westminster-pier",
+          "name": "Westminster Pier",
+          "lat": 51.501994,
+          "lng": -0.12336,
+          "detail": "Platform from OpenStreetMap.",
+          "source": "OpenStreetMap relation/2739442"
+        },
+        {
+          "id": "transport-node-1233822757-westminster-pier",
+          "name": "Westminster Pier",
+          "lat": 51.501737,
+          "lng": -0.123143,
+          "detail": "Stop Position · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap node/1233822757"
+        }
+      ]
+    },
+    {
+      "id": "toilets",
+      "label": "Public toilets",
+      "defaultVisible": false,
+      "minZoom": 13,
+      "markerLabel": "WC",
+      "routeRadius": 0.004,
+      "points": [
+        {
+          "id": "toilets-node-13909787668-borough-market-toilets",
+          "name": "Borough Market Toilets",
+          "lat": 51.505199,
+          "lng": -0.09037,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/13909787668"
+        },
+        {
+          "id": "toilets-node-1968744125-cityloos",
+          "name": "CityLoos",
+          "lat": 51.501328,
+          "lng": -0.123805,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/1968744125"
+        },
+        {
+          "id": "toilets-node-588175347-embankment-toilets",
+          "name": "Embankment Toilets",
+          "lat": 51.507564,
+          "lng": -0.121849,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/588175347"
+        },
+        {
+          "id": "toilets-node-1320893735-pauls-walk",
+          "name": "Paul's Walk",
+          "lat": 51.510876,
+          "lng": -0.100605,
+          "detail": "Public toilet · fee: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/1320893735"
+        },
+        {
+          "id": "toilets-node-2427879271-princes-street",
+          "name": "Princes Street",
+          "lat": 51.51462,
+          "lng": -0.142137,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/2427879271"
+        },
+        {
+          "id": "toilets-node-6795663398-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.501135,
+          "lng": -0.138045,
+          "detail": "Public toilet · fee: no · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/6795663398"
+        },
+        {
+          "id": "toilets-node-7249858507-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.495492,
+          "lng": -0.139509,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/7249858507"
+        },
+        {
+          "id": "toilets-node-12103116883-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.49771,
+          "lng": -0.141299,
+          "detail": "Public toilet · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/12103116883"
+        },
+        {
+          "id": "toilets-node-5184195871-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.499499,
+          "lng": -0.119195,
+          "detail": "Public toilet · fee: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/5184195871"
+        },
+        {
+          "id": "toilets-node-10981567788-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.495079,
+          "lng": -0.119864,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/10981567788"
+        },
+        {
+          "id": "toilets-node-12183994717-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.501181,
+          "lng": -0.118822,
+          "detail": "Public toilet · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/12183994717"
+        },
+        {
+          "id": "toilets-node-12722637460-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.497063,
+          "lng": -0.115856,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/12722637460"
+        },
+        {
+          "id": "toilets-node-4863526002-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.496148,
+          "lng": -0.108874,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/4863526002"
+        },
+        {
+          "id": "toilets-node-4863526003-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.496141,
+          "lng": -0.108305,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/4863526003"
+        },
+        {
+          "id": "toilets-node-11162933890-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.49858,
+          "lng": -0.098715,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/11162933890"
+        },
+        {
+          "id": "toilets-node-1115390365-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.507287,
+          "lng": -0.143429,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/1115390365"
+        },
+        {
+          "id": "toilets-node-12279370541-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.506602,
+          "lng": -0.142899,
+          "detail": "Public toilet · fee: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/12279370541"
+        },
+        {
+          "id": "toilets-node-12279370580-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.506629,
+          "lng": -0.142839,
+          "detail": "Public toilet · fee: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/12279370580"
+        },
+        {
+          "id": "toilets-node-1493328982-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.514109,
+          "lng": -0.139513,
+          "detail": "Public toilet · fee: no · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/1493328982"
+        },
+        {
+          "id": "toilets-node-5834430785-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.50974,
+          "lng": -0.140141,
+          "detail": "Public toilet · fee: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/5834430785"
+        },
+        {
+          "id": "toilets-node-12043262869-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508143,
+          "lng": -0.138191,
+          "detail": "Public toilet · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/12043262869"
+        },
+        {
+          "id": "toilets-node-12310155959-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.513518,
+          "lng": -0.14026,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/12310155959"
+        },
+        {
+          "id": "toilets-node-499350869-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.513643,
+          "lng": -0.135737,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/499350869"
+        },
+        {
+          "id": "toilets-node-12307747122-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.509246,
+          "lng": -0.135462,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/12307747122"
+        },
+        {
+          "id": "toilets-node-12817708461-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.515553,
+          "lng": -0.141414,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: permissive from OpenStreetMap.",
+          "source": "OpenStreetMap node/12817708461"
+        },
+        {
+          "id": "toilets-node-13521478512-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.515553,
+          "lng": -0.138155,
+          "detail": "Public toilet · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/13521478512"
+        },
+        {
+          "id": "toilets-node-380494795-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.515633,
+          "lng": -0.132367,
+          "detail": "Public toilet · fee: no · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/380494795"
+        },
+        {
+          "id": "toilets-node-2456520031-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.502899,
+          "lng": -0.119216,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/2456520031"
+        },
+        {
+          "id": "toilets-node-11200482437-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.502663,
+          "lng": -0.119146,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/11200482437"
+        },
+        {
+          "id": "toilets-node-11264813369-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.502822,
+          "lng": -0.119364,
+          "detail": "Public toilet · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/11264813369"
+        },
+        {
+          "id": "toilets-node-348814978-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.510791,
+          "lng": -0.129963,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/348814978"
+        },
+        {
+          "id": "toilets-node-596763309-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508921,
+          "lng": -0.125948,
+          "detail": "Public toilet · fee: no · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/596763309"
+        },
+        {
+          "id": "toilets-node-4329962757-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508231,
+          "lng": -0.124836,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/4329962757"
+        },
+        {
+          "id": "toilets-node-10148000879-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.510572,
+          "lng": -0.130547,
+          "detail": "Public toilet · fee: yes · wheelchair: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/10148000879"
+        },
+        {
+          "id": "toilets-node-10699089647-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508777,
+          "lng": -0.1287,
+          "detail": "Public toilet · fee: no · wheelchair: designated · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/10699089647"
+        },
+        {
+          "id": "toilets-node-11348824549-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.513962,
+          "lng": -0.126302,
+          "detail": "Public toilet · fee: no · access: permissive from OpenStreetMap.",
+          "source": "OpenStreetMap node/11348824549"
+        },
+        {
+          "id": "toilets-node-12309412524-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508839,
+          "lng": -0.126571,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/12309412524"
+        },
+        {
+          "id": "toilets-node-12855147394-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508714,
+          "lng": -0.12924,
+          "detail": "Public toilet · fee: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/12855147394"
+        },
+        {
+          "id": "toilets-node-566313868-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511735,
+          "lng": -0.121673,
+          "detail": "Public toilet · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/566313868"
+        },
+        {
+          "id": "toilets-node-6256910047-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511447,
+          "lng": -0.123438,
+          "detail": "Public toilet · fee: yes · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/6256910047"
+        },
+        {
+          "id": "toilets-node-6256910048-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511488,
+          "lng": -0.123481,
+          "detail": "Public toilet · fee: yes · wheelchair: no · access: fee from OpenStreetMap.",
+          "source": "OpenStreetMap node/6256910048"
+        },
+        {
+          "id": "toilets-node-6259748096-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.510936,
+          "lng": -0.118206,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/6259748096"
+        },
+        {
+          "id": "toilets-node-13546608822-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.512035,
+          "lng": -0.122358,
+          "detail": "Public toilet · fee: yes · wheelchair: limited · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/13546608822"
+        },
+        {
+          "id": "toilets-node-13546608834-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511727,
+          "lng": -0.121427,
+          "detail": "Public toilet · fee: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/13546608834"
+        },
+        {
+          "id": "toilets-node-12033233365-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.503194,
+          "lng": -0.114125,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/12033233365"
+        },
+        {
+          "id": "toilets-node-5300643105-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.507772,
+          "lng": -0.109912,
+          "detail": "Public toilet · fee: no · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/5300643105"
+        },
+        {
+          "id": "toilets-node-5573989327-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504196,
+          "lng": -0.108445,
+          "detail": "Public toilet · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/5573989327"
+        },
+        {
+          "id": "toilets-node-704892236-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.512654,
+          "lng": -0.114789,
+          "detail": "Public toilet · fee: yes · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/704892236"
+        },
+        {
+          "id": "toilets-node-751735279-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.510378,
+          "lng": -0.117747,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/751735279"
+        },
+        {
+          "id": "toilets-node-10050478330-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.515863,
+          "lng": -0.127125,
+          "detail": "Public toilet · fee: no · access: unknown from OpenStreetMap.",
+          "source": "OpenStreetMap node/10050478330"
+        },
+        {
+          "id": "toilets-node-12492681001-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.519361,
+          "lng": -0.126765,
+          "detail": "Public toilet · fee: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/12492681001"
+        },
+        {
+          "id": "toilets-node-11030241005-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.522221,
+          "lng": -0.125786,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/11030241005"
+        },
+        {
+          "id": "toilets-node-4706665125-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.503409,
+          "lng": -0.09532,
+          "detail": "Public toilet · fee: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/4706665125"
+        },
+        {
+          "id": "toilets-node-747813217-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.514314,
+          "lng": -0.099343,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/747813217"
+        },
+        {
+          "id": "toilets-node-12662996350-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511458,
+          "lng": -0.10298,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/12662996350"
+        },
+        {
+          "id": "toilets-node-13901665062-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511812,
+          "lng": -0.100627,
+          "detail": "Public toilet · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/13901665062"
+        },
+        {
+          "id": "toilets-node-3269358623-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.513914,
+          "lng": -0.094931,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/3269358623"
+        },
+        {
+          "id": "toilets-node-3269424658-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.513473,
+          "lng": -0.095254,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/3269424658"
+        },
+        {
+          "id": "toilets-node-918721618-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504837,
+          "lng": -0.086416,
+          "detail": "Public toilet · fee: no · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/918721618"
+        },
+        {
+          "id": "toilets-node-4954395594-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504378,
+          "lng": -0.090181,
+          "detail": "Public toilet · fee: no · wheelchair: limited · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/4954395594"
+        },
+        {
+          "id": "toilets-node-5760381483-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504613,
+          "lng": -0.085736,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/5760381483"
+        },
+        {
+          "id": "toilets-node-6598856043-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.505489,
+          "lng": -0.089468,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/6598856043"
+        },
+        {
+          "id": "toilets-node-12714591431-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504526,
+          "lng": -0.08547,
+          "detail": "Public toilet · fee: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/12714591431"
+        },
+        {
+          "id": "toilets-node-1102236526-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504897,
+          "lng": -0.082512,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/1102236526"
+        },
+        {
+          "id": "toilets-node-13376685632-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.505498,
+          "lng": -0.083992,
+          "detail": "Public toilet · wheelchair: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/13376685632"
+        },
+        {
+          "id": "toilets-node-13376685634-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.504995,
+          "lng": -0.084924,
+          "detail": "Public toilet · fee: no · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/13376685634"
+        },
+        {
+          "id": "toilets-node-350409063-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.510921,
+          "lng": -0.085803,
+          "detail": "Public toilet · fee: yes · wheelchair: no · access: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/350409063"
+        },
+        {
+          "id": "toilets-node-739681434-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.50998,
+          "lng": -0.085545,
+          "detail": "Public toilet · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/739681434"
+        },
+        {
+          "id": "toilets-node-1723656498-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.509297,
+          "lng": -0.090704,
+          "detail": "Public toilet · fee: yes · access: permissive from OpenStreetMap.",
+          "source": "OpenStreetMap node/1723656498"
+        },
+        {
+          "id": "toilets-node-3906081659-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.513481,
+          "lng": -0.088616,
+          "detail": "Public toilet · fee: yes · wheelchair: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/3906081659"
+        },
+        {
+          "id": "toilets-node-11866295817-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511071,
+          "lng": -0.09057,
+          "detail": "Public toilet · fee: no · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/11866295817"
+        },
+        {
+          "id": "toilets-node-694510919-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508816,
+          "lng": -0.078889,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/694510919"
+        },
+        {
+          "id": "toilets-node-12222287877-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.511708,
+          "lng": -0.078969,
+          "detail": "Public toilet from OpenStreetMap.",
+          "source": "OpenStreetMap node/12222287877"
+        },
+        {
+          "id": "toilets-node-12207193490-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.519778,
+          "lng": -0.104752,
+          "detail": "Public toilet · fee: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/12207193490"
+        },
+        {
+          "id": "toilets-node-10798970431-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.519931,
+          "lng": -0.093323,
+          "detail": "Public toilet · fee: no · wheelchair: designated · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/10798970431"
+        },
+        {
+          "id": "toilets-node-553308759-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.517678,
+          "lng": -0.081601,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/553308759"
+        },
+        {
+          "id": "toilets-node-3794539887-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.517613,
+          "lng": -0.081621,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/3794539887"
+        },
+        {
+          "id": "toilets-node-339925126-trafalgar-square-toilets",
+          "name": "Trafalgar Square Toilets",
+          "lat": 51.508244,
+          "lng": -0.128527,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/339925126"
+        },
+        {
+          "id": "toilets-node-344521109-waterloo-station",
+          "name": "Waterloo Station",
+          "lat": 51.503634,
+          "lng": -0.113353,
+          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/344521109"
+        },
+        {
+          "id": "toilets-node-4274551602-waterloo-station",
+          "name": "Waterloo Station",
+          "lat": 51.503658,
+          "lng": -0.113509,
+          "detail": "Public toilet · fee: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/4274551602"
+        }
+      ]
+    },
+    {
+      "id": "supermarkets",
+      "label": "Supermarkets",
+      "defaultVisible": false,
+      "minZoom": 13,
+      "markerLabel": "S",
+      "routeRadius": 0.0045,
+      "points": [
+        {
+          "id": "supermarkets-node-3384334001-aldi",
+          "name": "Aldi",
+          "lat": 51.521341,
+          "lng": -0.075289,
+          "detail": "Supermarket · Aldi from OpenStreetMap.",
+          "source": "OpenStreetMap node/3384334001"
+        },
+        {
+          "id": "supermarkets-node-692162503-amazon-fresh",
+          "name": "Amazon Fresh",
+          "lat": 51.512524,
+          "lng": -0.084877,
+          "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
+          "source": "OpenStreetMap node/692162503"
+        },
+        {
+          "id": "supermarkets-node-9352895797-amazon-fresh",
+          "name": "Amazon Fresh",
+          "lat": 51.51351,
+          "lng": -0.07014,
+          "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
+          "source": "OpenStreetMap node/9352895797"
+        },
+        {
+          "id": "supermarkets-way-810617540-amazon-fresh",
+          "name": "Amazon Fresh",
+          "lat": 51.506055,
+          "lng": -0.100456,
+          "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
+          "source": "OpenStreetMap way/810617540"
+        },
+        {
+          "id": "supermarkets-way-249340689-best-one",
+          "name": "Best-one",
+          "lat": 51.510756,
+          "lng": -0.128657,
+          "detail": "Convenience · Best-one from OpenStreetMap.",
+          "source": "OpenStreetMap way/249340689"
+        },
+        {
+          "id": "supermarkets-way-267559621-best-one",
+          "name": "Best-one",
+          "lat": 51.517884,
+          "lng": -0.070884,
+          "detail": "Convenience · Best-one from OpenStreetMap.",
+          "source": "OpenStreetMap way/267559621"
+        },
+        {
+          "id": "supermarkets-node-701608617-central",
+          "name": "Central",
+          "lat": 51.513251,
+          "lng": -0.136783,
+          "detail": "Convenience · Central Convenience Store from OpenStreetMap.",
+          "source": "OpenStreetMap node/701608617"
+        },
+        {
+          "id": "supermarkets-node-5184548475-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.49986,
+          "lng": -0.114125,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/5184548475"
+        },
+        {
+          "id": "supermarkets-node-282618049-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.500499,
+          "lng": -0.09929,
+          "detail": "Supermarket · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/282618049"
+        },
+        {
+          "id": "supermarkets-node-4478054555-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.500338,
+          "lng": -0.072998,
+          "detail": "Supermarket · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/4478054555"
+        },
+        {
+          "id": "supermarkets-node-9598106773-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.512799,
+          "lng": -0.134305,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/9598106773"
+        },
+        {
+          "id": "supermarkets-node-1557467257-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.508259,
+          "lng": -0.126424,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/1557467257"
+        },
+        {
+          "id": "supermarkets-node-4899105377-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.521827,
+          "lng": -0.113763,
+          "detail": "Supermarket · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/4899105377"
+        },
+        {
+          "id": "supermarkets-node-10799377374-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.520517,
+          "lng": -0.104484,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/10799377374"
+        },
+        {
+          "id": "supermarkets-node-3356884658-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.514762,
+          "lng": -0.09733,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/3356884658"
+        },
+        {
+          "id": "supermarkets-node-6206722380-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.513128,
+          "lng": -0.078103,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/6206722380"
+        },
+        {
+          "id": "supermarkets-way-670990648-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.514063,
+          "lng": -0.117557,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap way/670990648"
+        },
+        {
+          "id": "supermarkets-way-810617537-co-op-food",
+          "name": "Co-op Food",
+          "lat": 51.506292,
+          "lng": -0.100899,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap way/810617537"
+        },
+        {
+          "id": "supermarkets-node-6804141556-co-op-on-the-go",
+          "name": "Co-op On The Go",
+          "lat": 51.515606,
+          "lng": -0.089521,
+          "detail": "Convenience · Co-op Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/6804141556"
+        },
+        {
+          "id": "supermarkets-node-2437576086-costcutter",
+          "name": "Costcutter",
+          "lat": 51.496497,
+          "lng": -0.135315,
+          "detail": "Convenience · Costcutter from OpenStreetMap.",
+          "source": "OpenStreetMap node/2437576086"
+        },
+        {
+          "id": "supermarkets-node-587759060-costcutter",
+          "name": "Costcutter",
+          "lat": 51.498993,
+          "lng": -0.112929,
+          "detail": "Convenience · Costcutter from OpenStreetMap.",
+          "source": "OpenStreetMap node/587759060"
+        },
+        {
+          "id": "supermarkets-node-694696809-costcutter",
+          "name": "Costcutter",
+          "lat": 51.495803,
+          "lng": -0.083333,
+          "detail": "Convenience · Costcutter from OpenStreetMap.",
+          "source": "OpenStreetMap node/694696809"
+        },
+        {
+          "id": "supermarkets-node-8579751772-eataly",
+          "name": "Eataly",
+          "lat": 51.518645,
+          "lng": -0.080158,
+          "detail": "Supermarket · Eataly from OpenStreetMap.",
+          "source": "OpenStreetMap node/8579751772"
+        },
+        {
+          "id": "supermarkets-node-5324642162-jumbo",
+          "name": "Jumbo",
+          "lat": 51.507846,
+          "lng": -0.124312,
+          "detail": "Supermarket · Jumbo from OpenStreetMap.",
+          "source": "OpenStreetMap node/5324642162"
+        },
+        {
+          "id": "supermarkets-node-2437583466-little-waitrose",
+          "name": "Little Waitrose",
+          "lat": 51.497404,
+          "lng": -0.137156,
+          "detail": "Convenience · Little Waitrose from OpenStreetMap.",
+          "source": "OpenStreetMap node/2437583466"
+        },
+        {
+          "id": "supermarkets-node-4318362414-little-waitrose",
+          "name": "Little Waitrose",
+          "lat": 51.507272,
+          "lng": -0.105715,
+          "detail": "Convenience · Little Waitrose from OpenStreetMap.",
+          "source": "OpenStreetMap node/4318362414"
+        },
+        {
+          "id": "supermarkets-node-1588852189-little-waitrose",
+          "name": "Little Waitrose",
+          "lat": 51.517431,
+          "lng": -0.118692,
+          "detail": "Convenience · Little Waitrose from OpenStreetMap.",
+          "source": "OpenStreetMap node/1588852189"
+        },
+        {
+          "id": "supermarkets-node-2925607547-little-waitrose",
+          "name": "Little Waitrose",
+          "lat": 51.51001,
+          "lng": -0.086677,
+          "detail": "Convenience · Little Waitrose from OpenStreetMap.",
+          "source": "OpenStreetMap node/2925607547"
+        },
+        {
+          "id": "supermarkets-node-3788896806-little-waitrose",
+          "name": "Little Waitrose",
+          "lat": 51.512094,
+          "lng": -0.09037,
+          "detail": "Convenience · Little Waitrose from OpenStreetMap.",
+          "source": "OpenStreetMap node/3788896806"
+        },
+        {
+          "id": "supermarkets-node-534973032-londis",
+          "name": "Londis",
+          "lat": 51.503846,
+          "lng": -0.09531,
+          "detail": "Convenience · Londis from OpenStreetMap.",
+          "source": "OpenStreetMap node/534973032"
+        },
+        {
+          "id": "supermarkets-way-279533229-londis",
+          "name": "Londis",
+          "lat": 51.513825,
+          "lng": -0.130496,
+          "detail": "Convenience · Londis from OpenStreetMap.",
+          "source": "OpenStreetMap way/279533229"
+        },
+        {
+          "id": "supermarkets-way-90650954-londis",
+          "name": "Londis",
+          "lat": 51.50469,
+          "lng": -0.089838,
+          "detail": "Convenience · Londis from OpenStreetMap.",
+          "source": "OpenStreetMap way/90650954"
+        },
+        {
+          "id": "supermarkets-node-13808848002-ms-food",
+          "name": "M&S Food",
+          "lat": 51.512542,
+          "lng": -0.130969,
+          "detail": "Supermarket · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/13808848002"
+        },
+        {
+          "id": "supermarkets-way-559282496-ms-food",
+          "name": "M&S Food",
+          "lat": 51.51093,
+          "lng": -0.121708,
+          "detail": "Supermarket · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/559282496"
+        },
+        {
+          "id": "supermarkets-way-428337498-ms-food",
+          "name": "M&S Food",
+          "lat": 51.503725,
+          "lng": -0.113591,
+          "detail": "Convenience · M&S Simply Food from OpenStreetMap.",
+          "source": "OpenStreetMap way/428337498"
+        },
+        {
+          "id": "supermarkets-node-6429327324-ms-foodhall",
+          "name": "M&S Foodhall",
+          "lat": 51.503091,
+          "lng": -0.116126,
+          "detail": "Supermarket · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/6429327324"
+        },
+        {
+          "id": "supermarkets-way-532325528-ms-foodhall",
+          "name": "M&S Foodhall",
+          "lat": 51.514895,
+          "lng": -0.083536,
+          "detail": "Supermarket · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/532325528"
+        },
+        {
+          "id": "supermarkets-node-2499651080-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.495761,
+          "lng": -0.144633,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/2499651080"
+        },
+        {
+          "id": "supermarkets-node-1962296627-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.499638,
+          "lng": -0.119131,
+          "detail": "Convenience · M&S Simply Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/1962296627"
+        },
+        {
+          "id": "supermarkets-node-3357928801-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.50694,
+          "lng": -0.142819,
+          "detail": "Supermarket · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/3357928801"
+        },
+        {
+          "id": "supermarkets-node-568547140-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.508178,
+          "lng": -0.125068,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/568547140"
+        },
+        {
+          "id": "supermarkets-node-5760381482-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.505122,
+          "lng": -0.086643,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/5760381482"
+        },
+        {
+          "id": "supermarkets-node-264523231-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.505046,
+          "lng": -0.082919,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap node/264523231"
+        },
+        {
+          "id": "supermarkets-way-421386553-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.518061,
+          "lng": -0.112365,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/421386553"
+        },
+        {
+          "id": "supermarkets-way-812976872-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.505555,
+          "lng": -0.098006,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/812976872"
+        },
+        {
+          "id": "supermarkets-way-529246730-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.511278,
+          "lng": -0.089829,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/529246730"
+        },
+        {
+          "id": "supermarkets-way-377488601-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.518202,
+          "lng": -0.082348,
+          "detail": "Convenience · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/377488601"
+        },
+        {
+          "id": "supermarkets-way-377595859-ms-simply-food",
+          "name": "M&S Simply Food",
+          "lat": 51.517891,
+          "lng": -0.083167,
+          "detail": "Supermarket · Marks & Spencer from OpenStreetMap.",
+          "source": "OpenStreetMap way/377595859"
+        },
+        {
+          "id": "supermarkets-node-4718553522-marks-and-spencer-to-go",
+          "name": "Marks and Spencer to Go",
+          "lat": 51.511595,
+          "lng": -0.079155,
+          "detail": "Convenience · M&S Simply Food from OpenStreetMap.",
+          "source": "OpenStreetMap node/4718553522"
+        },
+        {
+          "id": "supermarkets-node-3455988440-morrisons-daily",
+          "name": "Morrisons Daily",
+          "lat": 51.498882,
+          "lng": -0.137851,
+          "detail": "Convenience · Morrisons Daily from OpenStreetMap.",
+          "source": "OpenStreetMap node/3455988440"
+        },
+        {
+          "id": "supermarkets-node-447877778-new-oxford-street-post-office",
+          "name": "New Oxford Street Post Office",
+          "lat": 51.516647,
+          "lng": -0.127977,
+          "detail": "Convenience · Post Office from OpenStreetMap.",
+          "source": "OpenStreetMap node/447877778"
+        },
+        {
+          "id": "supermarkets-way-204000369-nisa",
+          "name": "Nisa",
+          "lat": 51.516048,
+          "lng": -0.07724,
+          "detail": "Convenience · Nisa from OpenStreetMap.",
+          "source": "OpenStreetMap way/204000369"
+        },
+        {
+          "id": "supermarkets-node-10152598740-nisa-local",
+          "name": "Nisa Local",
+          "lat": 51.514938,
+          "lng": -0.069766,
+          "detail": "Convenience · Nisa Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/10152598740"
+        },
+        {
+          "id": "supermarkets-way-846790601-nisa-local",
+          "name": "Nisa Local",
+          "lat": 51.514032,
+          "lng": -0.074481,
+          "detail": "Convenience · Nisa Local from OpenStreetMap.",
+          "source": "OpenStreetMap way/846790601"
+        },
+        {
+          "id": "supermarkets-way-264138940-nisa-local",
+          "name": "Nisa Local",
+          "lat": 51.515752,
+          "lng": -0.071047,
+          "detail": "Convenience · Nisa Local from OpenStreetMap.",
+          "source": "OpenStreetMap way/264138940"
+        },
+        {
+          "id": "supermarkets-node-2905788601-one-stop",
+          "name": "One Stop",
+          "lat": 51.51093,
+          "lng": -0.1368,
+          "detail": "Convenience · One Stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/2905788601"
+        },
+        {
+          "id": "supermarkets-node-4548309989-one-stop",
+          "name": "One Stop",
+          "lat": 51.513344,
+          "lng": -0.075635,
+          "detail": "Convenience · One Stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/4548309989"
+        },
+        {
+          "id": "supermarkets-node-9762808910-premier",
+          "name": "Premier",
+          "lat": 51.503382,
+          "lng": -0.10678,
+          "detail": "Convenience · Premier from OpenStreetMap.",
+          "source": "OpenStreetMap node/9762808910"
+        },
+        {
+          "id": "supermarkets-node-4474224997-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.495785,
+          "lng": -0.135571,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/4474224997"
+        },
+        {
+          "id": "supermarkets-node-5982044086-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.499099,
+          "lng": -0.113157,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/5982044086"
+        },
+        {
+          "id": "supermarkets-node-3419966207-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.499372,
+          "lng": -0.085819,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/3419966207"
+        },
+        {
+          "id": "supermarkets-node-4353200690-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.497509,
+          "lng": -0.089894,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/4353200690"
+        },
+        {
+          "id": "supermarkets-node-666743533-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.497386,
+          "lng": -0.080532,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/666743533"
+        },
+        {
+          "id": "supermarkets-node-7151047289-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.495601,
+          "lng": -0.074186,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/7151047289"
+        },
+        {
+          "id": "supermarkets-node-300500853-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.507967,
+          "lng": -0.143608,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/300500853"
+        },
+        {
+          "id": "supermarkets-node-3357928878-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.51623,
+          "lng": -0.135887,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/3357928878"
+        },
+        {
+          "id": "supermarkets-node-2950777633-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.521911,
+          "lng": -0.143322,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/2950777633"
+        },
+        {
+          "id": "supermarkets-node-2406721776-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.509371,
+          "lng": -0.126541,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/2406721776"
+        },
+        {
+          "id": "supermarkets-node-10552978884-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.512252,
+          "lng": -0.128727,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/10552978884"
+        },
+        {
+          "id": "supermarkets-node-587743078-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.502884,
+          "lng": -0.107455,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/587743078"
+        },
+        {
+          "id": "supermarkets-node-3399173299-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.503026,
+          "lng": -0.110573,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/3399173299"
+        },
+        {
+          "id": "supermarkets-node-264515623-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.517372,
+          "lng": -0.120641,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/264515623"
+        },
+        {
+          "id": "supermarkets-node-2326348564-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.519209,
+          "lng": -0.121796,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/2326348564"
+        },
+        {
+          "id": "supermarkets-node-26659113-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.517587,
+          "lng": -0.10876,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/26659113"
+        },
+        {
+          "id": "supermarkets-node-2667699724-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.519384,
+          "lng": -0.105767,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/2667699724"
+        },
+        {
+          "id": "supermarkets-node-4559217310-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.51798,
+          "lng": -0.108507,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/4559217310"
+        },
+        {
+          "id": "supermarkets-node-4087798583-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.501651,
+          "lng": -0.104351,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/4087798583"
+        },
+        {
+          "id": "supermarkets-node-11239922500-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.505262,
+          "lng": -0.101344,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/11239922500"
+        },
+        {
+          "id": "supermarkets-node-4820061721-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.502882,
+          "lng": -0.092182,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/4820061721"
+        },
+        {
+          "id": "supermarkets-node-833668418-sainsburys-local",
+          "name": "Sainsbury's Local",
+          "lat": 51.512529,
+          "lng": -0.10402,
+          "detail": "Convenience · Sainsbury's Local from OpenStreetMap.",
+          "source": "OpenStreetMap node/833668418"
+        }
+      ]
+    }
+  ]
+}

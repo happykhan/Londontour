@@ -1,4 +1,4 @@
-const CACHE_NAME = 'londontour-offline-v19';
+const CACHE_NAME = 'londontour-offline-v20';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -6,6 +6,7 @@ const PRECACHE_URLS = [
   '/assets/styles.css',
   '/assets/vendor/leaflet.js',
   '/assets/vendor/leaflet.css',
+  '/assets/layers.json',
   '/assets/route-geometry.json',
   '/assets/tiles-manifest.json',
 ];

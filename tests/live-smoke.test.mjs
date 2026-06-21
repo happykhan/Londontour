@@ -11,10 +11,20 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0145/);
-  assert.match(html, /assets\/app\.js\?v=20260621-0145/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0145'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0215/);
+  assert.match(html, /assets\/app\.js\?v=20260621-0215/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0215'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
+});
+
+test('production serves generated OpenStreetMap layers', async () => {
+  const catalog = JSON.parse(await readText(`${liveUrl}/assets/layers.json`));
+  const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
+  assert.ok(counts.get('attractions') >= 80);
+  assert.ok(counts.get('food') >= 80);
+  assert.ok(counts.get('transport') >= 100);
+  assert.ok(counts.get('toilets') >= 60);
+  assert.ok(counts.get('supermarkets') >= 60);
 });
 
 test('production serves self-generated static PNG tiles', async () => {

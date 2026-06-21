@@ -166,7 +166,7 @@ const routes = [
   },
 ];
 
-const layerCatalog = [
+const fallbackLayerCatalog = [
   {
     id: 'attractions',
     label: 'Major attractions',
@@ -189,7 +189,7 @@ const layerCatalog = [
   {
     id: 'food',
     label: 'Pubs and rest stops',
-    defaultVisible: true,
+    defaultVisible: false,
     minZoom: 13,
     markerLabel: 'P',
     routeRadius: 0.005,
@@ -241,6 +241,8 @@ const layerCatalog = [
   },
 ];
 
+let layerCatalog = fallbackLayerCatalog;
+
 const pickerEl = document.querySelector('#route-picker');
 const titleEl = document.querySelector('#route-title');
 const summaryEl = document.querySelector('#route-summary');
@@ -279,8 +281,8 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v19';
-const layerStateKey = 'londontour-layer-state-v1';
+const cacheName = 'londontour-offline-v20';
+const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
 
@@ -323,6 +325,75 @@ function saveActiveLayerIds() {
   }
 }
 
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function normaliseLayerCatalog(data) {
+  const layers = Array.isArray(data?.layers) ? data.layers : data;
+  if (!Array.isArray(layers) || !layers.length) return null;
+
+  const normalised = layers
+    .map((layer) => {
+      const points = Array.isArray(layer.points)
+        ? layer.points
+            .map((point) => ({
+              id: String(point.id || `${layer.id}-${point.name || 'point'}`),
+              name: String(point.name || 'Unnamed point'),
+              lat: Number(point.lat),
+              lng: Number(point.lng),
+              detail: String(point.detail || 'OpenStreetMap point.'),
+              source: point.source ? String(point.source) : undefined,
+              routes: Array.isArray(point.routes) ? point.routes.map(String) : undefined,
+            }))
+            .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
+        : [];
+
+      return {
+        id: String(layer.id || ''),
+        label: String(layer.label || layer.id || 'Layer'),
+        defaultVisible: Boolean(layer.defaultVisible),
+        minZoom: Number(layer.minZoom || 13),
+        markerLabel: String(layer.markerLabel || '').slice(0, 3) || '•',
+        routeRadius: Number(layer.routeRadius || 0.005),
+        points,
+      };
+    })
+    .filter((layer) => layer.id && layer.points.length);
+
+  return normalised.length ? normalised : null;
+}
+
+async function loadLayerCatalog() {
+  try {
+    const response = await fetch('/assets/layers.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Layer catalog failed: ${response.status}`);
+
+    const catalog = normaliseLayerCatalog(await response.json());
+    if (!catalog) throw new Error('Layer catalog is empty or invalid');
+
+    layerCatalog = catalog;
+    const validIds = new Set(layerCatalog.map((layer) => layer.id));
+    activeLayerIds = new Set([...activeLayerIds].filter((id) => validIds.has(id)));
+    if (!activeLayerIds.size) {
+      activeLayerIds = new Set(layerCatalog.filter((layer) => layer.defaultVisible).map((layer) => layer.id));
+    }
+
+    renderLayerControls();
+    renderDetails();
+    renderLayerMarkers();
+    if (browseMode) fitBrowseMap({ animate: false });
+    await renderOfflineDetails();
+  } catch (error) {
+    // Keep the bundled fallback layer catalog if the generated dataset cannot load.
+  }
+}
+
 function routeDistance(point, route) {
   return Math.min(
     ...route.stops.map((stop) => {
@@ -355,11 +426,13 @@ function renderLayerControls() {
   layerListEl.innerHTML = layerCatalog
     .map((layer) => {
       const count = layer.points.length;
+      const layerId = escapeHtml(layer.id);
+      const label = escapeHtml(layer.label);
       return `
         <label class="layer-toggle">
-          <input type="checkbox" value="${layer.id}" ${activeLayerIds.has(layer.id) ? 'checked' : ''} />
+          <input type="checkbox" value="${layerId}" ${activeLayerIds.has(layer.id) ? 'checked' : ''} />
           <span>
-            <strong>${layer.label}</strong>
+            <strong>${label}</strong>
             <small>${count} item${count === 1 ? '' : 's'} · visible from zoom ${layer.minZoom}</small>
           </span>
         </label>
@@ -466,8 +539,8 @@ function renderDetails() {
           .map(
             (poi) => `
               <li class="poi-item">
-                <strong>${poi.name}</strong>
-                <span>${poi.layerLabel}: ${poi.detail}</span>
+                <strong>${escapeHtml(poi.name)}</strong>
+                <span>${escapeHtml(poi.layerLabel)}: ${escapeHtml(poi.detail)}</span>
               </li>
             `
           )
@@ -726,6 +799,10 @@ async function downloadOfflinePack() {
       await cacheRequest(cache, '/assets/route-geometry.json');
     }
 
+    if (selections.layers) {
+      await cacheRequest(cache, '/assets/layers.json');
+    }
+
     let tileTotal = 0;
     let cachedTiles = 0;
     if (selections.tiles) {
@@ -759,7 +836,7 @@ async function downloadOfflinePack() {
     });
 
     const tileSummary = selections.tiles ? ` Cached ${cachedTiles}/${tileTotal} local tiles.` : '';
-    setStatus(`Offline pack ready for ${selectedRoute.name}.${tileSummary}`);
+    setStatus(`Offline pack ready for ${browseMode ? 'browse mode' : selectedRoute.name}.${tileSummary}`);
     await renderOfflineDetails();
   } catch (error) {
     setStatus('Offline pack download failed.');
@@ -776,14 +853,19 @@ function renderLayerMarkers() {
   layerMarkers = [];
 
   activeLayerPoints().forEach((point) => {
+    const layerId = escapeHtml(point.layerId);
+    const markerLabel = escapeHtml(point.markerLabel);
+    const name = escapeHtml(point.name);
+    const layerLabel = escapeHtml(point.layerLabel);
+    const detail = escapeHtml(point.detail);
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="layer-marker layer-marker-${point.layerId}"><span>${point.markerLabel}</span></div>`,
+        html: `<div class="layer-marker layer-marker-${layerId}"><span>${markerLabel}</span></div>`,
         iconSize: [30, 30],
         iconAnchor: [15, 15],
       }),
-    }).bindPopup(`<strong>${point.name}</strong><br>${point.layerLabel}<br>${point.detail}`);
+    }).bindPopup(`<strong>${name}</strong><br>${layerLabel}<br>${detail}`);
     marker.addTo(map);
     layerMarkers.push(marker);
   });
@@ -816,7 +898,7 @@ function renderRouteMarkers() {
         iconSize: [28, 28],
         iconAnchor: [14, 14],
       }),
-    }).bindPopup(`<strong>${index + 1}. ${stop.name}</strong><br>${stop.detail}`);
+    }).bindPopup(`<strong>${index + 1}. ${escapeHtml(stop.name)}</strong><br>${escapeHtml(stop.detail)}`);
     marker.addTo(map);
     routeMarkers.push(marker);
   });
@@ -1154,6 +1236,7 @@ renderLayerControls();
 renderPicker();
 renderDetails();
 buildMap();
+void loadLayerCatalog();
 void resetLegacyRuntime();
 if (browseMode) {
   renderBrowseMap({ animate: false });
