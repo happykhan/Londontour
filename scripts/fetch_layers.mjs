@@ -19,6 +19,8 @@ const layerDefinitions = [
     markerLabel: 'L',
     routeRadiusMeters: 700,
     maxItems: 160,
+    previewLimit: 80,
+    fullZoom: 15,
   },
   {
     id: 'museums',
@@ -28,6 +30,8 @@ const layerDefinitions = [
     markerLabel: 'M',
     routeRadiusMeters: 650,
     maxItems: 320,
+    previewLimit: 50,
+    fullZoom: 16,
   },
   {
     id: 'monuments',
@@ -37,6 +41,8 @@ const layerDefinitions = [
     markerLabel: 'Mon',
     routeRadiusMeters: 550,
     maxItems: 420,
+    previewLimit: 55,
+    fullZoom: 16,
   },
   {
     id: 'plaques',
@@ -46,6 +52,8 @@ const layerDefinitions = [
     markerLabel: 'Plq',
     routeRadiusMeters: 350,
     maxItems: 320,
+    previewLimit: 45,
+    fullZoom: 17,
   },
   {
     id: 'pubs',
@@ -55,6 +63,8 @@ const layerDefinitions = [
     markerLabel: 'P',
     routeRadiusMeters: 500,
     maxItems: 520,
+    previewLimit: 60,
+    fullZoom: 16,
   },
   {
     id: 'transport',
@@ -64,6 +74,8 @@ const layerDefinitions = [
     markerLabel: 'Boat',
     routeRadiusMeters: 500,
     maxItems: 90,
+    previewLimit: 70,
+    fullZoom: 14,
   },
   {
     id: 'bus-planning',
@@ -74,6 +86,8 @@ const layerDefinitions = [
     markerLabel: 'Bus',
     routeRadiusMeters: 250,
     maxItems: 1600,
+    previewLimit: 120,
+    fullZoom: 18,
   },
   {
     id: 'toilets',
@@ -83,6 +97,8 @@ const layerDefinitions = [
     markerLabel: 'WC',
     routeRadiusMeters: 400,
     maxItems: 320,
+    previewLimit: 55,
+    fullZoom: 16,
   },
   {
     id: 'supermarkets',
@@ -92,6 +108,8 @@ const layerDefinitions = [
     markerLabel: 'S',
     routeRadiusMeters: 450,
     maxItems: 420,
+    previewLimit: 60,
+    fullZoom: 16,
   },
 ];
 
@@ -606,7 +624,7 @@ function buildLayers(elements, tubeStations) {
     const points = dedupe(pointsByLayer.get(layer.id) || [])
       .sort((a, b) => b.score - a.score || a.point.name.localeCompare(b.point.name))
       .slice(0, maxItems)
-      .map((item) => item.point)
+      .map((item, index) => ({ ...item.point, priority: index + 1 }))
       .sort((a, b) => a.name.localeCompare(b.name));
 
     return {

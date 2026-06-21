@@ -370,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0929';
-const cacheName = 'londontour-offline-v37';
+const assetVersion = '20260621-0940';
+const cacheName = 'londontour-offline-v38';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -636,6 +636,7 @@ function normaliseLayerCatalog(data) {
               markerLabel: point.markerLabel ? String(point.markerLabel).slice(0, 4) : undefined,
               transportType: point.transportType ? String(point.transportType) : undefined,
               url: point.url ? String(point.url) : undefined,
+              priority: Number(point.priority || Number.MAX_SAFE_INTEGER),
               routes: Array.isArray(point.routes) ? point.routes.map(String) : undefined,
             }))
             .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
@@ -649,6 +650,8 @@ function normaliseLayerCatalog(data) {
         minZoom: Number(layer.minZoom || 13),
         markerLabel: String(layer.markerLabel || '').slice(0, 3) || '•',
         routeRadiusMeters: Number(layer.routeRadiusMeters || layer.routeRadius * 100000 || 500),
+        previewLimit: Number(layer.previewLimit || 0),
+        fullZoom: Number(layer.fullZoom || 0),
         points,
       };
     })
@@ -733,6 +736,41 @@ function pointMatchesRoute(point, layer, route) {
   return routeDistanceMeters(point, route) <= (layer.routeRadiusMeters || 500);
 }
 
+function pointPriority(point) {
+  return Number.isFinite(point.priority) ? point.priority : Number.MAX_SAFE_INTEGER;
+}
+
+function pointInViewport(point, padding = 0.15) {
+  if (!map) return true;
+  return map.getBounds().pad(padding).contains([point.lat, point.lng]);
+}
+
+function layerPreviewLimit(layer, zoom) {
+  const total = layer.points.length;
+  if (total <= 90) return Infinity;
+
+  const previewLimit = layer.previewLimit || Math.min(80, Math.max(30, Math.ceil(total * 0.18)));
+  const fullZoom = layer.fullZoom || layer.minZoom + 3;
+  if (zoom >= fullZoom) return Infinity;
+
+  const zoomSteps = Math.max(0, Math.floor(zoom - layer.minZoom));
+  return Math.min(total, previewLimit * 2 ** zoomSteps);
+}
+
+function limitLayerPointsForBrowse(layer, points, zoom, forcedPointIds) {
+  const viewportPoints = points.filter((point) => forcedPointIds.has(point.id) || pointInViewport(point));
+  const limit = layerPreviewLimit(layer, zoom);
+  if (!Number.isFinite(limit)) return viewportPoints;
+
+  const forced = viewportPoints.filter((point) => forcedPointIds.has(point.id));
+  const ordinary = viewportPoints
+    .filter((point) => !forcedPointIds.has(point.id))
+    .sort((a, b) => pointPriority(a) - pointPriority(b) || a.name.localeCompare(b.name))
+    .slice(0, Math.max(0, limit - forced.length));
+
+  return [...forced, ...ordinary].sort((a, b) => a.name.localeCompare(b.name));
+}
+
 function routeMustShowPoint(point, route = selectedRoute) {
   return Boolean(route?.mustShowPointIds?.includes(point.id));
 }
@@ -741,19 +779,21 @@ function routeMustHidePoint(point, route = selectedRoute) {
   return Boolean(route?.mustHidePointIds?.includes(point.id));
 }
 
-function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoomRules = !browseMode) {
+function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoomRules = true) {
   const zoom = map?.getZoom?.() || route?.zoom || 13;
   return visibleLayerCatalog().flatMap((layer) => {
     const layerActive = activeLayerIds.has(layer.id);
     const forcedPointIds = new Set(route?.mustShowPointIds || []);
     if (!layerActive && !forcedPointIds.size) return [];
-    return layer.points
+    const points = layer.points
       .filter((point) => {
         const forced = forcedPointIds.has(point.id);
         if (!layerActive && !forced) return false;
         if (includeZoomRules && zoom < layer.minZoom && !forced) return false;
         return !route || pointMatchesRoute(point, layer, route);
-      })
+      });
+    const displayPoints = includeZoomRules && !route ? limitLayerPointsForBrowse(layer, points, zoom, forcedPointIds) : points;
+    return displayPoints
       .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, layerMarkerLabel: layer.markerLabel }));
   });
 }
@@ -766,12 +806,16 @@ function renderLayerControls() {
       const count = layer.points.length;
       const layerId = escapeHtml(layer.id);
       const label = escapeHtml(layer.label);
+      const hasStagedDisplay = layer.previewLimit && count > layer.previewLimit;
+      const visibilityCopy = hasStagedDisplay
+        ? `${count} items · priority ${layer.previewLimit} from zoom ${layer.minZoom} · all by zoom ${layer.fullZoom || layer.minZoom + 3}`
+        : `${count} item${count === 1 ? '' : 's'} · visible from zoom ${layer.minZoom}`;
       return `
         <label class="layer-toggle">
           <input type="checkbox" value="${layerId}" ${activeLayerIds.has(layer.id) ? 'checked' : ''} />
           <span>
             <strong>${label}</strong>
-            <small>${count} item${count === 1 ? '' : 's'} · visible from zoom ${layer.minZoom}</small>
+            <small>${escapeHtml(visibilityCopy)}</small>
           </span>
         </label>
       `;

@@ -61,9 +61,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0929'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0929/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0929/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0940'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0940/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0940/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -104,7 +104,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0929'/);
+  assert.match(js, /const assetVersion = '20260621-0940'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -128,6 +128,9 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /openOn\(map\)/);
   assert.match(js, /tube line filter cleared/);
   assert.match(js, /map\.closePopup\(\)/);
+  assert.match(js, /function layerPreviewLimit/);
+  assert.match(js, /function limitLayerPointsForBrowse/);
+  assert.match(js, /pointInViewport/);
   assert.match(js, /dashArray: '8 8'/);
   assert.match(js, /river service/);
   assert.doesNotMatch(js, /pois: \[/);
@@ -177,7 +180,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v37/);
+  assert.match(sw, /londontour-offline-v38/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -223,10 +226,13 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
 
   for (const layer of catalog.layers) {
     assert.equal(typeof layer.routeRadiusMeters, 'number', `${layer.id} should define a metre detour radius`);
+    assert.equal(typeof layer.previewLimit, 'number', `${layer.id} should define a browse preview limit`);
+    assert.equal(typeof layer.fullZoom, 'number', `${layer.id} should define a full reveal zoom`);
     for (const point of layer.points) {
       assert.ok(point.source?.startsWith('OpenStreetMap'), `${point.name} should retain its OSM source`);
       assert.equal(typeof point.lat, 'number');
       assert.equal(typeof point.lng, 'number');
+      assert.equal(typeof point.priority, 'number', `${point.name} should retain a layer priority rank`);
     }
   }
 });

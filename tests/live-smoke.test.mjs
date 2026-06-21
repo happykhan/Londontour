@@ -11,9 +11,9 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0929/);
-  assert.match(html, /assets\/app\.js\?v=20260621-0929/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0929'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0940/);
+  assert.match(html, /assets\/app\.js\?v=20260621-0940/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0940'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
@@ -35,6 +35,10 @@ test('production serves generated OpenStreetMap layers', async () => {
   assert.ok(counts.get('supermarkets') >= 400);
 
   const museums = catalog.layers.find((layer) => layer.id === 'museums');
+  const pubs = catalog.layers.find((layer) => layer.id === 'pubs');
+  assert.ok(museums.previewLimit > 0 && museums.fullZoom > museums.minZoom);
+  assert.ok(pubs.previewLimit > 0 && pubs.fullZoom > pubs.minZoom);
+  assert.ok(museums.points.every((point) => typeof point.priority === 'number'));
   assert.ok(museums.points.every((point) => /^https?:\/\//.test(point.url)));
   const transport = catalog.layers.find((layer) => layer.id === 'transport');
   const busPlanning = catalog.layers.find((layer) => layer.id === 'bus-planning');
