@@ -370,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1020';
-const cacheName = 'londontour-offline-v39';
+const assetVersion = '20260621-1040';
+const cacheName = 'londontour-offline-v40';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1198,10 +1198,10 @@ function segmentStylesFor(segment) {
 function routeStrokeStyle(segment) {
   const isCompact = window.matchMedia('(max-width: 900px)').matches;
   return {
-    casingOpacity: isCompact ? 0.74 : 0.88,
-    casingWeight: isCompact ? 8 : 12,
-    lineOpacity: isCompact ? 0.92 : 0.98,
-    lineWeight: segment === 'tube' ? (isCompact ? 6 : 8) : (isCompact ? 5 : 7),
+    casingOpacity: isCompact ? 0.94 : 0.98,
+    casingWeight: isCompact ? 12 : 16,
+    lineOpacity: 1,
+    lineWeight: segment === 'tube' ? (isCompact ? 8 : 10) : (isCompact ? 7 : 9),
   };
 }
 
@@ -1366,10 +1366,10 @@ async function renderTubeNetwork(openStationId) {
     const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
     const style = {
       color: line.color || '#1d4ed8',
-      opacity: isDimmed ? 0.18 : isSelected ? 0.95 : 0.68,
+      opacity: isDimmed ? 0.12 : isSelected ? 0.78 : 0.46,
       pane: 'tubeNetwork',
       renderer: tubeNetworkRenderer,
-      weight: isSelected ? 6 : 3,
+      weight: isSelected ? 5 : 2.5,
       lineCap: 'round',
       lineJoin: 'round',
     };
@@ -1387,10 +1387,10 @@ async function renderTubeNetwork(openStationId) {
 
     const polyline = L.polyline(segments, {
       color: service.color || '#0077b6',
-      opacity: selectedLineIds.size ? 0.28 : 0.62,
+      opacity: selectedLineIds.size ? 0.16 : 0.4,
       pane: 'tubeNetwork',
       renderer: tubeNetworkRenderer,
-      weight: 3,
+      weight: 2.5,
       dashArray: '8 8',
       lineCap: 'round',
       lineJoin: 'round',
