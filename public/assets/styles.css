@@ -111,6 +111,22 @@ body.browse-view .tour-panel {
   display: none;
 }
 
+body.browse-view.browse-layers-open .app-shell {
+  grid-template-columns: minmax(300px, 420px) minmax(0, 1fr);
+}
+
+body.browse-view.browse-layers-open .tour-panel {
+  display: block;
+}
+
+body.browse-view .tour-heading,
+body.browse-view .route-pickers,
+body.browse-view .route-card-view,
+body.browse-view .directions-panel,
+body.browse-view .highlights-panel {
+  display: none;
+}
+
 body[data-theme="dark"] .tour-panel {
   background: rgba(18, 23, 21, 0.94);
 }
@@ -293,6 +309,16 @@ body[data-theme="dark"] .route-card.is-active {
   display: flex;
   justify-content: space-between;
   gap: 0.75rem;
+}
+
+.layer-actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.compact-button {
+  min-height: 34px;
+  padding: 0.45rem 0.65rem;
 }
 
 .directions {
@@ -588,6 +614,10 @@ body[data-theme="dark"] .route-card.is-active {
     --mobile-sheet-height: 0px;
   }
 
+  body.browse-view.browse-layers-open {
+    --mobile-sheet-height: 42dvh;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
     min-height: 100dvh;
@@ -688,6 +718,10 @@ body[data-theme="dark"] .route-card.is-active {
     display: none;
   }
 
+  body.browse-view.browse-layers-open .tour-panel {
+    display: block;
+  }
+
   body.route-view .tour-heading,
   body.route-view .route-pickers {
     display: none;
@@ -783,6 +817,10 @@ body[data-theme="dark"] .route-card.is-active {
 
   body.browse-view .leaflet-control-attribution {
     bottom: calc(0.25rem + env(safe-area-inset-bottom));
+  }
+
+  body.browse-view.browse-layers-open .leaflet-control-attribution {
+    bottom: calc(var(--mobile-sheet-height) + 0.25rem);
   }
 
   .directions .segment-divider {

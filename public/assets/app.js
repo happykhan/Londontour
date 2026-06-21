@@ -251,6 +251,8 @@ const directionsEl = document.querySelector('#directions');
 const highlightsEl = document.querySelector('#route-highlights');
 const statusEl = document.querySelector('#status');
 const layerListEl = document.querySelector('#layer-list');
+const layersAllButton = document.querySelector('#layers-all-button');
+const layersNoneButton = document.querySelector('#layers-none-button');
 const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
@@ -281,7 +283,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v20';
+const cacheName = 'londontour-offline-v21';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -323,6 +325,15 @@ function saveActiveLayerIds() {
   } catch (error) {
     // Layer state is still usable for the current session.
   }
+}
+
+function applyLayerSelection(ids, message = 'Map layers updated.') {
+  activeLayerIds = new Set(ids);
+  saveActiveLayerIds();
+  renderLayerControls();
+  renderLayerMarkers();
+  renderDetails();
+  setStatus(message);
 }
 
 function escapeHtml(value = '') {
@@ -1015,9 +1026,32 @@ function renderBrowseMap(options = {}) {
   setStatus('Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
 }
 
+function setBrowseLayersOpen(open) {
+  const isOpen = Boolean(open);
+  document.body.classList.toggle('browse-layers-open', browseMode && isOpen);
+  browseMapButton.textContent = browseMode ? (isOpen ? 'Close' : 'Layers') : 'Browse';
+  browseMapButton.setAttribute('aria-expanded', browseMode && isOpen ? 'true' : 'false');
+
+  if (!map) return;
+  window.setTimeout(() => {
+    map.invalidateSize();
+    if (browseMode) fitBrowseMap({ animate: false });
+  }, 0);
+}
+
+function toggleBrowseLayers() {
+  if (!browseMode) {
+    enterBrowseMode({ openLayers: true });
+    return;
+  }
+
+  setBrowseLayersOpen(!document.body.classList.contains('browse-layers-open'));
+}
+
 function enterBrowseMode(options = {}) {
   browseMode = true;
   document.body.classList.add('route-view', 'browse-view');
+  setBrowseLayersOpen(options.openLayers ?? false);
   const url = new URL(window.location.href);
   url.searchParams.delete('route');
   url.searchParams.set('mode', 'browse');
@@ -1038,7 +1072,8 @@ function selectRoute(route) {
   selectedRoute = route;
   selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
-  document.body.classList.remove('browse-view');
+  document.body.classList.remove('browse-view', 'browse-layers-open');
+  setBrowseLayersOpen(false);
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
   url.searchParams.delete('mode');
@@ -1176,7 +1211,8 @@ function addOrUpdateUserMarker() {
 function showRoutePicker() {
   browseMode = false;
   clearRouteOverlays();
-  document.body.classList.remove('route-view', 'browse-view');
+  document.body.classList.remove('route-view', 'browse-view', 'browse-layers-open');
+  setBrowseLayersOpen(false);
   const url = new URL(window.location.href);
   url.searchParams.delete('mode');
   url.searchParams.delete('route');
@@ -1200,7 +1236,7 @@ mapPrintButton.addEventListener('click', () => window.print());
 changeRouteButton.addEventListener('click', showRoutePicker);
 recenterButton.addEventListener('click', recenterRoute);
 browsePickerButton.addEventListener('click', () => enterBrowseMode());
-browseMapButton.addEventListener('click', () => enterBrowseMode());
+browseMapButton.addEventListener('click', toggleBrowseLayers);
 themeButton.addEventListener('click', toggleTheme);
 shareButton.addEventListener('click', shareRoute);
 
@@ -1212,11 +1248,15 @@ layerListEl.addEventListener('change', (event) => {
   } else {
     activeLayerIds.delete(target.value);
   }
-  saveActiveLayerIds();
-  renderLayerControls();
-  renderLayerMarkers();
-  renderDetails();
-  setStatus('Map layers updated.');
+  applyLayerSelection(activeLayerIds);
+});
+
+layersAllButton.addEventListener('click', () => {
+  applyLayerSelection(layerCatalog.map((layer) => layer.id), 'All map layers are visible.');
+});
+
+layersNoneButton.addEventListener('click', () => {
+  applyLayerSelection([], 'All map layers are hidden.');
 });
 
 document.querySelectorAll('.offline-options input').forEach((input) => {
@@ -1232,6 +1272,7 @@ if (initialRoute) {
 if (browseMode) {
   document.body.classList.add('route-view', 'browse-view');
 }
+setBrowseLayersOpen(false);
 renderLayerControls();
 renderPicker();
 renderDetails();

@@ -8,8 +8,8 @@
       name="description"
       content="Choose a London tour, see the route on a familiar map, and print the directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-0215" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260621-0215" />
+    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260621-0230" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260621-0230" />
   </head>
   <body>
     <main class="app-shell">
@@ -33,9 +33,13 @@
           <button id="browse-picker-button" class="secondary-button browse-picker-button" type="button">Browse map</button>
         </section>
 
-        <section class="layers-panel" aria-label="Map layers">
+        <section id="layers-panel" class="layers-panel" aria-label="Map layers">
           <div class="section-row">
             <h2>Map layers</h2>
+            <div class="layer-actions" aria-label="Layer shortcuts">
+              <button id="layers-all-button" class="secondary-button compact-button" type="button">All</button>
+              <button id="layers-none-button" class="secondary-button compact-button" type="button">None</button>
+            </div>
           </div>
           <div id="layer-list" class="layer-list"></div>
         </section>
@@ -83,7 +87,7 @@
         <div class="map-topbar" aria-label="Route controls">
           <button id="change-route-button" class="secondary-button" type="button">Routes</button>
           <button id="recenter-button" class="secondary-button" type="button">Recenter</button>
-          <button id="browse-map-button" class="secondary-button" type="button">Browse</button>
+          <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Browse</button>
           <button id="map-print-button" type="button">Print</button>
         </div>
         <div class="map-actions">
@@ -93,12 +97,12 @@
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260621-0215"></script>
-    <script src="assets/app.js?v=20260621-0215"></script>
+    <script src="assets/vendor/leaflet.js?v=20260621-0230"></script>
+    <script src="assets/app.js?v=20260621-0230"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260621-0215').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260621-0230').catch(() => {});
         });
       }
     </script>
