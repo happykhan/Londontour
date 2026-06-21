@@ -204,13 +204,12 @@ const fallbackLayerCatalog = [
     label: 'Transport links',
     defaultVisible: false,
     minZoom: 12,
-    markerLabel: 'T',
+    markerLabel: 'Bus',
     routeRadiusMeters: 500,
     points: [
-      { id: 'charing-cross', name: 'Charing Cross', lat: 51.508, lng: -0.1247, detail: 'Rail and Underground interchange.' },
-      { id: 'westminster-station', name: 'Westminster Underground', lat: 51.501, lng: -0.1254, detail: 'Tube access by Parliament Square.' },
-      { id: 'tower-hill', name: 'Tower Hill Underground', lat: 51.5104, lng: -0.0766, detail: 'Tube access for the Tower finish.' },
-      { id: 'tower-pier', name: 'Tower Pier', lat: 51.5071, lng: -0.0773, detail: 'Uber Boat stop for a future river leg.' },
+      { id: 'trafalgar-square-bus', name: 'Trafalgar Square', lat: 51.508, lng: -0.1281, detail: 'Bus stop near the route.', transportType: 'bus', markerLabel: 'Bus' },
+      { id: 'westminster-pier', name: 'Westminster Pier', lat: 51.5019, lng: -0.1234, detail: 'River pier near Parliament.', transportType: 'boat', markerLabel: 'Boat' },
+      { id: 'tower-pier', name: 'Tower Millennium Pier', lat: 51.5075, lng: -0.0792, detail: 'River pier near the Tower.', transportType: 'boat', markerLabel: 'Boat' },
     ],
   },
   {
@@ -320,7 +319,7 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const cacheName = 'londontour-offline-v26';
+const cacheName = 'londontour-offline-v27';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -400,6 +399,8 @@ function normaliseLayerCatalog(data) {
               lng: Number(point.lng),
               detail: String(point.detail || 'OpenStreetMap point.'),
               source: point.source ? String(point.source) : undefined,
+              markerLabel: point.markerLabel ? String(point.markerLabel).slice(0, 4) : undefined,
+              transportType: point.transportType ? String(point.transportType) : undefined,
               routes: Array.isArray(point.routes) ? point.routes.map(String) : undefined,
             }))
             .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
@@ -499,7 +500,7 @@ function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoo
     if (includeZoomRules && zoom < layer.minZoom) return [];
     return layer.points
       .filter((point) => !route || pointMatchesRoute(point, layer, route))
-      .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, markerLabel: layer.markerLabel }));
+      .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, layerMarkerLabel: layer.markerLabel }));
   });
 }
 
@@ -964,14 +965,15 @@ function renderLayerMarkers() {
 
   activeLayerPoints().forEach((point) => {
     const layerId = escapeHtml(point.layerId);
-    const markerLabel = escapeHtml(point.markerLabel);
+    const markerLabel = escapeHtml(point.markerLabel || point.layerMarkerLabel);
     const name = escapeHtml(point.name);
     const layerLabel = escapeHtml(point.layerLabel);
     const detail = escapeHtml(point.detail);
+    const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="layer-marker layer-marker-${layerId}"><span>${markerLabel}</span></div>`,
+        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}"><span>${markerLabel}</span></div>`,
         iconSize: [30, 30],
         iconAnchor: [15, 15],
       }),

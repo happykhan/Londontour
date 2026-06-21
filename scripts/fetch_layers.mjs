@@ -34,7 +34,7 @@ const layerDefinitions = [
     label: 'Transport links',
     defaultVisible: false,
     minZoom: 12,
-    markerLabel: 'T',
+    markerLabel: 'Bus',
     routeRadiusMeters: 500,
     maxItems: 120,
   },
@@ -140,13 +140,17 @@ function classify(tags = {}) {
   if (tags.amenity === 'toilets') return 'toilets';
   if (/^(supermarket|convenience)$/.test(tags.shop)) return 'supermarkets';
   if (tags.tourism || tags.historic) return 'attractions';
-  if (tags.railway || tags.public_transport || tags.highway === 'bus_stop' || tags.amenity === 'ferry_terminal') {
-    return 'transport';
-  }
+  if (transportType(tags)) return 'transport';
   return null;
 }
 
-function isTubeTransport(tags = {}) {
+function transportType(tags = {}) {
+  if (tags.amenity === 'ferry_terminal' || tags.ferry === 'yes' || /river services/i.test(tags.network || '')) return 'boat';
+  if (tags.highway === 'bus_stop' || tags.bus === 'yes' || tags.amenity === 'bus_station') return 'bus';
+  return null;
+}
+
+function isRailOrTubeTransport(tags = {}) {
   const values = [
     tags.network,
     tags.operator,
@@ -163,9 +167,18 @@ function isTubeTransport(tags = {}) {
 
   return (
     values.includes('london underground') ||
+    values.includes('national rail') ||
+    values.includes('elizabeth line') ||
+    values.includes('docklands light railway') ||
+    values.includes('london overground') ||
     values.includes('tube') ||
+    tags.train === 'yes' ||
+    tags.light_rail === 'yes' ||
     tags.railway === 'subway_entrance' ||
     tags.railway === 'subway' ||
+    tags.railway === 'station' ||
+    tags.railway === 'stop' ||
+    tags.railway === 'platform' ||
     tags.station === 'subway' ||
     tags.subway === 'yes'
   );
@@ -181,7 +194,7 @@ function titleCase(value = '') {
 
 function fallbackName(layerId, tags) {
   if (layerId === 'toilets') return 'Public toilets';
-  if (layerId === 'transport') return titleCase(tags.station || tags.railway || tags.public_transport || tags.highway || 'Transport stop');
+  if (layerId === 'transport') return transportType(tags) === 'boat' ? 'River pier' : 'Bus stop';
   if (layerId === 'supermarkets') return titleCase(tags.shop || 'Supermarket');
   if (layerId === 'food') return titleCase(tags.amenity || 'Rest stop');
   return titleCase(tags.tourism || tags.historic || 'Attraction');
@@ -210,8 +223,10 @@ function detailFor(layerId, tags = {}) {
   }
 
   if (layerId === 'transport') {
-    const type = tags.railway || tags.public_transport || tags.highway || tags.amenity || 'transport';
-    const bits = [titleCase(type)];
+    const type = transportType(tags);
+    const bits = [type === 'boat' ? 'River pier' : 'Bus stop'];
+    if (tags.local_ref) bits.push(`stop ${tags.local_ref}`);
+    if (tags.ref && type === 'boat') bits.push(`pier ${tags.ref}`);
     if (tags.operator) bits.push(tags.operator);
     if (tags.network) bits.push(tags.network);
     return `${bits.join(' · ')} from OpenStreetMap.`;
@@ -227,8 +242,9 @@ function scoreElement(layerId, tags = {}) {
   if (tags.name) score += 50;
   if (tags.wikidata || tags.wikipedia) score += 25;
   if (tags.tourism === 'museum' || tags.tourism === 'gallery' || tags.historic === 'monument') score += 18;
-  if (tags.railway === 'station' || tags.public_transport === 'station' || tags.amenity === 'ferry_terminal') score += 24;
-  if (tags.highway === 'bus_stop') score -= 8;
+  if (tags.amenity === 'ferry_terminal' || tags.ferry === 'yes') score += 45;
+  if (tags.highway === 'bus_stop') score += 12;
+  if (tags.public_transport === 'stop_position') score -= 45;
   if (tags.amenity === 'pub' || tags.amenity === 'cafe') score += 10;
   if (layerId === 'toilets' && tags.access === 'public') score += 12;
   if (layerId === 'supermarkets' && tags.brand) score += 12;
@@ -252,7 +268,9 @@ function cleanPoint(element) {
   const layerId = classify(tags);
   const coordinate = coordinateFor(element);
   if (!layerId || !coordinate) return null;
-  if (layerId === 'transport' && isTubeTransport(tags)) return null;
+  const pointTransportType = layerId === 'transport' ? transportType(tags) : null;
+  if (layerId === 'transport' && (!pointTransportType || isRailOrTubeTransport(tags))) return null;
+  if (layerId === 'transport' && tags.public_transport === 'stop_position') return null;
 
   const name = (tags.name || tags['name:en'] || fallbackName(layerId, tags)).trim();
   if (!name) return null;
@@ -267,6 +285,12 @@ function cleanPoint(element) {
       lng: coordinate.lng,
       detail: detailFor(layerId, tags),
       source: `OpenStreetMap ${element.type}/${element.id}`,
+      ...(pointTransportType
+        ? {
+            transportType: pointTransportType,
+            markerLabel: pointTransportType === 'boat' ? 'Boat' : 'Bus',
+          }
+        : {}),
     },
     score: scoreElement(layerId, tags),
   };
@@ -301,15 +325,21 @@ function isDuplicateTubeTransport(point, tubeStations) {
 }
 
 function dedupe(points) {
-  const byKey = new Map();
-  for (const item of points) {
-    const coordKey = `${item.point.name.toLowerCase()}-${item.point.lat.toFixed(4)}-${item.point.lng.toFixed(4)}`;
-    const existing = byKey.get(coordKey);
-    if (!existing || item.score > existing.score) {
-      byKey.set(coordKey, item);
+  const kept = [];
+  const sorted = [...points].sort((a, b) => b.score - a.score);
+  for (const item of sorted) {
+    const duplicate = kept.find((existing) => {
+      if (existing.point.transportType !== item.point.transportType) return false;
+      if (normaliseName(existing.point.name) !== normaliseName(item.point.name)) return false;
+      const threshold = item.layerId === 'transport' ? 180 : 35;
+      return distanceMeters(existing.point, item.point) <= threshold;
+    });
+
+    if (!duplicate) {
+      kept.push(item);
     }
   }
-  return [...byKey.values()];
+  return kept;
 }
 
 function buildLayers(elements, tubeStations) {

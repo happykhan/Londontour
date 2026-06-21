@@ -59,9 +59,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0801'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0801/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0801/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0810'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0810/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0810/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -90,6 +90,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
+  assert.match(js, /transportType/);
+  assert.match(js, /layer-marker-transport-/);
   assert.match(js, /const majorTubeStationMinZoom = 12/);
   assert.match(js, /const tubeStationMinZoom = 13/);
   assert.match(js, /function isMajorTubeStation/);
@@ -123,6 +125,8 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\[data-theme="dark"\] \.route-card/);
   assert.match(css, /body\[data-theme="dark"\]:not\(\.route-view\) \.tour-panel/);
   assert.match(css, /body\[data-theme="dark"\]\.route-view \.tour-panel/);
+  assert.match(css, /\.layer-marker-transport-bus/);
+  assert.match(css, /\.layer-marker-transport-boat/);
   assert.match(css, /\.tube-station-marker\.is-major/);
 });
 
@@ -134,7 +138,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v26/);
+  assert.match(sw, /londontour-offline-v27/);
   assert.match(sw, /\/assets\/layers\.json/);
   assert.match(sw, /\/assets\/tube-network\.json/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
@@ -184,12 +188,19 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   const tubeStationNames = new Set(tubeNetwork.stations.map((station) => station.name.toLowerCase()));
   const transportLayer = catalog.layers.find((layer) => layer.id === 'transport');
   assert.ok(transportLayer, 'transport layer should exist');
+  const transportCounts = new Map();
   for (const point of transportLayer.points) {
+    transportCounts.set(point.transportType, (transportCounts.get(point.transportType) || 0) + 1);
+    assert.ok(['bus', 'boat'].includes(point.transportType), `${point.name} should be typed as bus or boat`);
+    assert.ok(['Bus', 'Boat'].includes(point.markerLabel), `${point.name} should have a bus or boat marker label`);
+    assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|railway|stop position/i);
     const transportName = point.name.replace(/\s+Station$/i, '').toLowerCase();
     assert.ok(!tubeStationNames.has(transportName), `${point.name} should not duplicate a tube station marker`);
     assert.doesNotMatch(point.name, /^\d+[A-Z]?$/);
     assert.doesNotMatch(point.name, /platforms?/i);
   }
+  assert.ok(transportCounts.get('bus') >= 80, 'transport layer should include bus stops');
+  assert.ok(transportCounts.get('boat') >= 8, 'transport layer should include river piers');
 });
 
 test('route geometry file is valid and complete', () => {

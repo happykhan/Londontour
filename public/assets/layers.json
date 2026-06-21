@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T06:43:03.360Z",
+  "generatedAt": "2026-06-21T07:11:57.196Z",
   "source": "OpenStreetMap via Overpass API",
   "bbox": {
     "south": 51.495,
@@ -1473,968 +1473,1208 @@
       "label": "Transport links",
       "defaultVisible": false,
       "minZoom": 12,
-      "markerLabel": "T",
+      "markerLabel": "Bus",
       "routeRadiusMeters": 500,
       "points": [
         {
-          "id": "transport-node-5841745886-abbey-street",
+          "id": "transport-node-469762552-abbey-street",
           "name": "Abbey Street",
-          "lat": 51.498124,
-          "lng": -0.079565,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5841745886"
+          "lat": 51.499055,
+          "lng": -0.079232,
+          "detail": "Bus stop · stop M from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762552",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5841745887-abbey-street",
-          "name": "Abbey Street",
-          "lat": 51.499041,
-          "lng": -0.079135,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5841745887"
-        },
-        {
-          "id": "transport-node-4087644123-abbots-lane",
+          "id": "transport-node-469789695-abbots-lane",
           "name": "Abbots Lane",
-          "lat": 51.5041,
-          "lng": -0.081667,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4087644123"
+          "lat": 51.50412,
+          "lng": -0.08163,
+          "detail": "Bus stop · stop J from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789695",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4666019930-abingdon-street",
+          "id": "transport-node-469762600-abingdon-street",
           "name": "Abingdon Street",
-          "lat": 51.497648,
-          "lng": -0.125708,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4666019930"
+          "lat": 51.497647,
+          "lng": -0.125572,
+          "detail": "Bus stop · stop L from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762600",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4666019931-abingdon-street",
-          "name": "Abingdon Street",
-          "lat": 51.497388,
-          "lng": -0.125676,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4666019931"
+          "id": "transport-node-469767433-addington-street",
+          "name": "Addington Street",
+          "lat": 51.501282,
+          "lng": -0.116311,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469767433",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-469762110-aldgate-bus-station",
+          "id": "transport-node-3231501610-aldgate-bus-station",
           "name": "Aldgate Bus Station",
-          "lat": 51.513849,
-          "lng": -0.075202,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/469762110"
+          "lat": 51.513866,
+          "lng": -0.075337,
+          "detail": "Bus stop · stop L from OpenStreetMap.",
+          "source": "OpenStreetMap node/3231501610",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3497406876-aldwych",
+          "id": "transport-node-469762121-aldwych",
           "name": "Aldwych",
-          "lat": 51.512437,
-          "lng": -0.118741,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3497406876"
+          "lat": 51.512469,
+          "lng": -0.118813,
+          "detail": "Bus stop · stop D from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762121",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4079423543-aldwych",
-          "name": "Aldwych",
-          "lat": 51.51192,
-          "lng": -0.118977,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4079423543"
-        },
-        {
-          "id": "transport-node-7162259994-aldwych-australia-house",
+          "id": "transport-node-9020224428-aldwych-australia-house",
           "name": "Aldwych / Australia House",
-          "lat": 51.51311,
-          "lng": -0.115184,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/7162259994"
+          "lat": 51.513018,
+          "lng": -0.115146,
+          "detail": "Bus stop · stop G from OpenStreetMap.",
+          "source": "OpenStreetMap node/9020224428",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-9023838189-aldwych-bush-house",
+          "id": "transport-node-9020224429-aldwych-bush-house",
           "name": "Aldwych / Bush House",
-          "lat": 51.513281,
-          "lng": -0.116891,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/9023838189"
+          "lat": 51.513198,
+          "lng": -0.116913,
+          "detail": "Bus stop · stop H from OpenStreetMap.",
+          "source": "OpenStreetMap node/9020224429",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4068974160-aldwych-drury-lane",
+          "id": "transport-node-469762122-aldwych-drury-lane",
           "name": "Aldwych / Drury Lane",
-          "lat": 51.512723,
-          "lng": -0.118458,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4068974160"
+          "lat": 51.512755,
+          "lng": -0.118541,
+          "detail": "Bus stop · stop E from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762122",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-9021769482-aldwych-drury-lane",
-          "name": "Aldwych / Drury Lane",
-          "lat": 51.512192,
-          "lng": -0.118892,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/9021769482"
-        },
-        {
-          "id": "transport-node-9023838190-aldwych-drury-lane",
-          "name": "Aldwych / Drury Lane",
-          "lat": 51.512824,
-          "lng": -0.118312,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/9023838190"
-        },
-        {
-          "id": "transport-node-4068974161-aldwych-kingsway",
+          "id": "transport-node-469762124-aldwych-kingsway",
           "name": "Aldwych / Kingsway",
-          "lat": 51.51305,
-          "lng": -0.117887,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4068974161"
+          "lat": 51.513095,
+          "lng": -0.117972,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762124",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4826555773-all-hallows-church",
+          "id": "transport-node-9026488712-aldwych-strand",
+          "name": "Aldwych Strand",
+          "lat": 51.512484,
+          "lng": -0.115383,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/9026488712",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-1594065358-all-hallows-church",
           "name": "All Hallows Church",
-          "lat": 51.51664,
-          "lng": -0.084887,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4826555773"
+          "lat": 51.516687,
+          "lng": -0.084853,
+          "detail": "Bus stop · stop U from OpenStreetMap.",
+          "source": "OpenStreetMap node/1594065358",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4517317258-altab-ali-park",
+          "id": "transport-node-469789172-altab-ali-park",
           "name": "Altab Ali Park",
-          "lat": 51.516621,
-          "lng": -0.068485,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4517317258"
+          "lat": 51.516672,
+          "lng": -0.068572,
+          "detail": "Bus stop · stop D from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789172",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4870281309-angel-street",
+          "id": "transport-node-469762729-angel-street",
           "name": "Angel Street",
-          "lat": 51.516095,
-          "lng": -0.097506,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4870281309"
+          "lat": 51.51614,
+          "lng": -0.097538,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762729",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4859246420-apothecary-street",
+          "id": "transport-node-469759971-apothecary-street",
           "name": "Apothecary Street",
-          "lat": 51.513494,
-          "lng": -0.104249,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4859246420"
+          "lat": 51.5135,
+          "lng": -0.104138,
+          "detail": "Bus stop · stop K from OpenStreetMap.",
+          "source": "OpenStreetMap node/469759971",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4929002380-appold-street",
+          "id": "transport-node-469788668-appold-street",
           "name": "Appold Street",
-          "lat": 51.521765,
-          "lng": -0.081133,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4929002380"
+          "lat": 51.521763,
+          "lng": -0.081179,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469788668",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3816097107-bank-station-cornhill",
+          "id": "transport-node-2118706166-baltic-street-west",
+          "name": "Baltic Street West",
+          "lat": 51.522208,
+          "lng": -0.0974,
+          "detail": "Bus stop · stop BP from OpenStreetMap.",
+          "source": "OpenStreetMap node/2118706166",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469759939-bank-station-cornhill",
           "name": "Bank Station / Cornhill",
-          "lat": 51.513324,
-          "lng": -0.087606,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3816097107"
+          "lat": 51.513363,
+          "lng": -0.087459,
+          "detail": "Bus stop · stop D from OpenStreetMap.",
+          "source": "OpenStreetMap node/469759939",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3816097106-bank-station-cornhill",
-          "name": "Bank Station / Cornhill",
-          "lat": 51.513323,
-          "lng": -0.087446,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3816097106"
-        },
-        {
-          "id": "transport-node-4835108995-bank-station-king-william-street",
+          "id": "transport-node-469759941-bank-station-king-william-street",
           "name": "Bank Station / King William Street",
-          "lat": 51.512256,
-          "lng": -0.087926,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4835108995"
+          "lat": 51.512227,
+          "lng": -0.088017,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/469759941",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3533830193-bank-station-poultry",
+          "id": "transport-node-469771225-bank-station-poultry",
           "name": "Bank Station / Poultry",
-          "lat": 51.513692,
-          "lng": -0.091432,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3533830193"
+          "lat": 51.513755,
+          "lng": -0.091612,
+          "detail": "Bus stop · stop K from OpenStreetMap.",
+          "source": "OpenStreetMap node/469771225",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4835108997-bank-station-princes-street",
+          "id": "transport-node-469777308-bank-station-princes-street",
           "name": "Bank Station / Princes Street",
-          "lat": 51.513981,
-          "lng": -0.089337,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4835108997"
+          "lat": 51.514247,
+          "lng": -0.089618,
+          "detail": "Bus stop · stop A from OpenStreetMap.",
+          "source": "OpenStreetMap node/469777308",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4835108996-bank-station-princes-street",
-          "name": "Bank Station / Princes Street",
-          "lat": 51.514274,
-          "lng": -0.089541,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4835108996"
-        },
-        {
-          "id": "transport-node-734575014-bankside-pier",
-          "name": "Bankside Pier",
-          "lat": 51.508771,
-          "lng": -0.096797,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/734575014"
+          "id": "transport-node-469781251-bank-station-queen-victoria-street",
+          "name": "Bank Station / Queen Victoria Street",
+          "lat": 51.512925,
+          "lng": -0.091148,
+          "detail": "Bus stop · stop H from OpenStreetMap.",
+          "source": "OpenStreetMap node/469781251",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-way-204064488-bankside-pier",
           "name": "Bankside Pier",
           "lat": 51.508657,
           "lng": -0.096835,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap way/204064488"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/204064488",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
-          "id": "transport-node-469772110-banqueting-house",
+          "id": "transport-node-4650621309-banqueting-house",
           "name": "Banqueting House",
-          "lat": 51.503785,
-          "lng": -0.126086,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/469772110"
+          "lat": 51.503784,
+          "lng": -0.126001,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/4650621309",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5837702155-bartholomew-street",
+          "id": "transport-node-469763517-bartholomew-street",
           "name": "Bartholomew Street",
-          "lat": 51.495636,
-          "lng": -0.087292,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5837702155"
+          "lat": 51.495929,
+          "lng": -0.087868,
+          "detail": "Bus stop · stop BD from OpenStreetMap.",
+          "source": "OpenStreetMap node/469763517",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5837702156-bartholomew-street",
-          "name": "Bartholomew Street",
-          "lat": 51.495965,
-          "lng": -0.087785,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5837702156"
-        },
-        {
-          "id": "transport-node-5425497687-baylis-road-lambeth-north-station",
+          "id": "transport-node-264835752-baylis-road-lambeth-north-station",
           "name": "Baylis Road / Lambeth North Station",
-          "lat": 51.499714,
-          "lng": -0.111619,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5425497687"
+          "lat": 51.499739,
+          "lng": -0.111647,
+          "detail": "Bus stop · stop P from OpenStreetMap.",
+          "source": "OpenStreetMap node/264835752",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5425497689-baylis-road-lower-marsh",
+          "id": "transport-node-469764085-baylis-road-lower-marsh",
           "name": "Baylis Road / Lower Marsh",
-          "lat": 51.50122,
-          "lng": -0.110507,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5425497689"
+          "lat": 51.501201,
+          "lng": -0.110593,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469764085",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4631979551-beak-street-hamleys-toy-store",
+          "id": "transport-node-469766264-beak-street-hamleys-toy-store",
           "name": "Beak Street / Hamleys Toy Store",
-          "lat": 51.511334,
-          "lng": -0.139141,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4631979551"
+          "lat": 51.5113,
+          "lng": -0.138876,
+          "detail": "Bus stop · stop V from OpenStreetMap.",
+          "source": "OpenStreetMap node/469766264",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4631979552-beak-street-hamleys-toy-store",
-          "name": "Beak Street / Hamleys Toy Store",
-          "lat": 51.511282,
-          "lng": -0.138961,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4631979552"
-        },
-        {
-          "id": "transport-node-5463724742-bedford-place",
+          "id": "transport-node-469779595-bedford-place",
           "name": "Bedford Place",
-          "lat": 51.520752,
-          "lng": -0.12493,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5463724742"
+          "lat": 51.520808,
+          "lng": -0.124839,
+          "detail": "Bus stop · stop K from OpenStreetMap.",
+          "source": "OpenStreetMap node/469779595",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4059394510-bedford-street",
+          "id": "transport-node-469763270-bedford-street",
           "name": "Bedford Street",
-          "lat": 51.509714,
-          "lng": -0.12317,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4059394510"
+          "lat": 51.509674,
+          "lng": -0.123134,
+          "detail": "Bus stop · stop J from OpenStreetMap.",
+          "source": "OpenStreetMap node/469763270",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5359107394-berkeley-square",
+          "id": "transport-node-469764402-beech-street",
+          "name": "Beech Street",
+          "lat": 51.52077,
+          "lng": -0.094167,
+          "detail": "Bus stop · stop BN from OpenStreetMap.",
+          "source": "OpenStreetMap node/469764402",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469786644-berkeley-square",
           "name": "Berkeley Square",
-          "lat": 51.510427,
-          "lng": -0.144876,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5359107394"
+          "lat": 51.510378,
+          "lng": -0.144814,
+          "detail": "Bus stop · stop X from OpenStreetMap.",
+          "source": "OpenStreetMap node/469786644",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5357377733-berkeley-street",
+          "id": "transport-node-469764776-berkeley-street",
           "name": "Berkeley Street",
-          "lat": 51.508037,
-          "lng": -0.143097,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5357377733"
+          "lat": 51.508068,
+          "lng": -0.143022,
+          "detail": "Bus stop · stop Z from OpenStreetMap.",
+          "source": "OpenStreetMap node/469764776",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5845422725-bermondsey-street",
+          "id": "transport-node-469789809-bermondsey-street",
           "name": "Bermondsey Street",
-          "lat": 51.497815,
-          "lng": -0.080536,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5845422725"
+          "lat": 51.497845,
+          "lng": -0.080547,
+          "detail": "Bus stop · stop A from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789809",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5845422726-bermondsey-street",
-          "name": "Bermondsey Street",
-          "lat": 51.49807,
-          "lng": -0.082211,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5845422726"
-        },
-        {
-          "id": "transport-node-3816097108-bishopsgate",
+          "id": "transport-node-469786574-bishopsgate",
           "name": "Bishopsgate",
-          "lat": 51.513406,
-          "lng": -0.084963,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3816097108"
+          "lat": 51.513449,
+          "lng": -0.084993,
+          "detail": "Bus stop · stop R from OpenStreetMap.",
+          "source": "OpenStreetMap node/469786574",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3876429831-bishopsgate",
+          "id": "transport-node-469765562-bishopsgate",
           "name": "Bishopsgate",
-          "lat": 51.515958,
-          "lng": -0.081123,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3876429831"
-        },
-        {
-          "id": "transport-node-4532431074-blackfriars-pier",
-          "name": "Blackfriars Pier",
-          "lat": 51.510637,
-          "lng": -0.100943,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/4532431074"
+          "lat": 51.515911,
+          "lng": -0.081166,
+          "detail": "Bus stop · stop N from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765562",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-way-457030735-blackfriars-pier",
           "name": "Blackfriars Pier",
           "lat": 51.510678,
           "lng": -0.100747,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap way/457030735"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/457030735",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
-          "id": "transport-node-4086354607-blackfriars-road",
+          "id": "transport-node-469765600-blackfriars-road",
           "name": "Blackfriars Road",
-          "lat": 51.506921,
-          "lng": -0.10389,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4086354607"
+          "lat": 51.506867,
+          "lng": -0.103941,
+          "detail": "Bus stop · stop SL from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765600",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4086354608-blackfriars-road",
-          "name": "Blackfriars Road",
-          "lat": 51.506782,
-          "lng": -0.103572,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4086354608"
-        },
-        {
-          "id": "transport-node-4859246418-blackfriars-station-north-entrance",
+          "id": "transport-node-317316891-blackfriars-station-north-entrance",
           "name": "Blackfriars Station / North Entrance",
-          "lat": 51.512237,
-          "lng": -0.104164,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4859246418"
+          "lat": 51.51066,
+          "lng": -0.104174,
+          "detail": "Bus stop · stop L from OpenStreetMap.",
+          "source": "OpenStreetMap node/317316891",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4859246419-blackfriars-station-north-entrance",
+          "id": "transport-node-469759970-blackfriars-station-north-entrance",
           "name": "Blackfriars Station / North Entrance",
-          "lat": 51.510661,
-          "lng": -0.10428,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4859246419"
+          "lat": 51.512388,
+          "lng": -0.104275,
+          "detail": "Bus stop · stop J from OpenStreetMap.",
+          "source": "OpenStreetMap node/469759970",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4859130051-blackfriars-station-south-entrance",
+          "id": "transport-node-469785734-blackfriars-station-south-entrance",
           "name": "Blackfriars Station / South Entrance",
-          "lat": 51.508819,
-          "lng": -0.10446,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4859130051"
+          "lat": 51.508832,
+          "lng": -0.104512,
+          "detail": "Bus stop · stop C from OpenStreetMap.",
+          "source": "OpenStreetMap node/469785734",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4859130050-blackfriars-station-south-entrance",
-          "name": "Blackfriars Station / South Entrance",
-          "lat": 51.508422,
-          "lng": -0.104394,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4859130050"
-        },
-        {
-          "id": "transport-node-5837702157-blackhorse-court",
+          "id": "transport-node-469763520-blackhorse-court",
           "name": "Blackhorse Court",
-          "lat": 51.49681,
-          "lng": -0.088842,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5837702157"
+          "lat": 51.496848,
+          "lng": -0.088756,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469763520",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5458472045-bloomsbury-square",
+          "id": "transport-node-469763632-bloomsbury-square",
           "name": "Bloomsbury Square",
-          "lat": 51.518547,
-          "lng": -0.122048,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5458472045"
+          "lat": 51.518583,
+          "lng": -0.122108,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/469763632",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5458472046-bloomsbury-square",
-          "name": "Bloomsbury Square",
-          "lat": 51.518658,
-          "lng": -0.121795,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5458472046"
-        },
-        {
-          "id": "transport-node-5840176858-borough-road",
+          "id": "transport-node-469763676-borough-road",
           "name": "Borough Road",
-          "lat": 51.499517,
-          "lng": -0.099731,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5840176858"
+          "lat": 51.499505,
+          "lng": -0.099666,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469763676",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-2485090652-borough-road",
-          "name": "Borough Road",
-          "lat": 51.498258,
-          "lng": -0.100055,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/2485090652"
-        },
-        {
-          "id": "transport-node-5220719445-borough-station-great-dover-street",
+          "id": "transport-node-3691652453-borough-station-great-dover-street",
           "name": "Borough Station / Great Dover Street",
-          "lat": 51.50012,
-          "lng": -0.092388,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5220719445"
+          "lat": 51.500091,
+          "lng": -0.092494,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/3691652453",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5837702160-borough-station-great-dover-street",
-          "name": "Borough Station / Great Dover Street",
-          "lat": 51.5003,
-          "lng": -0.092504,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5837702160"
-        },
-        {
-          "id": "transport-node-6448638571-boss-street",
+          "id": "transport-node-469782026-boss-street",
           "name": "Boss Street",
-          "lat": 51.501684,
-          "lng": -0.076482,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/6448638571"
+          "lat": 51.50173,
+          "lng": -0.076457,
+          "detail": "Bus stop · stop S from OpenStreetMap.",
+          "source": "OpenStreetMap node/469782026",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-6448638566-boss-street",
-          "name": "Boss Street",
-          "lat": 51.502127,
-          "lng": -0.077171,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/6448638566"
-        },
-        {
-          "id": "transport-node-268997562-bread-street",
+          "id": "transport-node-469786650-bread-street",
           "name": "Bread Street",
-          "lat": 51.514251,
-          "lng": -0.094972,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/268997562"
+          "lat": 51.514196,
+          "lng": -0.094979,
+          "detail": "Bus stop · stop SN from OpenStreetMap.",
+          "source": "OpenStreetMap node/469786650",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-6001325291-bressenden-place-victoria-station",
+          "id": "transport-node-469764338-bressenden-place-victoria-station",
           "name": "Bressenden Place / Victoria Station",
-          "lat": 51.497518,
-          "lng": -0.142025,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/6001325291"
+          "lat": 51.49752,
+          "lng": -0.141983,
+          "detail": "Bus stop · stop CN from OpenStreetMap.",
+          "source": "OpenStreetMap node/469764338",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4428804687-bricklayers-arms-tower-bridge-road",
+          "id": "transport-node-469764359-bricklayers-arms-tower-bridge-road",
           "name": "Bricklayer's Arms / Tower Bridge Road",
-          "lat": 51.495196,
-          "lng": -0.084007,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4428804687"
+          "lat": 51.495621,
+          "lng": -0.083491,
+          "detail": "Bus stop · stop BH from OpenStreetMap.",
+          "source": "OpenStreetMap node/469764359",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4428804688-bricklayers-arms-tower-bridge-road",
-          "name": "Bricklayer's Arms / Tower Bridge Road",
-          "lat": 51.495584,
-          "lng": -0.083416,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4428804688"
-        },
-        {
-          "id": "transport-node-4682210575-british-museum",
+          "id": "transport-node-469765141-british-museum",
           "name": "British Museum",
-          "lat": 51.518534,
-          "lng": -0.125391,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4682210575"
+          "lat": 51.518571,
+          "lng": -0.125445,
+          "detail": "Bus stop · stop OA from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765141",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4682210576-british-museum",
-          "name": "British Museum",
-          "lat": 51.519121,
-          "lng": -0.123983,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4682210576"
-        },
-        {
-          "id": "transport-node-3644748766-brownlow-street",
+          "id": "transport-node-469765118-brownlow-street",
           "name": "Brownlow Street",
-          "lat": 51.518147,
-          "lng": -0.115025,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3644748766"
+          "lat": 51.518181,
+          "lng": -0.115184,
+          "detail": "Bus stop · stop S from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765118",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3519269750-brownlow-street",
-          "name": "Brownlow Street",
-          "lat": 51.51813,
-          "lng": -0.115168,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3519269750"
-        },
-        {
-          "id": "transport-node-5814090565-brushfield-street",
+          "id": "transport-node-1739787522-brushfield-street",
           "name": "Brushfield Street",
-          "lat": 51.518859,
-          "lng": -0.074488,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5814090565"
+          "lat": 51.518616,
+          "lng": -0.074308,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/1739787522",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5814090566-brushfield-street",
-          "name": "Brushfield Street",
-          "lat": 51.518692,
-          "lng": -0.074473,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5814090566"
-        },
-        {
-          "id": "transport-node-108289-buckingham-palace",
+          "id": "transport-node-469789797-buckingham-palace",
           "name": "Buckingham Palace",
-          "lat": 51.499491,
-          "lng": -0.142765,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/108289"
+          "lat": 51.499711,
+          "lng": -0.142344,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789797",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5998966285-buckingham-palace",
-          "name": "Buckingham Palace",
-          "lat": 51.499665,
-          "lng": -0.142287,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5998966285"
-        },
-        {
-          "id": "transport-node-5998966286-buckingham-palace-royal-mews",
+          "id": "transport-node-469789181-buckingham-palace-royal-mews",
           "name": "Buckingham Palace / Royal Mews",
-          "lat": 51.498963,
-          "lng": -0.14331,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5998966286"
+          "lat": 51.498981,
+          "lng": -0.143381,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789181",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-2213529567-buckingham-palace-road-bressenden-place",
+          "id": "transport-node-469766070-buckingham-palace-road-bressenden-place",
           "name": "Buckingham Palace Road / Bressenden Place",
-          "lat": 51.497307,
-          "lng": -0.144399,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/2213529567"
+          "lat": 51.497282,
+          "lng": -0.144311,
+          "detail": "Bus stop · stop P from OpenStreetMap.",
+          "source": "OpenStreetMap node/469766070",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3667494433-buckingham-palace-road-bressenden-place",
-          "name": "Buckingham Palace Road / Bressenden Place",
-          "lat": 51.497895,
-          "lng": -0.143983,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3667494433"
-        },
-        {
-          "id": "transport-node-5364578865-cambridge-circus",
+          "id": "transport-node-469765157-cambridge-circus",
           "name": "Cambridge Circus",
-          "lat": 51.51249,
-          "lng": -0.128667,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5364578865"
+          "lat": 51.513505,
+          "lng": -0.12916,
+          "detail": "Bus stop · stop D from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765157",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5364578863-cambridge-circus",
-          "name": "Cambridge Circus",
-          "lat": 51.513545,
-          "lng": -0.129287,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5364578863"
-        },
-        {
-          "id": "transport-node-3499556266-camomile-street",
+          "id": "transport-node-469765563-camomile-street",
           "name": "Camomile Street",
-          "lat": 51.515806,
-          "lng": -0.082022,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3499556266"
+          "lat": 51.515833,
+          "lng": -0.082122,
+          "detail": "Bus stop · stop W from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765563",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3706494694-camomile-street",
-          "name": "Camomile Street",
-          "lat": 51.515515,
-          "lng": -0.082333,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3706494694"
-        },
-        {
-          "id": "transport-node-10910562922-capper-street",
+          "id": "transport-node-6391776690-capper-street",
           "name": "Capper Street",
-          "lat": 51.522546,
-          "lng": -0.136223,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/10910562922"
+          "lat": 51.522577,
+          "lng": -0.13612,
+          "detail": "Bus stop · stop N from OpenStreetMap.",
+          "source": "OpenStreetMap node/6391776690",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4641072777-charles-ii-street",
+          "id": "transport-node-469765669-charles-ii-street",
           "name": "Charles II Street",
-          "lat": 51.508055,
-          "lng": -0.132924,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4641072777"
+          "lat": 51.507979,
+          "lng": -0.132855,
+          "detail": "Bus stop · stop U from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765669",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5600934876-charterhouse-street",
+          "id": "transport-node-469765706-charterhouse-street",
           "name": "Charterhouse Street",
-          "lat": 51.51823,
-          "lng": -0.106298,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5600934876"
+          "lat": 51.518273,
+          "lng": -0.106355,
+          "detail": "Bus stop · stop M from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765706",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4087644126-city-hall",
+          "id": "transport-node-469788671-city-hall",
           "name": "City Hall",
-          "lat": 51.502953,
-          "lng": -0.077921,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4087644126"
+          "lat": 51.502903,
+          "lng": -0.077964,
+          "detail": "Bus stop · stop R from OpenStreetMap.",
+          "source": "OpenStreetMap node/469788671",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3637195703-city-thameslink",
-          "name": "City Thameslink",
-          "lat": 51.515126,
-          "lng": -0.103564,
-          "detail": "Station · Govia Thameslink Railway (Thameslink) · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/3637195703"
-        },
-        {
-          "id": "transport-node-1272204271-city-thameslink",
-          "name": "City Thameslink",
-          "lat": 51.514172,
-          "lng": -0.103505,
-          "detail": "Stop from OpenStreetMap.",
-          "source": "OpenStreetMap node/1272204271"
-        },
-        {
-          "id": "transport-node-1272204251-city-thameslink",
-          "name": "City Thameslink",
-          "lat": 51.516062,
-          "lng": -0.10365,
-          "detail": "Stop from OpenStreetMap.",
-          "source": "OpenStreetMap node/1272204251"
-        },
-        {
-          "id": "transport-node-4942595236-city-thameslink-station",
+          "id": "transport-node-469761891-city-thameslink-station",
           "name": "City Thameslink Station",
-          "lat": 51.516872,
-          "lng": -0.103747,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4942595236"
+          "lat": 51.516925,
+          "lng": -0.103694,
+          "detail": "Bus stop · stop HL from OpenStreetMap.",
+          "source": "OpenStreetMap node/469761891",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-3644748768-city-thameslink-station",
-          "name": "City Thameslink Station",
-          "lat": 51.516436,
-          "lng": -0.102492,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3644748768"
-        },
-        {
-          "id": "transport-node-6124650606-city-thameslink-station",
-          "name": "City Thameslink Station",
-          "lat": 51.516549,
-          "lng": -0.102846,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/6124650606"
-        },
-        {
-          "id": "transport-node-4072476960-city-thameslink-station-ludgate-circus",
+          "id": "transport-node-3650157681-city-thameslink-station-ludgate-circus",
           "name": "City Thameslink Station / Ludgate Circus",
-          "lat": 51.514147,
-          "lng": -0.103598,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4072476960"
+          "lat": 51.514087,
+          "lng": -0.103581,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/3650157681",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-2632491815-clerkenwell-green",
+          "id": "transport-node-298997401-clerkenwell-green",
           "name": "Clerkenwell Green",
-          "lat": 51.522308,
-          "lng": -0.105637,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/2632491815"
+          "lat": 51.52225,
+          "lng": -0.105617,
+          "detail": "Bus stop · stop K from OpenStreetMap.",
+          "source": "OpenStreetMap node/298997401",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5629893514-clerkenwell-road",
+          "id": "transport-node-469782804-clerkenwell-road",
           "name": "Clerkenwell Road",
-          "lat": 51.52268,
-          "lng": -0.111711,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5629893514"
+          "lat": 51.52266,
+          "lng": -0.111629,
+          "detail": "Bus stop · stop CN from OpenStreetMap.",
+          "source": "OpenStreetMap node/469782804",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5050851032-clerkenwell-road",
+          "id": "transport-node-281455018-clerkenwell-road",
           "name": "Clerkenwell Road",
-          "lat": 51.522665,
-          "lng": -0.107486,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5050851032"
+          "lat": 51.521827,
+          "lng": -0.106623,
+          "detail": "Bus stop · stop H from OpenStreetMap.",
+          "source": "OpenStreetMap node/281455018",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5501951533-clerkenwell-road",
-          "name": "Clerkenwell Road",
-          "lat": 51.521794,
-          "lng": -0.106704,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5501951533"
+          "id": "transport-node-469763126-clerkenwell-road-old-street",
+          "name": "Clerkenwell Road / Old Street",
+          "lat": 51.522876,
+          "lng": -0.098036,
+          "detail": "Bus stop · stop BQ from OpenStreetMap.",
+          "source": "OpenStreetMap node/469763126",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5619570537-clerkenwell-road-rosebery-avenue",
+          "id": "transport-node-469789213-clerkenwell-road-rosebery-avenue",
           "name": "Clerkenwell Road / Rosebery Avenue",
-          "lat": 51.522202,
-          "lng": -0.1138,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5619570537"
+          "lat": 51.522199,
+          "lng": -0.11378,
+          "detail": "Bus stop · stop CD from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789213",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-5784145762-clerkenwell-road-st-john-street",
+          "id": "transport-node-469781731-clerkenwell-road-st-john-street",
           "name": "Clerkenwell Road / St John Street",
-          "lat": 51.522661,
-          "lng": -0.101127,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/5784145762"
+          "lat": 51.522607,
+          "lng": -0.101093,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469781731",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4407679618-coin-street",
+          "id": "transport-node-469767717-coin-street",
           "name": "Coin Street",
-          "lat": 51.506387,
-          "lng": -0.10957,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4407679618"
+          "lat": 51.506496,
+          "lng": -0.109491,
+          "detail": "Bus stop · stop SJ from OpenStreetMap.",
+          "source": "OpenStreetMap node/469767717",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4407679619-coin-street",
-          "name": "Coin Street",
-          "lat": 51.506446,
-          "lng": -0.109425,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4407679619"
-        },
-        {
-          "id": "transport-node-3506894169-commercial-street-worship-street",
+          "id": "transport-node-469766587-commercial-street-worship-street",
           "name": "Commercial Street / Worship Street",
-          "lat": 51.521991,
-          "lng": -0.078175,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/3506894169"
+          "lat": 51.521916,
+          "lng": -0.07814,
+          "detail": "Bus stop · stop D from OpenStreetMap.",
+          "source": "OpenStreetMap node/469766587",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
-          "id": "transport-node-4631979549-conduit-street-hamleys-toy-store",
+          "id": "transport-node-469766263-conduit-street-hamleys-toy-store",
           "name": "Conduit Street / Hamleys Toy Store",
-          "lat": 51.512394,
-          "lng": -0.140067,
-          "detail": "Stop Position from OpenStreetMap.",
-          "source": "OpenStreetMap node/4631979549"
+          "lat": 51.512368,
+          "lng": -0.1398,
+          "detail": "Bus stop · stop T from OpenStreetMap.",
+          "source": "OpenStreetMap node/469766263",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-5041550609-conduit-street-new-bond-street",
+          "name": "Conduit Street / New Bond Street",
+          "lat": 51.51161,
+          "lng": -0.142591,
+          "detail": "Bus stop · stop S from OpenStreetMap.",
+          "source": "OpenStreetMap node/5041550609",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469789137-conduit-street-savile-row",
+          "name": "Conduit Street / Savile Row",
+          "lat": 51.512199,
+          "lng": -0.142044,
+          "detail": "Bus stop · stop Q from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789137",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469767431-county-hall",
+          "name": "County Hall",
+          "lat": 51.50233,
+          "lng": -0.116614,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/469767431",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469787501-covent-garden-catherine-street",
+          "name": "Covent Garden / Catherine Street",
+          "lat": 51.512288,
+          "lng": -0.119404,
+          "detail": "Bus stop · stop C from OpenStreetMap.",
+          "source": "OpenStreetMap node/469787501",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469787503-covent-garden-russell-street",
+          "name": "Covent Garden / Russell Street",
+          "lat": 51.512708,
+          "lng": -0.121052,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469787503",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469766798-crucifix-lane",
+          "name": "Crucifix Lane",
+          "lat": 51.502148,
+          "lng": -0.081337,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/469766798",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469767090-dean-street-chinatown",
+          "name": "Dean Street / Chinatown",
+          "lat": 51.512253,
+          "lng": -0.131108,
+          "detail": "Bus stop · stop W from OpenStreetMap.",
+          "source": "OpenStreetMap node/469767090",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469765156-denmark-street",
+          "name": "Denmark Street",
+          "lat": 51.514289,
+          "lng": -0.129728,
+          "detail": "Bus stop · stop A from OpenStreetMap.",
+          "source": "OpenStreetMap node/469765156",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469768228-dockhead",
+          "name": "Dockhead",
+          "lat": 51.500079,
+          "lng": -0.073018,
+          "detail": "Bus stop · stop E from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768228",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469767949-druid-street",
+          "name": "Druid Street",
+          "lat": 51.500781,
+          "lng": -0.078287,
+          "detail": "Bus stop · stop C from OpenStreetMap.",
+          "source": "OpenStreetMap node/469767949",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-4273283990-drury-lane",
+          "name": "Drury Lane",
+          "lat": 51.516425,
+          "lng": -0.124007,
+          "detail": "Bus stop · stop S from OpenStreetMap.",
+          "source": "OpenStreetMap node/4273283990",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469767991-dukes-place",
+          "name": "Duke's Place",
+          "lat": 51.514585,
+          "lng": -0.078588,
+          "detail": "Bus stop · stop A from OpenStreetMap.",
+          "source": "OpenStreetMap node/469767991",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469768323-elder-street",
+          "name": "Elder Street",
+          "lat": 51.522309,
+          "lng": -0.076921,
+          "detail": "Bus stop · stop G from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768323",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469786703-eldon-street",
+          "name": "Eldon Street",
+          "lat": 51.518606,
+          "lng": -0.085502,
+          "detail": "Bus stop · stop V from OpenStreetMap.",
+          "source": "OpenStreetMap node/469786703",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469774050-elephant-castle-london-road",
+          "name": "Elephant & Castle / London Road",
+          "lat": 51.496082,
+          "lng": -0.101603,
+          "detail": "Bus stop · stop A from OpenStreetMap.",
+          "source": "OpenStreetMap node/469774050",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469760095-elephant-castle-new-kent-road",
+          "name": "Elephant & Castle / New Kent Road",
+          "lat": 51.495063,
+          "lng": -0.098686,
+          "detail": "Bus stop · stop K from OpenStreetMap.",
+          "source": "OpenStreetMap node/469760095",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469760091-elephant-castle-newington-causeway",
+          "name": "Elephant & Castle / Newington Causeway",
+          "lat": 51.496497,
+          "lng": -0.099916,
+          "detail": "Bus stop · stop F from OpenStreetMap.",
+          "source": "OpenStreetMap node/469760091",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-way-37691336-embankment-pier",
           "name": "Embankment Pier",
           "lat": 51.507248,
           "lng": -0.121161,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap way/37691336"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/37691336",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
-          "id": "transport-node-1141549004-festival-pier",
-          "name": "Festival Pier",
-          "lat": 51.507012,
-          "lng": -0.117787,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/1141549004"
+          "id": "transport-node-469768663-epworth-street",
+          "name": "Epworth Street",
+          "lat": 51.522583,
+          "lng": -0.087041,
+          "detail": "Bus stop · stop E from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768663",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-6884990501-farringdon-road",
+          "name": "Farringdon Road",
+          "lat": 51.522192,
+          "lng": -0.107712,
+          "detail": "Bus stop · stop E from OpenStreetMap.",
+          "source": "OpenStreetMap node/6884990501",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469760422-fenchurch-street",
+          "name": "Fenchurch Street",
+          "lat": 51.511351,
+          "lng": -0.085392,
+          "detail": "Bus stop · stop U from OpenStreetMap.",
+          "source": "OpenStreetMap node/469760422",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469768857-fendall-street",
+          "name": "Fendall Street",
+          "lat": 51.495679,
+          "lng": -0.078206,
+          "detail": "Bus stop · stop P from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768857",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-way-204064487-festival-pier",
           "name": "Festival Pier",
           "lat": 51.506897,
           "lng": -0.117571,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap way/204064487"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/204064487",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
-          "id": "transport-node-7159509695-london-blackfriars",
-          "name": "London Blackfriars",
-          "lat": 51.510487,
-          "lng": -0.103242,
-          "detail": "Station · Govia Thameslink Railway (Thameslink) · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/7159509695"
+          "id": "transport-node-469768911-fetter-lane",
+          "name": "Fetter Lane",
+          "lat": 51.514221,
+          "lng": -0.108734,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768911",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469768946-finsbury-square",
+          "name": "Finsbury Square",
+          "lat": 51.520673,
+          "lng": -0.085679,
+          "detail": "Bus stop · stop G from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768946",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469768948-finsbury-square-moorgate",
+          "name": "Finsbury Square / Moorgate",
+          "lat": 51.520338,
+          "lng": -0.086211,
+          "detail": "Bus stop · stop J from OpenStreetMap.",
+          "source": "OpenStreetMap node/469768948",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-5920212584-finsbury-street",
+          "name": "Finsbury Street",
+          "lat": 51.520626,
+          "lng": -0.089049,
+          "detail": "Bus stop · stop S from OpenStreetMap.",
+          "source": "OpenStreetMap node/5920212584",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-21687803-fleet-street-city-thameslink",
+          "name": "Fleet Street / City Thameslink",
+          "lat": 51.515273,
+          "lng": -0.104679,
+          "detail": "Bus stop · stop M from OpenStreetMap.",
+          "source": "OpenStreetMap node/21687803",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469776506-folgate-street",
+          "name": "Folgate Street",
+          "lat": 51.520589,
+          "lng": -0.074615,
+          "detail": "Bus stop · stop T from OpenStreetMap.",
+          "source": "OpenStreetMap node/469776506",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469788551-gerrard-place-chinatown",
+          "name": "Gerrard Place / Chinatown",
+          "lat": 51.512679,
+          "lng": -0.130312,
+          "detail": "Bus stop · stop P from OpenStreetMap.",
+          "source": "OpenStreetMap node/469788551",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469760421-gracechurch-street-monument-station",
+          "name": "Gracechurch Street / Monument Station",
+          "lat": 51.511369,
+          "lng": -0.085579,
+          "detail": "Bus stop · stop T from OpenStreetMap.",
+          "source": "OpenStreetMap node/469760421",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469770765-grange-road-caledonian-market",
+          "name": "Grange Road / Caledonian Market",
+          "lat": 51.496338,
+          "lng": -0.082351,
+          "detail": "Bus stop · stop K from OpenStreetMap.",
+          "source": "OpenStreetMap node/469770765",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469772090-grays-inn-road",
+          "name": "Gray's Inn Road",
+          "lat": 51.520184,
+          "lng": -0.112506,
+          "detail": "Bus stop · stop B from OpenStreetMap.",
+          "source": "OpenStreetMap node/469772090",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469789212-grays-inn-road-rosebery-avenue",
+          "name": "Gray's Inn Road / Rosebery Avenue",
+          "lat": 51.522052,
+          "lng": -0.113837,
+          "detail": "Bus stop · stop CB from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789212",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469782447-grays-inn-road-theobalds-road",
+          "name": "Gray's Inn Road / Theobalds Road",
+          "lat": 51.521053,
+          "lng": -0.112903,
+          "detail": "Bus stop · stop CT from OpenStreetMap.",
+          "source": "OpenStreetMap node/469782447",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469781925-great-guildford-street",
+          "name": "Great Guildford Street",
+          "lat": 51.504959,
+          "lng": -0.096449,
+          "detail": "Bus stop · stop BM from OpenStreetMap.",
+          "source": "OpenStreetMap node/469781925",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469789606-great-smith-street-westminster-abbey",
+          "name": "Great Smith Street / Westminster Abbey",
+          "lat": 51.498687,
+          "lng": -0.131465,
+          "detail": "Bus stop · stop V from OpenStreetMap.",
+          "source": "OpenStreetMap node/469789606",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469770097-great-suffolk-street",
+          "name": "Great Suffolk Street",
+          "lat": 51.500581,
+          "lng": -0.099007,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469770097",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469770105-great-swan-alley",
+          "name": "Great Swan Alley",
+          "lat": 51.51599,
+          "lng": -0.089117,
+          "detail": "Bus stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/469770105",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469776730-great-titchfield-street-oxford-circus-station",
+          "name": "Great Titchfield Street / Oxford Circus Station",
+          "lat": 51.51545,
+          "lng": -0.139944,
+          "detail": "Bus stop · stop OP from OpenStreetMap.",
+          "source": "OpenStreetMap node/469776730",
+          "transportType": "bus",
+          "markerLabel": "Bus"
+        },
+        {
+          "id": "transport-node-469770107-great-tower-street",
+          "name": "Great Tower Street",
+          "lat": 51.509925,
+          "lng": -0.081169,
+          "detail": "Bus stop · stop TU from OpenStreetMap.",
+          "source": "OpenStreetMap node/469770107",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-way-282348817-london-bridge-bus-station",
           "name": "London Bridge Bus Station",
           "lat": 51.505285,
           "lng": -0.086941,
-          "detail": "Station · Transport for London · London Buses from OpenStreetMap.",
-          "source": "OpenStreetMap way/282348817"
+          "detail": "Bus stop · Transport for London · London Buses from OpenStreetMap.",
+          "source": "OpenStreetMap way/282348817",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-way-122815198-london-bridge-city-pier",
           "name": "London Bridge City Pier",
           "lat": 51.506778,
           "lng": -0.084658,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap way/122815198"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/122815198",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
-          "id": "transport-node-64694457-london-bridge-city-pier",
-          "name": "London Bridge City Pier",
-          "lat": 51.506946,
-          "lng": -0.084637,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/64694457"
-        },
-        {
-          "id": "transport-node-3637449660-london-cannon-street",
-          "name": "London Cannon Street",
-          "lat": 51.510669,
-          "lng": -0.090605,
-          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/3637449660"
-        },
-        {
-          "id": "transport-node-701436252-london-eye-waterloo-pier",
+          "id": "transport-way-204068877-london-eye-waterloo-pier",
           "name": "London Eye - Waterloo Pier",
-          "lat": 51.503448,
-          "lng": -0.120471,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/701436252"
-        },
-        {
-          "id": "transport-node-5114697934-london-fenchurch-street",
-          "name": "London Fenchurch Street",
-          "lat": 51.511328,
-          "lng": -0.077419,
-          "detail": "Station · c2c · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/5114697934"
-        },
-        {
-          "id": "transport-node-3637436408-london-liverpool-street",
-          "name": "London Liverpool Street",
-          "lat": 51.518211,
-          "lng": -0.081427,
-          "detail": "Station · Network Rail · National Rail;London Overground;Elizabeth line from OpenStreetMap.",
-          "source": "OpenStreetMap node/3637436408"
-        },
-        {
-          "id": "transport-node-3638795617-london-waterloo",
-          "name": "London Waterloo",
-          "lat": 51.502838,
-          "lng": -0.112801,
-          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/3638795617"
-        },
-        {
-          "id": "transport-node-2138171124-saint-katharines-pier",
-          "name": "Saint Katharine's Pier",
-          "lat": 51.505972,
-          "lng": -0.073516,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/2138171124"
+          "lat": 51.503219,
+          "lng": -0.119988,
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/204068877",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
           "id": "transport-way-203818671-st-katharines-pier",
           "name": "St Katharine's Pier",
           "lat": 51.506113,
           "lng": -0.073759,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap way/203818671"
-        },
-        {
-          "id": "transport-node-6514289544-tower-gateway",
-          "name": "Tower Gateway",
-          "lat": 51.510629,
-          "lng": -0.073951,
-          "detail": "Station · KeolisAmey Docklands Ltd · Docklands Light Railway from OpenStreetMap.",
-          "source": "OpenStreetMap node/6514289544"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/203818671",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
           "id": "transport-relation-2734159-tower-millennium-pier",
           "name": "Tower Millennium Pier",
           "lat": 51.507496,
           "lng": -0.079175,
-          "detail": "Platform · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap relation/2734159"
-        },
-        {
-          "id": "transport-node-2131782103-tower-millennium-pier",
-          "name": "Tower Millennium Pier",
-          "lat": 51.507272,
-          "lng": -0.078891,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/2131782103"
+          "detail": "River pier · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap relation/2734159",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         },
         {
           "id": "transport-way-302110969-victoria-bus-station",
           "name": "Victoria Bus Station",
           "lat": 51.496038,
           "lng": -0.143977,
-          "detail": "Station · Transport for London · London Buses from OpenStreetMap.",
-          "source": "OpenStreetMap way/302110969"
-        },
-        {
-          "id": "transport-node-7159130435-waterloo-east",
-          "name": "Waterloo East",
-          "lat": 51.504217,
-          "lng": -0.108203,
-          "detail": "Station · Southeastern · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/7159130435"
+          "detail": "Bus stop · Transport for London · London Buses from OpenStreetMap.",
+          "source": "OpenStreetMap way/302110969",
+          "transportType": "bus",
+          "markerLabel": "Bus"
         },
         {
           "id": "transport-relation-2739442-westminster-pier",
           "name": "Westminster Pier",
           "lat": 51.501994,
           "lng": -0.12336,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap relation/2739442"
-        },
-        {
-          "id": "transport-node-1233822757-westminster-pier",
-          "name": "Westminster Pier",
-          "lat": 51.501737,
-          "lng": -0.123143,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/1233822757"
+          "detail": "River pier from OpenStreetMap.",
+          "source": "OpenStreetMap relation/2739442",
+          "transportType": "boat",
+          "markerLabel": "Boat"
         }
       ]
     },
@@ -2583,14 +2823,6 @@
           "source": "OpenStreetMap node/12279370541"
         },
         {
-          "id": "toilets-node-12279370580-public-toilets",
-          "name": "Public toilets",
-          "lat": 51.506629,
-          "lng": -0.142839,
-          "detail": "Public toilet · fee: yes from OpenStreetMap.",
-          "source": "OpenStreetMap node/12279370580"
-        },
-        {
           "id": "toilets-node-1493328982-public-toilets",
           "name": "Public toilets",
           "lat": 51.514109,
@@ -2669,22 +2901,6 @@
           "lng": -0.119216,
           "detail": "Public toilet · fee: no · wheelchair: no · access: yes from OpenStreetMap.",
           "source": "OpenStreetMap node/2456520031"
-        },
-        {
-          "id": "toilets-node-11200482437-public-toilets",
-          "name": "Public toilets",
-          "lat": 51.502663,
-          "lng": -0.119146,
-          "detail": "Public toilet from OpenStreetMap.",
-          "source": "OpenStreetMap node/11200482437"
-        },
-        {
-          "id": "toilets-node-11264813369-public-toilets",
-          "name": "Public toilets",
-          "lat": 51.502822,
-          "lng": -0.119364,
-          "detail": "Public toilet · wheelchair: no from OpenStreetMap.",
-          "source": "OpenStreetMap node/11264813369"
         },
         {
           "id": "toilets-node-348814978-public-toilets",
@@ -2767,14 +2983,6 @@
           "source": "OpenStreetMap node/6256910047"
         },
         {
-          "id": "toilets-node-6256910048-public-toilets",
-          "name": "Public toilets",
-          "lat": 51.511488,
-          "lng": -0.123481,
-          "detail": "Public toilet · fee: yes · wheelchair: no · access: fee from OpenStreetMap.",
-          "source": "OpenStreetMap node/6256910048"
-        },
-        {
           "id": "toilets-node-6259748096-public-toilets",
           "name": "Public toilets",
           "lat": 51.510936,
@@ -2789,14 +2997,6 @@
           "lng": -0.122358,
           "detail": "Public toilet · fee: yes · wheelchair: limited · access: yes from OpenStreetMap.",
           "source": "OpenStreetMap node/13546608822"
-        },
-        {
-          "id": "toilets-node-13546608834-public-toilets",
-          "name": "Public toilets",
-          "lat": 51.511727,
-          "lng": -0.121427,
-          "detail": "Public toilet · fee: no · access: customers from OpenStreetMap.",
-          "source": "OpenStreetMap node/13546608834"
         },
         {
           "id": "toilets-node-12033233365-public-toilets",
@@ -2943,14 +3143,6 @@
           "source": "OpenStreetMap node/6598856043"
         },
         {
-          "id": "toilets-node-12714591431-public-toilets",
-          "name": "Public toilets",
-          "lat": 51.504526,
-          "lng": -0.08547,
-          "detail": "Public toilet · fee: no · access: yes from OpenStreetMap.",
-          "source": "OpenStreetMap node/12714591431"
-        },
-        {
           "id": "toilets-node-1102236526-public-toilets",
           "name": "Public toilets",
           "lat": 51.504897,
@@ -3055,12 +3247,68 @@
           "source": "OpenStreetMap node/553308759"
         },
         {
-          "id": "toilets-node-3794539887-public-toilets",
+          "id": "toilets-node-1088333795-public-toilets",
           "name": "Public toilets",
-          "lat": 51.517613,
-          "lng": -0.081621,
-          "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
-          "source": "OpenStreetMap node/3794539887"
+          "lat": 51.5045,
+          "lng": -0.078585,
+          "detail": "Public toilet · fee: yes · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/1088333795"
+        },
+        {
+          "id": "toilets-node-4815428300-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.506854,
+          "lng": -0.072765,
+          "detail": "Public toilet · wheelchair: no · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/4815428300"
+        },
+        {
+          "id": "toilets-node-6018047359-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.507261,
+          "lng": -0.075873,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/6018047359"
+        },
+        {
+          "id": "toilets-node-11942067283-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.507417,
+          "lng": -0.075277,
+          "detail": "Public toilet · fee: no · wheelchair: no · access: customers from OpenStreetMap.",
+          "source": "OpenStreetMap node/11942067283"
+        },
+        {
+          "id": "toilets-node-3453930440-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.508739,
+          "lng": -0.07565,
+          "detail": "Public toilet · wheelchair: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/3453930440"
+        },
+        {
+          "id": "toilets-node-12185383193-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.520426,
+          "lng": -0.072446,
+          "detail": "Public toilet · fee: no from OpenStreetMap.",
+          "source": "OpenStreetMap node/12185383193"
+        },
+        {
+          "id": "toilets-node-12552151418-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.520824,
+          "lng": -0.072765,
+          "detail": "Public toilet · fee: no · wheelchair: designated · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap node/12552151418"
+        },
+        {
+          "id": "toilets-way-374959168-public-toilets",
+          "name": "Public toilets",
+          "lat": 51.503275,
+          "lng": -0.135961,
+          "detail": "Public toilet · fee: yes · wheelchair: yes · access: yes from OpenStreetMap.",
+          "source": "OpenStreetMap way/374959168"
         },
         {
           "id": "toilets-node-339925126-trafalgar-square-toilets",
@@ -3077,14 +3325,6 @@
           "lng": -0.113353,
           "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
           "source": "OpenStreetMap node/344521109"
-        },
-        {
-          "id": "toilets-node-4274551602-waterloo-station",
-          "name": "Waterloo Station",
-          "lat": 51.503658,
-          "lng": -0.113509,
-          "detail": "Public toilet · fee: no · access: yes from OpenStreetMap.",
-          "source": "OpenStreetMap node/4274551602"
         }
       ]
     },

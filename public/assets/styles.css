@@ -565,7 +565,16 @@ body[data-theme="dark"] .route-card.is-active {
 }
 
 .layer-marker-transport {
-  background: #1d4ed8;
+  background: #374151;
+}
+
+.layer-marker-transport-bus {
+  background: #b45309;
+}
+
+.layer-marker-transport-boat {
+  background: #0369a1;
+  font-size: 0.52rem;
 }
 
 .layer-marker-toilets {
