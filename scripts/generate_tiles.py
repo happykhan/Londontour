@@ -72,6 +72,18 @@ def draw_label(draw: ImageDraw.ImageDraw, xy: tuple[float, float], text: str, fi
     draw.text((x - w / 2, y - h / 2), text, fill=fill, font=use_font)
 
 
+def text_box(draw: ImageDraw.ImageDraw, x: float, y: float, text: str, font_: ImageFont.ImageFont) -> tuple[float, float, float, float]:
+    bbox = draw.textbbox((0, 0), text, font=font_)
+    w = bbox[2] - bbox[0]
+    h = bbox[3] - bbox[1]
+    return (x - w / 2, y - h / 2, x + w / 2, y + h / 2)
+
+
+def overlaps_tile(box: tuple[float, float, float, float]) -> bool:
+    left, top, right, bottom = box
+    return right >= 0 and left <= TILE_SIZE and bottom >= 0 and top <= TILE_SIZE
+
+
 RIVER = [
     (51.4877, -0.199),
     (51.4921, -0.176),
@@ -169,11 +181,9 @@ LANDMARKS = [
 
 def draw_svg_like_label(draw: ImageDraw.ImageDraw, x: float, y: float, text: str) -> None:
     # Tiny shadow for legibility.
-    bbox = draw.textbbox((0, 0), text, font=FONT_SMALL)
-    w = bbox[2] - bbox[0]
-    h = bbox[3] - bbox[1]
-    draw.text((x - w / 2 + 1, y - h / 2 + 1), text, fill="#f8f6f0", font=FONT_SMALL)
-    draw.text((x - w / 2, y - h / 2), text, fill="#6f6a5e", font=FONT_SMALL)
+    left, top, _, _ = text_box(draw, x, y, text, FONT_SMALL)
+    draw.text((left + 1, top + 1), text, fill="#f8f6f0", font=FONT_SMALL)
+    draw.text((left, top), text, fill="#6f6a5e", font=FONT_SMALL)
 
 
 def draw_poi(draw: ImageDraw.ImageDraw, x: float, y: float, fill: str) -> None:
@@ -236,10 +246,11 @@ def render_tile(z: int, x: int, y: int) -> Image.Image:
         (51.5069, -0.1405, "St James’s"),
         (51.5067, -0.0798, "Tower Hill"),
         (51.5132, -0.1502, "Mayfair"),
+        (51.5153, -0.0618, "Whitechapel"),
     ]
     for lat_, lng_, text in district_labels:
         px, py = local_point(lat_, lng_, z, x, y)
-        if 0 <= px <= TILE_SIZE and 0 <= py <= TILE_SIZE:
+        if overlaps_tile(text_box(draw, px, py, text, FONT_SMALL)):
             draw_svg_like_label(draw, px, py, text)
 
     return img

@@ -510,6 +510,23 @@ body[data-theme="dark"] .route-card.is-active {
   max-width: min(72vw, 320px);
 }
 
+.basemap-repair-label {
+  color: #5f6670;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  pointer-events: none;
+  text-align: center;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95),
+    1px 0 0 rgba(255, 255, 255, 0.95),
+    -1px 0 0 rgba(255, 255, 255, 0.95),
+    0 -1px 0 rgba(255, 255, 255, 0.95);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .poi-marker {
   align-items: center;
   background: var(--route);

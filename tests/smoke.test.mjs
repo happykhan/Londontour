@@ -61,9 +61,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0858'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0858/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0858/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0908'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0908/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0908/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -104,7 +104,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0858'/);
+  assert.match(js, /const assetVersion = '20260621-0908'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -122,6 +122,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /riverServiceLayers/);
   assert.match(js, /riverServices/);
   assert.match(js, /tubeNetworkRenderer = L\.svg/);
+  assert.match(js, /basemapRepairLabels/);
+  assert.match(js, /Whitechapel/);
   assert.match(js, /dashArray: '8 8'/);
   assert.match(js, /river service/);
   assert.doesNotMatch(js, /pois: \[/);
@@ -160,6 +162,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.editor-output/);
   assert.match(css, /\.layer-marker-transport-boat/);
   assert.match(css, /\.tube-station-marker\.is-major/);
+  assert.match(css, /\.basemap-repair-label/);
 });
 
 test('public directory is the single deployable app tree', () => {
@@ -170,7 +173,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v33/);
+  assert.match(sw, /londontour-offline-v34/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -310,6 +313,7 @@ test('tile renderer includes central London landmarks', () => {
     'St Paul’s Cathedral',
     'Tower Bridge',
     'Trafalgar Square',
+    'Whitechapel',
   ]) {
     assert.match(generator, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }

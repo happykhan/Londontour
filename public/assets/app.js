@@ -325,6 +325,7 @@ let tubeLineLayers = [];
 let riverServiceLayers = [];
 let tubeStationMarkers = [];
 let tubeNetworkRenderer;
+let basemapRepairLabels = [];
 let editorDraftLayers = [];
 let userMarker;
 let userLocation;
@@ -369,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0858';
-const cacheName = 'londontour-offline-v33';
+const assetVersion = '20260621-0908';
+const cacheName = 'londontour-offline-v34';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1044,6 +1045,9 @@ function buildMap() {
   map.createPane('basemapLabels');
   map.getPane('basemapLabels').style.zIndex = 430;
   map.getPane('basemapLabels').style.pointerEvents = 'none';
+  map.createPane('basemapRepairLabels');
+  map.getPane('basemapRepairLabels').style.zIndex = 440;
+  map.getPane('basemapRepairLabels').style.pointerEvents = 'none';
   map.createPane('tubeNetwork');
   map.getPane('tubeNetwork').style.zIndex = 390;
   tubeNetworkRenderer = L.svg({ pane: 'tubeNetwork' });
@@ -1092,6 +1096,8 @@ function buildMap() {
     onlineTileLayer.addTo(map);
   }
 
+  renderBasemapRepairLabels();
+
   L.control.zoom({ position: 'bottomright' }).addTo(map);
   map.setView(selectedRoute.center, selectedRoute.zoom);
   map.on('zoomend', () => {
@@ -1109,6 +1115,28 @@ function buildMap() {
     } else {
       renderRouteOnMap();
     }
+  });
+}
+
+function renderBasemapRepairLabels() {
+  if (!map || basemapRepairLabels.length) return;
+
+  [
+    { name: 'City of London', lat: 51.5108, lng: -0.0997 },
+    { name: 'Whitechapel', lat: 51.5153, lng: -0.0618 },
+  ].forEach((label) => {
+    const marker = L.marker([label.lat, label.lng], {
+      interactive: false,
+      keyboard: false,
+      pane: 'basemapRepairLabels',
+      icon: L.divIcon({
+        className: 'basemap-repair-label',
+        html: escapeHtml(label.name),
+        iconSize: [120, 18],
+        iconAnchor: [60, 9],
+      }),
+    }).addTo(map);
+    basemapRepairLabels.push(marker);
   });
 }
 
