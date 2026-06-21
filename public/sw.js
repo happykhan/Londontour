@@ -1,4 +1,4 @@
-const CACHE_NAME = 'londontour-offline-v27';
+const CACHE_NAME = 'londontour-offline-v28';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -49,8 +49,9 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_NAME);
-      const cached = await cache.match(event.request);
-      if (cached) return cached;
+      const cached = (await cache.match(event.request)) || (await cache.match(url.pathname));
+      const isJsonAsset = url.origin === self.location.origin && url.pathname.startsWith('/assets/') && url.pathname.endsWith('.json');
+      if (!isJsonAsset && cached) return cached;
 
       try {
         const response = await fetch(event.request);
@@ -59,6 +60,7 @@ self.addEventListener('fetch', (event) => {
         }
         return response;
       } catch (error) {
+        if (cached) return cached;
         if (url.pathname === '/' || url.pathname === '/index.html') {
           return cache.match('/index.html');
         }

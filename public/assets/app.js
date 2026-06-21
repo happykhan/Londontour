@@ -319,10 +319,15 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const cacheName = 'londontour-offline-v27';
+const assetVersion = '20260621-0816';
+const cacheName = 'londontour-offline-v28';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
+
+function assetUrl(path) {
+  return `${path}?v=${assetVersion}`;
+}
 
 async function resetLegacyRuntime() {
   try {
@@ -423,7 +428,7 @@ function normaliseLayerCatalog(data) {
 
 async function loadLayerCatalog() {
   try {
-    const response = await fetch('/assets/layers.json', { cache: 'no-store' });
+    const response = await fetch(assetUrl('/assets/layers.json'), { cache: 'no-store' });
     if (!response.ok) throw new Error(`Layer catalog failed: ${response.status}`);
 
     const catalog = normaliseLayerCatalog(await response.json());
@@ -728,7 +733,7 @@ function clearRouteOverlays() {
 
 function loadRouteGeometry() {
   if (!routeGeometryPromise) {
-    routeGeometryPromise = fetch('/assets/route-geometry.json')
+    routeGeometryPromise = fetch(assetUrl('/assets/route-geometry.json'))
       .then((response) => response.json())
       .catch(() => ({}));
   }
@@ -738,7 +743,7 @@ function loadRouteGeometry() {
 
 function loadTileManifest() {
   if (!tileManifestPromise) {
-    tileManifestPromise = fetch('/assets/tiles-manifest.json')
+    tileManifestPromise = fetch(assetUrl('/assets/tiles-manifest.json'))
       .then((response) => response.json())
       .catch(() => []);
   }
@@ -748,7 +753,7 @@ function loadTileManifest() {
 
 function loadTubeNetwork() {
   if (!tubeNetworkPromise) {
-    tubeNetworkPromise = fetch('/assets/tube-network.json')
+    tubeNetworkPromise = fetch(assetUrl('/assets/tube-network.json'))
       .then((response) => response.json())
       .then((data) => {
         tubeNetworkData = {

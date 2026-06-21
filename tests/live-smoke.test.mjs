@@ -11,9 +11,9 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0810/);
-  assert.match(html, /assets\/app\.js\?v=20260621-0810/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0810'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0816/);
+  assert.match(html, /assets\/app\.js\?v=20260621-0816/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0816'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
