@@ -1,4 +1,4 @@
-const CACHE_NAME = 'londontour-offline-v25';
+const CACHE_NAME = 'londontour-offline-v26';
 const PRECACHE_URLS = [
   '/',
   '/index.html',

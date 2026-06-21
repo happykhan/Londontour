@@ -288,8 +288,39 @@ let tubeNetworkPromise;
 let tubeNetworkData = { lines: [], stations: [] };
 let selectedTubeStationId;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
+const majorTubeStationMinZoom = 12;
 const tubeStationMinZoom = 13;
-const cacheName = 'londontour-offline-v25';
+const majorTubeStationNames = new Set([
+  'bank',
+  'baker street',
+  'bond street',
+  'canary wharf',
+  'charing cross',
+  'ealing broadway',
+  "earl's court",
+  'elephant and castle',
+  'euston',
+  'farringdon',
+  'finsbury park',
+  'green park',
+  'hammersmith',
+  'holborn',
+  "king's cross st. pancras",
+  'liverpool street',
+  'london bridge',
+  'moorgate',
+  'oxford circus',
+  'paddington',
+  'piccadilly circus',
+  'stratford',
+  'tottenham court road',
+  'tower hill',
+  'victoria',
+  'waterloo',
+  'west ham',
+  'westminster',
+]);
+const cacheName = 'londontour-offline-v26';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -950,6 +981,28 @@ function renderLayerMarkers() {
   });
 }
 
+function normaliseTubeStationName(name) {
+  return String(name || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')
+    .replace(/-underground/g, '')
+    .replace(/&/g, 'and')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function tubeStationFacilityNumber(station, label) {
+  const facility = station.facilities?.find((item) => item.toLowerCase().startsWith(`${label.toLowerCase()}:`));
+  const match = facility?.match(/:\s*(\d+)/);
+  return match ? Number(match[1]) : 0;
+}
+
+function isMajorTubeStation(station) {
+  if ((station.lines?.length || 0) >= 4) return true;
+  if (majorTubeStationNames.has(normaliseTubeStationName(station.name))) return true;
+  return tubeStationFacilityNumber(station, 'Gates') >= 20 || tubeStationFacilityNumber(station, 'Ticket Halls') >= 3;
+}
+
 async function renderTubeNetwork() {
   if (!map) return;
 
@@ -987,16 +1040,26 @@ async function renderTubeNetwork() {
   });
 
   const currentZoom = map.getZoom();
-  const selectedStationOnly = currentZoom < tubeStationMinZoom && selectedTubeStationId;
-  if (currentZoom < tubeStationMinZoom && !selectedStationOnly) return;
+  const showMajorStations = currentZoom >= majorTubeStationMinZoom;
+  const showAllStations = currentZoom >= tubeStationMinZoom;
+  if (!showAllStations && !showMajorStations && !selectedTubeStationId) return;
 
   tubeNetwork.stations.forEach((station) => {
-    if (selectedStationOnly && station.id !== selectedTubeStationId) return;
+    const isSelectedStation = station.id === selectedTubeStationId;
+    const isMajorStation = isMajorTubeStation(station);
+    if (!showAllStations) {
+      if (showMajorStations) {
+        if (!isMajorStation && !isSelectedStation) return;
+      } else if (!isSelectedStation) {
+        return;
+      }
+    }
 
     const stationLines = station.lines
       .map((lineId) => tubeNetwork.lines.find((line) => line.id === lineId)?.label)
       .filter(Boolean);
     const stationInfo = [
+      isMajorStation ? 'Major interchange' : null,
       station.zone ? `Zone ${escapeHtml(station.zone)}` : null,
       station.facilities?.length ? escapeHtml(station.facilities.slice(0, 4).join(' · ')) : null,
       escapeHtml(station.source || 'TfL station data'),
@@ -1004,9 +1067,9 @@ async function renderTubeNetwork() {
     const marker = L.marker([station.lat, station.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="tube-station-marker ${station.id === selectedTubeStationId ? 'is-selected' : ''}"><span></span></div>`,
-        iconSize: [18, 18],
-        iconAnchor: [9, 9],
+        html: `<div class="tube-station-marker ${isMajorStation ? 'is-major' : ''} ${isSelectedStation ? 'is-selected' : ''}"><span></span></div>`,
+        iconSize: isMajorStation ? [22, 22] : [18, 18],
+        iconAnchor: isMajorStation ? [11, 11] : [9, 9],
       }),
     }).bindPopup(`<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>${stationInfo.join('<br>')}`);
 

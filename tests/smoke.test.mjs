@@ -59,9 +59,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0335'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0335/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0335/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0801'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0801/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0801/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -90,8 +90,12 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
+  assert.match(js, /const majorTubeStationMinZoom = 12/);
   assert.match(js, /const tubeStationMinZoom = 13/);
-  assert.match(js, /currentZoom < tubeStationMinZoom/);
+  assert.match(js, /function isMajorTubeStation/);
+  assert.match(js, /showMajorStations/);
+  assert.match(js, /Major interchange/);
+  assert.match(js, /is-major/);
   assert.match(js, /\/assets\/tube-network\.json/);
   assert.doesNotMatch(js, /pois: \[/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_nolabels/);
@@ -119,6 +123,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\[data-theme="dark"\] \.route-card/);
   assert.match(css, /body\[data-theme="dark"\]:not\(\.route-view\) \.tour-panel/);
   assert.match(css, /body\[data-theme="dark"\]\.route-view \.tour-panel/);
+  assert.match(css, /\.tube-station-marker\.is-major/);
 });
 
 test('public directory is the single deployable app tree', () => {
@@ -129,7 +134,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v25/);
+  assert.match(sw, /londontour-offline-v26/);
   assert.match(sw, /\/assets\/layers\.json/);
   assert.match(sw, /\/assets\/tube-network\.json/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);

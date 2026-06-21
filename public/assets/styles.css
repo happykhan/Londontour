@@ -596,6 +596,18 @@ body[data-theme="dark"] .route-card.is-active {
   width: 6px;
 }
 
+.tube-station-marker.is-major {
+  border-color: #0f766e;
+  height: 22px;
+  width: 22px;
+}
+
+.tube-station-marker.is-major span {
+  background: #0f766e;
+  height: 8px;
+  width: 8px;
+}
+
 .tube-station-marker.is-selected {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px rgba(20, 108, 100, 0.18), 0 8px 18px rgba(17, 24, 39, 0.22);
