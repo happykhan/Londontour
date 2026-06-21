@@ -168,27 +168,56 @@ const routes = [
 
 const fallbackLayerCatalog = [
   {
-    id: 'attractions',
-    label: 'Major attractions',
+    id: 'landmarks',
+    label: 'Essential landmarks',
     defaultVisible: true,
     minZoom: 13,
-    markerLabel: 'A',
-    routeRadiusMeters: 650,
+    markerLabel: 'L',
+    routeRadiusMeters: 700,
     points: [
-      { id: 'horse-guards', name: 'Horse Guards Parade', lat: 51.5046, lng: -0.1289, detail: 'Photo stop between Whitehall and Trafalgar Square.' },
-      { id: 'national-gallery', name: 'The National Gallery', lat: 51.5089, lng: -0.1283, detail: 'Major gallery on Trafalgar Square.' },
-      { id: 'somerset-house', name: 'Somerset House', lat: 51.5112, lng: -0.117, detail: 'Useful stop near the Strand.' },
       { id: 'st-pauls', name: 'St Paul’s Cathedral', lat: 51.5138, lng: -0.0984, detail: 'Cathedral landmark on the City section.' },
-      { id: 'leadenhall-market', name: 'Leadenhall Market', lat: 51.5133, lng: -0.0835, detail: 'Historic covered market near the route.' },
       { id: 'tower-bridge', name: 'Tower Bridge', lat: 51.5055, lng: -0.0754, detail: 'Classic riverside photo stop.' },
-      { id: 'london-eye', name: 'London Eye', lat: 51.5033, lng: -0.1196, detail: 'South Bank landmark on the river bend.' },
-      { id: 'tate-modern', name: 'Tate Modern', lat: 51.5076, lng: -0.0994, detail: 'Major riverside gallery.' },
-      { id: 'monument', name: 'The Monument', lat: 51.5101, lng: -0.0864, detail: 'Great Fire memorial near the City stretch.' },
+      { id: 'tower-of-london', name: 'Tower of London', lat: 51.5081, lng: -0.0761, detail: 'Historic fortress by the Thames.' },
     ],
   },
   {
-    id: 'food',
-    label: 'Pubs and rest stops',
+    id: 'museums',
+    label: 'Museums',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'M',
+    routeRadiusMeters: 650,
+    points: [
+      { id: 'national-gallery', name: 'The National Gallery', lat: 51.5089, lng: -0.1283, detail: 'Gallery from OpenStreetMap.', url: 'https://www.nationalgallery.org.uk/' },
+      { id: 'tate-modern', name: 'Tate Modern', lat: 51.5076, lng: -0.0994, detail: 'Museum from OpenStreetMap.', url: 'https://www.tate.org.uk/visit/tate-modern' },
+    ],
+  },
+  {
+    id: 'monuments',
+    label: 'Statues and monuments',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'Mon',
+    routeRadiusMeters: 550,
+    points: [
+      { id: 'monument', name: 'The Monument', lat: 51.5101, lng: -0.0864, detail: 'Great Fire memorial near the City stretch.' },
+      { id: 'nelsons-column', name: "Nelson's Column", lat: 51.5077, lng: -0.1279, detail: 'Monument on Trafalgar Square.' },
+    ],
+  },
+  {
+    id: 'plaques',
+    label: 'Plaques',
+    defaultVisible: false,
+    minZoom: 14,
+    markerLabel: 'Plq',
+    routeRadiusMeters: 350,
+    points: [
+      { id: 'fallback-plaque', name: 'Historic plaque', lat: 51.5118, lng: -0.123, detail: 'Plaque from OpenStreetMap.' },
+    ],
+  },
+  {
+    id: 'pubs',
+    label: 'Pubs',
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'P',
@@ -319,8 +348,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0816';
-const cacheName = 'londontour-offline-v28';
+const assetVersion = '20260621-0826';
+const cacheName = 'londontour-offline-v29';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -389,6 +418,22 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;');
 }
 
+function safeExternalUrl(value = '') {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : '';
+  } catch (error) {
+    return '';
+  }
+}
+
+function popupTitle(point) {
+  const name = escapeHtml(point.name);
+  const url = safeExternalUrl(point.url);
+  if (!url) return `<strong>${name}</strong>`;
+  return `<strong><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a></strong>`;
+}
+
 function normaliseLayerCatalog(data) {
   const layers = Array.isArray(data?.layers) ? data.layers : data;
   if (!Array.isArray(layers) || !layers.length) return null;
@@ -406,6 +451,7 @@ function normaliseLayerCatalog(data) {
               source: point.source ? String(point.source) : undefined,
               markerLabel: point.markerLabel ? String(point.markerLabel).slice(0, 4) : undefined,
               transportType: point.transportType ? String(point.transportType) : undefined,
+              url: point.url ? String(point.url) : undefined,
               routes: Array.isArray(point.routes) ? point.routes.map(String) : undefined,
             }))
             .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
@@ -971,7 +1017,6 @@ function renderLayerMarkers() {
   activeLayerPoints().forEach((point) => {
     const layerId = escapeHtml(point.layerId);
     const markerLabel = escapeHtml(point.markerLabel || point.layerMarkerLabel);
-    const name = escapeHtml(point.name);
     const layerLabel = escapeHtml(point.layerLabel);
     const detail = escapeHtml(point.detail);
     const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
@@ -982,7 +1027,7 @@ function renderLayerMarkers() {
         iconSize: [30, 30],
         iconAnchor: [15, 15],
       }),
-    }).bindPopup(`<strong>${name}</strong><br>${layerLabel}<br>${detail}`);
+    }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}`);
     marker.addTo(map);
     layerMarkers.push(marker);
   });

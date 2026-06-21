@@ -556,12 +556,26 @@ body[data-theme="dark"] .route-card.is-active {
   width: 30px;
 }
 
-.layer-marker-attractions {
+.layer-marker-landmarks {
   background: #7c2d12;
 }
 
-.layer-marker-food {
+.layer-marker-museums {
   background: #0f766e;
+}
+
+.layer-marker-monuments {
+  background: #854d0e;
+  font-size: 0.56rem;
+}
+
+.layer-marker-plaques {
+  background: #64748b;
+  font-size: 0.56rem;
+}
+
+.layer-marker-pubs {
+  background: #9f1239;
 }
 
 .layer-marker-transport {

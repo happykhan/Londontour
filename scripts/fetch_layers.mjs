@@ -12,17 +12,44 @@ const USER_AGENT = 'Londontour data import (https://github.com/happykhan/Londont
 
 const layerDefinitions = [
   {
-    id: 'attractions',
-    label: 'Major attractions',
+    id: 'landmarks',
+    label: 'Essential landmarks',
     defaultVisible: true,
     minZoom: 13,
-    markerLabel: 'A',
+    markerLabel: 'L',
+    routeRadiusMeters: 700,
+    maxItems: 45,
+  },
+  {
+    id: 'museums',
+    label: 'Museums',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'M',
     routeRadiusMeters: 650,
     maxItems: 90,
   },
   {
-    id: 'food',
-    label: 'Pubs and rest stops',
+    id: 'monuments',
+    label: 'Statues and monuments',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'Mon',
+    routeRadiusMeters: 550,
+    maxItems: 120,
+  },
+  {
+    id: 'plaques',
+    label: 'Plaques',
+    defaultVisible: false,
+    minZoom: 14,
+    markerLabel: 'Plq',
+    routeRadiusMeters: 350,
+    maxItems: 100,
+  },
+  {
+    id: 'pubs',
+    label: 'Pubs',
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'P',
@@ -65,9 +92,9 @@ function bboxString() {
 function overpassQuery() {
   const bbox = bboxString();
   return `[out:json][timeout:25];(
-  node[amenity~"^(pub|bar|cafe|restaurant)$"](${bbox});
-  way[amenity~"^(pub|bar|cafe|restaurant)$"](${bbox});
-  relation[amenity~"^(pub|bar|cafe|restaurant)$"](${bbox});
+  node[amenity~"^(pub|bar)$"](${bbox});
+  way[amenity~"^(pub|bar)$"](${bbox});
+  relation[amenity~"^(pub|bar)$"](${bbox});
   node[amenity=toilets](${bbox});
   way[amenity=toilets](${bbox});
   relation[amenity=toilets](${bbox});
@@ -80,6 +107,21 @@ function overpassQuery() {
   node[historic](${bbox});
   way[historic](${bbox});
   relation[historic](${bbox});
+  node[memorial](${bbox});
+  way[memorial](${bbox});
+  relation[memorial](${bbox});
+  node["memorial:type"](${bbox});
+  way["memorial:type"](${bbox});
+  relation["memorial:type"](${bbox});
+  node[artwork_type](${bbox});
+  way[artwork_type](${bbox});
+  relation[artwork_type](${bbox});
+  node[amenity=place_of_worship](${bbox});
+  way[amenity=place_of_worship](${bbox});
+  relation[amenity=place_of_worship](${bbox});
+  node[man_made=bridge](${bbox});
+  way[man_made=bridge](${bbox});
+  relation[man_made=bridge](${bbox});
   node[railway~"^(station|subway_entrance|tram_stop)$"](${bbox});
   way[railway~"^(station|subway_entrance|tram_stop)$"](${bbox});
   relation[railway~"^(station|subway_entrance|tram_stop)$"](${bbox});
@@ -135,13 +177,94 @@ function coordinateFor(element) {
   return { lat: Number(lat.toFixed(6)), lng: Number(lng.toFixed(6)) };
 }
 
+const essentialLandmarkNames = new Set([
+  '10 downing street',
+  'bank of england',
+  'big ben',
+  'borough market',
+  'buckingham palace',
+  'charing cross',
+  "cleopatra's needle",
+  'covent garden',
+  'globe theatre',
+  'guildhall',
+  'hms belfast',
+  'leadenhall market',
+  'london eye',
+  'london bridge',
+  'mansion house',
+  'millennium bridge',
+  'palace of westminster',
+  'piccadilly circus',
+  'royal courts of justice',
+  'royal exchange',
+  'royal festival hall',
+  'royal opera house',
+  'somerset house',
+  'southbank centre',
+  "st paul's cathedral",
+  "st. paul's cathedral",
+  "st james's palace",
+  "st. james's palace",
+  'southwark cathedral',
+  'temple church',
+  'the monument to the great fire of london',
+  'the royal courts of justice',
+  'tower bridge',
+  'tower of london',
+  'trafalgar square',
+  'westminster abbey',
+  'westminster bridge',
+]);
+
 function classify(tags = {}) {
-  if (/^(pub|bar|cafe|restaurant)$/.test(tags.amenity)) return 'food';
+  if (/^(pub|bar)$/.test(tags.amenity)) return 'pubs';
   if (tags.amenity === 'toilets') return 'toilets';
   if (/^(supermarket|convenience)$/.test(tags.shop)) return 'supermarkets';
-  if (tags.tourism || tags.historic) return 'attractions';
   if (transportType(tags)) return 'transport';
+  if (isMuseum(tags)) return 'museums';
+  if (isPlaque(tags)) return 'plaques';
+  if (isEssentialLandmark(tags)) return 'landmarks';
+  if (isMonument(tags)) return 'monuments';
   return null;
+}
+
+function normaliseTitle(value = '') {
+  return value
+    .toLowerCase()
+    .replace(/^the\s+/, '')
+    .replace(/[^\w\s'.-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isMuseum(tags = {}) {
+  return tags.tourism === 'museum' || tags.tourism === 'gallery';
+}
+
+function isPlaque(tags = {}) {
+  const values = [tags.memorial, tags['memorial:type'], tags.historic, tags.tourism, tags.name]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  return values.includes('plaque') || values.includes('blue plaque');
+}
+
+function isEssentialLandmark(tags = {}) {
+  if (isRailOrTubeTransport(tags)) return false;
+  const name = normaliseTitle(tags.name || tags['name:en'] || '');
+  if (essentialLandmarkNames.has(name)) return true;
+  if (tags.man_made === 'bridge' && essentialLandmarkNames.has(name)) return true;
+  if (tags.building === 'cathedral' || tags.building === 'church') return essentialLandmarkNames.has(name);
+  return false;
+}
+
+function isMonument(tags = {}) {
+  if (tags.historic === 'monument' || tags.historic === 'memorial') return true;
+  if (tags.tourism === 'artwork') return true;
+  if (tags.memorial && !isPlaque(tags)) return true;
+  if (tags.artwork_type) return true;
+  return false;
 }
 
 function transportType(tags = {}) {
@@ -196,12 +319,15 @@ function fallbackName(layerId, tags) {
   if (layerId === 'toilets') return 'Public toilets';
   if (layerId === 'transport') return transportType(tags) === 'boat' ? 'River pier' : 'Bus stop';
   if (layerId === 'supermarkets') return titleCase(tags.shop || 'Supermarket');
-  if (layerId === 'food') return titleCase(tags.amenity || 'Rest stop');
-  return titleCase(tags.tourism || tags.historic || 'Attraction');
+  if (layerId === 'pubs') return titleCase(tags.amenity || 'Pub');
+  if (layerId === 'museums') return titleCase(tags.tourism || 'Museum');
+  if (layerId === 'monuments') return titleCase(tags.artwork_type || tags.memorial || tags.historic || 'Monument');
+  if (layerId === 'plaques') return 'Plaque';
+  return titleCase(tags.tourism || tags.historic || tags.amenity || 'Landmark');
 }
 
 function detailFor(layerId, tags = {}) {
-  if (layerId === 'food') {
+  if (layerId === 'pubs') {
     const bits = [titleCase(tags.amenity)];
     if (tags.cuisine) bits.push(titleCase(tags.cuisine));
     if (tags.outdoor_seating === 'yes') bits.push('outdoor seating');
@@ -232,15 +358,63 @@ function detailFor(layerId, tags = {}) {
     return `${bits.join(' · ')} from OpenStreetMap.`;
   }
 
+  if (layerId === 'museums') {
+    const bits = [tags.tourism === 'gallery' ? 'Gallery' : 'Museum'];
+    if (tags.operator) bits.push(tags.operator);
+    return `${bits.join(' · ')} from OpenStreetMap.`;
+  }
+
+  if (layerId === 'monuments') {
+    const bits = [titleCase(tags.artwork_type || tags.memorial || tags.historic || tags.tourism || 'Monument')];
+    if (tags.subject) bits.push(tags.subject);
+    return `${bits.join(' · ')} from OpenStreetMap.`;
+  }
+
+  if (layerId === 'plaques') {
+    const bits = ['Plaque'];
+    if (tags.subject) bits.push(tags.subject);
+    if (tags.operator) bits.push(tags.operator);
+    return `${bits.join(' · ')} from OpenStreetMap.`;
+  }
+
   const bits = [titleCase(tags.tourism || tags.historic || 'Attraction')];
   if (tags.operator) bits.push(tags.operator);
   return `${bits.join(' · ')} from OpenStreetMap.`;
+}
+
+function urlFromTags(tags = {}) {
+  const directUrl = tags.website || tags['contact:website'] || tags.url;
+  if (directUrl) {
+    const normalised = /^https?:\/\//i.test(directUrl) ? directUrl : `https://${directUrl}`;
+    try {
+      const url = new URL(normalised);
+      if (url.protocol === 'http:' || url.protocol === 'https:') return url.href;
+    } catch (error) {
+      // Fall through to public knowledge graph links.
+    }
+  }
+
+  if (tags.wikipedia) {
+    const [language, ...titleParts] = tags.wikipedia.split(':');
+    const title = titleParts.join(':');
+    if (language && title) {
+      return `https://${language}.wikipedia.org/wiki/${encodeURIComponent(title.replace(/ /g, '_'))}`;
+    }
+  }
+
+  if (/^Q\d+$/i.test(tags.wikidata || '')) {
+    return `https://www.wikidata.org/wiki/${tags.wikidata}`;
+  }
+
+  return undefined;
 }
 
 function scoreElement(layerId, tags = {}) {
   let score = 0;
   if (tags.name) score += 50;
   if (tags.wikidata || tags.wikipedia) score += 25;
+  if (layerId === 'landmarks' && essentialLandmarkNames.has(normaliseTitle(tags.name || tags['name:en'] || ''))) score += 80;
+  if (layerId === 'museums' && urlFromTags(tags)) score += 18;
   if (tags.tourism === 'museum' || tags.tourism === 'gallery' || tags.historic === 'monument') score += 18;
   if (tags.amenity === 'ferry_terminal' || tags.ferry === 'yes') score += 45;
   if (tags.highway === 'bus_stop') score += 12;
@@ -271,6 +445,8 @@ function cleanPoint(element) {
   const pointTransportType = layerId === 'transport' ? transportType(tags) : null;
   if (layerId === 'transport' && (!pointTransportType || isRailOrTubeTransport(tags))) return null;
   if (layerId === 'transport' && tags.public_transport === 'stop_position') return null;
+  const pointUrl = layerId === 'museums' ? urlFromTags(tags) : undefined;
+  if (layerId === 'museums' && !pointUrl) return null;
 
   const name = (tags.name || tags['name:en'] || fallbackName(layerId, tags)).trim();
   if (!name) return null;
@@ -285,6 +461,7 @@ function cleanPoint(element) {
       lng: coordinate.lng,
       detail: detailFor(layerId, tags),
       source: `OpenStreetMap ${element.type}/${element.id}`,
+      ...(pointUrl ? { url: pointUrl } : {}),
       ...(pointTransportType
         ? {
             transportType: pointTransportType,
@@ -331,6 +508,7 @@ function dedupe(points) {
     const duplicate = kept.find((existing) => {
       if (existing.point.transportType !== item.point.transportType) return false;
       if (normaliseName(existing.point.name) !== normaliseName(item.point.name)) return false;
+      if (item.layerId === 'landmarks') return true;
       const threshold = item.layerId === 'transport' ? 180 : 35;
       return distanceMeters(existing.point, item.point) <= threshold;
     });

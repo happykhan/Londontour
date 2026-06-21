@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T07:11:57.196Z",
+  "generatedAt": "2026-06-21T07:25:46.488Z",
   "source": "OpenStreetMap via Overpass API",
   "bbox": {
     "south": 51.495,
@@ -9,15 +9,15 @@
   },
   "layers": [
     {
-      "id": "attractions",
-      "label": "Major attractions",
+      "id": "landmarks",
+      "label": "Essential landmarks",
       "defaultVisible": true,
       "minZoom": 13,
-      "markerLabel": "A",
-      "routeRadiusMeters": 650,
+      "markerLabel": "L",
+      "routeRadiusMeters": 700,
       "points": [
         {
-          "id": "attractions-relation-1879842-10-downing-street",
+          "id": "landmarks-relation-1879842-10-downing-street",
           "name": "10 Downing Street",
           "lat": 51.503499,
           "lng": -0.127554,
@@ -25,639 +25,159 @@
           "source": "OpenStreetMap relation/1879842"
         },
         {
-          "id": "attractions-node-540449834-15-inch-mk1-naval-guns",
-          "name": "15-inch Mk1 Naval Guns",
-          "lat": 51.496527,
-          "lng": -0.108585,
-          "detail": "Cannon from OpenStreetMap.",
-          "source": "OpenStreetMap node/540449834"
-        },
-        {
-          "id": "attractions-node-3688180043-a-conversation-with-oscar-wilde",
-          "name": "A Conversation with Oscar Wilde",
-          "lat": 51.508719,
-          "lng": -0.125857,
-          "detail": "Artwork from OpenStreetMap.",
-          "source": "OpenStreetMap node/3688180043"
-        },
-        {
-          "id": "attractions-node-3163016900-a-pear-and-a-fig",
-          "name": "A Pear and a Fig",
-          "lat": 51.519086,
-          "lng": -0.077698,
-          "detail": "Artwork from OpenStreetMap.",
-          "source": "OpenStreetMap node/3163016900"
-        },
-        {
-          "id": "attractions-node-382800994-abraham-lincoln",
-          "name": "Abraham Lincoln",
-          "lat": 51.500525,
-          "lng": -0.127713,
-          "detail": "Memorial from OpenStreetMap.",
-          "source": "OpenStreetMap node/382800994"
-        },
-        {
-          "id": "attractions-node-10178203017-ada-van-dantzig",
-          "name": "Ada Van Dantzig",
-          "lat": 51.512032,
-          "lng": -0.136942,
-          "detail": "Memorial from OpenStreetMap.",
-          "source": "OpenStreetMap node/10178203017"
-        },
-        {
-          "id": "attractions-node-5502330246-admiral-sir-john-franklin",
-          "name": "Admiral Sir John Franklin",
-          "lat": 51.506487,
-          "lng": -0.132308,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/5502330246"
-        },
-        {
-          "id": "attractions-node-6109669976-alison-jacques-gallery",
-          "name": "Alison Jacques Gallery",
-          "lat": 51.517447,
-          "lng": -0.136678,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/6109669976"
-        },
-        {
-          "id": "attractions-node-13849155689-arte-delux",
-          "name": "ARTE DELUX",
-          "lat": 51.510875,
-          "lng": -0.088776,
-          "detail": "Gallery · ARTE DELUX from OpenStreetMap.",
-          "source": "OpenStreetMap node/13849155689"
-        },
-        {
-          "id": "attractions-node-6307073869-arthur-sullivan",
-          "name": "Arthur Sullivan",
-          "lat": 51.509484,
-          "lng": -0.119667,
-          "detail": "Artwork from OpenStreetMap.",
-          "source": "OpenStreetMap node/6307073869"
-        },
-        {
-          "id": "attractions-node-4513341393-bank-of-england",
+          "id": "landmarks-relation-553472-bank-of-england",
           "name": "Bank of England",
-          "lat": 51.514197,
-          "lng": -0.08768,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/4513341393"
-        },
-        {
-          "id": "attractions-way-104081033-benjamin-franklin-house",
-          "name": "Benjamin Franklin House",
-          "lat": 51.507651,
-          "lng": -0.124892,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/104081033"
-        },
-        {
-          "id": "attractions-relation-177044-british-museum",
-          "name": "British Museum",
-          "lat": 51.519312,
-          "lng": -0.126877,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap relation/177044"
-        },
-        {
-          "id": "attractions-node-5323721988-british-optical-association-museum",
-          "name": "British Optical Association Museum",
-          "lat": 51.507892,
-          "lng": -0.125392,
-          "detail": "Museum · The College of Optometrists from OpenStreetMap.",
-          "source": "OpenStreetMap node/5323721988"
-        },
-        {
-          "id": "attractions-node-12551995914-british-red-cross-museum",
-          "name": "British Red Cross Museum",
-          "lat": 51.519238,
-          "lng": -0.088524,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/12551995914"
-        },
-        {
-          "id": "attractions-way-554358276-camera-museum",
-          "name": "Camera Museum",
-          "lat": 51.517693,
-          "lng": -0.125213,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/554358276"
-        },
-        {
-          "id": "attractions-way-153342466-charles-james-napier",
-          "name": "Charles James Napier",
-          "lat": 51.507757,
-          "lng": -0.128528,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/153342466"
-        },
-        {
-          "id": "attractions-way-197206542-churchill-war-rooms",
-          "name": "Churchill War Rooms",
-          "lat": 51.502209,
-          "lng": -0.129251,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/197206542"
-        },
-        {
-          "id": "attractions-way-82770797-clink-prison-museum",
-          "name": "Clink Prison Museum",
-          "lat": 51.506972,
-          "lng": -0.091898,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/82770797"
-        },
-        {
-          "id": "attractions-node-2244751330-dennis-severs-house",
-          "name": "Dennis Severs' House",
-          "lat": 51.520943,
-          "lng": -0.07779,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/2244751330"
-        },
-        {
-          "id": "attractions-node-25507035-douglas-haig",
-          "name": "Douglas Haig",
-          "lat": 51.504278,
-          "lng": -0.126245,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/25507035"
-        },
-        {
-          "id": "attractions-way-43706245-dr-johnsons-house",
-          "name": "Dr Johnson's House",
-          "lat": 51.514909,
-          "lng": -0.108166,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/43706245"
-        },
-        {
-          "id": "attractions-way-866222968-dr-johnsons-house",
-          "name": "Dr. Johnsons House",
-          "lat": 51.515041,
-          "lng": -0.108164,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/866222968"
-        },
-        {
-          "id": "attractions-way-1395753985-earl-roberts",
-          "name": "Earl Roberts",
-          "lat": 51.504538,
-          "lng": -0.127357,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/1395753985"
-        },
-        {
-          "id": "attractions-node-12556923049-faraday-museum",
-          "name": "Faraday Museum",
-          "lat": 51.509702,
-          "lng": -0.142279,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/12556923049"
-        },
-        {
-          "id": "attractions-way-101154182-fashion-and-textile-museum",
-          "name": "Fashion and Textile Museum",
-          "lat": 51.501187,
-          "lng": -0.081666,
-          "detail": "Museum · Newham College of Further Education from OpenStreetMap.",
-          "source": "OpenStreetMap way/101154182"
-        },
-        {
-          "id": "attractions-way-54949420-first-world-war-memorial",
-          "name": "First World War Memorial",
-          "lat": 51.509567,
-          "lng": -0.077637,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/54949420"
-        },
-        {
-          "id": "attractions-node-5053344048-for-the-child",
-          "name": "For the Child",
-          "lat": 51.517687,
-          "lng": -0.081984,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/5053344048"
-        },
-        {
-          "id": "attractions-way-153342477-fourth-plinth",
-          "name": "Fourth Plinth",
-          "lat": 51.508179,
-          "lng": -0.128709,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/153342477"
-        },
-        {
-          "id": "attractions-way-193463784-fusiliers-museum",
-          "name": "Fusiliers Museum",
-          "lat": 51.508309,
-          "lng": -0.075237,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/193463784"
-        },
-        {
-          "id": "attractions-way-117047225-garden-museum",
-          "name": "Garden Museum",
-          "lat": 51.494895,
-          "lng": -0.119975,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/117047225"
-        },
-        {
-          "id": "attractions-node-345876970-george-iii",
-          "name": "George III",
-          "lat": 51.507784,
-          "lng": -0.130562,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/345876970"
-        },
-        {
-          "id": "attractions-node-12877095810-george-iv",
-          "name": "George IV",
-          "lat": 51.508367,
-          "lng": -0.127572,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/12877095810"
-        },
-        {
-          "id": "attractions-node-10270502651-gordon-museum",
-          "name": "Gordon Museum",
-          "lat": 51.503563,
-          "lng": -0.089571,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/10270502651"
-        },
-        {
-          "id": "attractions-way-156172966-guildhall-art-gallery",
-          "name": "Guildhall Art Gallery",
-          "lat": 51.515558,
-          "lng": -0.091404,
-          "detail": "Gallery · City of London Corporation from OpenStreetMap.",
-          "source": "OpenStreetMap way/156172966"
-        },
-        {
-          "id": "attractions-way-25913653-hayward-gallery",
-          "name": "Hayward Gallery",
-          "lat": 51.50617,
-          "lng": -0.11549,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/25913653"
-        },
-        {
-          "id": "attractions-way-153342473-henry-havelock",
-          "name": "Henry Havelock",
-          "lat": 51.507943,
-          "lng": -0.127406,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/153342473"
-        },
-        {
-          "id": "attractions-way-5006061-hms-belfast",
-          "name": "HMS Belfast",
-          "lat": 51.506563,
-          "lng": -0.08131,
-          "detail": "Museum · Imperial War Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/5006061"
-        },
-        {
-          "id": "attractions-node-5071252726-household-cavalry-museum",
-          "name": "Household Cavalry Museum",
-          "lat": 51.50501,
-          "lng": -0.127247,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/5071252726"
-        },
-        {
-          "id": "attractions-node-3349882188-hunterian-museum",
-          "name": "Hunterian Museum",
-          "lat": 51.515283,
-          "lng": -0.11587,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/3349882188"
-        },
-        {
-          "id": "attractions-way-8614496-imperial-war-museum-london",
-          "name": "Imperial War Museum London",
-          "lat": 51.495801,
-          "lng": -0.108591,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/8614496"
-        },
-        {
-          "id": "attractions-way-82459230-kirkaldy-testing-museum",
-          "name": "Kirkaldy Testing Museum",
-          "lat": 51.505966,
-          "lng": -0.101544,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/82459230"
-        },
-        {
-          "id": "attractions-node-294898184-little-ben",
-          "name": "Little Ben",
-          "lat": 51.49646,
-          "lng": -0.142679,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/294898184"
-        },
-        {
-          "id": "attractions-way-44599803-london-transport-museum",
-          "name": "London Transport Museum",
-          "lat": 51.511987,
-          "lng": -0.121221,
-          "detail": "Museum · Transport for London (TfL) from OpenStreetMap.",
-          "source": "OpenStreetMap way/44599803"
-        },
-        {
-          "id": "attractions-node-5671022803-messums",
-          "name": "Messum's",
-          "lat": 51.510471,
-          "lng": -0.141435,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/5671022803"
-        },
-        {
-          "id": "attractions-relation-13656740-michael-faraday-memorial-substation",
-          "name": "Michael Faraday Memorial substation",
-          "lat": 51.495106,
-          "lng": -0.100638,
-          "detail": "Artwork · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap relation/13656740"
-        },
-        {
-          "id": "attractions-node-12541989407-museum-of-freemasonry",
-          "name": "Museum of Freemasonry",
-          "lat": 51.515009,
-          "lng": -0.121267,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/12541989407"
-        },
-        {
-          "id": "attractions-node-1686474834-museum-of-the-order-of-st-john",
-          "name": "Museum of the Order of St John",
-          "lat": 51.522006,
-          "lng": -0.102556,
-          "detail": "Museum · Order of St John from OpenStreetMap.",
-          "source": "OpenStreetMap node/1686474834"
-        },
-        {
-          "id": "attractions-way-4372002-national-gallery",
-          "name": "National Gallery",
-          "lat": 51.508889,
-          "lng": -0.128752,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/4372002"
-        },
-        {
-          "id": "attractions-way-59161723-national-portrait-gallery",
-          "name": "National Portrait Gallery",
-          "lat": 51.509304,
-          "lng": -0.128212,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/59161723"
-        },
-        {
-          "id": "attractions-way-150920358-nelsons-column",
-          "name": "Nelson's Column",
-          "lat": 51.507759,
-          "lng": -0.12793,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/150920358"
-        },
-        {
-          "id": "attractions-node-4030635565-new-london-architecture",
-          "name": "New London Architecture",
-          "lat": 51.516054,
-          "lng": -0.092855,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/4030635565"
-        },
-        {
-          "id": "attractions-node-1156568777-october-gallery",
-          "name": "October Gallery",
-          "lat": 51.520656,
-          "lng": -0.121793,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/1156568777"
-        },
-        {
-          "id": "attractions-way-90404358-old-operating-theatre-museum",
-          "name": "Old Operating Theatre Museum",
-          "lat": 51.505047,
-          "lng": -0.088515,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/90404358"
-        },
-        {
-          "id": "attractions-way-553157396-paul-stolper",
-          "name": "Paul Stolper",
-          "lat": 51.517906,
-          "lng": -0.125999,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/553157396"
-        },
-        {
-          "id": "attractions-way-161420186-prince-henrys-room",
-          "name": "Prince Henry's Room",
-          "lat": 51.513729,
-          "lng": -0.110916,
-          "detail": "Museum · City of London Corporation from OpenStreetMap.",
-          "source": "OpenStreetMap way/161420186"
-        },
-        {
-          "id": "attractions-way-629776387-queen-anne",
-          "name": "Queen Anne",
-          "lat": 51.513682,
-          "lng": -0.099934,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/629776387"
-        },
-        {
-          "id": "attractions-node-12539364474-riba-library",
-          "name": "RIBA Library",
-          "lat": 51.521377,
-          "lng": -0.14481,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/12539364474"
-        },
-        {
-          "id": "attractions-node-1253814492-robert-raikes",
-          "name": "Robert Raikes",
-          "lat": 51.509326,
-          "lng": -0.120264,
-          "detail": "Artwork from OpenStreetMap.",
-          "source": "OpenStreetMap node/1253814492"
-        },
-        {
-          "id": "attractions-way-96237005-royal-academy",
-          "name": "Royal Academy",
-          "lat": 51.509741,
-          "lng": -0.140134,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/96237005"
-        },
-        {
-          "id": "attractions-way-31510288-royal-academy-of-arts",
-          "name": "Royal Academy of Arts",
-          "lat": 51.509264,
-          "lng": -0.139698,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/31510288"
-        },
-        {
-          "id": "attractions-way-110753809-royal-institute-of-british-architects",
-          "name": "Royal Institute of British Architects",
-          "lat": 51.521271,
-          "lng": -0.144865,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/110753809"
-        },
-        {
-          "id": "attractions-node-12557420113-royal-pharmaceutical-society-museum",
-          "name": "Royal Pharmaceutical Society Museum",
-          "lat": 51.50902,
-          "lng": -0.068357,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/12557420113"
-        },
-        {
-          "id": "attractions-node-3012192162-samuel-plimsoll",
-          "name": "Samuel Plimsoll",
-          "lat": 51.505311,
-          "lng": -0.123202,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/3012192162"
-        },
-        {
-          "id": "attractions-way-61453261-sir-john-soanes-museum",
-          "name": "Sir John Soane's Museum",
-          "lat": 51.517075,
-          "lng": -0.117469,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/61453261"
-        },
-        {
-          "id": "attractions-node-452226949-sothebys-auction-house",
-          "name": "Sotheby's Auction House",
-          "lat": 51.511815,
-          "lng": -0.143763,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/452226949"
-        },
-        {
-          "id": "attractions-node-4354554594-st-bartholomews-hospital-museum",
-          "name": "St Bartholomew's Hospital museum",
-          "lat": 51.517723,
-          "lng": -0.100473,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/4354554594"
-        },
-        {
-          "id": "attractions-way-24642569-tate-modern",
-          "name": "Tate Modern",
-          "lat": 51.507429,
-          "lng": -0.099386,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/24642569"
-        },
-        {
-          "id": "attractions-node-7261799916-the-cartoon-museum",
-          "name": "The Cartoon Museum",
-          "lat": 51.517577,
-          "lng": -0.138581,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/7261799916"
-        },
-        {
-          "id": "attractions-node-5247197725-the-charterhouse",
-          "name": "The Charterhouse",
-          "lat": 51.521464,
-          "lng": -0.099784,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/5247197725"
-        },
-        {
-          "id": "attractions-node-2647639741-the-courtauld-gallery",
-          "name": "The Courtauld Gallery",
-          "lat": 51.511624,
-          "lng": -0.1177,
-          "detail": "Gallery · The Courtauld Institute of Art from OpenStreetMap.",
-          "source": "OpenStreetMap node/2647639741"
-        },
-        {
-          "id": "attractions-node-452238452-the-fine-art-society",
-          "name": "The Fine Art Society",
-          "lat": 51.511342,
-          "lng": -0.143659,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/452238452"
-        },
-        {
-          "id": "attractions-node-5741257603-the-florence-nightingale-museum",
-          "name": "The Florence Nightingale Museum",
-          "lat": 51.500007,
-          "lng": -0.11767,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/5741257603"
-        },
-        {
-          "id": "attractions-node-4749096025-the-guards-museum",
-          "name": "The Guards Museum",
-          "lat": 51.500048,
-          "lng": -0.136125,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/4749096025"
-        },
-        {
-          "id": "attractions-node-1289223308-the-kings-gallery",
-          "name": "The King's Gallery",
-          "lat": 51.499828,
-          "lng": -0.142551,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/1289223308"
-        },
-        {
-          "id": "attractions-node-12492312902-the-lion-of-knidos",
-          "name": "The Lion of Knidos",
-          "lat": 51.519111,
-          "lng": -0.12695,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap node/12492312902"
-        },
-        {
-          "id": "attractions-relation-3374550-the-monument-to-the-great-fire-of-london",
-          "name": "The Monument to the Great Fire of London",
-          "lat": 51.510142,
-          "lng": -0.085949,
+          "lat": 51.514114,
+          "lng": -0.088557,
+          "detail": "Attraction · Governor and Company of the Bank of England from OpenStreetMap.",
+          "source": "OpenStreetMap relation/553472"
+        },
+        {
+          "id": "landmarks-node-1802652184-big-ben",
+          "name": "Big Ben",
+          "lat": 51.500704,
+          "lng": -0.124572,
           "detail": "Attraction from OpenStreetMap.",
-          "source": "OpenStreetMap relation/3374550"
+          "source": "OpenStreetMap node/1802652184"
         },
         {
-          "id": "attractions-node-2102604123-the-museum-of-immigration-and-diversity-at-19-pr",
-          "name": "The Museum of Immigration and Diversity at 19 Princelet Street",
-          "lat": 51.519846,
-          "lng": -0.072486,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/2102604123"
+          "id": "landmarks-relation-5208404-buckingham-palace",
+          "name": "Buckingham Palace",
+          "lat": 51.500834,
+          "lng": -0.142658,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/5208404"
         },
         {
-          "id": "attractions-way-65489529-the-photographers-gallery",
-          "name": "The Photographers' Gallery",
-          "lat": 51.514926,
-          "lng": -0.139018,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/65489529"
+          "id": "landmarks-way-297331784-cleopatras-needle",
+          "name": "Cleopatra's Needle",
+          "lat": 51.508515,
+          "lng": -0.120316,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/297331784"
         },
         {
-          "id": "attractions-node-472152158-topolski-century",
-          "name": "Topolski Century",
-          "lat": 51.504803,
-          "lng": -0.115651,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/472152158"
+          "id": "landmarks-node-1948210427-globe-theatre",
+          "name": "Globe Theatre",
+          "lat": 51.506838,
+          "lng": -0.094742,
+          "detail": "Archaeological Site from OpenStreetMap.",
+          "source": "OpenStreetMap node/1948210427"
         },
         {
-          "id": "attractions-node-2079674503-tower-bridge",
+          "id": "landmarks-way-539317283-guildhall",
+          "name": "Guildhall",
+          "lat": 51.515856,
+          "lng": -0.09193,
+          "detail": "Attraction · City of London Corporation from OpenStreetMap.",
+          "source": "OpenStreetMap way/539317283"
+        },
+        {
+          "id": "landmarks-way-378493707-london-bridge",
+          "name": "London Bridge",
+          "lat": 51.508018,
+          "lng": -0.087682,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/378493707"
+        },
+        {
+          "id": "landmarks-way-204068874-london-eye",
+          "name": "London Eye",
+          "lat": 51.503342,
+          "lng": -0.119677,
+          "detail": "Attraction · Merlin Attractions Operations Limited from OpenStreetMap.",
+          "source": "OpenStreetMap way/204068874"
+        },
+        {
+          "id": "landmarks-way-659424463-millennium-bridge",
+          "name": "Millennium Bridge",
+          "lat": 51.509765,
+          "lng": -0.098523,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/659424463"
+        },
+        {
+          "id": "landmarks-relation-1567699-palace-of-westminster",
+          "name": "Palace of Westminster",
+          "lat": 51.499387,
+          "lng": -0.124566,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/1567699"
+        },
+        {
+          "id": "landmarks-relation-8250949-piccadilly-circus",
+          "name": "Piccadilly Circus",
+          "lat": 51.509898,
+          "lng": -0.134382,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/8250949"
+        },
+        {
+          "id": "landmarks-relation-2335557-royal-courts-of-justice",
+          "name": "Royal Courts of Justice",
+          "lat": 51.514222,
+          "lng": -0.113041,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/2335557"
+        },
+        {
+          "id": "landmarks-way-5987419-royal-festival-hall",
+          "name": "Royal Festival Hall",
+          "lat": 51.505822,
+          "lng": -0.116784,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/5987419"
+        },
+        {
+          "id": "landmarks-way-33721672-royal-opera-house",
+          "name": "Royal Opera House",
+          "lat": 51.512883,
+          "lng": -0.122497,
+          "detail": "Attraction · Royal Ballet and Opera from OpenStreetMap.",
+          "source": "OpenStreetMap way/33721672"
+        },
+        {
+          "id": "landmarks-way-372841786-somerset-house",
+          "name": "Somerset House",
+          "lat": 51.510934,
+          "lng": -0.117456,
+          "detail": "Yes from OpenStreetMap.",
+          "source": "OpenStreetMap way/372841786"
+        },
+        {
+          "id": "landmarks-relation-1698905-southbank-centre",
+          "name": "Southbank Centre",
+          "lat": 51.50563,
+          "lng": -0.116478,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/1698905"
+        },
+        {
+          "id": "landmarks-way-26183417-southwark-cathedral",
+          "name": "Southwark Cathedral",
+          "lat": 51.50613,
+          "lng": -0.08958,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/26183417"
+        },
+        {
+          "id": "landmarks-way-369161987-st-pauls-cathedral",
+          "name": "St Paul's Cathedral",
+          "lat": 51.513785,
+          "lng": -0.098436,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/369161987"
+        },
+        {
+          "id": "landmarks-way-128454313-temple-church",
+          "name": "Temple Church",
+          "lat": 51.513259,
+          "lng": -0.110263,
+          "detail": "Church from OpenStreetMap.",
+          "source": "OpenStreetMap way/128454313"
+        },
+        {
+          "id": "landmarks-node-2079674503-tower-bridge",
           "name": "Tower Bridge",
           "lat": 51.505517,
           "lng": -0.075366,
@@ -665,89 +185,2649 @@
           "source": "OpenStreetMap node/2079674503"
         },
         {
-          "id": "attractions-node-11346255514-twist-museum",
-          "name": "Twist Museum",
-          "lat": 51.515332,
-          "lng": -0.143008,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap node/11346255514"
-        },
-        {
-          "id": "attractions-way-98485763-two-temple-place",
-          "name": "Two Temple Place",
-          "lat": 51.51165,
-          "lng": -0.112284,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/98485763"
-        },
-        {
-          "id": "attractions-node-9425465875-unit-london",
-          "name": "Unit London",
-          "lat": 51.513608,
-          "lng": -0.142943,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap node/9425465875"
-        },
-        {
-          "id": "attractions-way-374945234-victoria-memorial",
-          "name": "Victoria Memorial",
-          "lat": 51.50184,
-          "lng": -0.140587,
+          "id": "landmarks-way-370870741-tower-of-london",
+          "name": "Tower of London",
+          "lat": 51.508133,
+          "lng": -0.076286,
           "detail": "Attraction from OpenStreetMap.",
-          "source": "OpenStreetMap way/374945234"
+          "source": "OpenStreetMap way/370870741"
         },
         {
-          "id": "attractions-way-1395753986-viscount-wolseley",
-          "name": "Viscount Wolseley",
-          "lat": 51.50497,
-          "lng": -0.127496,
-          "detail": "Monument from OpenStreetMap.",
-          "source": "OpenStreetMap way/1395753986"
+          "id": "landmarks-relation-3962877-trafalgar-square",
+          "name": "Trafalgar Square",
+          "lat": 51.508169,
+          "lng": -0.128273,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap relation/3962877"
         },
         {
-          "id": "attractions-node-4677431580-visionary-britmuseum",
-          "name": "Visionary BritMuseum",
-          "lat": 51.518774,
-          "lng": -0.124969,
-          "detail": "Gallery · Degard from OpenStreetMap.",
-          "source": "OpenStreetMap node/4677431580"
+          "id": "landmarks-way-364313092-westminster-abbey",
+          "name": "Westminster Abbey",
+          "lat": 51.499401,
+          "lng": -0.127391,
+          "detail": "Attraction from OpenStreetMap.",
+          "source": "OpenStreetMap way/364313092"
         },
         {
-          "id": "attractions-way-369136185-waterloo-block",
-          "name": "Waterloo Block",
-          "lat": 51.508605,
-          "lng": -0.076021,
-          "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/369136185"
-        },
-        {
-          "id": "attractions-way-102403106-white-cube",
-          "name": "White Cube",
-          "lat": 51.499448,
-          "lng": -0.082329,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/102403106"
-        },
-        {
-          "id": "attractions-way-264131965-whitechapel-gallery",
-          "name": "Whitechapel Gallery",
-          "lat": 51.516163,
-          "lng": -0.070356,
-          "detail": "Gallery from OpenStreetMap.",
-          "source": "OpenStreetMap way/264131965"
+          "id": "landmarks-way-216998718-westminster-bridge",
+          "name": "Westminster Bridge",
+          "lat": 51.500826,
+          "lng": -0.12099,
+          "detail": "Attraction · Transport for London from OpenStreetMap.",
+          "source": "OpenStreetMap way/216998718"
         }
       ]
     },
     {
-      "id": "food",
-      "label": "Pubs and rest stops",
+      "id": "museums",
+      "label": "Museums",
+      "defaultVisible": false,
+      "minZoom": 13,
+      "markerLabel": "M",
+      "routeRadiusMeters": 650,
+      "points": [
+        {
+          "id": "museums-node-6109669976-alison-jacques-gallery",
+          "name": "Alison Jacques Gallery",
+          "lat": 51.517447,
+          "lng": -0.136678,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/6109669976",
+          "url": "https://www.alisonjacquesgallery.com/"
+        },
+        {
+          "id": "museums-node-13849155689-arte-delux",
+          "name": "ARTE DELUX",
+          "lat": 51.510875,
+          "lng": -0.088776,
+          "detail": "Gallery · ARTE DELUX from OpenStreetMap.",
+          "source": "OpenStreetMap node/13849155689",
+          "url": "https://www.artedelux.com/"
+        },
+        {
+          "id": "museums-node-4513341393-bank-of-england",
+          "name": "Bank of England",
+          "lat": 51.514197,
+          "lng": -0.08768,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/4513341393",
+          "url": "https://www.bankofengland.co.uk/museum"
+        },
+        {
+          "id": "museums-node-456717384-beaux-arts",
+          "name": "Beaux Arts",
+          "lat": 51.512568,
+          "lng": -0.143809,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/456717384",
+          "url": "https://www.beauxartslondon.uk/"
+        },
+        {
+          "id": "museums-way-104081033-benjamin-franklin-house",
+          "name": "Benjamin Franklin House",
+          "lat": 51.507651,
+          "lng": -0.124892,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/104081033",
+          "url": "https://benjaminfranklinhouse.org/"
+        },
+        {
+          "id": "museums-node-11962311203-bernard-jacobson-gallery",
+          "name": "Bernard Jacobson Gallery",
+          "lat": 51.511778,
+          "lng": -0.136616,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/11962311203",
+          "url": "https://www.jacobsongallery.com/"
+        },
+        {
+          "id": "museums-node-12064506169-bow-street-police-museum",
+          "name": "Bow Street Police Museum",
+          "lat": 51.51349,
+          "lng": -0.121726,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12064506169",
+          "url": "https://bowstreetmuseum.org.uk/visit/accessibility"
+        },
+        {
+          "id": "museums-relation-177044-british-museum",
+          "name": "British Museum",
+          "lat": 51.519312,
+          "lng": -0.126877,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap relation/177044",
+          "url": "https://www.britishmuseum.org/"
+        },
+        {
+          "id": "museums-node-5323721988-british-optical-association-museum",
+          "name": "British Optical Association Museum",
+          "lat": 51.507892,
+          "lng": -0.125392,
+          "detail": "Museum · The College of Optometrists from OpenStreetMap.",
+          "source": "OpenStreetMap node/5323721988",
+          "url": "https://www.college-optometrists.org/the-british-optical-association-museum"
+        },
+        {
+          "id": "museums-node-12551995914-british-red-cross-museum",
+          "name": "British Red Cross Museum",
+          "lat": 51.519238,
+          "lng": -0.088524,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12551995914",
+          "url": "https://www.redcross.org.uk/about-us/our-history/museum-and-archives/visiting-our-museum-and-archives"
+        },
+        {
+          "id": "museums-way-554358276-camera-museum",
+          "name": "Camera Museum",
+          "lat": 51.517693,
+          "lng": -0.125213,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/554358276",
+          "url": "https://www.cameramuseum.uk/"
+        },
+        {
+          "id": "museums-node-10734464784-charles-burnand-gallery",
+          "name": "Charles Burnand Gallery",
+          "lat": 51.519567,
+          "lng": -0.134465,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/10734464784",
+          "url": "https://charlesburnand.com/"
+        },
+        {
+          "id": "museums-way-197206542-churchill-war-rooms",
+          "name": "Churchill War Rooms",
+          "lat": 51.502209,
+          "lng": -0.129251,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/197206542",
+          "url": "https://www.iwm.org.uk/visits/churchill-war-rooms"
+        },
+        {
+          "id": "museums-way-82770797-clink-prison-museum",
+          "name": "Clink Prison Museum",
+          "lat": 51.506972,
+          "lng": -0.091898,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/82770797",
+          "url": "https://www.clink.co.uk/"
+        },
+        {
+          "id": "museums-way-1040884146-cpperfield",
+          "name": "Cøpperfield",
+          "lat": 51.50311,
+          "lng": -0.097295,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/1040884146",
+          "url": "https://www.copperfieldgallery.com/"
+        },
+        {
+          "id": "museums-node-2244751330-dennis-severs-house",
+          "name": "Dennis Severs' House",
+          "lat": 51.520943,
+          "lng": -0.07779,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/2244751330",
+          "url": "https://dennissevershouse.co.uk/"
+        },
+        {
+          "id": "museums-node-1961633395-domobaal",
+          "name": "Domobaal",
+          "lat": 51.521583,
+          "lng": -0.114798,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/1961633395",
+          "url": "https://domobaal.com/"
+        },
+        {
+          "id": "museums-way-43706245-dr-johnsons-house",
+          "name": "Dr Johnson's House",
+          "lat": 51.514909,
+          "lng": -0.108166,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/43706245",
+          "url": "http://www.drjohnsonshouse.org/"
+        },
+        {
+          "id": "museums-way-866222968-dr-johnsons-house",
+          "name": "Dr. Johnsons House",
+          "lat": 51.515041,
+          "lng": -0.108164,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/866222968",
+          "url": "https://www.drjohnsonshouse.org/"
+        },
+        {
+          "id": "museums-way-430662958-eclectic-gallery",
+          "name": "Eclectic Gallery",
+          "lat": 51.517248,
+          "lng": -0.135147,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/430662958",
+          "url": "https://eclecticgallery.co.uk/"
+        },
+        {
+          "id": "museums-node-12556923049-faraday-museum",
+          "name": "Faraday Museum",
+          "lat": 51.509702,
+          "lng": -0.142279,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12556923049",
+          "url": "https://www.rigb.org/visit-us/faraday-museum"
+        },
+        {
+          "id": "museums-way-101154182-fashion-and-textile-museum",
+          "name": "Fashion and Textile Museum",
+          "lat": 51.501187,
+          "lng": -0.081666,
+          "detail": "Museum · Newham College of Further Education from OpenStreetMap.",
+          "source": "OpenStreetMap way/101154182",
+          "url": "https://fashiontextilemuseum.org/"
+        },
+        {
+          "id": "museums-node-2622783204-fitzroy-house",
+          "name": "Fitzroy House",
+          "lat": 51.522523,
+          "lng": -0.139115,
+          "detail": "Museum · Church of Scientology from OpenStreetMap.",
+          "source": "OpenStreetMap node/2622783204",
+          "url": "https://www.fitzroyhouse.org/"
+        },
+        {
+          "id": "museums-node-4270562972-frith-street-gallery",
+          "name": "Frith Street Gallery",
+          "lat": 51.514224,
+          "lng": -0.13207,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/4270562972",
+          "url": "https://www.frithstreetgallery.com/"
+        },
+        {
+          "id": "museums-way-193463784-fusiliers-museum",
+          "name": "Fusiliers Museum",
+          "lat": 51.508309,
+          "lng": -0.075237,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/193463784",
+          "url": "https://www.wikidata.org/wiki/Q26318776"
+        },
+        {
+          "id": "museums-way-117047225-garden-museum",
+          "name": "Garden Museum",
+          "lat": 51.494895,
+          "lng": -0.119975,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/117047225",
+          "url": "https://www.gardenmuseum.org.uk/"
+        },
+        {
+          "id": "museums-node-10270502651-gordon-museum",
+          "name": "Gordon Museum",
+          "lat": 51.503563,
+          "lng": -0.089571,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/10270502651",
+          "url": "https://www.kcl.ac.uk/lsm/centre-for-education/museums/gordon-museum"
+        },
+        {
+          "id": "museums-way-156172966-guildhall-art-gallery",
+          "name": "Guildhall Art Gallery",
+          "lat": 51.515558,
+          "lng": -0.091404,
+          "detail": "Gallery · City of London Corporation from OpenStreetMap.",
+          "source": "OpenStreetMap way/156172966",
+          "url": "https://www.thecityofldn.com/directory/guildhall-art-gallery/"
+        },
+        {
+          "id": "museums-way-25913653-hayward-gallery",
+          "name": "Hayward Gallery",
+          "lat": 51.50617,
+          "lng": -0.11549,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/25913653",
+          "url": "https://www.southbankcentre.co.uk/venues/hayward-gallery"
+        },
+        {
+          "id": "museums-node-4038877608-hello-love",
+          "name": "Hello Love",
+          "lat": 51.51954,
+          "lng": -0.121554,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/4038877608",
+          "url": "https://www.hellolove.org/"
+        },
+        {
+          "id": "museums-node-456718348-helly-nahmad-gallery",
+          "name": "Helly Nahmad Gallery",
+          "lat": 51.510596,
+          "lng": -0.141888,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/456718348",
+          "url": "https://nahmadprojects.com/"
+        },
+        {
+          "id": "museums-node-5936033542-herrick-gallery",
+          "name": "Herrick Gallery",
+          "lat": 51.505859,
+          "lng": -0.144954,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/5936033542",
+          "url": "http://www.herrickgallery.com/"
+        },
+        {
+          "id": "museums-way-5006061-hms-belfast",
+          "name": "HMS Belfast",
+          "lat": 51.506563,
+          "lng": -0.08131,
+          "detail": "Museum · Imperial War Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/5006061",
+          "url": "https://www.iwm.org.uk/visits/hms-belfast"
+        },
+        {
+          "id": "museums-node-5071252726-household-cavalry-museum",
+          "name": "Household Cavalry Museum",
+          "lat": 51.50501,
+          "lng": -0.127247,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/5071252726",
+          "url": "https://householdcavalry.co.uk/museum/"
+        },
+        {
+          "id": "museums-node-3349882188-hunterian-museum",
+          "name": "Hunterian Museum",
+          "lat": 51.515283,
+          "lng": -0.11587,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/3349882188",
+          "url": "https://hunterianmuseum.org/"
+        },
+        {
+          "id": "museums-way-8614496-imperial-war-museum-london",
+          "name": "Imperial War Museum London",
+          "lat": 51.495801,
+          "lng": -0.108591,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/8614496",
+          "url": "https://www.iwm.org.uk/visits/iwm-london"
+        },
+        {
+          "id": "museums-node-6162738077-josh-lilley",
+          "name": "Josh Lilley",
+          "lat": 51.51911,
+          "lng": -0.139264,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/6162738077",
+          "url": "https://joshlilleygallery.com/"
+        },
+        {
+          "id": "museums-way-82459230-kirkaldy-testing-museum",
+          "name": "Kirkaldy Testing Museum",
+          "lat": 51.505966,
+          "lng": -0.101544,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/82459230",
+          "url": "https://www.testingworks.org.uk/"
+        },
+        {
+          "id": "museums-node-1961633388-laura-bartlett-gallery",
+          "name": "Laura Bartlett Gallery",
+          "lat": 51.52227,
+          "lng": -0.114459,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/1961633388",
+          "url": "https://laurabartlettgallery.com/"
+        },
+        {
+          "id": "museums-node-6087059995-laure-genillard-gallery",
+          "name": "Laure Genillard Gallery",
+          "lat": 51.516877,
+          "lng": -0.132473,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/6087059995",
+          "url": "https://www.lglondon.org/index.php/info/"
+        },
+        {
+          "id": "museums-way-44599803-london-transport-museum",
+          "name": "London Transport Museum",
+          "lat": 51.511987,
+          "lng": -0.121221,
+          "detail": "Museum · Transport for London (TfL) from OpenStreetMap.",
+          "source": "OpenStreetMap way/44599803",
+          "url": "https://www.ltmuseum.co.uk/"
+        },
+        {
+          "id": "museums-node-13261198401-mathsworld",
+          "name": "MathsWorld",
+          "lat": 51.506192,
+          "lng": -0.103069,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/13261198401",
+          "url": "https://mathsworld.com/"
+        },
+        {
+          "id": "museums-node-5671022803-messums",
+          "name": "Messum's",
+          "lat": 51.510471,
+          "lng": -0.141435,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/5671022803",
+          "url": "https://www.messums.com/"
+        },
+        {
+          "id": "museums-node-12541989407-museum-of-freemasonry",
+          "name": "Museum of Freemasonry",
+          "lat": 51.515009,
+          "lng": -0.121267,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12541989407",
+          "url": "https://museumfreemasonry.org.uk/"
+        },
+        {
+          "id": "museums-way-1421647806-museum-of-shakespeare",
+          "name": "Museum of Shakespeare",
+          "lat": 51.522802,
+          "lng": -0.080227,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/1421647806",
+          "url": "https://www.museumofshakespeare.org.uk/"
+        },
+        {
+          "id": "museums-node-1686474834-museum-of-the-order-of-st-john",
+          "name": "Museum of the Order of St John",
+          "lat": 51.522006,
+          "lng": -0.102556,
+          "detail": "Museum · Order of St John from OpenStreetMap.",
+          "source": "OpenStreetMap node/1686474834",
+          "url": "https://museumstjohn.org.uk/"
+        },
+        {
+          "id": "museums-node-9337423247-museum-of-youth-culture",
+          "name": "Museum of Youth Culture",
+          "lat": 51.513278,
+          "lng": -0.134771,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/9337423247",
+          "url": "https://museumofyouthculture.com/"
+        },
+        {
+          "id": "museums-way-4372002-national-gallery",
+          "name": "National Gallery",
+          "lat": 51.508889,
+          "lng": -0.128752,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/4372002",
+          "url": "https://www.nationalgallery.org.uk/"
+        },
+        {
+          "id": "museums-way-59161723-national-portrait-gallery",
+          "name": "National Portrait Gallery",
+          "lat": 51.509304,
+          "lng": -0.128212,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/59161723",
+          "url": "https://www.npg.org.uk/"
+        },
+        {
+          "id": "museums-node-4030635565-new-london-architecture",
+          "name": "New London Architecture",
+          "lat": 51.516054,
+          "lng": -0.092855,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/4030635565",
+          "url": "https://www.newlondonarchitecture.org/"
+        },
+        {
+          "id": "museums-node-1156568777-october-gallery",
+          "name": "October Gallery",
+          "lat": 51.520656,
+          "lng": -0.121793,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/1156568777",
+          "url": "https://www.octobergallery.co.uk/"
+        },
+        {
+          "id": "museums-way-90404358-old-operating-theatre-museum",
+          "name": "Old Operating Theatre Museum",
+          "lat": 51.505047,
+          "lng": -0.088515,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/90404358",
+          "url": "https://oldoperatingtheatre.com/"
+        },
+        {
+          "id": "museums-node-5746371091-opera-gallery",
+          "name": "Opera Gallery",
+          "lat": 51.512036,
+          "lng": -0.144333,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/5746371091",
+          "url": "https://www.operagallery.com/london/"
+        },
+        {
+          "id": "museums-node-9425490755-pace-gallery",
+          "name": "Pace Gallery",
+          "lat": 51.513848,
+          "lng": -0.142915,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/9425490755",
+          "url": "https://www.pacegallery.com/"
+        },
+        {
+          "id": "museums-way-415467428-panter-hall",
+          "name": "Panter & Hall",
+          "lat": 51.507109,
+          "lng": -0.13322,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/415467428",
+          "url": "http://www.panterandhall.com/"
+        },
+        {
+          "id": "museums-way-553157396-paul-stolper",
+          "name": "Paul Stolper",
+          "lat": 51.517906,
+          "lng": -0.125999,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/553157396",
+          "url": "https://www.wikidata.org/wiki/Q16896961"
+        },
+        {
+          "id": "museums-node-6126551823-pi-artworks",
+          "name": "Pi Artworks",
+          "lat": 51.516511,
+          "lng": -0.138154,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/6126551823",
+          "url": "https://www.piartworks.com/"
+        },
+        {
+          "id": "museums-node-6108631296-pontone-gallery",
+          "name": "Pontone Gallery",
+          "lat": 51.517646,
+          "lng": -0.135845,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/6108631296",
+          "url": "https://www.pontonegallery.com/"
+        },
+        {
+          "id": "museums-way-161420186-prince-henrys-room",
+          "name": "Prince Henry's Room",
+          "lat": 51.513729,
+          "lng": -0.110916,
+          "detail": "Museum · City of London Corporation from OpenStreetMap.",
+          "source": "OpenStreetMap way/161420186",
+          "url": "https://www.cityoflondon.gov.uk/Corporation/LGNL_Services/Leisure_and_culture/Local_history_and_heritage/Buildings_within_the_City/prince_henrys.htm"
+        },
+        {
+          "id": "museums-node-12539364474-riba-library",
+          "name": "RIBA Library",
+          "lat": 51.521377,
+          "lng": -0.14481,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12539364474",
+          "url": "https://www.architecture.com/contact-and-visit/riba-library"
+        },
+        {
+          "id": "museums-node-1961419464-rokeby",
+          "name": "Rokeby",
+          "lat": 51.521674,
+          "lng": -0.108385,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/1961419464",
+          "url": "https://rokebygallery.com/"
+        },
+        {
+          "id": "museums-way-96237005-royal-academy",
+          "name": "Royal Academy",
+          "lat": 51.509741,
+          "lng": -0.140134,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/96237005",
+          "url": "https://en.wikipedia.org/wiki/6_Burlington_Gardens"
+        },
+        {
+          "id": "museums-way-31510288-royal-academy-of-arts",
+          "name": "Royal Academy of Arts",
+          "lat": 51.509264,
+          "lng": -0.139698,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/31510288",
+          "url": "https://www.royalacademy.org.uk/"
+        },
+        {
+          "id": "museums-way-110753809-royal-institute-of-british-architects",
+          "name": "Royal Institute of British Architects",
+          "lat": 51.521271,
+          "lng": -0.144865,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/110753809",
+          "url": "https://www.architecture.com/"
+        },
+        {
+          "id": "museums-node-12557420113-royal-pharmaceutical-society-museum",
+          "name": "Royal Pharmaceutical Society Museum",
+          "lat": 51.50902,
+          "lng": -0.068357,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/12557420113",
+          "url": "https://www.rpharms.com/about-us/museum"
+        },
+        {
+          "id": "museums-node-5882185203-science-gallery-london",
+          "name": "Science Gallery London",
+          "lat": 51.504099,
+          "lng": -0.087586,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/5882185203",
+          "url": "https://london.sciencegallery.com/"
+        },
+        {
+          "id": "museums-way-61453261-sir-john-soanes-museum",
+          "name": "Sir John Soane's Museum",
+          "lat": 51.517075,
+          "lng": -0.117469,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/61453261",
+          "url": "https://www.soane.org/"
+        },
+        {
+          "id": "museums-node-1731830617-soas-gallery",
+          "name": "SOAS Gallery",
+          "lat": 51.521796,
+          "lng": -0.128733,
+          "detail": "Museum · SOAS from OpenStreetMap.",
+          "source": "OpenStreetMap node/1731830617",
+          "url": "https://www.soas.ac.uk/gallery/"
+        },
+        {
+          "id": "museums-node-452226949-sothebys-auction-house",
+          "name": "Sotheby's Auction House",
+          "lat": 51.511815,
+          "lng": -0.143763,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/452226949",
+          "url": "https://www.wikidata.org/wiki/Q27083384"
+        },
+        {
+          "id": "museums-node-4354554594-st-bartholomews-hospital-museum",
+          "name": "St Bartholomew's Hospital museum",
+          "lat": 51.517723,
+          "lng": -0.100473,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/4354554594",
+          "url": "https://www.bartshealth.nhs.uk/bartsmuseum"
+        },
+        {
+          "id": "museums-way-24642569-tate-modern",
+          "name": "Tate Modern",
+          "lat": 51.507429,
+          "lng": -0.099386,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/24642569",
+          "url": "https://www.tate.org.uk/visit/tate-modern"
+        },
+        {
+          "id": "museums-node-7261799916-the-cartoon-museum",
+          "name": "The Cartoon Museum",
+          "lat": 51.517577,
+          "lng": -0.138581,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/7261799916",
+          "url": "https://www.cartoonmuseum.org/"
+        },
+        {
+          "id": "museums-node-5247197725-the-charterhouse",
+          "name": "The Charterhouse",
+          "lat": 51.521464,
+          "lng": -0.099784,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/5247197725",
+          "url": "https://thecharterhouse.org/"
+        },
+        {
+          "id": "museums-node-2647639741-the-courtauld-gallery",
+          "name": "The Courtauld Gallery",
+          "lat": 51.511624,
+          "lng": -0.1177,
+          "detail": "Gallery · The Courtauld Institute of Art from OpenStreetMap.",
+          "source": "OpenStreetMap node/2647639741",
+          "url": "https://courtauld.ac.uk/gallery/"
+        },
+        {
+          "id": "museums-node-452238452-the-fine-art-society",
+          "name": "The Fine Art Society",
+          "lat": 51.511342,
+          "lng": -0.143659,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/452238452",
+          "url": "https://thefineartsociety.com/"
+        },
+        {
+          "id": "museums-node-5741257603-the-florence-nightingale-museum",
+          "name": "The Florence Nightingale Museum",
+          "lat": 51.500007,
+          "lng": -0.11767,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/5741257603",
+          "url": "https://www.florence-nightingale.co.uk/"
+        },
+        {
+          "id": "museums-way-1163344977-the-gilbert-and-george-centre",
+          "name": "The Gilbert and George Centre",
+          "lat": 51.519046,
+          "lng": -0.07118,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/1163344977",
+          "url": "https://www.gilbertandgeorgecentre.org/"
+        },
+        {
+          "id": "museums-node-4749096025-the-guards-museum",
+          "name": "The Guards Museum",
+          "lat": 51.500048,
+          "lng": -0.136125,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/4749096025",
+          "url": "https://theguardsmuseum.com/"
+        },
+        {
+          "id": "museums-node-1289223308-the-kings-gallery",
+          "name": "The King's Gallery",
+          "lat": 51.499828,
+          "lng": -0.142551,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/1289223308",
+          "url": "https://www.rct.uk/visit/the-kings-gallery-buckingham-palace"
+        },
+        {
+          "id": "museums-node-10925177276-the-london-centre",
+          "name": "The London Centre",
+          "lat": 51.516119,
+          "lng": -0.092871,
+          "detail": "Gallery · New London Architecture (NLA) from OpenStreetMap.",
+          "source": "OpenStreetMap node/10925177276",
+          "url": "https://thelondoncentre.org/"
+        },
+        {
+          "id": "museums-node-2102604123-the-museum-of-immigration-and-diversity-at-19-pr",
+          "name": "The Museum of Immigration and Diversity at 19 Princelet Street",
+          "lat": 51.519846,
+          "lng": -0.072486,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/2102604123",
+          "url": "https://www.19princeletstreet.org.uk/about/"
+        },
+        {
+          "id": "museums-way-65489529-the-photographers-gallery",
+          "name": "The Photographers' Gallery",
+          "lat": 51.514926,
+          "lng": -0.139018,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/65489529",
+          "url": "https://thephotographersgallery.org.uk/"
+        },
+        {
+          "id": "museums-node-472152158-topolski-century",
+          "name": "Topolski Century",
+          "lat": 51.504803,
+          "lng": -0.115651,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/472152158",
+          "url": "http://www.topolskicentury.org.uk/"
+        },
+        {
+          "id": "museums-node-11346255514-twist-museum",
+          "name": "Twist Museum",
+          "lat": 51.515332,
+          "lng": -0.143008,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap node/11346255514",
+          "url": "https://twistmuseum.com/"
+        },
+        {
+          "id": "museums-way-98485763-two-temple-place",
+          "name": "Two Temple Place",
+          "lat": 51.51165,
+          "lng": -0.112284,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/98485763",
+          "url": "https://twotempleplace.org/"
+        },
+        {
+          "id": "museums-node-9425465875-unit-london",
+          "name": "Unit London",
+          "lat": 51.513608,
+          "lng": -0.142943,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap node/9425465875",
+          "url": "https://unitlondon.com/"
+        },
+        {
+          "id": "museums-node-4677431580-visionary-britmuseum",
+          "name": "Visionary BritMuseum",
+          "lat": 51.518774,
+          "lng": -0.124969,
+          "detail": "Gallery · Degard from OpenStreetMap.",
+          "source": "OpenStreetMap node/4677431580",
+          "url": "https://visionarybritmuseum.co.uk/"
+        },
+        {
+          "id": "museums-way-369136185-waterloo-block",
+          "name": "Waterloo Block",
+          "lat": 51.508605,
+          "lng": -0.076021,
+          "detail": "Museum from OpenStreetMap.",
+          "source": "OpenStreetMap way/369136185",
+          "url": "https://www.wikidata.org/wiki/Q2552591"
+        },
+        {
+          "id": "museums-way-102403106-white-cube",
+          "name": "White Cube",
+          "lat": 51.499448,
+          "lng": -0.082329,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/102403106",
+          "url": "http://whitecube.com/"
+        },
+        {
+          "id": "museums-way-264131965-whitechapel-gallery",
+          "name": "Whitechapel Gallery",
+          "lat": 51.516163,
+          "lng": -0.070356,
+          "detail": "Gallery from OpenStreetMap.",
+          "source": "OpenStreetMap way/264131965",
+          "url": "https://www.whitechapelgallery.org/"
+        }
+      ]
+    },
+    {
+      "id": "monuments",
+      "label": "Statues and monuments",
+      "defaultVisible": false,
+      "minZoom": 13,
+      "markerLabel": "Mon",
+      "routeRadiusMeters": 550,
+      "points": [
+        {
+          "id": "monuments-node-3688180043-a-conversation-with-oscar-wilde",
+          "name": "A Conversation with Oscar Wilde",
+          "lat": 51.508719,
+          "lng": -0.125857,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/3688180043"
+        },
+        {
+          "id": "monuments-node-3163016900-a-pear-and-a-fig",
+          "name": "A Pear and a Fig",
+          "lat": 51.519086,
+          "lng": -0.077698,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/3163016900"
+        },
+        {
+          "id": "monuments-node-382800994-abraham-lincoln",
+          "name": "Abraham Lincoln",
+          "lat": 51.500525,
+          "lng": -0.127713,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/382800994"
+        },
+        {
+          "id": "monuments-node-10178203017-ada-van-dantzig",
+          "name": "Ada Van Dantzig",
+          "lat": 51.512032,
+          "lng": -0.136942,
+          "detail": "Stolperstein from OpenStreetMap.",
+          "source": "OpenStreetMap node/10178203017"
+        },
+        {
+          "id": "monuments-node-5502330246-admiral-sir-john-franklin",
+          "name": "Admiral Sir John Franklin",
+          "lat": 51.506487,
+          "lng": -0.132308,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5502330246"
+        },
+        {
+          "id": "monuments-node-2321090117-agatha-christie-memorial",
+          "name": "Agatha Christie Memorial",
+          "lat": 51.511779,
+          "lng": -0.127366,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/2321090117"
+        },
+        {
+          "id": "monuments-node-25507036-alan-brooke-1st-viscount-alanbrooke",
+          "name": "Alan Brooke, 1st Viscount Alanbrooke",
+          "lat": 51.503587,
+          "lng": -0.125814,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/25507036"
+        },
+        {
+          "id": "monuments-node-12503166150-albert-edward-mckenzie",
+          "name": "Albert Edward McKenzie",
+          "lat": 51.496647,
+          "lng": -0.08234,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/12503166150"
+        },
+        {
+          "id": "monuments-node-1816038205-albert-prince-consort",
+          "name": "Albert Prince Consort",
+          "lat": 51.517765,
+          "lng": -0.107938,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/1816038205"
+        },
+        {
+          "id": "monuments-node-5583171525-allies-churchill-roosevelt-statue",
+          "name": "Allies - Churchill-Roosevelt statue",
+          "lat": 51.510456,
+          "lng": -0.142509,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/5583171525"
+        },
+        {
+          "id": "monuments-node-748072092-angels-wings",
+          "name": "Angel's Wings",
+          "lat": 51.514338,
+          "lng": -0.10042,
+          "detail": "Artwork from OpenStreetMap.",
+          "source": "OpenStreetMap node/748072092"
+        },
+        {
+          "id": "monuments-node-25507022-anglo-belgian-war-memorial",
+          "name": "Anglo-Belgian War Memorial",
+          "lat": 51.508656,
+          "lng": -0.120742,
+          "detail": "Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/25507022"
+        },
+        {
+          "id": "monuments-node-461281900-arthur-harris",
+          "name": "Arthur Harris",
+          "lat": 51.513076,
+          "lng": -0.114405,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/461281900"
+        },
+        {
+          "id": "monuments-node-6307073869-arthur-sullivan",
+          "name": "Arthur Sullivan",
+          "lat": 51.509484,
+          "lng": -0.119667,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/6307073869"
+        },
+        {
+          "id": "monuments-node-11229684128-bank-of-england-war-memorial",
+          "name": "Bank of England War Memorial",
+          "lat": 51.514033,
+          "lng": -0.088578,
+          "detail": "Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/11229684128"
+        },
+        {
+          "id": "monuments-node-11014163416-batman",
+          "name": "Batman",
+          "lat": 51.510549,
+          "lng": -0.129443,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11014163416"
+        },
+        {
+          "id": "monuments-node-25507034-battle-of-britain-memorial",
+          "name": "Battle of Britain Memorial",
+          "lat": 51.502939,
+          "lng": -0.123428,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/25507034"
+        },
+        {
+          "id": "monuments-node-11300375885-beyond-tomorrow",
+          "name": "Beyond Tomorrow",
+          "lat": 51.516395,
+          "lng": -0.092151,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11300375885"
+        },
+        {
+          "id": "monuments-way-231879495-boudica",
+          "name": "Boudica",
+          "lat": 51.501096,
+          "lng": -0.123748,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/231879495"
+        },
+        {
+          "id": "monuments-node-13003929701-brian-haw-memorial",
+          "name": "Brian Haw memorial",
+          "lat": 51.497386,
+          "lng": -0.108247,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/13003929701"
+        },
+        {
+          "id": "monuments-node-5718464949-broad-street-pump",
+          "name": "Broad Street Pump",
+          "lat": 51.513318,
+          "lng": -0.136682,
+          "detail": "Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/5718464949"
+        },
+        {
+          "id": "monuments-node-11014159636-bugs-bunny",
+          "name": "Bugs Bunny",
+          "lat": 51.510698,
+          "lng": -0.129695,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11014159636"
+        },
+        {
+          "id": "monuments-node-381106509-buxton-memorial-fountain",
+          "name": "Buxton Memorial Fountain",
+          "lat": 51.496129,
+          "lng": -0.124744,
+          "detail": "Fountain from OpenStreetMap.",
+          "source": "OpenStreetMap node/381106509"
+        },
+        {
+          "id": "monuments-node-812275475-canada-memorial",
+          "name": "Canada Memorial",
+          "lat": 51.502902,
+          "lng": -0.142613,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/812275475"
+        },
+        {
+          "id": "monuments-node-345863424-captain-james-cook",
+          "name": "Captain James Cook",
+          "lat": 51.506342,
+          "lng": -0.129232,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/345863424"
+        },
+        {
+          "id": "monuments-node-11229672991-captain-john-smith",
+          "name": "Captain John Smith",
+          "lat": 51.513804,
+          "lng": -0.093848,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11229672991"
+        },
+        {
+          "id": "monuments-node-11247006851-carnival",
+          "name": "Carnival",
+          "lat": 51.501687,
+          "lng": -0.115421,
+          "detail": "Graffiti from OpenStreetMap.",
+          "source": "OpenStreetMap node/11247006851"
+        },
+        {
+          "id": "monuments-node-5582200203-charles-de-gaulle",
+          "name": "Charles de Gaulle",
+          "lat": 51.50558,
+          "lng": -0.134242,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5582200203"
+        },
+        {
+          "id": "monuments-node-3010386634-charles-george-gordon",
+          "name": "Charles George Gordon",
+          "lat": 51.504534,
+          "lng": -0.123807,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3010386634"
+        },
+        {
+          "id": "monuments-node-12877095809-charles-i",
+          "name": "Charles I",
+          "lat": 51.507334,
+          "lng": -0.127655,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/12877095809"
+        },
+        {
+          "id": "monuments-node-3089750365-charles-ii",
+          "name": "Charles II",
+          "lat": 51.515441,
+          "lng": -0.132309,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3089750365"
+        },
+        {
+          "id": "monuments-node-5493790859-charles-james-fox",
+          "name": "Charles James Fox",
+          "lat": 51.51929,
+          "lng": -0.123236,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5493790859"
+        },
+        {
+          "id": "monuments-way-153342466-charles-james-napier",
+          "name": "Charles James Napier",
+          "lat": 51.507757,
+          "lng": -0.128528,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/153342466"
+        },
+        {
+          "id": "monuments-node-2622441755-charles-portal",
+          "name": "Charles Portal",
+          "lat": 51.504207,
+          "lng": -0.123718,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/2622441755"
+        },
+        {
+          "id": "monuments-node-5904386786-charlie-chaplin",
+          "name": "Charlie Chaplin",
+          "lat": 51.510336,
+          "lng": -0.130235,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5904386786"
+        },
+        {
+          "id": "monuments-node-3191837139-cheylesmore-memorial",
+          "name": "Cheylesmore Memorial",
+          "lat": 51.508774,
+          "lng": -0.120871,
+          "detail": "Stone from OpenStreetMap.",
+          "source": "OpenStreetMap node/3191837139"
+        },
+        {
+          "id": "monuments-node-3010386635-chindit-memorial",
+          "name": "Chindit Memorial",
+          "lat": 51.5033,
+          "lng": -0.123998,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/3010386635"
+        },
+        {
+          "id": "monuments-node-3007488908-civil-service-rifles-war-memorial",
+          "name": "Civil Service Rifles War Memorial",
+          "lat": 51.51038,
+          "lng": -0.117556,
+          "detail": "Obelisk from OpenStreetMap.",
+          "source": "OpenStreetMap node/3007488908"
+        },
+        {
+          "id": "monuments-node-11014159635-clifford-the-big-red-dog",
+          "name": "Clifford the big red dog",
+          "lat": 51.510745,
+          "lng": -0.130123,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11014159635"
+        },
+        {
+          "id": "monuments-node-5502336564-colin-campbell",
+          "name": "Colin Campbell",
+          "lat": 51.506696,
+          "lng": -0.131703,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5502336564"
+        },
+        {
+          "id": "monuments-node-10577677981-confucius",
+          "name": "Confucius",
+          "lat": 51.514995,
+          "lng": -0.110412,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/10577677981"
+        },
+        {
+          "id": "monuments-node-9939503224-cornerstone",
+          "name": "Cornerstone",
+          "lat": 51.500339,
+          "lng": -0.081418,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/9939503224"
+        },
+        {
+          "id": "monuments-way-572758808-crimean-war-memorial",
+          "name": "Crimean War Memorial",
+          "lat": 51.507383,
+          "lng": -0.132677,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/572758808"
+        },
+        {
+          "id": "monuments-node-347144267-david-lloyd-george",
+          "name": "David Lloyd George",
+          "lat": 51.500853,
+          "lng": -0.126658,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/347144267"
+        },
+        {
+          "id": "monuments-node-11112383350-dog-and-a-pot",
+          "name": "Dog and a pot",
+          "lat": 51.503575,
+          "lng": -0.104293,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/11112383350"
+        },
+        {
+          "id": "monuments-node-11048026762-dogman-and-rabbitgirl-with-coffee",
+          "name": "Dogman and Rabbitgirl with coffee",
+          "lat": 51.519531,
+          "lng": -0.077649,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/11048026762"
+        },
+        {
+          "id": "monuments-node-11014163421-don-lockwood",
+          "name": "Don Lockwood",
+          "lat": 51.51031,
+          "lng": -0.130538,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11014163421"
+        },
+        {
+          "id": "monuments-node-25507035-douglas-haig",
+          "name": "Douglas Haig",
+          "lat": 51.504278,
+          "lng": -0.126245,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/25507035"
+        },
+        {
+          "id": "monuments-way-256568922-duke-of-wellington",
+          "name": "Duke of Wellington",
+          "lat": 51.513467,
+          "lng": -0.088417,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/256568922"
+        },
+        {
+          "id": "monuments-way-297204228-duke-of-york-column",
+          "name": "Duke of York Column",
+          "lat": 51.50631,
+          "lng": -0.131735,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/297204228"
+        },
+        {
+          "id": "monuments-node-345839407-earl-mountbatten-of-burma",
+          "name": "Earl Mountbatten of Burma",
+          "lat": 51.503606,
+          "lng": -0.128636,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/345839407"
+        },
+        {
+          "id": "monuments-node-347143584-earl-of-derby",
+          "name": "Earl of Derby",
+          "lat": 51.500787,
+          "lng": -0.127303,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/347143584"
+        },
+        {
+          "id": "monuments-way-1395753985-earl-roberts",
+          "name": "Earl Roberts",
+          "lat": 51.504538,
+          "lng": -0.127357,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/1395753985"
+        },
+        {
+          "id": "monuments-node-697624988-east-london-blitz-memorial",
+          "name": "East London Blitz Memorial",
+          "lat": 51.504556,
+          "lng": -0.068023,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/697624988"
+        },
+        {
+          "id": "monuments-node-1571931922-edith-cavell-memorial",
+          "name": "Edith Cavell Memorial",
+          "lat": 51.509375,
+          "lng": -0.127167,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/1571931922"
+        },
+        {
+          "id": "monuments-node-11002386585-edward-vi",
+          "name": "Edward VI",
+          "lat": 51.499751,
+          "lng": -0.118753,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11002386585"
+        },
+        {
+          "id": "monuments-node-11002386587-edward-vi",
+          "name": "Edward VI",
+          "lat": 51.499127,
+          "lng": -0.119557,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11002386587"
+        },
+        {
+          "id": "monuments-node-381157967-emmeline-and-christabel-pankhurst-memorial",
+          "name": "Emmeline and Christabel Pankhurst Memorial",
+          "lat": 51.497777,
+          "lng": -0.125309,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/381157967"
+        },
+        {
+          "id": "monuments-node-1048497151-ernest-bevan",
+          "name": "Ernest Bevan",
+          "lat": 51.50285,
+          "lng": -0.077953,
+          "detail": "Bust from OpenStreetMap.",
+          "source": "OpenStreetMap node/1048497151"
+        },
+        {
+          "id": "monuments-node-3139989057-faceted-column",
+          "name": "Faceted Column",
+          "lat": 51.520455,
+          "lng": -0.087453,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/3139989057"
+        },
+        {
+          "id": "monuments-way-54949420-first-world-war-memorial",
+          "name": "First World War Memorial",
+          "lat": 51.509567,
+          "lng": -0.077637,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap way/54949420"
+        },
+        {
+          "id": "monuments-way-1175908684-flanders-fields-memorial-garden",
+          "name": "Flanders Fields Memorial Garden",
+          "lat": 51.500501,
+          "lng": -0.135774,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap way/1175908684"
+        },
+        {
+          "id": "monuments-node-2617163551-fleet-air-arm-memorial",
+          "name": "Fleet Air Arm Memorial",
+          "lat": 51.504037,
+          "lng": -0.123944,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/2617163551"
+        },
+        {
+          "id": "monuments-node-5502341064-florence-nightingale-the-lady-with-the-lamp",
+          "name": "Florence Nightingale the 'Lady with the Lamp'",
+          "lat": 51.507287,
+          "lng": -0.132651,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5502341064"
+        },
+        {
+          "id": "monuments-node-5053344048-for-the-child",
+          "name": "For the Child",
+          "lat": 51.517687,
+          "lng": -0.081984,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/5053344048"
+        },
+        {
+          "id": "monuments-way-539755233-forgotten-streams",
+          "name": "Forgotten Streams",
+          "lat": 51.512648,
+          "lng": -0.091986,
+          "detail": "Fountain from OpenStreetMap.",
+          "source": "OpenStreetMap way/539755233"
+        },
+        {
+          "id": "monuments-way-539755232-forgotten-streams",
+          "name": "Forgotten Streams",
+          "lat": 51.511942,
+          "lng": -0.090943,
+          "detail": "Fountain from OpenStreetMap.",
+          "source": "OpenStreetMap way/539755232"
+        },
+        {
+          "id": "monuments-way-153342477-fourth-plinth",
+          "name": "Fourth Plinth",
+          "lat": 51.508179,
+          "lng": -0.128709,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/153342477"
+        },
+        {
+          "id": "monuments-node-3203101280-francis-bacon",
+          "name": "Francis Bacon",
+          "lat": 51.519049,
+          "lng": -0.11233,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3203101280"
+        },
+        {
+          "id": "monuments-node-5397034580-fruit-porters-bronze-relief",
+          "name": "Fruit Porters (bronze relief)",
+          "lat": 51.511497,
+          "lng": -0.122523,
+          "detail": "Sculpture · Covent Garden Market from OpenStreetMap.",
+          "source": "OpenStreetMap node/5397034580"
+        },
+        {
+          "id": "monuments-node-1150003519-fulcrum",
+          "name": "Fulcrum",
+          "lat": 51.518273,
+          "lng": -0.083828,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/1150003519"
+        },
+        {
+          "id": "monuments-node-348924286-george-canning",
+          "name": "George Canning",
+          "lat": 51.501003,
+          "lng": -0.127719,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/348924286"
+        },
+        {
+          "id": "monuments-node-345876970-george-iii",
+          "name": "George III",
+          "lat": 51.507784,
+          "lng": -0.130562,
+          "detail": "Equestrian Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/345876970"
+        },
+        {
+          "id": "monuments-node-3096518929-george-iii-and-the-river-thames",
+          "name": "George III and the River Thames",
+          "lat": 51.511379,
+          "lng": -0.117381,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3096518929"
+        },
+        {
+          "id": "monuments-node-12877095810-george-iv",
+          "name": "George IV",
+          "lat": 51.508367,
+          "lng": -0.127572,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/12877095810"
+        },
+        {
+          "id": "monuments-node-675796396-george-nathaniel-curzon",
+          "name": "George Nathaniel Curzon",
+          "lat": 51.505957,
+          "lng": -0.13328,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/675796396"
+        },
+        {
+          "id": "monuments-node-5715977089-george-orwell",
+          "name": "George Orwell",
+          "lat": 51.518775,
+          "lng": -0.142953,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5715977089"
+        },
+        {
+          "id": "monuments-node-2642857205-george-peabody",
+          "name": "George Peabody",
+          "lat": 51.513909,
+          "lng": -0.086572,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/2642857205"
+        },
+        {
+          "id": "monuments-node-409888627-george-v",
+          "name": "George V",
+          "lat": 51.498967,
+          "lng": -0.126331,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/409888627"
+        },
+        {
+          "id": "monuments-node-5582186352-george-washington",
+          "name": "George Washington",
+          "lat": 51.508718,
+          "lng": -0.127572,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5582186352"
+        },
+        {
+          "id": "monuments-way-562335281-girl-with-a-dolphin",
+          "name": "Girl with a Dolphin",
+          "lat": 51.506244,
+          "lng": -0.073736,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/562335281"
+        },
+        {
+          "id": "monuments-node-2624665870-golden-boy-of-pye-corner",
+          "name": "Golden Boy of Pye Corner",
+          "lat": 51.517244,
+          "lng": -0.101586,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/2624665870"
+        },
+        {
+          "id": "monuments-way-31248849-golden-hinde",
+          "name": "Golden Hinde",
+          "lat": 51.506888,
+          "lng": -0.090325,
+          "detail": "Ship from OpenStreetMap.",
+          "source": "OpenStreetMap way/31248849"
+        },
+        {
+          "id": "monuments-node-1753230487-great-eastern-railway-war-memorial",
+          "name": "Great Eastern Railway War Memorial",
+          "lat": 51.517673,
+          "lng": -0.082011,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/1753230487"
+        },
+        {
+          "id": "monuments-way-151297138-guards-memorial",
+          "name": "Guards Memorial",
+          "lat": 51.504485,
+          "lng": -0.129515,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap way/151297138"
+        },
+        {
+          "id": "monuments-node-11014163417-harry-potter",
+          "name": "Harry Potter",
+          "lat": 51.510653,
+          "lng": -0.130366,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11014163417"
+        },
+        {
+          "id": "monuments-node-1758552543-heminge-condell-memorial",
+          "name": "Heminge & Condell memorial",
+          "lat": 51.516381,
+          "lng": -0.093033,
+          "detail": "Bust from OpenStreetMap.",
+          "source": "OpenStreetMap node/1758552543"
+        },
+        {
+          "id": "monuments-node-3012177137-henry-bartle-frere",
+          "name": "Henry Bartle Frere",
+          "lat": 51.505699,
+          "lng": -0.123373,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3012177137"
+        },
+        {
+          "id": "monuments-way-1184092150-henry-fawcett-memorial",
+          "name": "Henry Fawcett Memorial",
+          "lat": 51.509066,
+          "lng": -0.120453,
+          "detail": "Drinking Fountain from OpenStreetMap.",
+          "source": "OpenStreetMap way/1184092150"
+        },
+        {
+          "id": "monuments-way-153342473-henry-havelock",
+          "name": "Henry Havelock",
+          "lat": 51.507943,
+          "lng": -0.127406,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/153342473"
+        },
+        {
+          "id": "monuments-node-5072928687-herbert-kitchener",
+          "name": "Herbert Kitchener",
+          "lat": 51.503875,
+          "lng": -0.127991,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5072928687"
+        },
+        {
+          "id": "monuments-node-8285288744-horse-and-rider",
+          "name": "Horse and Rider",
+          "lat": 51.509639,
+          "lng": -0.141491,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/8285288744"
+        },
+        {
+          "id": "monuments-node-5161777822-i-goat",
+          "name": "I Goat",
+          "lat": 51.519077,
+          "lng": -0.077886,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5161777822"
+        },
+        {
+          "id": "monuments-node-3109822562-imperial-camel-corps-memorial",
+          "name": "Imperial Camel Corps Memorial",
+          "lat": 51.508382,
+          "lng": -0.121676,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3109822562"
+        },
+        {
+          "id": "monuments-node-11014163415-indiana-jones-statue",
+          "name": "Indiana Jones Statue",
+          "lat": 51.510702,
+          "lng": -0.130216,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/11014163415"
+        },
+        {
+          "id": "monuments-node-5357798360-international-brigades-memorial",
+          "name": "International Brigades Memorial",
+          "lat": 51.503515,
+          "lng": -0.118596,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/5357798360"
+        },
+        {
+          "id": "monuments-node-4726398892-iraq-afghanistan-memorial",
+          "name": "Iraq & Afghanistan Memorial",
+          "lat": 51.503443,
+          "lng": -0.124237,
+          "detail": "War Memorial from OpenStreetMap.",
+          "source": "OpenStreetMap node/4726398892"
+        },
+        {
+          "id": "monuments-node-4744347043-isambard-kingdom-brunel",
+          "name": "Isambard Kingdom Brunel",
+          "lat": 51.510783,
+          "lng": -0.115244,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/4744347043"
+        },
+        {
+          "id": "monuments-node-269863072-jacob",
+          "name": "Jacob",
+          "lat": 51.501607,
+          "lng": -0.074333,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/269863072"
+        },
+        {
+          "id": "monuments-way-166769128-james-henry-greathead",
+          "name": "James Henry Greathead",
+          "lat": 51.513342,
+          "lng": -0.087964,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/166769128"
+        },
+        {
+          "id": "monuments-node-347143044-jan-smuts",
+          "name": "Jan Smuts",
+          "lat": 51.500866,
+          "lng": -0.126884,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/347143044"
+        },
+        {
+          "id": "monuments-node-10978789126-john-donne-memorial",
+          "name": "John Donne Memorial",
+          "lat": 51.513289,
+          "lng": -0.09737,
+          "detail": "Bust from OpenStreetMap.",
+          "source": "OpenStreetMap node/10978789126"
+        },
+        {
+          "id": "monuments-node-5502334929-john-fox-burgoyne",
+          "name": "John Fox Burgoyne",
+          "lat": 51.506352,
+          "lng": -0.132214,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5502334929"
+        },
+        {
+          "id": "monuments-node-9334205929-john-keats",
+          "name": "John Keats",
+          "lat": 51.503884,
+          "lng": -0.087985,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/9334205929"
+        },
+        {
+          "id": "monuments-node-5502336565-john-lawrence",
+          "name": "John Lawrence",
+          "lat": 51.506555,
+          "lng": -0.131589,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5502336565"
+        },
+        {
+          "id": "monuments-node-5582480124-john-stuart-mill",
+          "name": "John Stuart Mill",
+          "lat": 51.511307,
+          "lng": -0.112344,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/5582480124"
+        },
+        {
+          "id": "monuments-node-4686831452-john-wesley",
+          "name": "John Wesley",
+          "lat": 51.51424,
+          "lng": -0.098569,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/4686831452"
+        },
+        {
+          "id": "monuments-node-3096018080-joshua-reynolds",
+          "name": "Joshua Reynolds",
+          "lat": 51.508886,
+          "lng": -0.139355,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/3096018080"
+        },
+        {
+          "id": "monuments-node-12453457083-jubilee-oracle",
+          "name": "Jubilee Oracle",
+          "lat": 51.504149,
+          "lng": -0.119156,
+          "detail": "Sculpture from OpenStreetMap.",
+          "source": "OpenStreetMap node/12453457083"
+        },
+        {
+          "id": "monuments-node-1271774550-kindertransport-the-arrival",
+          "name": "Kindertransport – The Arrival",
+          "lat": 51.517586,
+          "lng": -0.082563,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/1271774550"
+        },
+        {
+          "id": "monuments-node-294898184-little-ben",
+          "name": "Little Ben",
+          "lat": 51.49646,
+          "lng": -0.142679,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/294898184"
+        },
+        {
+          "id": "monuments-relation-13656740-michael-faraday-memorial-substation",
+          "name": "Michael Faraday Memorial substation",
+          "lat": 51.495106,
+          "lng": -0.100638,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap relation/13656740"
+        },
+        {
+          "id": "monuments-way-150920358-nelsons-column",
+          "name": "Nelson's Column",
+          "lat": 51.507759,
+          "lng": -0.12793,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/150920358"
+        },
+        {
+          "id": "monuments-way-629776387-queen-anne",
+          "name": "Queen Anne",
+          "lat": 51.513682,
+          "lng": -0.099934,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/629776387"
+        },
+        {
+          "id": "monuments-node-1253814492-robert-raikes",
+          "name": "Robert Raikes",
+          "lat": 51.509326,
+          "lng": -0.120264,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap node/1253814492"
+        },
+        {
+          "id": "monuments-node-3012192162-samuel-plimsoll",
+          "name": "Samuel Plimsoll",
+          "lat": 51.505311,
+          "lng": -0.123202,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/3012192162"
+        },
+        {
+          "id": "monuments-node-12492312902-the-lion-of-knidos",
+          "name": "The Lion of Knidos",
+          "lat": 51.519111,
+          "lng": -0.12695,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap node/12492312902"
+        },
+        {
+          "id": "monuments-relation-3374550-the-monument-to-the-great-fire-of-london",
+          "name": "The Monument to the Great Fire of London",
+          "lat": 51.510142,
+          "lng": -0.085949,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap relation/3374550"
+        },
+        {
+          "id": "monuments-way-374945234-victoria-memorial",
+          "name": "Victoria Memorial",
+          "lat": 51.50184,
+          "lng": -0.140587,
+          "detail": "Monument from OpenStreetMap.",
+          "source": "OpenStreetMap way/374945234"
+        },
+        {
+          "id": "monuments-way-1395753986-viscount-wolseley",
+          "name": "Viscount Wolseley",
+          "lat": 51.50497,
+          "lng": -0.127496,
+          "detail": "Statue from OpenStreetMap.",
+          "source": "OpenStreetMap way/1395753986"
+        }
+      ]
+    },
+    {
+      "id": "plaques",
+      "label": "Plaques",
+      "defaultVisible": false,
+      "minZoom": 14,
+      "markerLabel": "Plq",
+      "routeRadiusMeters": 350,
+      "points": [
+        {
+          "id": "plaques-node-8082068490-eminent-artists",
+          "name": "\"Eminent Artists\"",
+          "lat": 51.508968,
+          "lng": -0.122807,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8082068490"
+        },
+        {
+          "id": "plaques-node-13021635482-1915-zeppelin-raid-plaque",
+          "name": "1915 Zeppelin Raid plaque",
+          "lat": 51.520725,
+          "lng": -0.106177,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/13021635482"
+        },
+        {
+          "id": "plaques-node-8108852014-ada-lovelace",
+          "name": "Ada Lovelace",
+          "lat": 51.507525,
+          "lng": -0.136371,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8108852014"
+        },
+        {
+          "id": "plaques-node-8084820825-al-bowlly",
+          "name": "Al Bowlly",
+          "lat": 51.51081,
+          "lng": -0.128251,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8084820825"
+        },
+        {
+          "id": "plaques-node-6189933944-aldersgate",
+          "name": "Aldersgate",
+          "lat": 51.51663,
+          "lng": -0.096756,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6189933944"
+        },
+        {
+          "id": "plaques-node-11942067296-alexander-john-forsyth",
+          "name": "Alexander John Forsyth",
+          "lat": 51.508053,
+          "lng": -0.076728,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/11942067296"
+        },
+        {
+          "id": "plaques-node-5394650434-ambrose-godfrey",
+          "name": "Ambrose Godfrey",
+          "lat": 51.51098,
+          "lng": -0.122154,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5394650434"
+        },
+        {
+          "id": "plaques-node-8063095719-anna-maria-garthwaite",
+          "name": "Anna Maria Garthwaite",
+          "lat": 51.519739,
+          "lng": -0.073287,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8063095719"
+        },
+        {
+          "id": "plaques-node-11218674781-anne-franks-tree",
+          "name": "Anne Frank's Tree",
+          "lat": 51.511283,
+          "lng": -0.125468,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/11218674781"
+        },
+        {
+          "id": "plaques-node-4231050358-anthony-hope",
+          "name": "Anthony Hope",
+          "lat": 51.518284,
+          "lng": -0.130141,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4231050358"
+        },
+        {
+          "id": "plaques-node-4822267111-anti-corn-law-league",
+          "name": "Anti Corn Law League",
+          "lat": 51.514118,
+          "lng": -0.107516,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4822267111"
+        },
+        {
+          "id": "plaques-node-8121187556-arthur-onslow",
+          "name": "Arthur Onslow",
+          "lat": 51.515645,
+          "lng": -0.131664,
+          "detail": "Plaque · English Heritage from OpenStreetMap.",
+          "source": "OpenStreetMap node/8121187556"
+        },
+        {
+          "id": "plaques-node-8121187565-arthur-pearson",
+          "name": "Arthur Pearson",
+          "lat": 51.519442,
+          "lng": -0.144936,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8121187565"
+        },
+        {
+          "id": "plaques-node-4240455507-augustus-charles-pugin-and-augustus-welby-n-pugi",
+          "name": "Augustus Charles Pugin and Augustus Welby N. Pugin",
+          "lat": 51.517513,
+          "lng": -0.129129,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4240455507"
+        },
+        {
+          "id": "plaques-node-2832750882-augustus-siebe",
+          "name": "Augustus Siebe",
+          "lat": 51.515281,
+          "lng": -0.129312,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2832750882"
+        },
+        {
+          "id": "plaques-node-6243418020-bbc-school-radio",
+          "name": "BBC School Radio",
+          "lat": 51.517959,
+          "lng": -0.14462,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6243418020"
+        },
+        {
+          "id": "plaques-node-4231050356-bedford-college-for-women",
+          "name": "Bedford College for Women",
+          "lat": 51.518609,
+          "lng": -0.129381,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4231050356"
+        },
+        {
+          "id": "plaques-node-8039445046-ben-greet",
+          "name": "Ben Greet",
+          "lat": 51.496044,
+          "lng": -0.114114,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8039445046"
+        },
+        {
+          "id": "plaques-node-7964074978-benjamin-disraeli",
+          "name": "Benjamin Disraeli",
+          "lat": 51.521297,
+          "lng": -0.114503,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7964074978"
+        },
+        {
+          "id": "plaques-node-5323722141-benjamin-franklin",
+          "name": "Benjamin Franklin",
+          "lat": 51.507593,
+          "lng": -0.124965,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5323722141"
+        },
+        {
+          "id": "plaques-node-5921940112-bert-ambrose",
+          "name": "Bert Ambrose",
+          "lat": 51.508241,
+          "lng": -0.143539,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5921940112"
+        },
+        {
+          "id": "plaques-node-5339078730-bertrand-russell",
+          "name": "Bertrand Russell",
+          "lat": 51.518263,
+          "lng": -0.124022,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5339078730"
+        },
+        {
+          "id": "plaques-node-5659932077-blue-plaque-beatles",
+          "name": "Blue Plaque: Beatles",
+          "lat": 51.510416,
+          "lng": -0.139727,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5659932077"
+        },
+        {
+          "id": "plaques-node-2919533354-blue-plaque-john-christopher-smith",
+          "name": "Blue Plaque: John Christopher Smith",
+          "lat": 51.514836,
+          "lng": -0.1337,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2919533354"
+        },
+        {
+          "id": "plaques-node-523381091-bob-marley",
+          "name": "Bob Marley",
+          "lat": 51.521537,
+          "lng": -0.132587,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/523381091"
+        },
+        {
+          "id": "plaques-node-11189268091-borough-market",
+          "name": "Borough Market",
+          "lat": 51.505594,
+          "lng": -0.090347,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/11189268091"
+        },
+        {
+          "id": "plaques-node-8084820822-bow-street-notables",
+          "name": "Bow Street notables",
+          "lat": 51.513691,
+          "lng": -0.122549,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8084820822"
+        },
+        {
+          "id": "plaques-node-5597774846-brian-epstein",
+          "name": "Brian Epstein",
+          "lat": 51.514361,
+          "lng": -0.140436,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5597774846"
+        },
+        {
+          "id": "plaques-node-8059687237-bud-flanagan",
+          "name": "Bud Flanagan",
+          "lat": 51.520256,
+          "lng": -0.073775,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8059687237"
+        },
+        {
+          "id": "plaques-node-9893791052-canada-walk",
+          "name": "Canada Walk",
+          "lat": 51.51691,
+          "lng": -0.1166,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/9893791052"
+        },
+        {
+          "id": "plaques-node-5526689257-cardinal-wiseman",
+          "name": "Cardinal Wiseman",
+          "lat": 51.511928,
+          "lng": -0.13751,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5526689257"
+        },
+        {
+          "id": "plaques-node-8130505761-cecilia-vajda",
+          "name": "Cecilia Vajda",
+          "lat": 51.522743,
+          "lng": -0.1447,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8130505761"
+        },
+        {
+          "id": "plaques-node-2785269113-charles-bridgeman",
+          "name": "Charles Bridgeman",
+          "lat": 51.513379,
+          "lng": -0.136841,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2785269113"
+        },
+        {
+          "id": "plaques-node-7964074970-charles-darwin",
+          "name": "Charles Darwin",
+          "lat": 51.520892,
+          "lng": -0.130738,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7964074970"
+        },
+        {
+          "id": "plaques-node-5929494875-charles-fox",
+          "name": "Charles Fox",
+          "lat": 51.506407,
+          "lng": -0.144563,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5929494875"
+        },
+        {
+          "id": "plaques-node-970857038-charles-kitterbell",
+          "name": "Charles Kitterbell",
+          "lat": 51.517298,
+          "lng": -0.129536,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/970857038"
+        },
+        {
+          "id": "plaques-node-4247509029-charles-laughton",
+          "name": "Charles Laughton",
+          "lat": 51.518464,
+          "lng": -0.132945,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4247509029"
+        },
+        {
+          "id": "plaques-node-5640970625-charles-rolls",
+          "name": "Charles Rolls",
+          "lat": 51.512449,
+          "lng": -0.141794,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5640970625"
+        },
+        {
+          "id": "plaques-node-6317280148-charles-townley",
+          "name": "Charles Townley",
+          "lat": 51.500641,
+          "lng": -0.132329,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6317280148"
+        },
+        {
+          "id": "plaques-node-7973584711-christina-rossetti",
+          "name": "Christina Rossetti",
+          "lat": 51.522968,
+          "lng": -0.130413,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7973584711"
+        },
+        {
+          "id": "plaques-node-875701184-city-of-london-blue-plaque",
+          "name": "City of London Blue Plaque",
+          "lat": 51.517505,
+          "lng": -0.088455,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/875701184"
+        },
+        {
+          "id": "plaques-node-3414138034-clink-prison",
+          "name": "Clink Prison",
+          "lat": 51.507125,
+          "lng": -0.092059,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/3414138034"
+        },
+        {
+          "id": "plaques-node-3414138036-clink-wharf",
+          "name": "Clink Wharf",
+          "lat": 51.507116,
+          "lng": -0.091806,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/3414138036"
+        },
+        {
+          "id": "plaques-node-6356678499-coachmakers-hall",
+          "name": "Coachmakers' Hall",
+          "lat": 51.516688,
+          "lng": -0.095609,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6356678499"
+        },
+        {
+          "id": "plaques-node-13041837756-communications-house-plaque",
+          "name": "Communications House plaque",
+          "lat": 51.514978,
+          "lng": -0.107879,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/13041837756"
+        },
+        {
+          "id": "plaques-node-4197832444-cooks-hall",
+          "name": "Cook's Hall",
+          "lat": 51.517156,
+          "lng": -0.096722,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4197832444"
+        },
+        {
+          "id": "plaques-node-8039445042-county-hall",
+          "name": "County Hall",
+          "lat": 51.501951,
+          "lng": -0.11822,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8039445042"
+        },
+        {
+          "id": "plaques-node-367735598-coventry-patmore",
+          "name": "Coventry Patmore",
+          "lat": 51.518426,
+          "lng": -0.13304,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/367735598"
+        },
+        {
+          "id": "plaques-node-4189748689-cripplegate",
+          "name": "Cripplegate",
+          "lat": 51.518143,
+          "lng": -0.093137,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4189748689"
+        },
+        {
+          "id": "plaques-node-12122170738-czechoslovak-army-and-air-force",
+          "name": "Czechoslovak army and Air Force",
+          "lat": 51.499074,
+          "lng": -0.128128,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/12122170738"
+        },
+        {
+          "id": "plaques-node-4222961711-dame-millicent-garrett-fawcett",
+          "name": "Dame Millicent Garrett Fawcett",
+          "lat": 51.519887,
+          "lng": -0.129656,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4222961711"
+        },
+        {
+          "id": "plaques-node-3458476626-daniel-oconnell",
+          "name": "Daniel O'Connell",
+          "lat": 51.509171,
+          "lng": -0.1419,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/3458476626"
+        },
+        {
+          "id": "plaques-node-8130505758-dante-rossetti",
+          "name": "Dante Rossetti",
+          "lat": 51.522758,
+          "lng": -0.144506,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8130505758"
+        },
+        {
+          "id": "plaques-node-12549180173-david-bowie",
+          "name": "David Bowie",
+          "lat": 51.514358,
+          "lng": -0.134166,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/12549180173"
+        },
+        {
+          "id": "plaques-node-8051115750-derek-jarman",
+          "name": "Derek Jarman",
+          "lat": 51.503466,
+          "lng": -0.072925,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8051115750"
+        },
+        {
+          "id": "plaques-node-7900888207-dietrich-bonhoeffer",
+          "name": "Dietrich Bonhoeffer",
+          "lat": 51.515512,
+          "lng": -0.074216,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7900888207"
+        },
+        {
+          "id": "plaques-node-7976357376-dorothy-l-sayers",
+          "name": "Dorothy L. Sayers",
+          "lat": 51.521748,
+          "lng": -0.117203,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7976357376"
+        },
+        {
+          "id": "plaques-node-3109631637-dr-john-snow",
+          "name": "Dr John Snow",
+          "lat": 51.513302,
+          "lng": -0.136663,
+          "detail": "Plaque · Royal Society of Chemistry from OpenStreetMap.",
+          "source": "OpenStreetMap node/3109631637"
+        },
+        {
+          "id": "plaques-node-8074012765-dr-johnson",
+          "name": "Dr Johnson",
+          "lat": 51.514999,
+          "lng": -0.108114,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8074012765"
+        },
+        {
+          "id": "plaques-node-2850235306-dr-joseph-rogers",
+          "name": "Dr Joseph Rogers",
+          "lat": 51.513692,
+          "lng": -0.132455,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2850235306"
+        },
+        {
+          "id": "plaques-node-5434527768-dr-john-snow",
+          "name": "Dr. John Snow",
+          "lat": 51.51383,
+          "lng": -0.131736,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5434527768"
+        },
+        {
+          "id": "plaques-node-8097207922-dr-william-hunter",
+          "name": "Dr. William Hunter",
+          "lat": 51.51118,
+          "lng": -0.134051,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8097207922"
+        },
+        {
+          "id": "plaques-node-1731219982-dyers-hall",
+          "name": "Dyers' Hall",
+          "lat": 51.50981,
+          "lng": -0.088718,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/1731219982"
+        },
+        {
+          "id": "plaques-node-6187447065-ed-murrow",
+          "name": "Ed Murrow",
+          "lat": 51.522074,
+          "lng": -0.14422,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6187447065"
+        },
+        {
+          "id": "plaques-node-6178119357-edmond-malone",
+          "name": "Edmond Malone",
+          "lat": 51.518917,
+          "lng": -0.141666,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6178119357"
+        },
+        {
+          "id": "plaques-node-8088522446-edmund-burke",
+          "name": "Edmund Burke",
+          "lat": 51.511797,
+          "lng": -0.130886,
+          "detail": "Plaque · English Heritage from OpenStreetMap.",
+          "source": "OpenStreetMap node/8088522446"
+        },
+        {
+          "id": "plaques-node-8094435244-edward-grey",
+          "name": "Edward Grey",
+          "lat": 51.500484,
+          "lng": -0.132228,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8094435244"
+        },
+        {
+          "id": "plaques-node-8124381043-eleanor-rathbone",
+          "name": "Eleanor Rathbone",
+          "lat": 51.496401,
+          "lng": -0.128294,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8124381043"
+        },
+        {
+          "id": "plaques-node-13205421401-emmeline-pankhurst",
+          "name": "Emmeline Pankhurst",
+          "lat": 51.522843,
+          "lng": -0.125561,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/13205421401"
+        },
+        {
+          "id": "plaques-node-8091595420-essex-street",
+          "name": "Essex Street",
+          "lat": 51.512952,
+          "lng": -0.113225,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8091595420"
+        },
+        {
+          "id": "plaques-node-8059269171-eyre-massey-shaw",
+          "name": "Eyre Massey Shaw",
+          "lat": 51.502622,
+          "lng": -0.097902,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8059269171"
+        },
+        {
+          "id": "plaques-node-874823411-ffe-yeo-thomas",
+          "name": "F.F.E. Yeo-Thomas",
+          "lat": 51.522662,
+          "lng": -0.122949,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/874823411"
+        },
+        {
+          "id": "plaques-node-8088522447-fanny-burney",
+          "name": "Fanny Burney",
+          "lat": 51.507052,
+          "lng": -0.144194,
+          "detail": "Plaque · English Heritage from OpenStreetMap.",
+          "source": "OpenStreetMap node/8088522447"
+        },
+        {
+          "id": "plaques-node-13359163466-fanny-wilkinson",
+          "name": "Fanny Wilkinson",
+          "lat": 51.516714,
+          "lng": -0.126578,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/13359163466"
+        },
+        {
+          "id": "plaques-node-7610670884-faraday-building-nth",
+          "name": "Faraday Building Nth.",
+          "lat": 51.512809,
+          "lng": -0.100502,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7610670884"
+        },
+        {
+          "id": "plaques-node-11784528490-fig-tree-court",
+          "name": "Fig Tree Court",
+          "lat": 51.512753,
+          "lng": -0.110435,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/11784528490"
+        },
+        {
+          "id": "plaques-node-2020733613-first-bomb-of-the-blitz",
+          "name": "First Bomb of the Blitz",
+          "lat": 51.51838,
+          "lng": -0.09277,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2020733613"
+        },
+        {
+          "id": "plaques-node-4397936947-first-number-of-the-sunday-times",
+          "name": "First Number of the Sunday Times",
+          "lat": 51.513784,
+          "lng": -0.106246,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4397936947"
+        },
+        {
+          "id": "plaques-node-1268874685-former-site-of-blacksmiths-hall",
+          "name": "Former site of Blacksmiths' Hall",
+          "lat": 51.51175,
+          "lng": -0.097915,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/1268874685"
+        },
+        {
+          "id": "plaques-node-2006391874-fortune-theatre-plaque",
+          "name": "Fortune Theatre Plaque",
+          "lat": 51.522526,
+          "lng": -0.09346,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2006391874"
+        },
+        {
+          "id": "plaques-node-4709189371-frank-budgen",
+          "name": "Frank Budgen",
+          "lat": 51.514316,
+          "lng": -0.136209,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4709189371"
+        },
+        {
+          "id": "plaques-node-8088522453-fryderyk-chopin",
+          "name": "Fryderyk Chopin",
+          "lat": 51.505886,
+          "lng": -0.139417,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8088522453"
+        },
+        {
+          "id": "plaques-node-8090874380-general-charles-de-gaulle",
+          "name": "General Charles De Gaulle",
+          "lat": 51.505627,
+          "lng": -0.133743,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8090874380"
+        },
+        {
+          "id": "plaques-node-6296646086-general-letter-office",
+          "name": "General Letter Office",
+          "lat": 51.513616,
+          "lng": -0.089207,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/6296646086"
+        },
+        {
+          "id": "plaques-node-4880377419-general-sikorski",
+          "name": "General Sikorski",
+          "lat": 51.498283,
+          "lng": -0.143532,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4880377419"
+        },
+        {
+          "id": "plaques-node-9212156199-geoffrey-chaucer-the-talbot-inn",
+          "name": "Geoffrey Chaucer / The Talbot Inn",
+          "lat": 51.504154,
+          "lng": -0.090338,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/9212156199"
+        },
+        {
+          "id": "plaques-node-5661023100-george-basevi",
+          "name": "George Basevi",
+          "lat": 51.511259,
+          "lng": -0.140606,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5661023100"
+        },
+        {
+          "id": "plaques-node-12833227043-george-bernard-shaw",
+          "name": "George Bernard Shaw",
+          "lat": 51.522623,
+          "lng": -0.1405,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/12833227043"
+        },
+        {
+          "id": "plaques-node-8090874372-george-curzon",
+          "name": "George Curzon",
+          "lat": 51.505719,
+          "lng": -0.133462,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/8090874372"
+        },
+        {
+          "id": "plaques-node-7964074952-george-dance",
+          "name": "George Dance",
+          "lat": 51.522614,
+          "lng": -0.132956,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7964074952"
+        },
+        {
+          "id": "plaques-node-5362237834-george-du-maurier",
+          "name": "George Du Maurier",
+          "lat": 51.517937,
+          "lng": -0.127347,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5362237834"
+        },
+        {
+          "id": "plaques-node-5047029714-john-milton",
+          "name": "John Milton",
+          "lat": 51.513898,
+          "lng": -0.094486,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/5047029714"
+        },
+        {
+          "id": "plaques-node-2317365397-marshalsea-prison",
+          "name": "Marshalsea Prison",
+          "lat": 51.501641,
+          "lng": -0.091575,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/2317365397"
+        },
+        {
+          "id": "plaques-way-1191945525-memorial-to-heroic-self-sacrifice",
+          "name": "Memorial to Heroic Self Sacrifice",
+          "lat": 51.516885,
+          "lng": -0.097856,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap way/1191945525"
+        },
+        {
+          "id": "plaques-node-7817017136-mileage-central-point-of-london-plaque",
+          "name": "Mileage Central Point of London Plaque",
+          "lat": 51.507406,
+          "lng": -0.127692,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/7817017136"
+        },
+        {
+          "id": "plaques-node-441983867-national-submarine-war-memorial",
+          "name": "National Submarine War Memorial",
+          "lat": 51.510886,
+          "lng": -0.111014,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/441983867"
+        },
+        {
+          "id": "plaques-node-3788892835-st-martin-outwich",
+          "name": "St Martin Outwich",
+          "lat": 51.514345,
+          "lng": -0.083972,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/3788892835"
+        },
+        {
+          "id": "plaques-node-11913808686-texas-legation",
+          "name": "Texas Legation",
+          "lat": 51.505563,
+          "lng": -0.138172,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/11913808686"
+        },
+        {
+          "id": "plaques-node-9901638231-the-evelina-hospital-for-sick-children",
+          "name": "The Evelina Hospital for Sick Children",
+          "lat": 51.502684,
+          "lng": -0.096767,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/9901638231"
+        },
+        {
+          "id": "plaques-node-4742685742-william-thomas-stead",
+          "name": "William Thomas Stead",
+          "lat": 51.510831,
+          "lng": -0.112566,
+          "detail": "Plaque from OpenStreetMap.",
+          "source": "OpenStreetMap node/4742685742"
+        }
+      ]
+    },
+    {
+      "id": "pubs",
+      "label": "Pubs",
       "defaultVisible": false,
       "minZoom": 13,
       "markerLabel": "P",
       "routeRadiusMeters": 500,
       "points": [
         {
-          "id": "food-way-157779526-admiral-duncan",
+          "id": "pubs-way-157779526-admiral-duncan",
           "name": "Admiral Duncan",
           "lat": 51.51292,
           "lng": -0.13228,
@@ -755,7 +2835,7 @@
           "source": "OpenStreetMap way/157779526"
         },
         {
-          "id": "food-node-269859953-anchor-brewhouse",
+          "id": "pubs-node-269859953-anchor-brewhouse",
           "name": "Anchor Brewhouse",
           "lat": 51.504108,
           "lng": -0.07531,
@@ -763,7 +2843,7 @@
           "source": "OpenStreetMap node/269859953"
         },
         {
-          "id": "food-way-93710851-anchor-tap",
+          "id": "pubs-way-93710851-anchor-tap",
           "name": "Anchor Tap",
           "lat": 51.503549,
           "lng": -0.075925,
@@ -771,7 +2851,7 @@
           "source": "OpenStreetMap way/93710851"
         },
         {
-          "id": "food-way-538990064-bag-o-nails",
+          "id": "pubs-way-538990064-bag-o-nails",
           "name": "Bag O Nails",
           "lat": 51.498022,
           "lng": -0.144129,
@@ -779,15 +2859,7 @@
           "source": "OpenStreetMap way/538990064"
         },
         {
-          "id": "food-way-161420156-bagelmania",
-          "name": "Bagelmania",
-          "lat": 51.513864,
-          "lng": -0.109992,
-          "detail": "Cafe from OpenStreetMap.",
-          "source": "OpenStreetMap way/161420156"
-        },
-        {
-          "id": "food-node-12045676386-bricklayers-arms",
+          "id": "pubs-node-12045676386-bricklayers-arms",
           "name": "Bricklayers Arms",
           "lat": 51.517691,
           "lng": -0.133371,
@@ -795,7 +2867,7 @@
           "source": "OpenStreetMap node/12045676386"
         },
         {
-          "id": "food-way-90650944-bunch-of-grapes",
+          "id": "pubs-way-90650944-bunch-of-grapes",
           "name": "Bunch of Grapes",
           "lat": 51.50499,
           "lng": -0.089193,
@@ -803,15 +2875,7 @@
           "source": "OpenStreetMap way/90650944"
         },
         {
-          "id": "food-way-481710040-cabmens-shelter",
-          "name": "Cabmen's Shelter",
-          "lat": 51.511038,
-          "lng": -0.114684,
-          "detail": "Cafe from OpenStreetMap.",
-          "source": "OpenStreetMap way/481710040"
-        },
-        {
-          "id": "food-way-75422589-cittie-of-yorke",
+          "id": "pubs-way-75422589-cittie-of-yorke",
           "name": "Cittie of Yorke",
           "lat": 51.518524,
           "lng": -0.112823,
@@ -819,7 +2883,7 @@
           "source": "OpenStreetMap way/75422589"
         },
         {
-          "id": "food-node-9008497216-cloudwater",
+          "id": "pubs-node-9008497216-cloudwater",
           "name": "Cloudwater",
           "lat": 51.497742,
           "lng": -0.072581,
@@ -827,7 +2891,7 @@
           "source": "OpenStreetMap node/9008497216"
         },
         {
-          "id": "food-way-338696812-coach-and-horses",
+          "id": "pubs-way-338696812-coach-and-horses",
           "name": "Coach and Horses",
           "lat": 51.510809,
           "lng": -0.143771,
@@ -835,7 +2899,7 @@
           "source": "OpenStreetMap way/338696812"
         },
         {
-          "id": "food-way-157322970-commercial-tavern",
+          "id": "pubs-way-157322970-commercial-tavern",
           "name": "Commercial Tavern",
           "lat": 51.52165,
           "lng": -0.075684,
@@ -843,7 +2907,7 @@
           "source": "OpenStreetMap way/157322970"
         },
         {
-          "id": "food-node-1937328128-comptons-of-soho",
+          "id": "pubs-node-1937328128-comptons-of-soho",
           "name": "Comptons of Soho",
           "lat": 51.512605,
           "lng": -0.132515,
@@ -851,7 +2915,7 @@
           "source": "OpenStreetMap node/1937328128"
         },
         {
-          "id": "food-way-993439403-de-hems-cafe-bar",
+          "id": "pubs-way-993439403-de-hems-cafe-bar",
           "name": "De Hems Cafe Bar",
           "lat": 51.512115,
           "lng": -0.131179,
@@ -859,7 +2923,7 @@
           "source": "OpenStreetMap way/993439403"
         },
         {
-          "id": "food-way-77739560-doggetts-coat-badge",
+          "id": "pubs-way-77739560-doggetts-coat-badge",
           "name": "Doggett's Coat & Badge",
           "lat": 51.508422,
           "lng": -0.104815,
@@ -867,15 +2931,7 @@
           "source": "OpenStreetMap way/77739560"
         },
         {
-          "id": "food-way-153672706-dr-hammer",
-          "name": "Dr Hammer",
-          "lat": 51.517278,
-          "lng": -0.121676,
-          "detail": "Cafe · Bubble Tea from OpenStreetMap.",
-          "source": "OpenStreetMap way/153672706"
-        },
-        {
-          "id": "food-way-98535850-duke-of-york",
+          "id": "pubs-way-98535850-duke-of-york",
           "name": "Duke of York",
           "lat": 51.518725,
           "lng": -0.135964,
@@ -883,7 +2939,7 @@
           "source": "OpenStreetMap way/98535850"
         },
         {
-          "id": "food-way-231202433-east-india-arms",
+          "id": "pubs-way-231202433-east-india-arms",
           "name": "East India Arms",
           "lat": 51.512326,
           "lng": -0.079211,
@@ -891,7 +2947,7 @@
           "source": "OpenStreetMap way/231202433"
         },
         {
-          "id": "food-way-138339524-fitzroy-tavern",
+          "id": "pubs-way-138339524-fitzroy-tavern",
           "name": "Fitzroy Tavern",
           "lat": 51.518648,
           "lng": -0.134645,
@@ -899,7 +2955,7 @@
           "source": "OpenStreetMap way/138339524"
         },
         {
-          "id": "food-way-97175520-fox-and-anchor",
+          "id": "pubs-way-97175520-fox-and-anchor",
           "name": "Fox and Anchor",
           "lat": 51.520438,
           "lng": -0.100757,
@@ -907,7 +2963,7 @@
           "source": "OpenStreetMap way/97175520"
         },
         {
-          "id": "food-way-280985110-french-house",
+          "id": "pubs-way-280985110-french-house",
           "name": "French House",
           "lat": 51.512739,
           "lng": -0.131714,
@@ -915,7 +2971,7 @@
           "source": "OpenStreetMap way/280985110"
         },
         {
-          "id": "food-node-1497452179-george-and-vulture",
+          "id": "pubs-node-1497452179-george-and-vulture",
           "name": "George and Vulture",
           "lat": 51.512915,
           "lng": -0.08577,
@@ -923,7 +2979,7 @@
           "source": "OpenStreetMap node/1497452179"
         },
         {
-          "id": "food-way-90830736-george-inn",
+          "id": "pubs-way-90830736-george-inn",
           "name": "George Inn",
           "lat": 51.504182,
           "lng": -0.089999,
@@ -931,7 +2987,7 @@
           "source": "OpenStreetMap way/90830736"
         },
         {
-          "id": "food-node-12529152052-goodmans-field",
+          "id": "pubs-node-12529152052-goodmans-field",
           "name": "Goodman's Field",
           "lat": 51.511524,
           "lng": -0.072723,
@@ -939,7 +2995,7 @@
           "source": "OpenStreetMap node/12529152052"
         },
         {
-          "id": "food-node-383980821-green-man",
+          "id": "pubs-node-383980821-green-man",
           "name": "Green Man",
           "lat": 51.515545,
           "lng": -0.136658,
@@ -947,7 +3003,7 @@
           "source": "OpenStreetMap node/383980821"
         },
         {
-          "id": "food-node-366073245-hamilton-hall",
+          "id": "pubs-node-366073245-hamilton-hall",
           "name": "Hamilton Hall",
           "lat": 51.517401,
           "lng": -0.08096,
@@ -955,7 +3011,7 @@
           "source": "OpenStreetMap node/366073245"
         },
         {
-          "id": "food-node-266324793-hole-in-the-wall",
+          "id": "pubs-node-266324793-hole-in-the-wall",
           "name": "Hole In the Wall",
           "lat": 51.504106,
           "lng": -0.11372,
@@ -963,7 +3019,7 @@
           "source": "OpenStreetMap node/266324793"
         },
         {
-          "id": "food-node-288045288-hoop-and-grapes",
+          "id": "pubs-node-288045288-hoop-and-grapes",
           "name": "Hoop and Grapes",
           "lat": 51.514254,
           "lng": -0.074202,
@@ -971,7 +3027,7 @@
           "source": "OpenStreetMap node/288045288"
         },
         {
-          "id": "food-node-1497452168-jamaica-wine-house",
+          "id": "pubs-node-1497452168-jamaica-wine-house",
           "name": "Jamaica Wine House",
           "lat": 51.51297,
           "lng": -0.085664,
@@ -979,39 +3035,7 @@
           "source": "OpenStreetMap node/1497452168"
         },
         {
-          "id": "food-way-993282930-jen-cafe",
-          "name": "Jen Café",
-          "lat": 51.511922,
-          "lng": -0.129462,
-          "detail": "Cafe from OpenStreetMap.",
-          "source": "OpenStreetMap way/993282930"
-        },
-        {
-          "id": "food-node-347542399-jen-tea",
-          "name": "Jen Tea",
-          "lat": 51.518185,
-          "lng": -0.077688,
-          "detail": "Cafe from OpenStreetMap.",
-          "source": "OpenStreetMap node/347542399"
-        },
-        {
-          "id": "food-way-143407596-joe-the-juice",
-          "name": "Joe & The Juice",
-          "lat": 51.511594,
-          "lng": -0.08917,
-          "detail": "Cafe · Coffee Shop from OpenStreetMap.",
-          "source": "OpenStreetMap way/143407596"
-        },
-        {
-          "id": "food-node-840177920-kastina-and-ovens",
-          "name": "Kastina And Ovens",
-          "lat": 51.513453,
-          "lng": -0.122717,
-          "detail": "Cafe from OpenStreetMap.",
-          "source": "OpenStreetMap node/840177920"
-        },
-        {
-          "id": "food-way-100799936-kings-arms",
+          "id": "pubs-way-100799936-kings-arms",
           "name": "King's Arms",
           "lat": 51.502908,
           "lng": -0.090917,
@@ -1019,23 +3043,7 @@
           "source": "OpenStreetMap way/100799936"
         },
         {
-          "id": "food-way-529246743-lexpress-coffee",
-          "name": "Lexpress Coffee",
-          "lat": 51.511503,
-          "lng": -0.088695,
-          "detail": "Cafe from OpenStreetMap.",
-          "source": "OpenStreetMap way/529246743"
-        },
-        {
-          "id": "food-way-349935005-maison-bertaux",
-          "name": "Maison Bertaux",
-          "lat": 51.51332,
-          "lng": -0.130198,
-          "detail": "Cafe · Cake;coffee Shop · outdoor seating from OpenStreetMap.",
-          "source": "OpenStreetMap way/349935005"
-        },
-        {
-          "id": "food-way-226909129-marquis-of-granby",
+          "id": "pubs-way-226909129-marquis-of-granby",
           "name": "Marquis of Granby",
           "lat": 51.518013,
           "lng": -0.134644,
@@ -1043,15 +3051,7 @@
           "source": "OpenStreetMap way/226909129"
         },
         {
-          "id": "food-node-12920922057-monmouth-coffee-company",
-          "name": "Monmouth Coffee Company",
-          "lat": 51.514366,
-          "lng": -0.1268,
-          "detail": "Cafe · Coffee Shop from OpenStreetMap.",
-          "source": "OpenStreetMap node/12920922057"
-        },
-        {
-          "id": "food-way-553157392-museum-tavern",
+          "id": "pubs-way-553157392-museum-tavern",
           "name": "Museum Tavern",
           "lat": 51.518174,
           "lng": -0.125862,
@@ -1059,15 +3059,7 @@
           "source": "OpenStreetMap way/553157392"
         },
         {
-          "id": "food-way-39335870-nagare-coffee",
-          "name": "Nagare Coffee",
-          "lat": 51.518962,
-          "lng": -0.076943,
-          "detail": "Cafe · Coffee Shop from OpenStreetMap.",
-          "source": "OpenStreetMap way/39335870"
-        },
-        {
-          "id": "food-way-487479499-nell-gwynne-tavern",
+          "id": "pubs-way-487479499-nell-gwynne-tavern",
           "name": "Nell Gwynne Tavern",
           "lat": 51.510236,
           "lng": -0.122837,
@@ -1075,7 +3067,7 @@
           "source": "OpenStreetMap way/487479499"
         },
         {
-          "id": "food-way-986920651-nell-of-old-drury",
+          "id": "pubs-way-986920651-nell-of-old-drury",
           "name": "Nell of Old Drury",
           "lat": 51.512585,
           "lng": -0.120629,
@@ -1083,7 +3075,7 @@
           "source": "OpenStreetMap way/986920651"
         },
         {
-          "id": "food-way-648689210-newman-arms",
+          "id": "pubs-way-648689210-newman-arms",
           "name": "Newman Arms",
           "lat": 51.51813,
           "lng": -0.13525,
@@ -1091,7 +3083,7 @@
           "source": "OpenStreetMap way/648689210"
         },
         {
-          "id": "food-way-159751191-old-doctor-butlers-head",
+          "id": "pubs-way-159751191-old-doctor-butlers-head",
           "name": "Old Doctor Butler's Head",
           "lat": 51.515677,
           "lng": -0.090279,
@@ -1099,7 +3091,7 @@
           "source": "OpenStreetMap way/159751191"
         },
         {
-          "id": "food-way-90650951-old-kings-head",
+          "id": "pubs-way-90650951-old-kings-head",
           "name": "Old King's Head",
           "lat": 51.504626,
           "lng": -0.08948,
@@ -1107,7 +3099,7 @@
           "source": "OpenStreetMap way/90650951"
         },
         {
-          "id": "food-way-1194233515-penderels-oak",
+          "id": "pubs-way-1194233515-penderels-oak",
           "name": "Penderel's Oak",
           "lat": 51.517962,
           "lng": -0.115549,
@@ -1115,7 +3107,7 @@
           "source": "OpenStreetMap way/1194233515"
         },
         {
-          "id": "food-way-236653740-pride-of-spitalfields",
+          "id": "pubs-way-236653740-pride-of-spitalfields",
           "name": "Pride of Spitalfields",
           "lat": 51.518952,
           "lng": -0.071219,
@@ -1123,7 +3115,7 @@
           "source": "OpenStreetMap way/236653740"
         },
         {
-          "id": "food-way-97237916-princess-louise",
+          "id": "pubs-way-97237916-princess-louise",
           "name": "Princess Louise",
           "lat": 51.517302,
           "lng": -0.12156,
@@ -1131,7 +3123,7 @@
           "source": "OpenStreetMap way/97237916"
         },
         {
-          "id": "food-way-430451203-rising-sun",
+          "id": "pubs-way-430451203-rising-sun",
           "name": "Rising Sun",
           "lat": 51.519118,
           "lng": -0.099854,
@@ -1139,15 +3131,7 @@
           "source": "OpenStreetMap way/430451203"
         },
         {
-          "id": "food-way-458258126-russell-square-cabmens-shelter",
-          "name": "Russell Square Cabmen's Shelter",
-          "lat": 51.521936,
-          "lng": -0.127671,
-          "detail": "Cafe · outdoor seating from OpenStreetMap.",
-          "source": "OpenStreetMap way/458258126"
-        },
-        {
-          "id": "food-way-277929219-shakespeares-head",
+          "id": "pubs-way-277929219-shakespeares-head",
           "name": "Shakespeare's Head",
           "lat": 51.51688,
           "lng": -0.119309,
@@ -1155,7 +3139,7 @@
           "source": "OpenStreetMap way/277929219"
         },
         {
-          "id": "food-way-325208608-shaws-booksellers",
+          "id": "pubs-way-325208608-shaws-booksellers",
           "name": "Shaw's Booksellers",
           "lat": 51.512472,
           "lng": -0.101522,
@@ -1163,7 +3147,7 @@
           "source": "OpenStreetMap way/325208608"
         },
         {
-          "id": "food-node-21593236-ship-tavern",
+          "id": "pubs-node-21593236-ship-tavern",
           "name": "Ship Tavern",
           "lat": 51.517252,
           "lng": -0.119179,
@@ -1171,7 +3155,7 @@
           "source": "OpenStreetMap node/21593236"
         },
         {
-          "id": "food-way-547522392-silver-cross",
+          "id": "pubs-way-547522392-silver-cross",
           "name": "Silver Cross",
           "lat": 51.506591,
           "lng": -0.126979,
@@ -1179,7 +3163,7 @@
           "source": "OpenStreetMap way/547522392"
         },
         {
-          "id": "food-way-102403099-simon-the-tanner",
+          "id": "pubs-way-102403099-simon-the-tanner",
           "name": "Simon the Tanner",
           "lat": 51.498317,
           "lng": -0.082952,
@@ -1187,7 +3171,7 @@
           "source": "OpenStreetMap way/102403099"
         },
         {
-          "id": "food-node-1497452177-simpsons-tavern",
+          "id": "pubs-node-1497452177-simpsons-tavern",
           "name": "Simpson's Tavern",
           "lat": 51.513028,
           "lng": -0.085951,
@@ -1195,7 +3179,7 @@
           "source": "OpenStreetMap node/1497452177"
         },
         {
-          "id": "food-way-42935883-smiths-of-smithfield",
+          "id": "pubs-way-42935883-smiths-of-smithfield",
           "name": "Smiths of Smithfield",
           "lat": 51.519527,
           "lng": -0.102759,
@@ -1203,7 +3187,7 @@
           "source": "OpenStreetMap way/42935883"
         },
         {
-          "id": "food-node-267432002-st-stephens-tavern",
+          "id": "pubs-node-267432002-st-stephens-tavern",
           "name": "St Stephen's Tavern",
           "lat": 51.501146,
           "lng": -0.125595,
@@ -1211,7 +3195,7 @@
           "source": "OpenStreetMap node/267432002"
         },
         {
-          "id": "food-way-1472842938-sugar-loaf",
+          "id": "pubs-way-1472842938-sugar-loaf",
           "name": "Sugar Loaf",
           "lat": 51.512309,
           "lng": -0.092842,
@@ -1219,7 +3203,7 @@
           "source": "OpenStreetMap way/1472842938"
         },
         {
-          "id": "food-way-153698493-sun-and-13-cantons",
+          "id": "pubs-way-153698493-sun-and-13-cantons",
           "name": "Sun and 13 Cantons",
           "lat": 51.512656,
           "lng": -0.136579,
@@ -1227,7 +3211,7 @@
           "source": "OpenStreetMap way/153698493"
         },
         {
-          "id": "food-node-581058547-the-admiralty",
+          "id": "pubs-node-581058547-the-admiralty",
           "name": "The Admiralty",
           "lat": 51.507275,
           "lng": -0.128886,
@@ -1235,7 +3219,7 @@
           "source": "OpenStreetMap node/581058547"
         },
         {
-          "id": "food-way-161490892-the-albert",
+          "id": "pubs-way-161490892-the-albert",
           "name": "The Albert",
           "lat": 51.497709,
           "lng": -0.135547,
@@ -1243,7 +3227,7 @@
           "source": "OpenStreetMap way/161490892"
         },
         {
-          "id": "food-way-82770817-the-anchor",
+          "id": "pubs-way-82770817-the-anchor",
           "name": "The Anchor",
           "lat": 51.507261,
           "lng": -0.093041,
@@ -1251,7 +3235,7 @@
           "source": "OpenStreetMap way/82770817"
         },
         {
-          "id": "food-way-153690421-the-angel",
+          "id": "pubs-way-153690421-the-angel",
           "name": "The Angel",
           "lat": 51.51549,
           "lng": -0.127841,
@@ -1259,7 +3243,7 @@
           "source": "OpenStreetMap way/153690421"
         },
         {
-          "id": "food-node-499350848-the-argyll-arms",
+          "id": "pubs-node-499350848-the-argyll-arms",
           "name": "The Argyll Arms",
           "lat": 51.515063,
           "lng": -0.141263,
@@ -1267,7 +3251,7 @@
           "source": "OpenStreetMap node/499350848"
         },
         {
-          "id": "food-way-778627033-the-artful-dodger",
+          "id": "pubs-way-778627033-the-artful-dodger",
           "name": "The Artful Dodger",
           "lat": 51.510456,
           "lng": -0.07013,
@@ -1275,7 +3259,7 @@
           "source": "OpenStreetMap way/778627033"
         },
         {
-          "id": "food-way-155428083-the-bell",
+          "id": "pubs-way-155428083-the-bell",
           "name": "The Bell",
           "lat": 51.511009,
           "lng": -0.089399,
@@ -1283,7 +3267,7 @@
           "source": "OpenStreetMap way/155428083"
         },
         {
-          "id": "food-way-166320158-the-blackfriar",
+          "id": "pubs-way-166320158-the-blackfriar",
           "name": "The Blackfriar",
           "lat": 51.512152,
           "lng": -0.103656,
@@ -1291,7 +3275,7 @@
           "source": "OpenStreetMap way/166320158"
         },
         {
-          "id": "food-way-81459093-the-bloomsbury",
+          "id": "pubs-way-81459093-the-bloomsbury",
           "name": "The Bloomsbury",
           "lat": 51.516845,
           "lng": -0.125753,
@@ -1299,7 +3283,7 @@
           "source": "OpenStreetMap way/81459093"
         },
         {
-          "id": "food-way-97209483-the-blue-posts",
+          "id": "pubs-way-97209483-the-blue-posts",
           "name": "The Blue Posts",
           "lat": 51.516973,
           "lng": -0.135467,
@@ -1307,7 +3291,7 @@
           "source": "OpenStreetMap way/97209483"
         },
         {
-          "id": "food-way-257334015-the-brown-bear",
+          "id": "pubs-way-257334015-the-brown-bear",
           "name": "The Brown Bear",
           "lat": 51.511393,
           "lng": -0.068461,
@@ -1315,7 +3299,7 @@
           "source": "OpenStreetMap way/257334015"
         },
         {
-          "id": "food-way-157767121-the-cambridge",
+          "id": "pubs-way-157767121-the-cambridge",
           "name": "The Cambridge",
           "lat": 51.513579,
           "lng": -0.129534,
@@ -1323,7 +3307,7 @@
           "source": "OpenStreetMap way/157767121"
         },
         {
-          "id": "food-node-475933772-the-castle",
+          "id": "pubs-node-475933772-the-castle",
           "name": "The Castle",
           "lat": 51.520219,
           "lng": -0.104174,
@@ -1331,7 +3315,7 @@
           "source": "OpenStreetMap node/475933772"
         },
         {
-          "id": "food-way-651644530-the-champion",
+          "id": "pubs-way-651644530-the-champion",
           "name": "The Champion",
           "lat": 51.516884,
           "lng": -0.137281,
@@ -1339,7 +3323,7 @@
           "source": "OpenStreetMap way/651644530"
         },
         {
-          "id": "food-way-142300246-the-chandos",
+          "id": "pubs-way-142300246-the-chandos",
           "name": "The Chandos",
           "lat": 51.509575,
           "lng": -0.126676,
@@ -1347,7 +3331,7 @@
           "source": "OpenStreetMap way/142300246"
         },
         {
-          "id": "food-node-25746185-the-cheshire-cheese",
+          "id": "pubs-node-25746185-the-cheshire-cheese",
           "name": "The Cheshire Cheese",
           "lat": 51.512389,
           "lng": -0.113185,
@@ -1355,7 +3339,7 @@
           "source": "OpenStreetMap node/25746185"
         },
         {
-          "id": "food-way-272198116-the-clachan",
+          "id": "pubs-way-272198116-the-clachan",
           "name": "The Clachan",
           "lat": 51.513527,
           "lng": -0.140227,
@@ -1363,7 +3347,7 @@
           "source": "OpenStreetMap way/272198116"
         },
         {
-          "id": "food-way-140515796-the-clarence",
+          "id": "pubs-way-140515796-the-clarence",
           "name": "The Clarence",
           "lat": 51.506152,
           "lng": -0.126723,
@@ -1371,7 +3355,7 @@
           "source": "OpenStreetMap way/140515796"
         },
         {
-          "id": "food-way-157771389-the-coach-horses",
+          "id": "pubs-way-157771389-the-coach-horses",
           "name": "The Coach & Horses",
           "lat": 51.513882,
           "lng": -0.129687,
@@ -1379,7 +3363,7 @@
           "source": "OpenStreetMap way/157771389"
         },
         {
-          "id": "food-way-279533213-the-coach-and-horses",
+          "id": "pubs-way-279533213-the-coach-and-horses",
           "name": "The Coach and Horses",
           "lat": 51.513269,
           "lng": -0.130144,
@@ -1387,7 +3371,7 @@
           "source": "OpenStreetMap way/279533213"
         },
         {
-          "id": "food-way-559282490-the-coal-hole",
+          "id": "pubs-way-559282490-the-coal-hole",
           "name": "The Coal Hole",
           "lat": 51.510327,
           "lng": -0.1212,
@@ -1395,7 +3379,7 @@
           "source": "OpenStreetMap way/559282490"
         },
         {
-          "id": "food-way-244772127-the-cock-tavern",
+          "id": "pubs-way-244772127-the-cock-tavern",
           "name": "The Cock Tavern",
           "lat": 51.516782,
           "lng": -0.141403,
@@ -1403,7 +3387,7 @@
           "source": "OpenStreetMap way/244772127"
         },
         {
-          "id": "food-way-165589488-the-cockpit",
+          "id": "pubs-way-165589488-the-cockpit",
           "name": "The Cockpit",
           "lat": 51.512707,
           "lng": -0.101498,
@@ -1411,7 +3395,7 @@
           "source": "OpenStreetMap way/165589488"
         },
         {
-          "id": "food-way-274708128-the-counting-house",
+          "id": "pubs-way-274708128-the-counting-house",
           "name": "The Counting House",
           "lat": 51.513212,
           "lng": -0.085081,
@@ -1419,7 +3403,7 @@
           "source": "OpenStreetMap way/274708128"
         },
         {
-          "id": "food-node-12920922066-the-cross-keys",
+          "id": "pubs-node-12920922066-the-cross-keys",
           "name": "The Cross Keys",
           "lat": 51.514514,
           "lng": -0.124739,
@@ -1427,7 +3411,7 @@
           "source": "OpenStreetMap node/12920922066"
         },
         {
-          "id": "food-way-863516669-the-crosse-keys",
+          "id": "pubs-way-863516669-the-crosse-keys",
           "name": "The Crosse Keys",
           "lat": 51.512759,
           "lng": -0.084979,
@@ -1435,7 +3419,7 @@
           "source": "OpenStreetMap way/863516669"
         },
         {
-          "id": "food-node-12920922056-the-crown",
+          "id": "pubs-node-12920922056-the-crown",
           "name": "The Crown",
           "lat": 51.513943,
           "lng": -0.126853,
@@ -1443,7 +3427,7 @@
           "source": "OpenStreetMap node/12920922056"
         },
         {
-          "id": "food-way-183366008-the-crown",
+          "id": "pubs-way-183366008-the-crown",
           "name": "The Crown",
           "lat": 51.516841,
           "lng": -0.126399,
@@ -1451,7 +3435,7 @@
           "source": "OpenStreetMap way/183366008"
         },
         {
-          "id": "food-way-280980550-the-crown-two-chairmen",
+          "id": "pubs-way-280980550-the-crown-two-chairmen",
           "name": "The Crown & Two Chairmen",
           "lat": 51.513869,
           "lng": -0.132461,
@@ -1459,12 +3443,108 @@
           "source": "OpenStreetMap way/280980550"
         },
         {
-          "id": "food-node-266680230-the-crown-and-anchor",
+          "id": "pubs-node-266680230-the-crown-and-anchor",
           "name": "The Crown and Anchor",
           "lat": 51.513976,
           "lng": -0.124985,
           "detail": "Pub from OpenStreetMap.",
           "source": "OpenStreetMap node/266680230"
+        },
+        {
+          "id": "pubs-way-244884784-the-devereux",
+          "name": "The Devereux",
+          "lat": 51.512828,
+          "lng": -0.112559,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/244884784"
+        },
+        {
+          "id": "pubs-way-257338682-the-dispensary",
+          "name": "The Dispensary",
+          "lat": 51.514117,
+          "lng": -0.070603,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/257338682"
+        },
+        {
+          "id": "pubs-way-279570944-the-dog-and-duck",
+          "name": "The Dog and Duck",
+          "lat": 51.513998,
+          "lng": -0.131961,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/279570944"
+        },
+        {
+          "id": "pubs-node-383932467-the-duke-of-york",
+          "name": "The Duke (of York)",
+          "lat": 51.522804,
+          "lng": -0.116549,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/383932467"
+        },
+        {
+          "id": "pubs-way-244884785-the-edgar-wallace",
+          "name": "The Edgar Wallace",
+          "lat": 51.512722,
+          "lng": -0.112775,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/244884785"
+        },
+        {
+          "id": "pubs-node-26699558-the-flying-horse",
+          "name": "The Flying Horse",
+          "lat": 51.516511,
+          "lng": -0.130759,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap node/26699558"
+        },
+        {
+          "id": "pubs-way-159052524-the-flying-horse",
+          "name": "The Flying Horse",
+          "lat": 51.520437,
+          "lng": -0.084987,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/159052524"
+        },
+        {
+          "id": "pubs-way-148695430-the-george",
+          "name": "The George",
+          "lat": 51.517653,
+          "lng": -0.141864,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/148695430"
+        },
+        {
+          "id": "pubs-way-275127241-the-george",
+          "name": "The George",
+          "lat": 51.514931,
+          "lng": -0.135269,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/275127241"
+        },
+        {
+          "id": "pubs-way-210891582-the-george-dragon",
+          "name": "The George & Dragon",
+          "lat": 51.52299,
+          "lng": -0.142001,
+          "detail": "Pub · outdoor seating from OpenStreetMap.",
+          "source": "OpenStreetMap way/210891582"
+        },
+        {
+          "id": "pubs-way-82770837-the-globe",
+          "name": "The Globe",
+          "lat": 51.505488,
+          "lng": -0.089913,
+          "detail": "Pub from OpenStreetMap.",
+          "source": "OpenStreetMap way/82770837"
+        },
+        {
+          "id": "pubs-way-160138936-the-globe",
+          "name": "The Globe",
+          "lat": 51.517682,
+          "lng": -0.088759,
+          "detail": "Pub · British from OpenStreetMap.",
+          "source": "OpenStreetMap way/160138936"
         }
       ]
     },

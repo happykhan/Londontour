@@ -59,9 +59,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0816'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0816/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0816/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0826'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0826/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0826/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -75,6 +75,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /async function loadLayerCatalog/);
   assert.match(js, /\/assets\/layers\.json/);
   assert.match(js, /id: 'supermarkets'/);
+  assert.match(js, /id: 'landmarks'/);
+  assert.match(js, /id: 'museums'/);
+  assert.match(js, /id: 'monuments'/);
+  assert.match(js, /id: 'plaques'/);
+  assert.match(js, /id: 'pubs'/);
   assert.match(js, /function activeLayerPoints/);
   assert.match(js, /function visibleRouteStops/);
   assert.match(js, /function fitSelectedRouteBounds/);
@@ -90,9 +95,12 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0816'/);
+  assert.match(js, /const assetVersion = '20260621-0826'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
+  assert.match(js, /function safeExternalUrl/);
+  assert.match(js, /function popupTitle/);
+  assert.match(js, /target="_blank"/);
   assert.match(js, /transportType/);
   assert.match(js, /layer-marker-transport-/);
   assert.match(js, /const majorTubeStationMinZoom = 12/);
@@ -128,6 +136,11 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\[data-theme="dark"\] \.route-card/);
   assert.match(css, /body\[data-theme="dark"\]:not\(\.route-view\) \.tour-panel/);
   assert.match(css, /body\[data-theme="dark"\]\.route-view \.tour-panel/);
+  assert.match(css, /\.layer-marker-landmarks/);
+  assert.match(css, /\.layer-marker-museums/);
+  assert.match(css, /\.layer-marker-monuments/);
+  assert.match(css, /\.layer-marker-plaques/);
+  assert.match(css, /\.layer-marker-pubs/);
   assert.match(css, /\.layer-marker-transport-bus/);
   assert.match(css, /\.layer-marker-transport-boat/);
   assert.match(css, /\.tube-station-marker\.is-major/);
@@ -141,7 +154,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v28/);
+  assert.match(sw, /londontour-offline-v29/);
   assert.match(sw, /isJsonAsset/);
   assert.match(sw, /\/assets\/layers\.json/);
   assert.match(sw, /\/assets\/tube-network\.json/);
@@ -157,11 +170,22 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   assert.ok(catalog.generatedAt, 'generatedAt should be recorded');
 
   const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
-  assert.ok(counts.get('attractions') >= 80, 'attractions should come from the generated external dataset');
-  assert.ok(counts.get('food') >= 80, 'food and rest stops should come from the generated external dataset');
+  assert.equal(counts.has('attractions'), false, 'legacy attractions layer should be split out');
+  assert.equal(counts.has('food'), false, 'legacy food layer should be renamed to pubs');
+  assert.ok(counts.get('landmarks') >= 20, 'essential landmarks should come from the generated external dataset');
+  assert.ok(counts.get('museums') >= 80, 'museums should come from the generated external dataset');
+  assert.ok(counts.get('monuments') >= 100, 'statues and monuments should come from the generated external dataset');
+  assert.ok(counts.get('plaques') >= 80, 'plaques should come from the generated external dataset');
+  assert.ok(counts.get('pubs') >= 80, 'pubs should come from the generated external dataset');
   assert.ok(counts.get('transport') >= 100, 'transport links should come from the generated external dataset');
   assert.ok(counts.get('toilets') >= 60, 'public toilets should come from the generated external dataset');
   assert.ok(counts.get('supermarkets') >= 60, 'supermarkets should come from the generated external dataset');
+
+  const museums = catalog.layers.find((layer) => layer.id === 'museums');
+  assert.ok(museums, 'museums layer should exist');
+  for (const point of museums.points) {
+    assert.match(point.url, /^https?:\/\//, `${point.name} should expose a museum URL for the popup title`);
+  }
 
   for (const layer of catalog.layers) {
     assert.equal(typeof layer.routeRadiusMeters, 'number', `${layer.id} should define a metre detour radius`);
