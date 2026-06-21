@@ -27,6 +27,7 @@ test('critical assets are present', () => {
     'assets/app.js',
     'assets/styles.css',
     'assets/layers.json',
+    'assets/tube-network.json',
     'assets/route-geometry.json',
     'assets/tiles-manifest.json',
     'sw.js',
@@ -58,9 +59,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0245'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0245/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0245/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0300'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0300/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0300/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -87,6 +88,9 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /pointMatchesRoute/);
   assert.match(js, /function routeDistanceMeters/);
   assert.match(js, /function pointToSegmentDistanceMeters/);
+  assert.match(js, /function loadTubeNetwork/);
+  assert.match(js, /async function renderTubeNetwork/);
+  assert.match(js, /\/assets\/tube-network\.json/);
   assert.doesNotMatch(js, /pois: \[/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_nolabels/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_only_labels/);
@@ -123,8 +127,9 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v22/);
+  assert.match(sw, /londontour-offline-v23/);
   assert.match(sw, /\/assets\/layers\.json/);
+  assert.match(sw, /\/assets\/tube-network\.json/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
   assert.match(sw, /\/assets\/vendor\/leaflet\.js/);
@@ -150,6 +155,21 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
       assert.equal(typeof point.lat, 'number');
       assert.equal(typeof point.lng, 'number');
     }
+  }
+});
+
+test('generated tube network imports TfL stations and OSM line geometry', () => {
+  const tubeNetwork = JSON.parse(read('assets/tube-network.json'));
+  assert.match(tubeNetwork.source, /OpenStreetMap/);
+  assert.match(tubeNetwork.source, /TfL/);
+  assert.ok(tubeNetwork.lines.length >= 10, 'central tube network should include major Underground lines');
+  assert.ok(tubeNetwork.stations.length >= 30, 'central tube network should include TfL tube stations');
+  assert.ok(tubeNetwork.lines.some((line) => line.id === 'central'), 'Central line should be present');
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Bank'), 'Bank station should be present');
+
+  for (const line of tubeNetwork.lines) {
+    assert.ok(line.color, `${line.id} should have a line colour`);
+    assert.ok(line.segments.length > 0, `${line.id} should have line geometry`);
   }
 });
 

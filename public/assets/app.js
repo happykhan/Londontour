@@ -275,6 +275,8 @@ let map;
 let routeLineLayers = [];
 let routeMarkers = [];
 let layerMarkers = [];
+let tubeLineLayers = [];
+let tubeStationMarkers = [];
 let userMarker;
 let userLocation;
 let locationRequested = false;
@@ -282,8 +284,11 @@ let routeRenderToken = 0;
 let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
+let tubeNetworkPromise;
+let tubeNetworkData = { lines: [], stations: [] };
+let selectedTubeStationId;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v22';
+const cacheName = 'londontour-offline-v23';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -332,6 +337,7 @@ function applyLayerSelection(ids, message = 'Map layers updated.') {
   saveActiveLayerIds();
   renderLayerControls();
   renderLayerMarkers();
+  void renderTubeNetwork();
   renderDetails();
   setStatus(message);
 }
@@ -398,6 +404,7 @@ async function loadLayerCatalog() {
     renderLayerControls();
     renderDetails();
     renderLayerMarkers();
+    void renderTubeNetwork();
     if (browseMode) fitBrowseMap({ animate: false });
     await renderOfflineDetails();
   } catch (error) {
@@ -701,6 +708,26 @@ function loadTileManifest() {
   return tileManifestPromise;
 }
 
+function loadTubeNetwork() {
+  if (!tubeNetworkPromise) {
+    tubeNetworkPromise = fetch('/assets/tube-network.json')
+      .then((response) => response.json())
+      .then((data) => {
+        tubeNetworkData = {
+          lines: Array.isArray(data?.lines) ? data.lines : [],
+          stations: Array.isArray(data?.stations) ? data.stations : [],
+        };
+        return tubeNetworkData;
+      })
+      .catch(() => {
+        tubeNetworkData = { lines: [], stations: [] };
+        return tubeNetworkData;
+      });
+  }
+
+  return tubeNetworkPromise;
+}
+
 async function fetchRouteGeometry(segment, coordinates) {
   if (coordinates.length < 2) {
     return coordinates;
@@ -725,6 +752,8 @@ function buildMap() {
   map.createPane('basemapLabels');
   map.getPane('basemapLabels').style.zIndex = 430;
   map.getPane('basemapLabels').style.pointerEvents = 'none';
+  map.createPane('tubeNetwork');
+  map.getPane('tubeNetwork').style.zIndex = 390;
 
   const offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     minZoom: 11,
@@ -775,6 +804,7 @@ function buildMap() {
   map.on('zoomend', () => {
     if (!browseMode) renderRouteMarkers();
     renderLayerMarkers();
+    void renderTubeNetwork();
     renderDetails();
   });
   map.whenReady(() => {
@@ -843,6 +873,7 @@ async function downloadOfflinePack() {
 
     if (selections.layers) {
       await cacheRequest(cache, '/assets/layers.json');
+      await cacheRequest(cache, '/assets/tube-network.json');
     }
 
     let tileTotal = 0;
@@ -910,6 +941,67 @@ function renderLayerMarkers() {
     }).bindPopup(`<strong>${name}</strong><br>${layerLabel}<br>${detail}`);
     marker.addTo(map);
     layerMarkers.push(marker);
+  });
+}
+
+async function renderTubeNetwork() {
+  if (!map) return;
+
+  tubeLineLayers.forEach((layer) => layer.remove());
+  tubeStationMarkers.forEach((marker) => marker.remove());
+  tubeLineLayers = [];
+  tubeStationMarkers = [];
+
+  if (!activeLayerIds.has('transport')) {
+    selectedTubeStationId = undefined;
+    return;
+  }
+
+  const tubeNetwork = await loadTubeNetwork();
+  const selectedStation = tubeNetwork.stations.find((station) => station.id === selectedTubeStationId);
+  const selectedLineIds = new Set(selectedStation?.lines || []);
+
+  tubeNetwork.lines.forEach((line) => {
+    const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
+    const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
+    const style = {
+      color: line.color || '#1d4ed8',
+      opacity: isDimmed ? 0.18 : isSelected ? 0.95 : 0.68,
+      pane: 'tubeNetwork',
+      weight: isSelected ? 6 : 3,
+      lineCap: 'round',
+      lineJoin: 'round',
+    };
+
+    line.segments.forEach((segment) => {
+      if (!Array.isArray(segment) || segment.length < 2) return;
+      const polyline = L.polyline(segment, style).bindPopup(`${escapeHtml(line.label)} line`);
+      polyline.addTo(map);
+      tubeLineLayers.push(polyline);
+    });
+  });
+
+  tubeNetwork.stations.forEach((station) => {
+    const stationLines = station.lines
+      .map((lineId) => tubeNetwork.lines.find((line) => line.id === lineId)?.label)
+      .filter(Boolean);
+    const marker = L.marker([station.lat, station.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: `<div class="tube-station-marker ${station.id === selectedTubeStationId ? 'is-selected' : ''}"><span></span></div>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      }),
+    }).bindPopup(`<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>TfL station data`);
+
+    marker.on('click', () => {
+      selectedTubeStationId = station.id;
+      void renderTubeNetwork();
+      setStatus(`${station.name}: showing ${stationLines.join(', ')} tube lines.`);
+    });
+
+    marker.addTo(map);
+    tubeStationMarkers.push(marker);
   });
 }
 
@@ -1018,6 +1110,7 @@ async function renderRouteOnMap() {
 
   renderRouteMarkers();
   renderLayerMarkers();
+  void renderTubeNetwork();
 
   if (routeHasPoints) {
     selectedRouteBounds = routeBounds;
@@ -1050,6 +1143,7 @@ function renderBrowseMap(options = {}) {
   if (!map) return;
   clearRouteOverlays();
   renderLayerMarkers();
+  void renderTubeNetwork();
   if (userLocation) {
     addOrUpdateUserMarker();
   }

@@ -567,6 +567,35 @@ body[data-theme="dark"] .route-card.is-active {
   background: #166534;
 }
 
+.tube-station-marker {
+  align-items: center;
+  background: #ffffff;
+  border: 3px solid #111827;
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.18);
+  display: flex;
+  height: 18px;
+  justify-content: center;
+  width: 18px;
+}
+
+.tube-station-marker span {
+  background: #111827;
+  border-radius: 999px;
+  display: block;
+  height: 6px;
+  width: 6px;
+}
+
+.tube-station-marker.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(20, 108, 100, 0.18), 0 8px 18px rgba(17, 24, 39, 0.22);
+}
+
+.tube-station-marker.is-selected span {
+  background: var(--accent);
+}
+
 .poi-marker-bus {
   background: var(--accent);
   box-shadow: 0 8px 18px rgba(20, 108, 100, 0.24);
