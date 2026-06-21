@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T00:25:31.210Z",
+  "generatedAt": "2026-06-21T06:43:03.360Z",
   "source": "OpenStreetMap via Overpass API",
   "bbox": {
     "south": 51.495,
@@ -1477,324 +1477,204 @@
       "routeRadiusMeters": 500,
       "points": [
         {
-          "id": "transport-way-204258603-0",
-          "name": "0",
-          "lat": 51.501923,
-          "lng": -0.113393,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/204258603"
+          "id": "transport-node-5841745886-abbey-street",
+          "name": "Abbey Street",
+          "lat": 51.498124,
+          "lng": -0.079565,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5841745886"
         },
         {
-          "id": "transport-way-1463789013-1",
-          "name": "1",
-          "lat": 51.501748,
-          "lng": -0.112694,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1463789013"
+          "id": "transport-node-5841745887-abbey-street",
+          "name": "Abbey Street",
+          "lat": 51.499041,
+          "lng": -0.079135,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5841745887"
         },
         {
-          "id": "transport-way-1160780910-1",
-          "name": "1",
-          "lat": 51.511507,
-          "lng": -0.127725,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1160780910"
+          "id": "transport-node-4087644123-abbots-lane",
+          "name": "Abbots Lane",
+          "lat": 51.5041,
+          "lng": -0.081667,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4087644123"
         },
         {
-          "id": "transport-way-1470420383-1",
-          "name": "1",
-          "lat": 51.504131,
-          "lng": -0.105941,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1470420383"
+          "id": "transport-node-4666019930-abingdon-street",
+          "name": "Abingdon Street",
+          "lat": 51.497648,
+          "lng": -0.125708,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4666019930"
         },
         {
-          "id": "transport-way-303304455-1",
-          "name": "1",
-          "lat": 51.51185,
-          "lng": -0.095216,
-          "detail": "Platform · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap way/303304455"
+          "id": "transport-node-4666019931-abingdon-street",
+          "name": "Abingdon Street",
+          "lat": 51.497388,
+          "lng": -0.125676,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4666019931"
         },
         {
-          "id": "transport-way-1470421790-10",
-          "name": "10",
-          "lat": 51.50194,
-          "lng": -0.113428,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1470421790"
+          "id": "transport-node-469762110-aldgate-bus-station",
+          "name": "Aldgate Bus Station",
+          "lat": 51.513849,
+          "lng": -0.075202,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/469762110"
         },
         {
-          "id": "transport-way-1470422306-11",
-          "name": "11",
-          "lat": 51.502041,
-          "lng": -0.113533,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1470422306"
+          "id": "transport-node-3497406876-aldwych",
+          "name": "Aldwych",
+          "lat": 51.512437,
+          "lng": -0.118741,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3497406876"
         },
         {
-          "id": "transport-way-204258726-12",
-          "name": "12",
-          "lat": 51.502066,
-          "lng": -0.113586,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/204258726"
+          "id": "transport-node-4079423543-aldwych",
+          "name": "Aldwych",
+          "lat": 51.51192,
+          "lng": -0.118977,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4079423543"
         },
         {
-          "id": "transport-way-373313036-13",
-          "name": "13",
-          "lat": 51.494337,
-          "lng": -0.145144,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/373313036"
+          "id": "transport-node-7162259994-aldwych-australia-house",
+          "name": "Aldwych / Australia House",
+          "lat": 51.51311,
+          "lng": -0.115184,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/7162259994"
         },
         {
-          "id": "transport-way-325934113-13",
-          "name": "13",
-          "lat": 51.502131,
-          "lng": -0.113715,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/325934113"
+          "id": "transport-node-9023838189-aldwych-bush-house",
+          "name": "Aldwych / Bush House",
+          "lat": 51.513281,
+          "lng": -0.116891,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/9023838189"
         },
         {
-          "id": "transport-way-1471818163-14",
-          "name": "14",
-          "lat": 51.502146,
-          "lng": -0.11375,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1471818163"
+          "id": "transport-node-4068974160-aldwych-drury-lane",
+          "name": "Aldwych / Drury Lane",
+          "lat": 51.512723,
+          "lng": -0.118458,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4068974160"
         },
         {
-          "id": "transport-way-325934114-15",
-          "name": "15",
-          "lat": 51.502182,
-          "lng": -0.113879,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/325934114"
+          "id": "transport-node-9021769482-aldwych-drury-lane",
+          "name": "Aldwych / Drury Lane",
+          "lat": 51.512192,
+          "lng": -0.118892,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/9021769482"
         },
         {
-          "id": "transport-way-1471818464-16",
-          "name": "16",
-          "lat": 51.502196,
-          "lng": -0.113913,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1471818464"
+          "id": "transport-node-9023838190-aldwych-drury-lane",
+          "name": "Aldwych / Drury Lane",
+          "lat": 51.512824,
+          "lng": -0.118312,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/9023838190"
         },
         {
-          "id": "transport-way-1471818852-17",
-          "name": "17",
-          "lat": 51.502202,
-          "lng": -0.114049,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1471818852"
+          "id": "transport-node-4068974161-aldwych-kingsway",
+          "name": "Aldwych / Kingsway",
+          "lat": 51.51305,
+          "lng": -0.117887,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4068974161"
         },
         {
-          "id": "transport-way-164404767-18",
-          "name": "18",
-          "lat": 51.502213,
-          "lng": -0.114079,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/164404767"
+          "id": "transport-node-4826555773-all-hallows-church",
+          "name": "All Hallows Church",
+          "lat": 51.51664,
+          "lng": -0.084887,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4826555773"
         },
         {
-          "id": "transport-way-1471823464-19",
-          "name": "19",
-          "lat": 51.501491,
-          "lng": -0.114347,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1471823464"
+          "id": "transport-node-4517317258-altab-ali-park",
+          "name": "Altab Ali Park",
+          "lat": 51.516621,
+          "lng": -0.068485,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4517317258"
         },
         {
-          "id": "transport-way-140284232-2",
-          "name": "2",
-          "lat": 51.493616,
-          "lng": -0.144658,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/140284232"
+          "id": "transport-node-4870281309-angel-street",
+          "name": "Angel Street",
+          "lat": 51.516095,
+          "lng": -0.097506,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4870281309"
         },
         {
-          "id": "transport-way-163748587-2",
-          "name": "2",
-          "lat": 51.501766,
-          "lng": -0.112724,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/163748587"
+          "id": "transport-node-4859246420-apothecary-street",
+          "name": "Apothecary Street",
+          "lat": 51.513494,
+          "lng": -0.104249,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4859246420"
         },
         {
-          "id": "transport-way-1160780909-2",
-          "name": "2",
-          "lat": 51.511576,
-          "lng": -0.127644,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1160780909"
+          "id": "transport-node-4929002380-appold-street",
+          "name": "Appold Street",
+          "lat": 51.521765,
+          "lng": -0.081133,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4929002380"
         },
         {
-          "id": "transport-way-1470421483-2",
-          "name": "2",
-          "lat": 51.50436,
-          "lng": -0.105896,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1470421483"
+          "id": "transport-node-3816097107-bank-station-cornhill",
+          "name": "Bank Station / Cornhill",
+          "lat": 51.513324,
+          "lng": -0.087606,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3816097107"
         },
         {
-          "id": "transport-way-303304456-2",
-          "name": "2",
-          "lat": 51.51187,
-          "lng": -0.095219,
-          "detail": "Platform · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap way/303304456"
+          "id": "transport-node-3816097106-bank-station-cornhill",
+          "name": "Bank Station / Cornhill",
+          "lat": 51.513323,
+          "lng": -0.087446,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3816097106"
         },
         {
-          "id": "transport-way-40781754-20",
-          "name": "20",
-          "lat": 51.501499,
-          "lng": -0.11439,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/40781754"
+          "id": "transport-node-4835108995-bank-station-king-william-street",
+          "name": "Bank Station / King William Street",
+          "lat": 51.512256,
+          "lng": -0.087926,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4835108995"
         },
         {
-          "id": "transport-way-1471823465-21",
-          "name": "21",
-          "lat": 51.501611,
-          "lng": -0.114565,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1471823465"
+          "id": "transport-node-3533830193-bank-station-poultry",
+          "name": "Bank Station / Poultry",
+          "lat": 51.513692,
+          "lng": -0.091432,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3533830193"
         },
         {
-          "id": "transport-way-249695786-22",
-          "name": "22",
-          "lat": 51.501622,
-          "lng": -0.114598,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/249695786"
+          "id": "transport-node-4835108997-bank-station-princes-street",
+          "name": "Bank Station / Princes Street",
+          "lat": 51.513981,
+          "lng": -0.089337,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4835108997"
         },
         {
-          "id": "transport-way-609272072-23",
-          "name": "23",
-          "lat": 51.501861,
-          "lng": -0.114751,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/609272072"
-        },
-        {
-          "id": "transport-way-1471824231-24",
-          "name": "24",
-          "lat": 51.501871,
-          "lng": -0.114792,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1471824231"
-        },
-        {
-          "id": "transport-way-140284213-3",
-          "name": "3",
-          "lat": 51.494315,
-          "lng": -0.144105,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/140284213"
-        },
-        {
-          "id": "transport-way-1463789500-3",
-          "name": "3",
-          "lat": 51.501832,
-          "lng": -0.112832,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1463789500"
-        },
-        {
-          "id": "transport-way-303304457-3",
-          "name": "3",
-          "lat": 51.511965,
-          "lng": -0.095234,
-          "detail": "Platform · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap way/303304457"
-        },
-        {
-          "id": "transport-way-1470430331-4",
-          "name": "4",
-          "lat": 51.494324,
-          "lng": -0.144134,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1470430331"
-        },
-        {
-          "id": "transport-way-163748588-4",
-          "name": "4",
-          "lat": 51.501848,
-          "lng": -0.11286,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/163748588"
-        },
-        {
-          "id": "transport-way-1470430857-5",
-          "name": "5",
-          "lat": 51.494203,
-          "lng": -0.144404,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1470430857"
-        },
-        {
-          "id": "transport-way-1463790292-5",
-          "name": "5",
-          "lat": 51.501924,
-          "lng": -0.112983,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/1463790292"
-        },
-        {
-          "id": "transport-way-373313028-6",
-          "name": "6",
-          "lat": 51.494209,
-          "lng": -0.144428,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/373313028"
-        },
-        {
-          "id": "transport-way-173309938-6",
-          "name": "6",
-          "lat": 51.501938,
-          "lng": -0.113011,
-          "detail": "Platform from OpenStreetMap.",
-          "source": "OpenStreetMap way/173309938"
-        },
-        {
-          "id": "transport-node-3788735981-aldgate",
-          "name": "Aldgate",
-          "lat": 51.514248,
-          "lng": -0.075719,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3788735981"
-        },
-        {
-          "id": "transport-node-4984999298-aldgate-east",
-          "name": "Aldgate East",
-          "lat": 51.515619,
-          "lng": -0.070839,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/4984999298"
-        },
-        {
-          "id": "transport-relation-15707898-aldgate-east-tube-station-building-and-tunnels",
-          "name": "Aldgate East Tube Station (building and tunnels)",
-          "lat": 51.515557,
-          "lng": -0.071003,
-          "detail": "Station · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap relation/15707898"
-        },
-        {
-          "id": "transport-way-107278484-aldgate-station",
-          "name": "Aldgate Station",
-          "lat": 51.513469,
-          "lng": -0.075157,
-          "detail": "Station · TfL from OpenStreetMap.",
-          "source": "OpenStreetMap way/107278484"
-        },
-        {
-          "id": "transport-node-1637578440-bank",
-          "name": "Bank",
-          "lat": 51.513105,
-          "lng": -0.089375,
-          "detail": "Station · London Underground · London Underground;Docklands Light Railway from OpenStreetMap.",
-          "source": "OpenStreetMap node/1637578440"
+          "id": "transport-node-4835108996-bank-station-princes-street",
+          "name": "Bank Station / Princes Street",
+          "lat": 51.514274,
+          "lng": -0.089541,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4835108996"
         },
         {
           "id": "transport-node-734575014-bankside-pier",
@@ -1813,20 +1693,124 @@
           "source": "OpenStreetMap way/204064488"
         },
         {
-          "id": "transport-node-3076573910-barbican",
-          "name": "Barbican",
-          "lat": 51.52018,
-          "lng": -0.098634,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3076573910"
+          "id": "transport-node-469772110-banqueting-house",
+          "name": "Banqueting House",
+          "lat": 51.503785,
+          "lng": -0.126086,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/469772110"
         },
         {
-          "id": "transport-node-3763522921-blackfriars",
-          "name": "Blackfriars",
-          "lat": 51.511585,
-          "lng": -0.103767,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3763522921"
+          "id": "transport-node-5837702155-bartholomew-street",
+          "name": "Bartholomew Street",
+          "lat": 51.495636,
+          "lng": -0.087292,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5837702155"
+        },
+        {
+          "id": "transport-node-5837702156-bartholomew-street",
+          "name": "Bartholomew Street",
+          "lat": 51.495965,
+          "lng": -0.087785,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5837702156"
+        },
+        {
+          "id": "transport-node-5425497687-baylis-road-lambeth-north-station",
+          "name": "Baylis Road / Lambeth North Station",
+          "lat": 51.499714,
+          "lng": -0.111619,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5425497687"
+        },
+        {
+          "id": "transport-node-5425497689-baylis-road-lower-marsh",
+          "name": "Baylis Road / Lower Marsh",
+          "lat": 51.50122,
+          "lng": -0.110507,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5425497689"
+        },
+        {
+          "id": "transport-node-4631979551-beak-street-hamleys-toy-store",
+          "name": "Beak Street / Hamleys Toy Store",
+          "lat": 51.511334,
+          "lng": -0.139141,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4631979551"
+        },
+        {
+          "id": "transport-node-4631979552-beak-street-hamleys-toy-store",
+          "name": "Beak Street / Hamleys Toy Store",
+          "lat": 51.511282,
+          "lng": -0.138961,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4631979552"
+        },
+        {
+          "id": "transport-node-5463724742-bedford-place",
+          "name": "Bedford Place",
+          "lat": 51.520752,
+          "lng": -0.12493,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5463724742"
+        },
+        {
+          "id": "transport-node-4059394510-bedford-street",
+          "name": "Bedford Street",
+          "lat": 51.509714,
+          "lng": -0.12317,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4059394510"
+        },
+        {
+          "id": "transport-node-5359107394-berkeley-square",
+          "name": "Berkeley Square",
+          "lat": 51.510427,
+          "lng": -0.144876,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5359107394"
+        },
+        {
+          "id": "transport-node-5357377733-berkeley-street",
+          "name": "Berkeley Street",
+          "lat": 51.508037,
+          "lng": -0.143097,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5357377733"
+        },
+        {
+          "id": "transport-node-5845422725-bermondsey-street",
+          "name": "Bermondsey Street",
+          "lat": 51.497815,
+          "lng": -0.080536,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5845422725"
+        },
+        {
+          "id": "transport-node-5845422726-bermondsey-street",
+          "name": "Bermondsey Street",
+          "lat": 51.49807,
+          "lng": -0.082211,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5845422726"
+        },
+        {
+          "id": "transport-node-3816097108-bishopsgate",
+          "name": "Bishopsgate",
+          "lat": 51.513406,
+          "lng": -0.084963,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3816097108"
+        },
+        {
+          "id": "transport-node-3876429831-bishopsgate",
+          "name": "Bishopsgate",
+          "lat": 51.515958,
+          "lng": -0.081123,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3876429831"
         },
         {
           "id": "transport-node-4532431074-blackfriars-pier",
@@ -1837,44 +1821,316 @@
           "source": "OpenStreetMap node/4532431074"
         },
         {
-          "id": "transport-node-6797794418-borough",
-          "name": "Borough",
-          "lat": 51.501144,
-          "lng": -0.093293,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/6797794418"
+          "id": "transport-way-457030735-blackfriars-pier",
+          "name": "Blackfriars Pier",
+          "lat": 51.510678,
+          "lng": -0.100747,
+          "detail": "Platform · London River Services from OpenStreetMap.",
+          "source": "OpenStreetMap way/457030735"
         },
         {
-          "id": "transport-node-3637449659-cannon-street",
-          "name": "Cannon Street",
-          "lat": 51.511381,
-          "lng": -0.090363,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3637449659"
+          "id": "transport-node-4086354607-blackfriars-road",
+          "name": "Blackfriars Road",
+          "lat": 51.506921,
+          "lng": -0.10389,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4086354607"
         },
         {
-          "id": "transport-node-3076573915-chancery-lane",
-          "name": "Chancery Lane",
-          "lat": 51.518174,
-          "lng": -0.111764,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3076573915"
+          "id": "transport-node-4086354608-blackfriars-road",
+          "name": "Blackfriars Road",
+          "lat": 51.506782,
+          "lng": -0.103572,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4086354608"
         },
         {
-          "id": "transport-node-3660442172-charing-cross",
-          "name": "Charing Cross",
-          "lat": 51.507966,
-          "lng": -0.126394,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3660442172"
+          "id": "transport-node-4859246418-blackfriars-station-north-entrance",
+          "name": "Blackfriars Station / North Entrance",
+          "lat": 51.512237,
+          "lng": -0.104164,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4859246418"
         },
         {
-          "id": "transport-node-7140186755-charing-cross",
-          "name": "Charing Cross",
-          "lat": 51.507497,
-          "lng": -0.123689,
-          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/7140186755"
+          "id": "transport-node-4859246419-blackfriars-station-north-entrance",
+          "name": "Blackfriars Station / North Entrance",
+          "lat": 51.510661,
+          "lng": -0.10428,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4859246419"
+        },
+        {
+          "id": "transport-node-4859130051-blackfriars-station-south-entrance",
+          "name": "Blackfriars Station / South Entrance",
+          "lat": 51.508819,
+          "lng": -0.10446,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4859130051"
+        },
+        {
+          "id": "transport-node-4859130050-blackfriars-station-south-entrance",
+          "name": "Blackfriars Station / South Entrance",
+          "lat": 51.508422,
+          "lng": -0.104394,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4859130050"
+        },
+        {
+          "id": "transport-node-5837702157-blackhorse-court",
+          "name": "Blackhorse Court",
+          "lat": 51.49681,
+          "lng": -0.088842,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5837702157"
+        },
+        {
+          "id": "transport-node-5458472045-bloomsbury-square",
+          "name": "Bloomsbury Square",
+          "lat": 51.518547,
+          "lng": -0.122048,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5458472045"
+        },
+        {
+          "id": "transport-node-5458472046-bloomsbury-square",
+          "name": "Bloomsbury Square",
+          "lat": 51.518658,
+          "lng": -0.121795,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5458472046"
+        },
+        {
+          "id": "transport-node-5840176858-borough-road",
+          "name": "Borough Road",
+          "lat": 51.499517,
+          "lng": -0.099731,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5840176858"
+        },
+        {
+          "id": "transport-node-2485090652-borough-road",
+          "name": "Borough Road",
+          "lat": 51.498258,
+          "lng": -0.100055,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/2485090652"
+        },
+        {
+          "id": "transport-node-5220719445-borough-station-great-dover-street",
+          "name": "Borough Station / Great Dover Street",
+          "lat": 51.50012,
+          "lng": -0.092388,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5220719445"
+        },
+        {
+          "id": "transport-node-5837702160-borough-station-great-dover-street",
+          "name": "Borough Station / Great Dover Street",
+          "lat": 51.5003,
+          "lng": -0.092504,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5837702160"
+        },
+        {
+          "id": "transport-node-6448638571-boss-street",
+          "name": "Boss Street",
+          "lat": 51.501684,
+          "lng": -0.076482,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/6448638571"
+        },
+        {
+          "id": "transport-node-6448638566-boss-street",
+          "name": "Boss Street",
+          "lat": 51.502127,
+          "lng": -0.077171,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/6448638566"
+        },
+        {
+          "id": "transport-node-268997562-bread-street",
+          "name": "Bread Street",
+          "lat": 51.514251,
+          "lng": -0.094972,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/268997562"
+        },
+        {
+          "id": "transport-node-6001325291-bressenden-place-victoria-station",
+          "name": "Bressenden Place / Victoria Station",
+          "lat": 51.497518,
+          "lng": -0.142025,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/6001325291"
+        },
+        {
+          "id": "transport-node-4428804687-bricklayers-arms-tower-bridge-road",
+          "name": "Bricklayer's Arms / Tower Bridge Road",
+          "lat": 51.495196,
+          "lng": -0.084007,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4428804687"
+        },
+        {
+          "id": "transport-node-4428804688-bricklayers-arms-tower-bridge-road",
+          "name": "Bricklayer's Arms / Tower Bridge Road",
+          "lat": 51.495584,
+          "lng": -0.083416,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4428804688"
+        },
+        {
+          "id": "transport-node-4682210575-british-museum",
+          "name": "British Museum",
+          "lat": 51.518534,
+          "lng": -0.125391,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4682210575"
+        },
+        {
+          "id": "transport-node-4682210576-british-museum",
+          "name": "British Museum",
+          "lat": 51.519121,
+          "lng": -0.123983,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4682210576"
+        },
+        {
+          "id": "transport-node-3644748766-brownlow-street",
+          "name": "Brownlow Street",
+          "lat": 51.518147,
+          "lng": -0.115025,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3644748766"
+        },
+        {
+          "id": "transport-node-3519269750-brownlow-street",
+          "name": "Brownlow Street",
+          "lat": 51.51813,
+          "lng": -0.115168,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3519269750"
+        },
+        {
+          "id": "transport-node-5814090565-brushfield-street",
+          "name": "Brushfield Street",
+          "lat": 51.518859,
+          "lng": -0.074488,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5814090565"
+        },
+        {
+          "id": "transport-node-5814090566-brushfield-street",
+          "name": "Brushfield Street",
+          "lat": 51.518692,
+          "lng": -0.074473,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5814090566"
+        },
+        {
+          "id": "transport-node-108289-buckingham-palace",
+          "name": "Buckingham Palace",
+          "lat": 51.499491,
+          "lng": -0.142765,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/108289"
+        },
+        {
+          "id": "transport-node-5998966285-buckingham-palace",
+          "name": "Buckingham Palace",
+          "lat": 51.499665,
+          "lng": -0.142287,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5998966285"
+        },
+        {
+          "id": "transport-node-5998966286-buckingham-palace-royal-mews",
+          "name": "Buckingham Palace / Royal Mews",
+          "lat": 51.498963,
+          "lng": -0.14331,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5998966286"
+        },
+        {
+          "id": "transport-node-2213529567-buckingham-palace-road-bressenden-place",
+          "name": "Buckingham Palace Road / Bressenden Place",
+          "lat": 51.497307,
+          "lng": -0.144399,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/2213529567"
+        },
+        {
+          "id": "transport-node-3667494433-buckingham-palace-road-bressenden-place",
+          "name": "Buckingham Palace Road / Bressenden Place",
+          "lat": 51.497895,
+          "lng": -0.143983,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3667494433"
+        },
+        {
+          "id": "transport-node-5364578865-cambridge-circus",
+          "name": "Cambridge Circus",
+          "lat": 51.51249,
+          "lng": -0.128667,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5364578865"
+        },
+        {
+          "id": "transport-node-5364578863-cambridge-circus",
+          "name": "Cambridge Circus",
+          "lat": 51.513545,
+          "lng": -0.129287,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5364578863"
+        },
+        {
+          "id": "transport-node-3499556266-camomile-street",
+          "name": "Camomile Street",
+          "lat": 51.515806,
+          "lng": -0.082022,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3499556266"
+        },
+        {
+          "id": "transport-node-3706494694-camomile-street",
+          "name": "Camomile Street",
+          "lat": 51.515515,
+          "lng": -0.082333,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3706494694"
+        },
+        {
+          "id": "transport-node-10910562922-capper-street",
+          "name": "Capper Street",
+          "lat": 51.522546,
+          "lng": -0.136223,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/10910562922"
+        },
+        {
+          "id": "transport-node-4641072777-charles-ii-street",
+          "name": "Charles II Street",
+          "lat": 51.508055,
+          "lng": -0.132924,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4641072777"
+        },
+        {
+          "id": "transport-node-5600934876-charterhouse-street",
+          "name": "Charterhouse Street",
+          "lat": 51.51823,
+          "lng": -0.106298,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5600934876"
+        },
+        {
+          "id": "transport-node-4087644126-city-hall",
+          "name": "City Hall",
+          "lat": 51.502953,
+          "lng": -0.077921,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4087644126"
         },
         {
           "id": "transport-node-3637195703-city-thameslink",
@@ -1885,36 +2141,132 @@
           "source": "OpenStreetMap node/3637195703"
         },
         {
-          "id": "transport-node-6400752013-covent-garden",
-          "name": "Covent Garden",
-          "lat": 51.513094,
-          "lng": -0.12427,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/6400752013"
+          "id": "transport-node-1272204271-city-thameslink",
+          "name": "City Thameslink",
+          "lat": 51.514172,
+          "lng": -0.103505,
+          "detail": "Stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/1272204271"
         },
         {
-          "id": "transport-relation-15698857-covent-garden-tube-station-building-and-tunnels",
-          "name": "Covent Garden Tube Station (Building and tunnels)",
-          "lat": 51.513089,
-          "lng": -0.124297,
-          "detail": "Station from OpenStreetMap.",
-          "source": "OpenStreetMap relation/15698857"
+          "id": "transport-node-1272204251-city-thameslink",
+          "name": "City Thameslink",
+          "lat": 51.516062,
+          "lng": -0.10365,
+          "detail": "Stop from OpenStreetMap.",
+          "source": "OpenStreetMap node/1272204251"
         },
         {
-          "id": "transport-node-5207123395-embankment",
-          "name": "Embankment",
-          "lat": 51.507214,
-          "lng": -0.122241,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5207123395"
+          "id": "transport-node-4942595236-city-thameslink-station",
+          "name": "City Thameslink Station",
+          "lat": 51.516872,
+          "lng": -0.103747,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4942595236"
         },
         {
-          "id": "transport-node-701436249-embankment",
-          "name": "Embankment",
-          "lat": 51.50699,
-          "lng": -0.121334,
-          "detail": "Stop Position · London River Services from OpenStreetMap.",
-          "source": "OpenStreetMap node/701436249"
+          "id": "transport-node-3644748768-city-thameslink-station",
+          "name": "City Thameslink Station",
+          "lat": 51.516436,
+          "lng": -0.102492,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3644748768"
+        },
+        {
+          "id": "transport-node-6124650606-city-thameslink-station",
+          "name": "City Thameslink Station",
+          "lat": 51.516549,
+          "lng": -0.102846,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/6124650606"
+        },
+        {
+          "id": "transport-node-4072476960-city-thameslink-station-ludgate-circus",
+          "name": "City Thameslink Station / Ludgate Circus",
+          "lat": 51.514147,
+          "lng": -0.103598,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4072476960"
+        },
+        {
+          "id": "transport-node-2632491815-clerkenwell-green",
+          "name": "Clerkenwell Green",
+          "lat": 51.522308,
+          "lng": -0.105637,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/2632491815"
+        },
+        {
+          "id": "transport-node-5629893514-clerkenwell-road",
+          "name": "Clerkenwell Road",
+          "lat": 51.52268,
+          "lng": -0.111711,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5629893514"
+        },
+        {
+          "id": "transport-node-5050851032-clerkenwell-road",
+          "name": "Clerkenwell Road",
+          "lat": 51.522665,
+          "lng": -0.107486,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5050851032"
+        },
+        {
+          "id": "transport-node-5501951533-clerkenwell-road",
+          "name": "Clerkenwell Road",
+          "lat": 51.521794,
+          "lng": -0.106704,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5501951533"
+        },
+        {
+          "id": "transport-node-5619570537-clerkenwell-road-rosebery-avenue",
+          "name": "Clerkenwell Road / Rosebery Avenue",
+          "lat": 51.522202,
+          "lng": -0.1138,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5619570537"
+        },
+        {
+          "id": "transport-node-5784145762-clerkenwell-road-st-john-street",
+          "name": "Clerkenwell Road / St John Street",
+          "lat": 51.522661,
+          "lng": -0.101127,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/5784145762"
+        },
+        {
+          "id": "transport-node-4407679618-coin-street",
+          "name": "Coin Street",
+          "lat": 51.506387,
+          "lng": -0.10957,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4407679618"
+        },
+        {
+          "id": "transport-node-4407679619-coin-street",
+          "name": "Coin Street",
+          "lat": 51.506446,
+          "lng": -0.109425,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4407679619"
+        },
+        {
+          "id": "transport-node-3506894169-commercial-street-worship-street",
+          "name": "Commercial Street / Worship Street",
+          "lat": 51.521991,
+          "lng": -0.078175,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/3506894169"
+        },
+        {
+          "id": "transport-node-4631979549-conduit-street-hamleys-toy-store",
+          "name": "Conduit Street / Hamleys Toy Store",
+          "lat": 51.512394,
+          "lng": -0.140067,
+          "detail": "Stop Position from OpenStreetMap.",
+          "source": "OpenStreetMap node/4631979549"
         },
         {
           "id": "transport-way-37691336-embankment-pier",
@@ -1923,14 +2275,6 @@
           "lng": -0.121161,
           "detail": "Platform · London River Services from OpenStreetMap.",
           "source": "OpenStreetMap way/37691336"
-        },
-        {
-          "id": "transport-node-3284103165-farringdon",
-          "name": "Farringdon",
-          "lat": 51.519964,
-          "lng": -0.104555,
-          "detail": "Station · London Underground · National Rail;London Underground;Elizabeth line from OpenStreetMap.",
-          "source": "OpenStreetMap node/3284103165"
         },
         {
           "id": "transport-node-1141549004-festival-pier",
@@ -1949,132 +2293,12 @@
           "source": "OpenStreetMap way/204064487"
         },
         {
-          "id": "transport-node-6414100096-goodge-street",
-          "name": "Goodge Street",
-          "lat": 51.520598,
-          "lng": -0.134357,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/6414100096"
-        },
-        {
-          "id": "transport-node-6407577779-green-park",
-          "name": "Green Park",
-          "lat": 51.506624,
-          "lng": -0.142944,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/6407577779"
-        },
-        {
-          "id": "transport-node-10563633053-hanover-square",
-          "name": "Hanover Square",
-          "lat": 51.514054,
-          "lng": -0.144498,
-          "detail": "Subway Entrance · TfL · Elizabeth Line from OpenStreetMap.",
-          "source": "OpenStreetMap node/10563633053"
-        },
-        {
-          "id": "transport-node-3693265703-holborn",
-          "name": "Holborn",
-          "lat": 51.517115,
-          "lng": -0.120066,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3693265703"
-        },
-        {
-          "id": "transport-node-26746932-holborn",
-          "name": "Holborn",
-          "lat": 51.517645,
-          "lng": -0.119322,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/26746932"
-        },
-        {
-          "id": "transport-node-1637578327-holborn",
-          "name": "Holborn",
-          "lat": 51.517695,
-          "lng": -0.119335,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/1637578327"
-        },
-        {
-          "id": "transport-node-2405959747-holborn",
-          "name": "Holborn",
-          "lat": 51.517418,
-          "lng": -0.120467,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/2405959747"
-        },
-        {
-          "id": "transport-node-2405959800-holborn",
-          "name": "Holborn",
-          "lat": 51.517003,
-          "lng": -0.120507,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/2405959800"
-        },
-        {
-          "id": "transport-node-3773122118-lambeth-north",
-          "name": "Lambeth North",
-          "lat": 51.498933,
-          "lng": -0.112014,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3773122118"
-        },
-        {
-          "id": "transport-node-3370671078-leicester-square",
-          "name": "Leicester Square",
-          "lat": 51.511464,
-          "lng": -0.128264,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3370671078"
-        },
-        {
-          "id": "transport-relation-15698821-leicester-square-tube-station-buildings-and-tunn",
-          "name": "Leicester Square Tube Station (buildings and tunnels)",
-          "lat": 51.511662,
-          "lng": -0.127958,
-          "detail": "Station from OpenStreetMap.",
-          "source": "OpenStreetMap relation/15698821"
-        },
-        {
-          "id": "transport-node-12286269903-liverpool-street",
-          "name": "Liverpool Street",
-          "lat": 51.517647,
-          "lng": -0.086441,
-          "detail": "Station · Transport for London · Elizabeth line from OpenStreetMap.",
-          "source": "OpenStreetMap node/12286269903"
-        },
-        {
-          "id": "transport-node-3637436407-liverpool-street",
-          "name": "Liverpool Street",
-          "lat": 51.517678,
-          "lng": -0.08252,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3637436407"
-        },
-        {
           "id": "transport-node-7159509695-london-blackfriars",
           "name": "London Blackfriars",
           "lat": 51.510487,
           "lng": -0.103242,
           "detail": "Station · Govia Thameslink Railway (Thameslink) · National Rail from OpenStreetMap.",
           "source": "OpenStreetMap node/7159509695"
-        },
-        {
-          "id": "transport-node-5182456569-london-bridge",
-          "name": "London Bridge",
-          "lat": 51.505412,
-          "lng": -0.088699,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5182456569"
-        },
-        {
-          "id": "transport-node-4290857012-london-bridge",
-          "name": "London Bridge",
-          "lat": 51.504876,
-          "lng": -0.085147,
-          "detail": "Station · Network Rail · National Rail from OpenStreetMap.",
-          "source": "OpenStreetMap node/4290857012"
         },
         {
           "id": "transport-way-282348817-london-bridge-bus-station",
@@ -2141,116 +2365,12 @@
           "source": "OpenStreetMap node/3638795617"
         },
         {
-          "id": "transport-node-18395696-mansion-house",
-          "name": "Mansion House",
-          "lat": 51.511892,
-          "lng": -0.095223,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/18395696"
-        },
-        {
-          "id": "transport-node-3076574237-monument",
-          "name": "Monument",
-          "lat": 51.510633,
-          "lng": -0.086127,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3076574237"
-        },
-        {
-          "id": "transport-node-5702714876-moorgate",
-          "name": "Moorgate",
-          "lat": 51.518252,
-          "lng": -0.089063,
-          "detail": "Station · London Underground · National Rail;London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5702714876"
-        },
-        {
-          "id": "transport-node-5614077964-oxford-circus",
-          "name": "Oxford Circus",
-          "lat": 51.515442,
-          "lng": -0.141956,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5614077964"
-        },
-        {
-          "id": "transport-node-248200076-oxford-circus",
-          "name": "Oxford Circus",
-          "lat": 51.515656,
-          "lng": -0.142017,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/248200076"
-        },
-        {
-          "id": "transport-node-1637478196-oxford-circus",
-          "name": "Oxford Circus",
-          "lat": 51.515361,
-          "lng": -0.140779,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/1637478196"
-        },
-        {
-          "id": "transport-node-1637478197-oxford-circus",
-          "name": "Oxford Circus",
-          "lat": 51.515462,
-          "lng": -0.140811,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/1637478197"
-        },
-        {
-          "id": "transport-node-1742756469-oxford-circus",
-          "name": "Oxford Circus",
-          "lat": 51.515658,
-          "lng": -0.141769,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/1742756469"
-        },
-        {
-          "id": "transport-relation-6408268-oxford-circus-tube-station-building-and-tunnels",
-          "name": "Oxford Circus Tube Station (building and tunnels)",
-          "lat": 51.51568,
-          "lng": -0.141333,
-          "detail": "Station · Transport for London · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap relation/6408268"
-        },
-        {
-          "id": "transport-node-3638779316-piccadilly-circus",
-          "name": "Piccadilly Circus",
-          "lat": 51.509819,
-          "lng": -0.134548,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3638779316"
-        },
-        {
           "id": "transport-node-2138171124-saint-katharines-pier",
           "name": "Saint Katharine's Pier",
           "lat": 51.505972,
           "lng": -0.073516,
           "detail": "Stop Position · London River Services from OpenStreetMap.",
           "source": "OpenStreetMap node/2138171124"
-        },
-        {
-          "id": "transport-node-5350830014-southwark",
-          "name": "Southwark",
-          "lat": 51.503925,
-          "lng": -0.104966,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5350830014"
-        },
-        {
-          "id": "transport-node-386204370-southwark",
-          "name": "Southwark",
-          "lat": 51.504111,
-          "lng": -0.10589,
-          "detail": "Stop · Transport for London · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/386204370"
-        },
-        {
-          "id": "transport-node-5359381248-southwark",
-          "name": "Southwark",
-          "lat": 51.504393,
-          "lng": -0.105878,
-          "detail": "Stop · Transport for London · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5359381248"
         },
         {
           "id": "transport-way-203818671-st-katharines-pier",
@@ -2261,108 +2381,12 @@
           "source": "OpenStreetMap way/203818671"
         },
         {
-          "id": "transport-node-25524263-st-jamess-park",
-          "name": "St. James's Park",
-          "lat": 51.499282,
-          "lng": -0.134594,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/25524263"
-        },
-        {
-          "id": "transport-node-5475675298-st-pauls",
-          "name": "St. Paul's",
-          "lat": 51.514914,
-          "lng": -0.097588,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5475675298"
-        },
-        {
-          "id": "transport-node-1637578467-st-pauls",
-          "name": "St. Paul's",
-          "lat": 51.515546,
-          "lng": -0.09913,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/1637578467"
-        },
-        {
-          "id": "transport-node-2761481019-st-pauls",
-          "name": "St. Paul's",
-          "lat": 51.515484,
-          "lng": -0.099157,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/2761481019"
-        },
-        {
-          "id": "transport-node-6368951709-temple",
-          "name": "Temple",
-          "lat": 51.510966,
-          "lng": -0.114335,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/6368951709"
-        },
-        {
-          "id": "transport-node-9754554222-tottenham-court-road",
-          "name": "Tottenham Court Road",
-          "lat": 51.515335,
-          "lng": -0.13252,
-          "detail": "Station · Transport for London · Elizabeth line from OpenStreetMap.",
-          "source": "OpenStreetMap node/9754554222"
-        },
-        {
-          "id": "transport-node-5462552522-tottenham-court-road",
-          "name": "Tottenham Court Road",
-          "lat": 51.515971,
-          "lng": -0.130513,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/5462552522"
-        },
-        {
-          "id": "transport-node-4277734060-tottenham-court-road",
-          "name": "Tottenham Court Road",
-          "lat": 51.516134,
-          "lng": -0.1328,
-          "detail": "Stop · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/4277734060"
-        },
-        {
-          "id": "transport-node-21508069-tottenham-court-road",
-          "name": "Tottenham Court Road",
-          "lat": 51.516006,
-          "lng": -0.130379,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/21508069"
-        },
-        {
-          "id": "transport-node-70833764-tottenham-court-road",
-          "name": "Tottenham Court Road",
-          "lat": 51.515311,
-          "lng": -0.12988,
-          "detail": "Stop · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/70833764"
-        },
-        {
-          "id": "transport-node-1785339687-tottenham-court-road",
-          "name": "Tottenham Court Road",
-          "lat": 51.516385,
-          "lng": -0.130979,
-          "detail": "Stop · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/1785339687"
-        },
-        {
           "id": "transport-node-6514289544-tower-gateway",
           "name": "Tower Gateway",
           "lat": 51.510629,
           "lng": -0.073951,
           "detail": "Station · KeolisAmey Docklands Ltd · Docklands Light Railway from OpenStreetMap.",
           "source": "OpenStreetMap node/6514289544"
-        },
-        {
-          "id": "transport-node-6260922569-tower-hill",
-          "name": "Tower Hill",
-          "lat": 51.509848,
-          "lng": -0.076699,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/6260922569"
         },
         {
           "id": "transport-relation-2734159-tower-millennium-pier",
@@ -2381,14 +2405,6 @@
           "source": "OpenStreetMap node/2131782103"
         },
         {
-          "id": "transport-node-441947584-victoria",
-          "name": "Victoria",
-          "lat": 51.496369,
-          "lng": -0.143152,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/441947584"
-        },
-        {
           "id": "transport-way-302110969-victoria-bus-station",
           "name": "Victoria Bus Station",
           "lat": 51.496038,
@@ -2397,28 +2413,12 @@
           "source": "OpenStreetMap way/302110969"
         },
         {
-          "id": "transport-node-3638795618-waterloo",
-          "name": "Waterloo",
-          "lat": 51.503002,
-          "lng": -0.113981,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/3638795618"
-        },
-        {
           "id": "transport-node-7159130435-waterloo-east",
           "name": "Waterloo East",
           "lat": 51.504217,
           "lng": -0.108203,
           "detail": "Station · Southeastern · National Rail from OpenStreetMap.",
           "source": "OpenStreetMap node/7159130435"
-        },
-        {
-          "id": "transport-node-25534427-westminster",
-          "name": "Westminster",
-          "lat": 51.501356,
-          "lng": -0.12493,
-          "detail": "Station · London Underground · London Underground from OpenStreetMap.",
-          "source": "OpenStreetMap node/25534427"
         },
         {
           "id": "transport-relation-2739442-westminster-pier",

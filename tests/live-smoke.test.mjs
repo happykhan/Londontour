@@ -11,9 +11,9 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0300/);
-  assert.match(html, /assets\/app\.js\?v=20260621-0300/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0300'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0315/);
+  assert.match(html, /assets\/app\.js\?v=20260621-0315/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0315'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
@@ -30,7 +30,7 @@ test('production serves generated OpenStreetMap layers', async () => {
 test('production serves generated tube network', async () => {
   const tubeNetwork = JSON.parse(await readText(`${liveUrl}/assets/tube-network.json`));
   assert.ok(tubeNetwork.lines.length >= 10);
-  assert.ok(tubeNetwork.stations.length >= 30);
+  assert.ok(tubeNetwork.stations.length >= 180);
   assert.ok(tubeNetwork.lines.some((line) => line.id === 'central'));
 });
 

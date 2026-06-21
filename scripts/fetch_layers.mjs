@@ -109,6 +109,25 @@ async function fetchOverpass() {
   return response.json();
 }
 
+async function fetchTubeStations() {
+  const response = await fetch('https://api.tfl.gov.uk/StopPoint/Mode/tube?stopTypes=NaptanMetroStation', {
+    headers: {
+      'User-Agent': USER_AGENT,
+      Accept: 'application/json',
+    },
+  });
+
+  if (!response.ok) return [];
+  const data = await response.json();
+  return (data.stopPoints || [])
+    .filter((station) => station.stopType === 'NaptanMetroStation' && station.lat && station.lon)
+    .map((station) => ({
+      name: station.commonName.replace(/\s+Underground Station$/i, ''),
+      lat: station.lat,
+      lng: station.lon,
+    }));
+}
+
 function coordinateFor(element) {
   const lat = element.lat ?? element.center?.lat;
   const lng = element.lon ?? element.center?.lon;
@@ -125,6 +144,31 @@ function classify(tags = {}) {
     return 'transport';
   }
   return null;
+}
+
+function isTubeTransport(tags = {}) {
+  const values = [
+    tags.network,
+    tags.operator,
+    tags.line,
+    tags.station,
+    tags.railway,
+    tags.public_transport,
+    tags.subway,
+    tags.name,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return (
+    values.includes('london underground') ||
+    values.includes('tube') ||
+    tags.railway === 'subway_entrance' ||
+    tags.railway === 'subway' ||
+    tags.station === 'subway' ||
+    tags.subway === 'yes'
+  );
 }
 
 function titleCase(value = '') {
@@ -208,9 +252,11 @@ function cleanPoint(element) {
   const layerId = classify(tags);
   const coordinate = coordinateFor(element);
   if (!layerId || !coordinate) return null;
+  if (layerId === 'transport' && isTubeTransport(tags)) return null;
 
   const name = (tags.name || tags['name:en'] || fallbackName(layerId, tags)).trim();
   if (!name) return null;
+  if (layerId === 'transport' && /^\d+[A-Z]?$/.test(name)) return null;
 
   return {
     layerId,
@@ -226,6 +272,34 @@ function cleanPoint(element) {
   };
 }
 
+function distanceMeters(a, b) {
+  const originLat = ((a.lat + b.lat) / 2) * Math.PI / 180;
+  const latMeters = 110540;
+  const lngMeters = 111320 * Math.cos(originLat);
+  return Math.hypot((a.lng - b.lng) * lngMeters, (a.lat - b.lat) * latMeters);
+}
+
+function normaliseName(value = '') {
+  return value
+    .toLowerCase()
+    .replace(/\bunderground station\b/g, '')
+    .replace(/\bstation\b/g, '')
+    .replace(/[^\w\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isDuplicateTubeTransport(point, tubeStations) {
+  if (point.layerId !== 'transport') return false;
+  const name = normaliseName(point.point.name);
+  return tubeStations.some((station) => {
+    const stationName = normaliseName(station.name);
+    if (name === stationName) return true;
+    if (distanceMeters(point.point, station) > 250) return false;
+    return name === `${stationName} platform` || /\bplatforms?\b/.test(name);
+  });
+}
+
 function dedupe(points) {
   const byKey = new Map();
   for (const item of points) {
@@ -238,9 +312,10 @@ function dedupe(points) {
   return [...byKey.values()];
 }
 
-function buildLayers(elements) {
+function buildLayers(elements, tubeStations) {
   const pointsByLayer = new Map(layerDefinitions.map((layer) => [layer.id, []]));
   elements.map(cleanPoint).filter(Boolean).forEach((item) => {
+    if (isDuplicateTubeTransport(item, tubeStations)) return;
     pointsByLayer.get(item.layerId)?.push(item);
   });
 
@@ -258,12 +333,12 @@ function buildLayers(elements) {
   });
 }
 
-const overpassData = await fetchOverpass();
+const [overpassData, tubeStations] = await Promise.all([fetchOverpass(), fetchTubeStations()]);
 const output = {
   generatedAt: new Date().toISOString(),
   source: 'OpenStreetMap via Overpass API',
   bbox: BBOX,
-  layers: buildLayers(overpassData.elements || []),
+  layers: buildLayers(overpassData.elements || [], tubeStations),
 };
 
 await writeFile(OUTPUT_FILE, `${JSON.stringify(output, null, 2)}\n`);

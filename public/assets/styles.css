@@ -501,6 +501,15 @@ body[data-theme="dark"] .route-card.is-active {
   color: var(--accent-strong);
 }
 
+.leaflet-popup-pane {
+  z-index: 760;
+}
+
+.leaflet-popup-content {
+  line-height: 1.35;
+  max-width: min(72vw, 320px);
+}
+
 .poi-marker {
   align-items: center;
   background: var(--route);
@@ -803,6 +812,11 @@ body[data-theme="dark"] .route-card.is-active {
     box-shadow: 0 8px 24px rgba(23, 32, 42, 0.16);
     min-height: 44px;
     width: 100%;
+  }
+
+  .leaflet-popup-content {
+    max-height: 9.5rem;
+    overflow: auto;
   }
 
   .leaflet-top {

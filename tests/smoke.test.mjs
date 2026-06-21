@@ -59,9 +59,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0300'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0300/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0300/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0315'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0315/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0315/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -127,7 +127,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v23/);
+  assert.match(sw, /londontour-offline-v24/);
   assert.match(sw, /\/assets\/layers\.json/);
   assert.match(sw, /\/assets\/tube-network\.json/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
@@ -160,16 +160,28 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
 
 test('generated tube network imports TfL stations and OSM line geometry', () => {
   const tubeNetwork = JSON.parse(read('assets/tube-network.json'));
+  const catalog = JSON.parse(read('assets/layers.json'));
   assert.match(tubeNetwork.source, /OpenStreetMap/);
   assert.match(tubeNetwork.source, /TfL/);
-  assert.ok(tubeNetwork.lines.length >= 10, 'central tube network should include major Underground lines');
-  assert.ok(tubeNetwork.stations.length >= 30, 'central tube network should include TfL tube stations');
+  assert.ok(tubeNetwork.lines.length >= 10, 'Zone 1-4 tube network should include major Underground lines');
+  assert.ok(tubeNetwork.stations.length >= 180, 'Zone 1-4 tube network should include TfL tube stations');
   assert.ok(tubeNetwork.lines.some((line) => line.id === 'central'), 'Central line should be present');
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Bank'), 'Bank station should be present');
+  assert.ok(tubeNetwork.stations.every((station) => station.zone), 'Tube stations should include fare zone data');
 
   for (const line of tubeNetwork.lines) {
     assert.ok(line.color, `${line.id} should have a line colour`);
     assert.ok(line.segments.length > 0, `${line.id} should have line geometry`);
+  }
+
+  const tubeStationNames = new Set(tubeNetwork.stations.map((station) => station.name.toLowerCase()));
+  const transportLayer = catalog.layers.find((layer) => layer.id === 'transport');
+  assert.ok(transportLayer, 'transport layer should exist');
+  for (const point of transportLayer.points) {
+    const transportName = point.name.replace(/\s+Station$/i, '').toLowerCase();
+    assert.ok(!tubeStationNames.has(transportName), `${point.name} should not duplicate a tube station marker`);
+    assert.doesNotMatch(point.name, /^\d+[A-Z]?$/);
+    assert.doesNotMatch(point.name, /platforms?/i);
   }
 });
 

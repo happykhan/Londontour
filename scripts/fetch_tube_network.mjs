@@ -1,10 +1,10 @@
 import { writeFile } from 'node:fs/promises';
 
 const BBOX = {
-  south: 51.495,
-  west: -0.145,
-  north: 51.523,
-  east: -0.068,
+  south: 51.38,
+  west: -0.42,
+  north: 51.66,
+  east: 0.15,
 };
 
 const OUTPUT_FILE = new URL('../public/assets/tube-network.json', import.meta.url);
@@ -30,6 +30,23 @@ const osmNameToLineId = new Map(
 
 function insideBbox(lat, lng) {
   return lat >= BBOX.south && lat <= BBOX.north && lng >= BBOX.west && lng <= BBOX.east;
+}
+
+function propertyValue(station, key) {
+  return station.additionalProperties?.find((property) => property.key === key)?.value;
+}
+
+function stationZones(station) {
+  const zoneValue = propertyValue(station, 'Zone') || '';
+  const zones = zoneValue
+    .match(/\d+/g)
+    ?.map(Number)
+    .filter((zone) => Number.isFinite(zone)) || [];
+  return zones;
+}
+
+function isZoneOneToFour(station) {
+  return stationZones(station).some((zone) => zone >= 1 && zone <= 4);
 }
 
 function bboxString() {
@@ -101,18 +118,32 @@ function buildStations(stopPoints = []) {
   const seen = new Set();
   return stopPoints
     .filter((station) => {
-      return station.stopType === 'NaptanMetroStation' && insideBbox(station.lat, station.lon) && !seen.has(station.naptanId);
+      return (
+        station.stopType === 'NaptanMetroStation' &&
+        insideBbox(station.lat, station.lon) &&
+        isZoneOneToFour(station) &&
+        !seen.has(station.naptanId)
+      );
     })
     .map((station) => {
       seen.add(station.naptanId);
+      const facilities = ['Toilets', 'Lifts', 'Escalators', 'Gates', 'Ticket Halls']
+        .map((key) => {
+          const value = propertyValue(station, key);
+          return value ? `${key}: ${value}` : null;
+        })
+        .filter(Boolean);
+
       return {
         id: station.naptanId,
         name: station.commonName.replace(/\s+Underground Station$/i, ''),
         lat: Number(station.lat.toFixed(6)),
         lng: Number(station.lon.toFixed(6)),
+        zone: stationZones(station).join('/') || undefined,
         lines: (station.lines || [])
           .map((line) => line.id)
           .filter((lineId) => lineMeta[lineId]),
+        facilities,
         source: `TfL StopPoint ${station.naptanId}`,
       };
     })
