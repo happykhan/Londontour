@@ -322,7 +322,9 @@ let routeLineLayers = [];
 let routeMarkers = [];
 let layerMarkers = [];
 let tubeLineLayers = [];
+let riverServiceLayers = [];
 let tubeStationMarkers = [];
+let tubeNetworkRenderer;
 let editorDraftLayers = [];
 let userMarker;
 let userLocation;
@@ -332,7 +334,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 let tubeNetworkPromise;
-let tubeNetworkData = { lines: [], stations: [] };
+let tubeNetworkData = { lines: [], riverServices: [], stations: [] };
 let selectedTubeStationId;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
 const majorTubeStationMinZoom = 12;
@@ -367,8 +369,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0844';
-const cacheName = 'londontour-offline-v32';
+const assetVersion = '20260621-0858';
+const cacheName = 'londontour-offline-v33';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1004,12 +1006,13 @@ function loadTubeNetwork() {
       .then((data) => {
         tubeNetworkData = {
           lines: Array.isArray(data?.lines) ? data.lines : [],
+          riverServices: Array.isArray(data?.riverServices) ? data.riverServices : [],
           stations: Array.isArray(data?.stations) ? data.stations : [],
         };
         return tubeNetworkData;
       })
       .catch(() => {
-        tubeNetworkData = { lines: [], stations: [] };
+        tubeNetworkData = { lines: [], riverServices: [], stations: [] };
         return tubeNetworkData;
       });
   }
@@ -1043,6 +1046,7 @@ function buildMap() {
   map.getPane('basemapLabels').style.pointerEvents = 'none';
   map.createPane('tubeNetwork');
   map.getPane('tubeNetwork').style.zIndex = 390;
+  tubeNetworkRenderer = L.svg({ pane: 'tubeNetwork' });
 
   const offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     minZoom: 11,
@@ -1265,8 +1269,10 @@ async function renderTubeNetwork() {
   if (!map) return;
 
   tubeLineLayers.forEach((layer) => layer.remove());
+  riverServiceLayers.forEach((layer) => layer.remove());
   tubeStationMarkers.forEach((marker) => marker.remove());
   tubeLineLayers = [];
+  riverServiceLayers = [];
   tubeStationMarkers = [];
 
   if (!activeLayerIds.has('transport')) {
@@ -1285,6 +1291,7 @@ async function renderTubeNetwork() {
       color: line.color || '#1d4ed8',
       opacity: isDimmed ? 0.18 : isSelected ? 0.95 : 0.68,
       pane: 'tubeNetwork',
+      renderer: tubeNetworkRenderer,
       weight: isSelected ? 6 : 3,
       lineCap: 'round',
       lineJoin: 'round',
@@ -1295,6 +1302,24 @@ async function renderTubeNetwork() {
     const polyline = L.polyline(segments, style).bindPopup(`${escapeHtml(line.label)} line`);
     polyline.addTo(map);
     tubeLineLayers.push(polyline);
+  });
+
+  tubeNetwork.riverServices.forEach((service) => {
+    const segments = service.segments.filter((segment) => Array.isArray(segment) && segment.length >= 2);
+    if (!segments.length) return;
+
+    const polyline = L.polyline(segments, {
+      color: service.color || '#0077b6',
+      opacity: selectedLineIds.size ? 0.28 : 0.62,
+      pane: 'tubeNetwork',
+      renderer: tubeNetworkRenderer,
+      weight: 3,
+      dashArray: '8 8',
+      lineCap: 'round',
+      lineJoin: 'round',
+    }).bindPopup(`${escapeHtml(service.label)} river service`);
+    polyline.addTo(map);
+    riverServiceLayers.push(polyline);
   });
 
   const currentZoom = map.getZoom();

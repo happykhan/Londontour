@@ -28,6 +28,13 @@ const osmNameToLineId = new Map(
   Object.entries(lineMeta).flatMap(([id, meta]) => meta.osmNames.map((name) => [name.toLowerCase(), id]))
 );
 
+const riverServiceMeta = {
+  rb1: { label: 'RB1', color: '#0077b6' },
+  'rb1x': { label: 'RB1X', color: '#005f99' },
+  rb2: { label: 'RB2', color: '#0088cc' },
+  rb6: { label: 'RB6', color: '#00a6d6' },
+};
+
 function insideBbox(lat, lng) {
   return lat >= BBOX.south && lat <= BBOX.north && lng >= BBOX.west && lng <= BBOX.east;
 }
@@ -74,9 +81,27 @@ async function fetchTubeWays() {
   return fetchJson(url);
 }
 
+async function fetchRiverWays() {
+  const bbox = bboxString();
+  const query = `[out:json][timeout:25];
+relation[route=ferry](${bbox});
+out body qt;
+way(r);
+out tags geom qt;`;
+  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  return fetchJson(url);
+}
+
 async function fetchTubeStations() {
   const url = 'https://api.tfl.gov.uk/StopPoint/Mode/tube?stopTypes=NaptanMetroStation';
   return fetchJson(url);
+}
+
+function riverServiceId(name = '') {
+  const match = name.match(/\bRiver Bus\s+([A-Z0-9]+)\b/i);
+  if (!match) return null;
+  const id = `rb${match[1].toLowerCase()}`;
+  return riverServiceMeta[id] ? id : null;
 }
 
 function idsFromOsmLineTag(value = '') {
@@ -108,6 +133,38 @@ function buildLines(elements = []) {
       id,
       label: lineMeta[id].label,
       color: lineMeta[id].color,
+      segments: [...segmentsByWay.values()],
+    }))
+    .filter((line) => line.segments.length)
+    .sort((a, b) => a.label.localeCompare(b.label));
+}
+
+function buildRiverServices(elements = []) {
+  const wayById = new Map(elements.filter((item) => item.type === 'way').map((way) => [way.id, way]));
+  const serviceWays = new Map(Object.keys(riverServiceMeta).map((id) => [id, new Map()]));
+
+  for (const relation of elements.filter((item) => item.type === 'relation')) {
+    const serviceId = riverServiceId(relation.tags?.name || '');
+    if (!serviceId) continue;
+
+    for (const member of relation.members || []) {
+      if (member.type !== 'way') continue;
+      const way = wayById.get(member.ref);
+      if (!way || !Array.isArray(way.geometry) || way.geometry.length < 2) continue;
+
+      const segment = way.geometry.map((coordinate) => [
+        Number(coordinate.lat.toFixed(6)),
+        Number(coordinate.lon.toFixed(6)),
+      ]);
+      serviceWays.get(serviceId)?.set(way.id, segment);
+    }
+  }
+
+  return [...serviceWays.entries()]
+    .map(([id, segmentsByWay]) => ({
+      id,
+      label: riverServiceMeta[id].label,
+      color: riverServiceMeta[id].color,
       segments: [...segmentsByWay.values()],
     }))
     .filter((line) => line.segments.length)
@@ -151,19 +208,24 @@ function buildStations(stopPoints = []) {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-const [tubeWays, tubeStations] = await Promise.all([fetchTubeWays(), fetchTubeStations()]);
+const [tubeWays, riverWays, tubeStations] = await Promise.all([fetchTubeWays(), fetchRiverWays(), fetchTubeStations()]);
 const output = {
   generatedAt: new Date().toISOString(),
-  source: 'OpenStreetMap subway ways via Overpass API and TfL StopPoint tube stations',
+  source: 'OpenStreetMap subway and river ferry ways via Overpass API and TfL StopPoint tube stations',
   bbox: BBOX,
   lines: buildLines(tubeWays.elements || []),
+  riverServices: buildRiverServices(riverWays.elements || []),
   stations: buildStations(tubeStations.stopPoints || []),
 };
 
 await writeFile(OUTPUT_FILE, `${JSON.stringify(output, null, 2)}\n`);
 
 console.log(`Tube lines: ${output.lines.length}`);
+console.log(`River services: ${output.riverServices.length}`);
 console.log(`Tube stations: ${output.stations.length}`);
 for (const line of output.lines) {
   console.log(`${line.label}: ${line.segments.length} segments`);
+}
+for (const service of output.riverServices) {
+  console.log(`${service.label}: ${service.segments.length} river segments`);
 }

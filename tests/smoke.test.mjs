@@ -61,9 +61,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0844'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0844/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0844/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0858'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0858/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0858/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -104,7 +104,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-0844'/);
+  assert.match(js, /const assetVersion = '20260621-0858'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -119,6 +119,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /Major interchange/);
   assert.match(js, /is-major/);
   assert.match(js, /\/assets\/tube-network\.json/);
+  assert.match(js, /riverServiceLayers/);
+  assert.match(js, /riverServices/);
+  assert.match(js, /tubeNetworkRenderer = L\.svg/);
+  assert.match(js, /dashArray: '8 8'/);
+  assert.match(js, /river service/);
   assert.doesNotMatch(js, /pois: \[/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_nolabels/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_only_labels/);
@@ -165,7 +170,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v32/);
+  assert.match(sw, /londontour-offline-v33/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -222,15 +227,24 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   const catalog = JSON.parse(read('assets/layers.json'));
   assert.match(tubeNetwork.source, /OpenStreetMap/);
   assert.match(tubeNetwork.source, /TfL/);
+  assert.match(tubeNetwork.source, /river ferry/);
   assert.ok(tubeNetwork.lines.length >= 10, 'Zone 1-4 tube network should include major Underground lines');
+  assert.ok(tubeNetwork.riverServices.length >= 3, 'river bus network should include public river service geometry');
   assert.ok(tubeNetwork.stations.length >= 180, 'Zone 1-4 tube network should include TfL tube stations');
   assert.ok(tubeNetwork.lines.some((line) => line.id === 'central'), 'Central line should be present');
+  assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB1'), 'RB1 river service should be present');
+  assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB6'), 'RB6 river service should be present');
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Bank'), 'Bank station should be present');
   assert.ok(tubeNetwork.stations.every((station) => station.zone), 'Tube stations should include fare zone data');
 
   for (const line of tubeNetwork.lines) {
     assert.ok(line.color, `${line.id} should have a line colour`);
     assert.ok(line.segments.length > 0, `${line.id} should have line geometry`);
+  }
+
+  for (const service of tubeNetwork.riverServices) {
+    assert.ok(service.color, `${service.id} should have a service colour`);
+    assert.ok(service.segments.length > 0, `${service.id} should have river geometry`);
   }
 
   const tubeStationNames = new Set(tubeNetwork.stations.map((station) => station.name.toLowerCase()));
