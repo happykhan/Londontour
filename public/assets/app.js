@@ -370,8 +370,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-0912';
-const cacheName = 'londontour-offline-v35';
+const assetVersion = '20260621-0925';
+const cacheName = 'londontour-offline-v36';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1293,7 +1293,7 @@ function isMajorTubeStation(station) {
   return tubeStationFacilityNumber(station, 'Gates') >= 20 || tubeStationFacilityNumber(station, 'Ticket Halls') >= 3;
 }
 
-async function renderTubeNetwork() {
+async function renderTubeNetwork(openStationId) {
   if (!map) return;
 
   tubeLineLayers.forEach((layer) => layer.remove());
@@ -1386,11 +1386,14 @@ async function renderTubeNetwork() {
 
     marker.on('click', () => {
       selectedTubeStationId = station.id;
-      void renderTubeNetwork();
+      void renderTubeNetwork(station.id);
       setStatus(`${station.name}: showing ${stationLines.join(', ')} tube lines.`);
     });
 
     marker.addTo(map);
+    if (station.id === openStationId) {
+      marker.openPopup();
+    }
     tubeStationMarkers.push(marker);
   });
 }
