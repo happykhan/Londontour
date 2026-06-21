@@ -326,6 +326,10 @@ let riverServiceLayers = [];
 let tubeStationMarkers = [];
 let tubeNetworkRenderer;
 let basemapRepairLabels = [];
+let onlineBaseLayer;
+let onlineLabelLayer;
+let onlineTileLayer;
+let offlineTileLayer;
 let editorDraftLayers = [];
 let userMarker;
 let userLocation;
@@ -370,8 +374,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1105';
-const cacheName = 'londontour-offline-v41';
+const assetVersion = '20260621-1125';
+const cacheName = 'londontour-offline-v42';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1093,7 +1097,7 @@ function buildMap() {
   map.getPane('tubeNetwork').style.zIndex = 390;
   tubeNetworkRenderer = L.svg({ pane: 'tubeNetwork' });
 
-  const offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
+  offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
     minZoom: 11,
     maxZoom: 18,
     maxNativeZoom: 15,
@@ -1102,8 +1106,8 @@ function buildMap() {
     attribution: 'Offline London tile pack',
   });
 
-  const onlineBaseLayer = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+  onlineBaseLayer = L.tileLayer(
+    cartoBasemapUrl('nolabels'),
     {
       subdomains: 'abcd',
       maxZoom: 18,
@@ -1111,8 +1115,8 @@ function buildMap() {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     }
   );
-  const onlineLabelLayer = L.tileLayer(
-    'https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png',
+  onlineLabelLayer = L.tileLayer(
+    cartoBasemapUrl('only_labels'),
     {
       subdomains: 'abcd',
       maxZoom: 18,
@@ -1120,7 +1124,7 @@ function buildMap() {
       tileSize: 256,
     }
   );
-  const onlineTileLayer = L.layerGroup([onlineBaseLayer, onlineLabelLayer]);
+  onlineTileLayer = L.layerGroup([onlineBaseLayer, onlineLabelLayer]);
 
   const useOfflineTiles = () => {
     if (map.hasLayer(offlineTileLayer)) return;
@@ -1157,6 +1161,17 @@ function buildMap() {
       renderRouteOnMap();
     }
   });
+}
+
+function cartoBasemapUrl(layerKind) {
+  const themePrefix = document.body.dataset.theme === 'dark' ? 'dark' : 'light';
+  return `https://{s}.basemaps.cartocdn.com/${themePrefix}_${layerKind}/{z}/{x}/{y}{r}.png`;
+}
+
+function applyBasemapTheme() {
+  if (!onlineBaseLayer || !onlineLabelLayer) return;
+  onlineBaseLayer.setUrl(cartoBasemapUrl('nolabels'));
+  onlineLabelLayer.setUrl(cartoBasemapUrl('only_labels'));
 }
 
 function renderBasemapRepairLabels() {
@@ -1708,6 +1723,7 @@ function applyTheme(theme) {
   const activeTheme = theme === 'dark' ? 'dark' : 'light';
   document.body.dataset.theme = activeTheme;
   themeButton.textContent = activeTheme === 'dark' ? 'Light' : 'Dark';
+  applyBasemapTheme();
   try {
     localStorage.setItem(themeStateKey, activeTheme);
   } catch (error) {

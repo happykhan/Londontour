@@ -63,9 +63,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1105'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1105/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1105/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1125'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1125/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1125/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -110,7 +110,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1105'/);
+  assert.match(js, /const assetVersion = '20260621-1125'/);
   assert.match(js, /function assetUrl/);
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
@@ -141,8 +141,14 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /dashArray: '8 8'/);
   assert.match(js, /river service/);
   assert.doesNotMatch(js, /pois: \[/);
-  assert.match(js, /basemaps\.cartocdn\.com\/light_nolabels/);
-  assert.match(js, /basemaps\.cartocdn\.com\/light_only_labels/);
+  assert.match(js, /function cartoBasemapUrl/);
+  assert.match(js, /function applyBasemapTheme/);
+  assert.match(js, /themePrefix = document\.body\.dataset\.theme === 'dark' \? 'dark' : 'light'/);
+  assert.match(js, /basemaps\.cartocdn\.com\/\$\{themePrefix\}_\$\{layerKind\}/);
+  assert.match(js, /cartoBasemapUrl\('nolabels'\)/);
+  assert.match(js, /cartoBasemapUrl\('only_labels'\)/);
+  assert.match(js, /onlineBaseLayer\.setUrl\(cartoBasemapUrl\('nolabels'\)\)/);
+  assert.match(js, /onlineLabelLayer\.setUrl\(cartoBasemapUrl\('only_labels'\)\)/);
   assert.match(js, /createPane\('basemapLabels'\)/);
   assert.match(js, /OpenStreetMap contributors/);
   assert.match(js, /function routeStrokeStyle/);
@@ -197,7 +203,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v41/);
+  assert.match(sw, /londontour-offline-v42/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
