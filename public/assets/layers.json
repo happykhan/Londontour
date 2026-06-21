@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T00:07:22.684Z",
+  "generatedAt": "2026-06-21T00:25:31.210Z",
   "source": "OpenStreetMap via Overpass API",
   "bbox": {
     "south": 51.495,
@@ -14,7 +14,7 @@
       "defaultVisible": true,
       "minZoom": 13,
       "markerLabel": "A",
-      "routeRadius": 0.0065,
+      "routeRadiusMeters": 650,
       "points": [
         {
           "id": "attractions-relation-1879842-10-downing-street",
@@ -744,7 +744,7 @@
       "defaultVisible": false,
       "minZoom": 13,
       "markerLabel": "P",
-      "routeRadius": 0.005,
+      "routeRadiusMeters": 500,
       "points": [
         {
           "id": "food-way-157779526-admiral-duncan",
@@ -1474,7 +1474,7 @@
       "defaultVisible": false,
       "minZoom": 12,
       "markerLabel": "T",
-      "routeRadius": 0.005,
+      "routeRadiusMeters": 500,
       "points": [
         {
           "id": "transport-way-204258603-0",
@@ -2444,7 +2444,7 @@
       "defaultVisible": false,
       "minZoom": 13,
       "markerLabel": "WC",
-      "routeRadius": 0.004,
+      "routeRadiusMeters": 400,
       "points": [
         {
           "id": "toilets-node-13909787668-borough-market-toilets",
@@ -3094,7 +3094,7 @@
       "defaultVisible": false,
       "minZoom": 13,
       "markerLabel": "S",
-      "routeRadius": 0.0045,
+      "routeRadiusMeters": 450,
       "points": [
         {
           "id": "supermarkets-node-3384334001-aldi",

@@ -58,9 +58,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0230'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0230/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0230/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-0245'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-0245/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-0245/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -85,6 +85,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /mode', 'browse'/);
   assert.match(js, /selectedRouteBounds = routeBounds/);
   assert.match(js, /pointMatchesRoute/);
+  assert.match(js, /function routeDistanceMeters/);
+  assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.doesNotMatch(js, /pois: \[/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_nolabels/);
   assert.match(js, /basemaps\.cartocdn\.com\/light_only_labels/);
@@ -121,7 +123,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v21/);
+  assert.match(sw, /londontour-offline-v22/);
   assert.match(sw, /\/assets\/layers\.json/);
   assert.match(sw, /\/assets\/tiles-manifest\.json/);
   assert.doesNotMatch(sw, /url\.pathname\.startsWith\('\/api\/'\)/);
@@ -142,6 +144,7 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   assert.ok(counts.get('supermarkets') >= 60, 'supermarkets should come from the generated external dataset');
 
   for (const layer of catalog.layers) {
+    assert.equal(typeof layer.routeRadiusMeters, 'number', `${layer.id} should define a metre detour radius`);
     for (const point of layer.points) {
       assert.ok(point.source?.startsWith('OpenStreetMap'), `${point.name} should retain its OSM source`);
       assert.equal(typeof point.lat, 'number');

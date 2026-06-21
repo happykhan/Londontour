@@ -173,7 +173,7 @@ const fallbackLayerCatalog = [
     defaultVisible: true,
     minZoom: 13,
     markerLabel: 'A',
-    routeRadius: 0.0065,
+    routeRadiusMeters: 650,
     points: [
       { id: 'horse-guards', name: 'Horse Guards Parade', lat: 51.5046, lng: -0.1289, detail: 'Photo stop between Whitehall and Trafalgar Square.' },
       { id: 'national-gallery', name: 'The National Gallery', lat: 51.5089, lng: -0.1283, detail: 'Major gallery on Trafalgar Square.' },
@@ -192,7 +192,7 @@ const fallbackLayerCatalog = [
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'P',
-    routeRadius: 0.005,
+    routeRadiusMeters: 500,
     points: [
       { id: 'dickens-inn', name: 'The Dickens Inn', lat: 51.5068, lng: -0.0757, detail: 'Pub finish at St Katharine Docks.' },
       { id: 'southbank-centre', name: 'Southbank Centre', lat: 51.5077, lng: -0.1142, detail: 'Good indoor pause on the South Bank.' },
@@ -205,7 +205,7 @@ const fallbackLayerCatalog = [
     defaultVisible: false,
     minZoom: 12,
     markerLabel: 'T',
-    routeRadius: 0.005,
+    routeRadiusMeters: 500,
     points: [
       { id: 'charing-cross', name: 'Charing Cross', lat: 51.508, lng: -0.1247, detail: 'Rail and Underground interchange.' },
       { id: 'westminster-station', name: 'Westminster Underground', lat: 51.501, lng: -0.1254, detail: 'Tube access by Parliament Square.' },
@@ -219,7 +219,7 @@ const fallbackLayerCatalog = [
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'WC',
-    routeRadius: 0.004,
+    routeRadiusMeters: 400,
     points: [
       { id: 'trafalgar-wc', name: 'Trafalgar Square toilets', lat: 51.5081, lng: -0.128, detail: 'Central convenience near the route start.' },
       { id: 'southbank-wc', name: 'South Bank toilets', lat: 51.5068, lng: -0.1149, detail: 'Useful riverside stop near Waterloo Bridge.' },
@@ -232,7 +232,7 @@ const fallbackLayerCatalog = [
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'S',
-    routeRadius: 0.0045,
+    routeRadiusMeters: 450,
     points: [
       { id: 'coop-strand', name: 'Co-op Strand', lat: 51.5111, lng: -0.1199, detail: 'Small supermarket hook for future grocery layers.' },
       { id: 'sainsburys-strand', name: 'Sainsbury’s Local Strand', lat: 51.5112, lng: -0.1221, detail: 'Central convenience grocery stop.' },
@@ -283,7 +283,7 @@ let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
-const cacheName = 'londontour-offline-v21';
+const cacheName = 'londontour-offline-v22';
 const layerStateKey = 'londontour-layer-state-v2';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
@@ -371,7 +371,7 @@ function normaliseLayerCatalog(data) {
         defaultVisible: Boolean(layer.defaultVisible),
         minZoom: Number(layer.minZoom || 13),
         markerLabel: String(layer.markerLabel || '').slice(0, 3) || '•',
-        routeRadius: Number(layer.routeRadius || 0.005),
+        routeRadiusMeters: Number(layer.routeRadiusMeters || layer.routeRadius * 100000 || 500),
         points,
       };
     })
@@ -405,19 +405,50 @@ async function loadLayerCatalog() {
   }
 }
 
-function routeDistance(point, route) {
-  return Math.min(
-    ...route.stops.map((stop) => {
-      const latDiff = point.lat - stop.lat;
-      const lngDiff = point.lng - stop.lng;
-      return Math.sqrt(latDiff * latDiff + lngDiff * lngDiff);
-    })
-  );
+function toLocalMeters(coordinate, originLat) {
+  const latMeters = 110540;
+  const lngMeters = 111320 * Math.cos((originLat * Math.PI) / 180);
+  return {
+    x: coordinate.lng * lngMeters,
+    y: coordinate.lat * latMeters,
+  };
+}
+
+function pointToSegmentDistanceMeters(point, start, end) {
+  const originLat = (point.lat + start.lat + end.lat) / 3;
+  const p = toLocalMeters(point, originLat);
+  const a = toLocalMeters(start, originLat);
+  const b = toLocalMeters(end, originLat);
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const lengthSquared = dx * dx + dy * dy;
+
+  if (!lengthSquared) {
+    return Math.hypot(p.x - a.x, p.y - a.y);
+  }
+
+  const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / lengthSquared));
+  const closest = {
+    x: a.x + t * dx,
+    y: a.y + t * dy,
+  };
+
+  return Math.hypot(p.x - closest.x, p.y - closest.y);
+}
+
+function routeDistanceMeters(point, route) {
+  if (route.stops.length < 2) return Infinity;
+
+  const segmentDistances = route.stops.slice(1).map((stop, index) => {
+    return pointToSegmentDistanceMeters(point, route.stops[index], stop);
+  });
+
+  return Math.min(...segmentDistances);
 }
 
 function pointMatchesRoute(point, layer, route) {
   if (point.routes) return point.routes.includes(route.id);
-  return routeDistance(point, route) <= (layer.routeRadius || 0.005);
+  return routeDistanceMeters(point, route) <= (layer.routeRadiusMeters || 500);
 }
 
 function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoomRules = !browseMode) {

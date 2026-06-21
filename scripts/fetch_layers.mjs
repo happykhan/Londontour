@@ -17,7 +17,7 @@ const layerDefinitions = [
     defaultVisible: true,
     minZoom: 13,
     markerLabel: 'A',
-    routeRadius: 0.0065,
+    routeRadiusMeters: 650,
     maxItems: 90,
   },
   {
@@ -26,7 +26,7 @@ const layerDefinitions = [
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'P',
-    routeRadius: 0.005,
+    routeRadiusMeters: 500,
     maxItems: 90,
   },
   {
@@ -35,7 +35,7 @@ const layerDefinitions = [
     defaultVisible: false,
     minZoom: 12,
     markerLabel: 'T',
-    routeRadius: 0.005,
+    routeRadiusMeters: 500,
     maxItems: 120,
   },
   {
@@ -44,7 +44,7 @@ const layerDefinitions = [
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'WC',
-    routeRadius: 0.004,
+    routeRadiusMeters: 400,
     maxItems: 80,
   },
   {
@@ -53,7 +53,7 @@ const layerDefinitions = [
     defaultVisible: false,
     minZoom: 13,
     markerLabel: 'S',
-    routeRadius: 0.0045,
+    routeRadiusMeters: 450,
     maxItems: 80,
   },
 ];
