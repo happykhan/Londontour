@@ -302,7 +302,7 @@ const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
 const printButton = document.querySelector('#print-button');
-const mapPrintButton = document.querySelector('#map-print-button');
+const menuButton = document.querySelector('#menu-button');
 const changeRouteButton = document.querySelector('#change-route-button');
 const recenterButton = document.querySelector('#recenter-button');
 const browsePickerButton = document.querySelector('#browse-picker-button');
@@ -374,8 +374,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1125';
-const cacheName = 'londontour-offline-v42';
+const assetVersion = '20260621-1145';
+const cacheName = 'londontour-offline-v43';
 const layerStateKey = 'londontour-layer-state-v2';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -572,7 +572,7 @@ function renderEditorDraftOverlays() {
 function handleEditorMapClick(event) {
   if (!editorMode) return;
   const target = event.originalEvent?.target;
-  if (target?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-control, .map-topbar, .map-actions')) return;
+  if (target?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-control, .map-topbar')) return;
   editorDraft.path.push({
     lat: Number(event.latlng.lat.toFixed(6)),
     lng: Number(event.latlng.lng.toFixed(6)),
@@ -1618,6 +1618,12 @@ function renderBrowseMap(options = {}) {
   setStatus(editorMode ? 'Editor mode: click the map to draw a draft route, or tag layer points from popups.' : 'Browse mode: no route selected. Pan, zoom, or turn map layers on and off.');
 }
 
+function updateMenuButtonState() {
+  const isOpen = document.body.classList.contains('offline-menu-open');
+  menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+}
+
 function setBrowseLayersOpen(open) {
   const isOpen = Boolean(open);
   document.body.classList.toggle('browse-layers-open', isOpen);
@@ -1627,7 +1633,7 @@ function setBrowseLayersOpen(open) {
   browseMapButton.textContent = isOpen ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
-  offlineButton.textContent = document.body.classList.contains('offline-menu-open') ? 'Download offline pack' : 'Offline';
+  updateMenuButtonState();
 
   if (!map) return;
   window.setTimeout(() => {
@@ -1644,7 +1650,7 @@ function setRouteMenuOpen(open) {
   changeRouteButton.textContent = isOpen ? 'Close' : 'Routes';
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
-  offlineButton.textContent = document.body.classList.contains('offline-menu-open') ? 'Download offline pack' : 'Offline';
+  updateMenuButtonState();
   if (isOpen) setStatus('Choose a route, or keep browsing the map.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
@@ -1656,11 +1662,11 @@ function setOfflineMenuOpen(open) {
     document.body.classList.remove('browse-layers-open', 'route-menu-open');
     void renderOfflineDetails();
   }
-  offlineButton.textContent = isOpen ? 'Download offline pack' : 'Offline';
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
   changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
-  if (isOpen) setStatus('Choose what to keep offline, then download the pack.');
+  updateMenuButtonState();
+  if (isOpen) setStatus('Menu opened. Offline downloads are under Offline pack.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
@@ -1838,12 +1844,12 @@ function toggleRouteMenu() {
   renderPicker();
 }
 
-function handleOfflineButtonClick() {
-  if (!document.body.classList.contains('offline-menu-open')) {
-    setOfflineMenuOpen(true);
-    return;
-  }
+function toggleMenu() {
+  document.body.classList.add('route-view');
+  setOfflineMenuOpen(!document.body.classList.contains('offline-menu-open'));
+}
 
+function handleOfflineButtonClick() {
   void downloadOfflinePack();
 }
 
@@ -1857,7 +1863,7 @@ pickerEl.addEventListener('click', (event) => {
 locateButton.addEventListener('click', locateUser);
 offlineButton.addEventListener('click', handleOfflineButtonClick);
 printButton.addEventListener('click', () => window.print());
-mapPrintButton.addEventListener('click', () => window.print());
+menuButton.addEventListener('click', toggleMenu);
 changeRouteButton.addEventListener('click', toggleRouteMenu);
 recenterButton.addEventListener('click', recenterRoute);
 browsePickerButton.addEventListener('click', () => enterBrowseMode());

@@ -144,6 +144,7 @@ body.route-view .route-card-view,
 body.route-view .layers-panel,
 body.route-view .directions-panel,
 body.route-view .highlights-panel,
+body.route-view .menu-panel,
 body.route-view .offline-panel,
 body.route-view .editor-panel {
   display: none;
@@ -152,6 +153,7 @@ body.route-view .editor-panel {
 body.route-view.route-menu-open .tour-heading,
 body.route-view.route-menu-open .route-pickers,
 body.route-view.browse-layers-open .layers-panel,
+body.route-view.offline-menu-open .menu-panel,
 body.route-view.offline-menu-open .offline-panel,
 body.route-view.editor-mode.browse-layers-open .editor-panel {
   display: block;
@@ -207,16 +209,6 @@ body[data-theme="dark"] .tour-panel {
   justify-content: space-between;
 }
 
-.utility-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.utility-actions button {
-  min-height: 2.4rem;
-  padding: 0.55rem 0.75rem;
-}
-
 .kicker,
 .label {
   color: var(--muted);
@@ -247,6 +239,7 @@ h2 {
 .route-pickers,
 .route-card-view,
 .layers-panel,
+.menu-panel,
 .offline-panel,
 .section-row {
   margin-bottom: 1rem;
@@ -515,14 +508,17 @@ body[data-theme="dark"] .route-card.is-active {
   margin: 0;
 }
 
-.map-actions {
-  bottom: 1rem;
-  display: flex;
-  flex-wrap: wrap;
+.menu-actions {
+  display: grid;
   gap: 0.6rem;
-  left: 1rem;
-  position: absolute;
-  z-index: 500;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.menu-actions button,
+#offline-button {
+  min-height: 44px;
+  width: 100%;
 }
 
 .map-topbar {
@@ -532,6 +528,73 @@ body[data-theme="dark"] .route-card.is-active {
   right: 1rem;
   top: 1rem;
   z-index: 500;
+}
+
+.icon-button {
+  align-items: center;
+  aspect-ratio: 1;
+  display: inline-flex;
+  justify-content: center;
+  min-width: 46px;
+  padding: 0;
+}
+
+.location-icon {
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  display: block;
+  height: 18px;
+  position: relative;
+  width: 18px;
+}
+
+.location-icon::before,
+.location-icon::after {
+  background: currentColor;
+  content: "";
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.location-icon::before {
+  height: 2px;
+  width: 26px;
+}
+
+.location-icon::after {
+  height: 26px;
+  width: 2px;
+}
+
+.menu-icon {
+  display: block;
+  height: 18px;
+  position: relative;
+  width: 22px;
+}
+
+.menu-icon,
+.menu-icon::before,
+.menu-icon::after {
+  border-top: 2px solid currentColor;
+}
+
+.menu-icon::before,
+.menu-icon::after {
+  content: "";
+  left: 0;
+  position: absolute;
+  width: 22px;
+}
+
+.menu-icon::before {
+  top: 6px;
+}
+
+.menu-icon::after {
+  top: 14px;
 }
 
 .leaflet-control-zoom a {
@@ -866,7 +929,7 @@ body.route-view:not(.editor-mode) .layer-marker {
   }
 
   body.offline-menu-open {
-    --mobile-sheet-height: 34dvh;
+    --mobile-sheet-height: 48dvh;
   }
 
   .app-shell {
@@ -928,6 +991,7 @@ body.route-view:not(.editor-mode) .layer-marker {
   body:not(.route-view) .layers-panel,
   body:not(.route-view) .directions-panel,
   body:not(.route-view) .highlights-panel,
+  body:not(.route-view) .menu-panel,
   body:not(.route-view) .offline-panel {
     display: none;
   }
@@ -993,7 +1057,7 @@ body.route-view:not(.editor-mode) .layer-marker {
   .map-topbar {
     display: grid;
     gap: 0.5rem;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.82fr) minmax(58px, auto);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.86fr) 46px 46px;
     left: 0.75rem;
     right: 0.75rem;
     top: calc(0.75rem + env(safe-area-inset-top));
@@ -1011,20 +1075,12 @@ body.route-view:not(.editor-mode) .layer-marker {
     flex: 1;
   }
 
-  #map-print-button {
-    flex: 0 0 auto;
+  .icon-button {
+    min-width: 46px;
   }
 
-  .map-actions {
-    bottom: calc(var(--mobile-sheet-height, 34dvh) + 0.75rem);
-    left: 0.75rem;
-    right: 0.75rem;
-  }
-
-  .map-actions button {
-    box-shadow: 0 8px 24px rgba(23, 32, 42, 0.16);
-    min-height: 44px;
-    width: 100%;
+  .menu-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .leaflet-popup-content {
@@ -1103,7 +1159,6 @@ body.route-view:not(.editor-mode) .layer-marker {
 
   .map-panel,
   .map-topbar,
-  .map-actions,
   .leaflet-control-container {
     display: none;
   }
@@ -1153,7 +1208,7 @@ body.route-view:not(.editor-mode) .layer-marker {
 
   .layers-panel,
   .offline-panel,
-  .utility-actions {
+  .menu-panel {
     display: none;
   }
 
