@@ -91,11 +91,20 @@
             <a id="editor-link" class="secondary-button" href="/?mode=browse&amp;editor=1">Editor</a>
             <a id="basemap-proof-link" class="secondary-button" href="/maplibre-poc">Basemap proof</a>
           </div>
-          <div class="licence-notice" aria-label="Data and licences">
+          <div class="about-notice" aria-label="About and licences">
+            <h3>About Londontour</h3>
+            <p>Londontour is a self-hosted London walking map with guided routes, browse layers, search, nearby exploration, and offline download support.</p>
             <h3>Data and licences</h3>
-            <p>Map rendering uses MapLibre GL JS. Basemap packaging uses PMTiles and Protomaps.</p>
-            <p>Map data includes OpenStreetMap contributors under the Open Database Licence. Commercial use is allowed with attribution and ODbL compliance.</p>
-            <p>Transport and generated point layers include TfL, OpenStreetMap, and generated dataset notes where applicable.</p>
+            <ul class="licence-list">
+              <li>Basemap tiles are self-hosted PMTiles generated from OpenStreetMap data. Map data is &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a> and licensed under the <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noreferrer">Open Database Licence</a>.</li>
+              <li>Commercial use of OpenStreetMap data is allowed with attribution and ODbL compliance.</li>
+              <li>Map rendering uses <a href="https://maplibre.org/maplibre-gl-js/docs/" target="_blank" rel="noreferrer">MapLibre GL JS</a>, licensed BSD-3-Clause.</li>
+              <li>Single-file tile loading uses <a href="https://docs.protomaps.com/pmtiles/" target="_blank" rel="noreferrer">PMTiles</a>. PMTiles reference implementations are BSD-3-Clause; the PMTiles specification is public domain/CC0 where applicable.</li>
+              <li>Basemap styling uses Protomaps/OpenMapTiles-style vector data. Protomaps basemap style assets are CC0, while OpenStreetMap-derived map data remains ODbL.</li>
+              <li>Transport overlays use TfL Open Data and OpenStreetMap-derived geometry where available. Live services, stops, pier access, and route changes should be checked with TfL or the relevant operator.</li>
+              <li>POI layers are generated from OpenStreetMap and public place metadata. Opening times, access, websites, and facilities can change.</li>
+            </ul>
+            <p class="licence-fineprint">This app is informational and comes with no guarantee of route availability, opening hours, accessibility, or transport service status.</p>
           </div>
         </section>
 

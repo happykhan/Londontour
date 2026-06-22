@@ -86,9 +86,15 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
   assert.match(html, /id="basemap-proof-link"/);
   assert.match(html, /href="\/maplibre-poc"/);
-  assert.match(html, /class="licence-notice"/);
+  assert.match(html, /class="about-notice"/);
+  assert.match(html, />About Londontour<\/h3>/);
   assert.match(html, />Data and licences<\/h3>/);
-  assert.match(html, /Commercial use is allowed with attribution and ODbL compliance/);
+  assert.match(html, /OpenStreetMap contributors/);
+  assert.match(html, /Open Database Licence/);
+  assert.match(html, /Commercial use of OpenStreetMap data is allowed with attribution and ODbL compliance/);
+  assert.match(html, /MapLibre GL JS/);
+  assert.match(html, /PMTiles/);
+  assert.match(html, /TfL Open Data/);
   assert.match(html, /id="offline-button"/);
   assert.match(html, />Download offline pack<\/button>/);
   assert.doesNotMatch(html, /class="map-actions"/);
@@ -321,7 +327,9 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\[data-theme="dark"\] \.theme-icon::before/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
-  assert.match(css, /\.licence-notice/);
+  assert.match(css, /\.about-notice/);
+  assert.match(css, /\.licence-list/);
+  assert.match(css, /\.licence-fineprint/);
   assert.match(css, /\.layer-marker-landmarks/);
   assert.match(css, /\.layer-marker-museums/);
   assert.match(css, /\.layer-marker-monuments/);
