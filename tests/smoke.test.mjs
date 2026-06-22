@@ -85,7 +85,7 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="editor-link"/);
   assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
   assert.match(html, /id="basemap-proof-link"/);
-  assert.match(html, /href="\/maplibre-poc"/);
+  assert.match(html, /href="\/maplibre-poc\.html"/);
   assert.match(html, /class="about-notice"/);
   assert.match(html, />About Londontour<\/h3>/);
   assert.match(html, />Data and licences<\/h3>/);

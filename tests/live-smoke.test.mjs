@@ -31,7 +31,7 @@ test('production serves the offline basemap manifest', async () => {
 });
 
 test('production serves the MapLibre PMTiles proof page and archive', async () => {
-  const html = await readText(`${liveUrl}/maplibre-poc`);
+  const html = await readText(`${liveUrl}/maplibre-poc.html`);
   assert.match(html, /London PMTiles/);
   assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1308/);
   assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1308/);
