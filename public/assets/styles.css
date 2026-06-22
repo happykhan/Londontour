@@ -1098,6 +1098,21 @@ body[data-theme="dark"] .search-result:focus-visible {
   transform: rotate(-35deg);
 }
 
+.tube-rail-chip {
+  align-items: center;
+  background: #ef4444;
+  border-radius: 4px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.58rem;
+  font-weight: 950;
+  height: 1.15rem;
+  justify-content: center;
+  line-height: 1;
+  min-width: 1.5rem;
+  padding: 0 0.16rem;
+}
+
 .tube-popup-muted {
   color: #64748b;
 }
@@ -1551,6 +1566,29 @@ body.route-view:not(.editor-mode) .layer-marker {
 
 .tube-station-marker.is-selected span {
   background: var(--accent);
+}
+
+.tube-station-marker b {
+  align-items: center;
+  background: #ef4444;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  color: #fff;
+  display: flex;
+  font-size: 0.44rem;
+  font-weight: 950;
+  height: 0.82rem;
+  justify-content: center;
+  line-height: 1;
+  min-width: 1.05rem;
+  padding: 0 0.08rem;
+  position: absolute;
+  right: -0.55rem;
+  top: -0.55rem;
+}
+
+.tube-station-marker.has-national-rail {
+  position: relative;
 }
 
 .poi-marker-bus {

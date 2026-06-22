@@ -171,7 +171,7 @@ const fallbackLayerCatalog = [
     id: 'landmarks',
     label: 'Essential landmarks',
     defaultVisible: true,
-    minZoom: 13,
+    minZoom: 11,
     markerLabel: 'L',
     routeRadiusMeters: 700,
     points: [
@@ -184,7 +184,7 @@ const fallbackLayerCatalog = [
     id: 'museums',
     label: 'Museums',
     defaultVisible: false,
-    minZoom: 13,
+    minZoom: 12,
     markerLabel: 'M',
     routeRadiusMeters: 650,
     points: [
@@ -196,7 +196,7 @@ const fallbackLayerCatalog = [
     id: 'monuments',
     label: 'Statues and monuments',
     defaultVisible: false,
-    minZoom: 13,
+    minZoom: 14,
     markerLabel: 'Mon',
     routeRadiusMeters: 550,
     points: [
@@ -232,7 +232,7 @@ const fallbackLayerCatalog = [
     id: 'markets',
     label: 'Markets',
     defaultVisible: false,
-    minZoom: 13,
+    minZoom: 12,
     markerLabel: 'Mk',
     routeRadiusMeters: 550,
     points: [
@@ -383,7 +383,7 @@ let selectedTubeStationId;
 let tubeNetworkRenderToken = 0;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
 const majorTubeStationMinZoom = 12;
-const tubeStationMinZoom = 14;
+const tubeStationMinZoom = 13;
 const majorTubeStationNames = new Set([
   'bank',
   'baker street',
@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-2214';
-const cacheName = 'londontour-offline-v75';
+const assetVersion = '20260622-2336';
+const cacheName = 'londontour-offline-v76';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -761,6 +761,15 @@ function tubeFacilityChip(label, available) {
   `;
 }
 
+function tubeRailChip(station) {
+  if (!station.hasNationalRail) return '';
+  return `
+    <span class="tube-rail-chip" aria-label="National Rail services" title="National Rail services">
+      <span aria-hidden="true">NR</span>
+    </span>
+  `;
+}
+
 function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
   const zone = station.zone ? `<span class="tube-zone-badge">Zone ${escapeHtml(station.zone)}</span>` : '';
   const toilets = tubeStationFacilityAvailable(station, 'Toilets');
@@ -774,6 +783,7 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
           ${zone}
           ${tubeFacilityChip('Toilets', toilets)}
           ${tubeFacilityChip('Lifts', lifts)}
+          ${tubeRailChip(station)}
         </div>
       </div>
       <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
@@ -2258,7 +2268,7 @@ async function renderTubeNetwork(openStationId) {
     const marker = L.marker([station.lat, station.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="tube-station-marker ${isMajorStation ? 'is-major' : ''} ${isSelectedStation ? 'is-selected' : ''}"><span></span></div>`,
+        html: `<div class="tube-station-marker ${isMajorStation ? 'is-major' : ''} ${isSelectedStation ? 'is-selected' : ''} ${station.hasNationalRail ? 'has-national-rail' : ''}"><span></span>${station.hasNationalRail ? '<b aria-hidden="true">NR</b>' : ''}</div>`,
         iconSize: isMajorStation ? [22, 22] : [18, 18],
         iconAnchor: isMajorStation ? [11, 11] : [9, 9],
       }),
