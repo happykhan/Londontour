@@ -1,10 +1,10 @@
 import { writeFile } from 'node:fs/promises';
 
 const BBOX = {
-  south: 51.38,
-  west: -0.42,
-  north: 51.66,
-  east: 0.15,
+  south: 51.28,
+  west: -0.52,
+  north: 51.70,
+  east: 0.34,
 };
 
 const OUTPUT_FILE = new URL('../public/assets/tube-network.json', import.meta.url);
@@ -52,12 +52,37 @@ function stationZones(station) {
   return zones;
 }
 
-function isZoneOneToFour(station) {
-  return stationZones(station).some((zone) => zone >= 1 && zone <= 4);
-}
-
 function bboxString() {
   return `${BBOX.south},${BBOX.west},${BBOX.north},${BBOX.east}`;
+}
+
+function bboxChunks(rows = 3, cols = 4) {
+  const chunks = [];
+  const latStep = (BBOX.north - BBOX.south) / rows;
+  const lngStep = (BBOX.east - BBOX.west) / cols;
+
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      chunks.push({
+        south: Number((BBOX.south + row * latStep).toFixed(6)),
+        west: Number((BBOX.west + col * lngStep).toFixed(6)),
+        north: Number((BBOX.south + (row + 1) * latStep).toFixed(6)),
+        east: Number((BBOX.west + (col + 1) * lngStep).toFixed(6)),
+      });
+    }
+  }
+
+  return chunks;
+}
+
+function boundsString(bounds) {
+  return `${bounds.south},${bounds.west},${bounds.north},${bounds.east}`;
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 async function fetchJson(url) {
@@ -72,24 +97,78 @@ async function fetchJson(url) {
   return response.json();
 }
 
+async function fetchOverpassChunk(query, label, index, total) {
+  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
+  const maxAttempts = 5;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    let response;
+    try {
+      response = await fetch(url, {
+        headers: {
+          Accept: 'application/json',
+          'User-Agent': USER_AGENT,
+        },
+      });
+    } catch (error) {
+      const waitSeconds = attempt * 6;
+      console.log(`${label} chunk ${index}/${total} attempt ${attempt} failed: ${error.message}; waiting ${waitSeconds}s`);
+      await sleep(waitSeconds * 1000);
+      continue;
+    }
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log(`${label} chunk ${index}/${total}: ${data.elements?.length || 0} raw elements`);
+      return data.elements || [];
+    }
+
+    if (response.status !== 429 && response.status < 500) {
+      throw new Error(`${label} chunk ${index}/${total} failed: ${response.status} ${response.statusText}`);
+    }
+
+    const retryAfterSeconds = Number(response.headers.get('retry-after'));
+    const waitSeconds = Math.max(Number.isFinite(retryAfterSeconds) ? retryAfterSeconds : attempt * 8, attempt * 5);
+    console.log(`${label} chunk ${index}/${total} attempt ${attempt} returned ${response.status}; waiting ${waitSeconds}s`);
+    await sleep(waitSeconds * 1000);
+  }
+
+  throw new Error(`${label} chunk ${index}/${total} failed after ${maxAttempts} attempts`);
+}
+
+async function fetchOverpassChunks(label, queryForBounds) {
+  const chunks = bboxChunks();
+  const elementByKey = new Map();
+
+  for (const [index, chunk] of chunks.entries()) {
+    const elements = await fetchOverpassChunk(queryForBounds(chunk), label, index + 1, chunks.length);
+    for (const element of elements) {
+      elementByKey.set(`${element.type}/${element.id}`, element);
+    }
+    await sleep(1500);
+  }
+
+  return { elements: [...elementByKey.values()] };
+}
+
 async function fetchTubeWays() {
-  const bbox = bboxString();
-  const query = `[out:json][timeout:25];(
+  return fetchOverpassChunks('Tube ways', (bounds) => {
+    const bbox = boundsString(bounds);
+    return `[out:json][timeout:25];(
   way[railway=subway][line](${bbox});
 );out tags geom qt;`;
-  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-  return fetchJson(url);
+  });
 }
 
 async function fetchRiverWays() {
-  const bbox = bboxString();
-  const query = `[out:json][timeout:25];
+  return fetchOverpassChunks('River ways', (bounds) => {
+    const bbox = boundsString(bounds);
+    return `[out:json][timeout:25];
 relation[route=ferry](${bbox});
 out body qt;
 way(r);
 out tags geom qt;`;
-  const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-  return fetchJson(url);
+  });
 }
 
 async function fetchTubeStations() {
@@ -178,7 +257,6 @@ function buildStations(stopPoints = []) {
       return (
         station.stopType === 'NaptanMetroStation' &&
         insideBbox(station.lat, station.lon) &&
-        isZoneOneToFour(station) &&
         !seen.has(station.naptanId)
       );
     })
@@ -211,7 +289,7 @@ function buildStations(stopPoints = []) {
 const [tubeWays, riverWays, tubeStations] = await Promise.all([fetchTubeWays(), fetchRiverWays(), fetchTubeStations()]);
 const output = {
   generatedAt: new Date().toISOString(),
-  source: 'OpenStreetMap subway and river ferry ways via Overpass API and TfL StopPoint tube stations',
+  source: 'OpenStreetMap subway and river ferry ways via Overpass API and TfL StopPoint tube stations within the app map bounds',
   bbox: BBOX,
   lines: buildLines(tubeWays.elements || []),
   riverServices: buildRiverServices(riverWays.elements || []),

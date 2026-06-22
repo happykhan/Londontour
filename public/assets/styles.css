@@ -963,26 +963,37 @@ body[data-theme="dark"] .search-result:focus-visible {
   padding: 0.45rem 0.65rem;
 }
 
+.maplibregl-popup-content {
+  box-sizing: border-box;
+  max-width: calc(100vw - 2rem);
+  overflow: hidden;
+}
+
 .tube-popup {
   box-sizing: border-box;
   color: #111827;
   display: grid;
-  gap: 0.65rem;
-  max-width: min(78vw, 340px);
-  min-width: min(72vw, 280px);
+  gap: 0.75rem;
+  max-width: calc(100vw - 2rem);
+  min-width: 0;
+  overflow: hidden;
+  width: min(82vw, 360px);
 }
 
 .tube-popup-header {
   align-items: start;
   display: grid;
   gap: 0.5rem;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
 }
 
 .tube-popup-header strong {
   color: #111827;
-  font-size: 1.05rem;
+  font-size: 1.04rem;
   line-height: 1.15;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .tube-zone-badge {
@@ -993,15 +1004,10 @@ body[data-theme="dark"] .search-result:focus-visible {
   display: inline-flex;
   font-size: 0.72rem;
   font-weight: 900;
-  justify-self: end;
+  justify-self: start;
   line-height: 1;
   padding: 0.32rem 0.45rem;
   white-space: nowrap;
-}
-
-.tube-popup-meta {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .tube-line-list,
@@ -1010,6 +1016,9 @@ body[data-theme="dark"] .search-result:focus-visible {
   flex-wrap: wrap;
   gap: 0.35rem;
   max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
 }
 
 .tube-line-chip {
@@ -1018,8 +1027,10 @@ body[data-theme="dark"] .search-result:focus-visible {
   border: 1px solid color-mix(in srgb, var(--tube-line-colour) 55%, white);
   border-left: 5px solid var(--tube-line-colour);
   border-radius: 999px;
+  box-sizing: border-box;
   color: #111827;
   display: inline-flex;
+  flex: 0 1 auto;
   font-size: 0.82rem;
   font-weight: 900;
   line-height: 1.1;
@@ -1035,6 +1046,7 @@ body[data-theme="dark"] .search-result:focus-visible {
   background: #f8fafc;
   border: 1px solid #d7dce0;
   border-radius: 8px;
+  box-sizing: border-box;
   color: #111827;
   display: inline-flex;
   font-size: 0.8rem;

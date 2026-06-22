@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1554';
-const cacheName = 'londontour-offline-v70';
+const assetVersion = '20260622-1622';
+const cacheName = 'londontour-offline-v73';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -708,13 +708,13 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
     <div class="tube-popup">
       <div class="tube-popup-header">
         <strong>${escapeHtml(station.name)}</strong>
+        ${zone}
       </div>
       <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
       <div class="tube-facility-list">
         ${tubeFacilityChip('Toilets', toilets)}
         ${tubeFacilityChip('Lifts', lifts)}
       </div>
-      ${zone ? `<div class="tube-popup-meta">${zone}</div>` : ''}
       ${nearbyPopupButton(station.lat, station.lng, station.name)}
     </div>
   `;
@@ -2000,6 +2000,19 @@ function selectedTubeLineOffsetMeters(lineId, selectedStation) {
   return (index - (selectedLines.length - 1) / 2) * 6;
 }
 
+function browseTubeLineOffsetPixels(lineId) {
+  const offsets = {
+    circle: -4.5,
+    district: 4.5,
+    'hammersmith-city': 8.5,
+    metropolitan: -8.5,
+    piccadilly: -4.5,
+    northern: 4.5,
+    victoria: 4,
+  };
+  return offsets[lineId] || 0;
+}
+
 function offsetTubeSegment(segment, offsetMeters) {
   if (!offsetMeters || !Array.isArray(segment) || segment.length < 2) return segment;
 
@@ -2072,6 +2085,7 @@ async function renderTubeNetwork(openStationId) {
     const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
     const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
+    const offsetPixels = selectedLineIds.size ? 0 : browseTubeLineOffsetPixels(line.id);
     const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
     const lineOpacity = isDimmed ? 0.72 : isSelected ? 1 : 0.96;
     const style = {
@@ -2096,6 +2110,7 @@ async function renderTubeNetwork(openStationId) {
           id: line.id,
           label: line.label,
           color: style.color,
+          offset: offsetPixels,
           opacity: style.opacity,
           width: style.weight,
         },

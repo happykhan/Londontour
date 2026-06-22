@@ -129,11 +129,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1554'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1554/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260622-1554/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1554/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260622-1554/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1622'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1622/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260622-1622/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1622/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260622-1622/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -232,7 +232,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260622-1554'/);
+  assert.match(js, /const assetVersion = '20260622-1622'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -296,6 +296,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : \(isCompact \? 7 : 9\)/);
   assert.match(js, /const lineWeight = isSelected && selectedLineIds\.size > 1 \? 6 : isSelected \? 7 : 5\.2/);
   assert.match(js, /const lineOpacity = isDimmed \? 0\.72 : isSelected \? 1 : 0\.96/);
+  assert.match(js, /function browseTubeLineOffsetPixels/);
+  assert.match(js, /circle: -4\.5/);
+  assert.match(js, /district: 4\.5/);
+  assert.match(js, /const offsetPixels = selectedLineIds\.size \? 0 : browseTubeLineOffsetPixels\(line\.id\)/);
+  assert.match(js, /offset: offsetPixels/);
   assert.doesNotMatch(js, /casingPolyline/);
   assert.doesNotMatch(js, /weight: lineWeight \+ 3\.6/);
   assert.match(js, /const tubeFeatures = \[\]/);
@@ -358,6 +363,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(adapter, /setLineFeatureCollection\(id, data, options = \{\}\)/);
   assert.match(adapter, /removeLineFeatureCollection\(id\)/);
   assert.match(adapter, /'line-color': \['case', \['has', 'color'\], \['get', 'color'\]/);
+  assert.match(adapter, /'line-offset': \['\*'/);
   assert.match(adapter, /this\.options\.pane === 'tubeNetwork'/);
   assert.doesNotMatch(adapter, /Math\.min\(options\.maxZoom \?\? 18, 14\)/);
   assert.doesNotMatch(adapter, /Math\.min\(zoom, 14\)/);
@@ -432,13 +438,16 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.doesNotMatch(css, /\.boat-marker-icon::before/);
   assert.doesNotMatch(css, /\.boat-marker-icon::after/);
   assert.match(css, /\.tube-station-marker\.is-major/);
+  assert.match(css, /\.maplibregl-popup-content/);
   assert.match(css, /\.tube-popup/);
   assert.match(css, /\.tube-popup-header/);
-  assert.match(css, /\.tube-popup-meta/);
+  assert.match(css, /width: min\(82vw, 360px\)/);
   assert.match(css, /\.tube-zone-badge/);
   assert.match(css, /\.tube-line-chip/);
+  assert.match(css, /flex: 0 1 auto/);
   assert.match(css, /overflow-wrap: anywhere/);
-  assert.match(css, /max-width: min\(78vw, 340px\)/);
+  assert.match(css, /max-width: calc\(100vw - 2rem\)/);
+  assert.match(css, /overflow: hidden/);
   assert.match(css, /\.tube-facility-chip/);
   assert.match(css, /\.tube-facility-icon/);
   assert.match(css, /\.tube-facility-chip\.is-unavailable \.tube-facility-icon::after/);
@@ -488,7 +497,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v70/);
+  assert.match(sw, /londontour-offline-v73/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -512,7 +521,12 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   const tubeNetwork = JSON.parse(read('assets/tube-network.json'));
   assert.equal(catalog.source, 'OpenStreetMap via Overpass API and TfL StopPoint river-bus piers');
   assert.ok(catalog.generatedAt, 'generatedAt should be recorded');
-  assert.deepEqual(catalog.bbox, tubeNetwork.bbox, 'layer catalog should cover the same zone 1-4 bbox as the tube network');
+  assert.deepEqual(catalog.bbox, { south: 51.38, west: -0.42, north: 51.66, east: 0.15 });
+  assert.deepEqual(tubeNetwork.bbox, { south: 51.28, west: -0.52, north: 51.7, east: 0.34 });
+  assert.ok(tubeNetwork.bbox.south < catalog.bbox.south, 'tube network should extend south of the POI catalog');
+  assert.ok(tubeNetwork.bbox.west < catalog.bbox.west, 'tube network should extend west of the POI catalog');
+  assert.ok(tubeNetwork.bbox.north > catalog.bbox.north, 'tube network should extend north of the POI catalog');
+  assert.ok(tubeNetwork.bbox.east > catalog.bbox.east, 'tube network should extend east of the POI catalog');
 
   const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
   assert.equal(counts.has('attractions'), false, 'legacy attractions layer should be split out');
@@ -567,14 +581,19 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   assert.match(tubeNetwork.source, /OpenStreetMap/);
   assert.match(tubeNetwork.source, /TfL/);
   assert.match(tubeNetwork.source, /river ferry/);
-  assert.ok(tubeNetwork.lines.length >= 10, 'Zone 1-4 tube network should include major Underground lines');
+  assert.match(tubeNetwork.source, /app map bounds/);
+  assert.ok(tubeNetwork.lines.length >= 10, 'app-bounds tube network should include major Underground lines');
   assert.ok(tubeNetwork.riverServices.length >= 3, 'river bus network should include public river service geometry');
-  assert.ok(tubeNetwork.stations.length >= 180, 'Zone 1-4 tube network should include TfL tube stations');
+  assert.ok(tubeNetwork.stations.length >= 260, 'app-bounds tube network should include outer TfL tube stations');
   assert.ok(tubeNetwork.lines.some((line) => line.id === 'central'), 'Central line should be present');
   assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB1'), 'RB1 river service should be present');
   assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB6'), 'RB6 river service should be present');
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Bank'), 'Bank station should be present');
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Tower Hill' && station.lines.length >= 2), 'shared-track station fixtures should exist');
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Heathrow Terminal 5'), 'western Piccadilly terminus should be present');
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Epping'), 'northeastern Central terminus should be present');
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Upminster'), 'eastern District terminus should be present');
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'High Barnet'), 'northern Northern line branch should be present');
   assert.ok(tubeNetwork.stations.every((station) => station.zone), 'Tube stations should include fare zone data');
 
   for (const line of tubeNetwork.lines) {
@@ -660,7 +679,7 @@ test('tile manifest maps to real files', () => {
 
 test('offline basemap manifest can drive the download button', () => {
   const manifest = JSON.parse(read('assets/offline-map-assets.json'));
-  assert.equal(manifest.version, '20260622-1554');
+  assert.equal(manifest.version, '20260622-1622');
   assert.equal(manifest.label, 'Local basemap');
   assert.equal(manifest.strategy, 'pmtiles-plus-raster-fallback');
   assert.ok(Array.isArray(manifest.tileManifests), 'offline basemap should support tile manifests');
@@ -683,9 +702,9 @@ test('MapLibre PMTiles proof page is wired to self-hosted London archive', () =>
   const archiveHeader = readFileSync(archivePath).subarray(0, 7).toString('utf8');
   const archiveStats = statSync(archivePath);
 
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1554/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1554/);
-  assert.match(html, /assets\/maplibre-poc\.js\?v=20260622-1554/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1622/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1622/);
+  assert.match(html, /assets\/maplibre-poc\.js\?v=20260622-1622/);
   assert.match(html, /London PMTiles/);
   assert.match(html, /data-route="london-tour"/);
   assert.match(html, /data-route="secret-ldn-sightseeing"/);

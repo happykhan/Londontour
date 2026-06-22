@@ -384,6 +384,10 @@
           'line-color': ['case', ['has', 'color'], ['get', 'color'], group.fallbackColor || '#146c64'],
           'line-opacity': ['case', ['has', 'opacity'], ['get', 'opacity'], 1],
           'line-width': ['case', ['has', 'width'], ['get', 'width'], 3],
+          'line-offset': ['*',
+            ['case', ['has', 'offset'], ['get', 'offset'], 0],
+            ['interpolate', ['linear'], ['zoom'], 10, 1, 15, 1, 17, 0.55, 18, 0.35],
+          ],
         };
         if (group.dashArray) paint['line-dasharray'] = group.dashArray;
         this._map.addLayer({
