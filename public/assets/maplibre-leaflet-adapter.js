@@ -384,19 +384,23 @@
           'line-color': ['case', ['has', 'color'], ['get', 'color'], group.fallbackColor || '#146c64'],
           'line-opacity': ['case', ['has', 'opacity'], ['get', 'opacity'], 1],
           'line-width': ['case', ['has', 'width'], ['get', 'width'], 3],
-          'line-offset': ['*',
-            ['case', ['has', 'offset'], ['get', 'offset'], 0],
-            ['interpolate', ['linear'], ['zoom'], 10, 1, 15, 1, 17, 0.55, 18, 0.35],
-          ],
+          'line-offset': ['case', ['has', 'offset'], ['get', 'offset'], 0],
         };
         if (group.dashArray) paint['line-dasharray'] = group.dashArray;
-        this._map.addLayer({
+        const layer = {
           id,
           type: 'line',
           source: id,
           paint,
           layout: { 'line-cap': 'round', 'line-join': 'round' },
-        });
+        };
+        try {
+          this._map.addLayer(layer);
+        } catch (error) {
+          console.warn(`Could not add native line layer ${id}; retrying without offsets`, error);
+          delete layer.paint['line-offset'];
+          this._map.addLayer(layer);
+        }
       }
     }
     setLineFeatureCollection(id, data, options = {}) {

@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1622';
-const cacheName = 'londontour-offline-v73';
+const assetVersion = '20260622-2122';
+const cacheName = 'londontour-offline-v74';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
