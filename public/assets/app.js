@@ -413,8 +413,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1325';
-const cacheName = 'londontour-offline-v58';
+const assetVersion = '20260622-1340';
+const cacheName = 'londontour-offline-v59';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -657,6 +657,63 @@ function popupTitle(point) {
   const url = safeExternalUrl(point.url);
   if (!url) return `<strong>${name}</strong>`;
   return `<strong><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a></strong>`;
+}
+
+function safeLineColour(colour) {
+  return /^#[0-9a-f]{6}$/i.test(colour || '') ? colour : '#111827';
+}
+
+function tubeStationFacilityAvailable(station, label) {
+  const entry = (station.facilities || []).find((item) => item.toLowerCase().startsWith(`${label.toLowerCase()}:`));
+  if (!entry) return false;
+  const value = entry.split(':').slice(1).join(':').trim().toLowerCase();
+  if (!value || value === 'no' || value === 'none') return false;
+  const numeric = Number(value);
+  if (Number.isFinite(numeric)) return numeric > 0;
+  return value === 'yes' || value === 'true' || value === 'available';
+}
+
+function tubeStationLineChips(station, tubeNetwork = tubeNetworkData) {
+  const lines = (station.lines || [])
+    .map((lineId) => tubeNetwork.lines.find((line) => line.id === lineId))
+    .filter(Boolean);
+
+  if (!lines.length) return '<span class="tube-popup-muted">Tube station</span>';
+
+  return lines
+    .map((line) => `<span class="tube-line-chip" style="--tube-line-colour: ${safeLineColour(line.color)}">${escapeHtml(line.label)}</span>`)
+    .join('');
+}
+
+function tubeFacilityChip(label, available) {
+  return `
+    <span class="tube-facility-chip ${available ? 'is-available' : 'is-unavailable'}">
+      <span class="tube-facility-icon" aria-hidden="true">${escapeHtml(label === 'Toilets' ? 'WC' : 'Lift')}</span>
+      <span>${escapeHtml(label)}</span>
+      <span class="tube-facility-state">${available ? 'yes' : 'no'}</span>
+    </span>
+  `;
+}
+
+function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
+  const zone = station.zone ? `<span class="tube-zone-badge">Zone ${escapeHtml(station.zone)}</span>` : '';
+  const toilets = tubeStationFacilityAvailable(station, 'Toilets');
+  const lifts = tubeStationFacilityAvailable(station, 'Lifts');
+
+  return `
+    <div class="tube-popup">
+      <div class="tube-popup-header">
+        <strong>${escapeHtml(station.name)}</strong>
+        ${zone}
+      </div>
+      <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
+      <div class="tube-facility-list">
+        ${tubeFacilityChip('Toilets', toilets)}
+        ${tubeFacilityChip('Lifts', lifts)}
+      </div>
+      ${nearbyPopupButton(station.lat, station.lng, station.name)}
+    </div>
+  `;
 }
 
 function editorPopupControls(point) {
@@ -1019,8 +1076,9 @@ function setSearchOpen(open) {
 
 function searchPopupContent(item) {
   if (item.stationId) {
-    const lines = item.stationLines?.length ? item.stationLines.join(' · ') : 'Tube station';
-    return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(lines)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}`;
+    const station = tubeNetworkData.stations.find((candidate) => candidate.id === item.stationId);
+    if (station) return tubeStationPopupContent(station);
+    return `<strong>${escapeHtml(item.name)}</strong>${nearbyPopupButton(item.lat, item.lng, item.name)}`;
   }
 
   if (item.layerId && item.point) {
@@ -2050,13 +2108,7 @@ async function renderTubeNetwork(openStationId) {
     const stationLines = station.lines
       .map((lineId) => tubeNetwork.lines.find((line) => line.id === lineId)?.label)
       .filter(Boolean);
-    const stationInfo = [
-      isMajorStation ? 'Major interchange' : null,
-      station.zone ? `Zone ${escapeHtml(station.zone)}` : null,
-      station.facilities?.length ? escapeHtml(station.facilities.slice(0, 4).join(' · ')) : null,
-      escapeHtml(station.source || 'TfL station data'),
-    ].filter(Boolean);
-    const popupContent = `<strong>${escapeHtml(station.name)}</strong><br>${escapeHtml(stationLines.join(' · '))}<br>${stationInfo.join('<br>')}${nearbyPopupButton(station.lat, station.lng, station.name)}`;
+    const popupContent = tubeStationPopupContent(station, tubeNetwork);
     const marker = L.marker([station.lat, station.lng], {
       icon: L.divIcon({
         className: '',
