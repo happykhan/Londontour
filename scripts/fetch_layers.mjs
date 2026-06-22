@@ -101,6 +101,17 @@ const layerDefinitions = [
     fullZoom: 16,
   },
   {
+    id: 'water',
+    label: 'Water refill points',
+    defaultVisible: false,
+    minZoom: 14,
+    markerLabel: 'H2O',
+    routeRadiusMeters: 400,
+    maxItems: 320,
+    previewLimit: 45,
+    fullZoom: 17,
+  },
+  {
     id: 'supermarkets',
     label: 'Supermarkets',
     defaultVisible: false,
@@ -126,6 +137,15 @@ function overpassQuery(bounds = BBOX) {
   node[amenity=toilets](${bbox});
   way[amenity=toilets](${bbox});
   relation[amenity=toilets](${bbox});
+  node[amenity=drinking_water](${bbox});
+  way[amenity=drinking_water](${bbox});
+  relation[amenity=drinking_water](${bbox});
+  node[man_made=water_tap](${bbox});
+  way[man_made=water_tap](${bbox});
+  relation[man_made=water_tap](${bbox});
+  node[drinking_water=yes](${bbox});
+  way[drinking_water=yes](${bbox});
+  relation[drinking_water=yes](${bbox});
   node[shop~"^(supermarket|convenience)$"](${bbox});
   way[shop~"^(supermarket|convenience)$"](${bbox});
   relation[shop~"^(supermarket|convenience)$"](${bbox});
@@ -187,12 +207,20 @@ async function fetchOverpassChunk(bounds, index, total) {
   const maxAttempts = 5;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'application/json',
-      },
-    });
+    let response;
+    try {
+      response = await fetch(url, {
+        headers: {
+          'User-Agent': USER_AGENT,
+          Accept: 'application/json',
+        },
+      });
+    } catch (error) {
+      const waitSeconds = attempt * 6;
+      console.log(`Overpass chunk ${index}/${total} attempt ${attempt} failed: ${error.message}; waiting ${waitSeconds}s`);
+      await sleep(waitSeconds * 1000);
+      continue;
+    }
 
     if (response.ok) {
       const data = await response.json();
@@ -365,6 +393,7 @@ const essentialLandmarkNames = new Set([
 function classify(tags = {}) {
   if (/^(pub|bar)$/.test(tags.amenity)) return 'pubs';
   if (tags.amenity === 'toilets') return 'toilets';
+  if (isWaterRefill(tags)) return 'water';
   if (/^(supermarket|convenience)$/.test(tags.shop)) return 'supermarkets';
   if (transportType(tags) === 'boat') return 'transport';
   if (transportType(tags) === 'bus') return 'bus-planning';
@@ -386,6 +415,10 @@ function normaliseTitle(value = '') {
 
 function isMuseum(tags = {}) {
   return tags.tourism === 'museum' || tags.tourism === 'gallery';
+}
+
+function isWaterRefill(tags = {}) {
+  return tags.amenity === 'drinking_water' || tags.man_made === 'water_tap' || tags.drinking_water === 'yes';
 }
 
 function isPlaque(tags = {}) {
@@ -463,6 +496,7 @@ function titleCase(value = '') {
 
 function fallbackName(layerId, tags) {
   if (layerId === 'toilets') return 'Public toilets';
+  if (layerId === 'water') return 'Water refill point';
   if (layerId === 'transport') return 'River pier';
   if (layerId === 'bus-planning') return 'Bus stop';
   if (layerId === 'supermarkets') return titleCase(tags.shop || 'Supermarket');
@@ -486,6 +520,15 @@ function detailFor(layerId, tags = {}) {
     if (tags.fee) bits.push(`fee: ${tags.fee}`);
     if (tags.wheelchair) bits.push(`wheelchair: ${tags.wheelchair}`);
     if (tags.access) bits.push(`access: ${tags.access}`);
+    return `${bits.join(' · ')} from OpenStreetMap.`;
+  }
+
+  if (layerId === 'water') {
+    const bits = ['Drinking water'];
+    if (tags.fountain) bits.push(`fountain: ${tags.fountain}`);
+    if (tags.bottle) bits.push(`bottle: ${tags.bottle}`);
+    if (tags.access) bits.push(`access: ${tags.access}`);
+    if (tags.fee) bits.push(`fee: ${tags.fee}`);
     return `${bits.join(' · ')} from OpenStreetMap.`;
   }
 
@@ -574,6 +617,9 @@ function scoreElement(layerId, tags = {}) {
   if (tags.public_transport === 'stop_position') score -= 45;
   if (tags.amenity === 'pub' || tags.amenity === 'cafe') score += 10;
   if (layerId === 'toilets' && tags.access === 'public') score += 12;
+  if (layerId === 'water' && tags.amenity === 'drinking_water') score += 30;
+  if (layerId === 'water' && tags.bottle === 'yes') score += 18;
+  if (layerId === 'water' && tags.access === 'public') score += 12;
   if (layerId === 'supermarkets' && tags.brand) score += 12;
   if (tags.disused || tags.abandoned || tags.demolished) score -= 100;
   return score;

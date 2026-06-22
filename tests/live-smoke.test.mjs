@@ -11,9 +11,9 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1435/);
-  assert.match(html, /assets\/app\.js\?v=20260621-1435/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1435'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260622-1015/);
+  assert.match(html, /assets\/app\.js\?v=20260622-1015/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1015'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
 });
 
@@ -32,6 +32,7 @@ test('production serves generated OpenStreetMap layers', async () => {
   assert.ok(counts.get('transport') >= 24);
   assert.ok(counts.get('bus-planning') >= 1500);
   assert.ok(counts.get('toilets') >= 300);
+  assert.ok(counts.get('water') >= 300);
   assert.ok(counts.get('supermarkets') >= 400);
 
   const museums = catalog.layers.find((layer) => layer.id === 'museums');
@@ -42,6 +43,7 @@ test('production serves generated OpenStreetMap layers', async () => {
   assert.ok(museums.points.every((point) => /^https?:\/\//.test(point.url)));
   const transport = catalog.layers.find((layer) => layer.id === 'transport');
   const busPlanning = catalog.layers.find((layer) => layer.id === 'bus-planning');
+  const water = catalog.layers.find((layer) => layer.id === 'water');
   assert.equal(transport.label, 'Tube and river links');
   assert.equal(transport.defaultVisible, true);
   assert.equal(transport.minZoom, 14);
@@ -50,6 +52,9 @@ test('production serves generated OpenStreetMap layers', async () => {
   assert.ok(transport.points.every((point) => point.source.startsWith('TfL StopPoint')));
   assert.ok(transport.points.some((point) => point.name === 'Putney Pier'));
   assert.ok(transport.points.some((point) => point.name === 'Barking Riverside Pier'));
+  assert.equal(water.label, 'Water refill points');
+  assert.equal(water.minZoom, 14);
+  assert.ok(water.points.every((point) => /Drinking water/.test(point.detail)));
   assert.equal(busPlanning.editorOnly, true);
   assert.ok(busPlanning.points.every((point) => point.transportType === 'bus'));
 });

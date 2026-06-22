@@ -266,6 +266,18 @@ const fallbackLayerCatalog = [
     ],
   },
   {
+    id: 'water',
+    label: 'Water refill points',
+    defaultVisible: false,
+    minZoom: 14,
+    markerLabel: 'H2O',
+    routeRadiusMeters: 400,
+    points: [
+      { id: 'trafalgar-water', name: 'Trafalgar Square drinking water', lat: 51.5081, lng: -0.128, detail: 'Drinking water from OpenStreetMap.' },
+      { id: 'southbank-water', name: 'South Bank drinking water', lat: 51.5068, lng: -0.1149, detail: 'Bottle refill point from OpenStreetMap.' },
+    ],
+  },
+  {
     id: 'supermarkets',
     label: 'Supermarkets',
     defaultVisible: false,
@@ -387,8 +399,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260621-1435';
-const cacheName = 'londontour-offline-v52';
+const assetVersion = '20260622-1015';
+const cacheName = 'londontour-offline-v54';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -915,6 +927,17 @@ function scoreSearchItem(item, terms, query) {
   return score;
 }
 
+function searchResultCategory(item) {
+  if (item.stationId) return 'tube';
+  if (item.layerId) return item.layerId;
+  if (item.routeId) return 'route';
+  return 'generic';
+}
+
+function searchResultClass(item) {
+  return `search-result search-result-${escapeHtml(searchResultCategory(item))}`;
+}
+
 async function searchMapItems(query) {
   const normalisedQuery = normaliseSearchText(query);
   if (normalisedQuery.length < 2) return [];
@@ -943,7 +966,7 @@ function renderSearchResults(query = searchInput?.value || '') {
 
   searchResultsEl.innerHTML = searchResults
     .map((item, index) => `
-      <button class="search-result" type="button" role="option" data-search-index="${index}">
+      <button class="${searchResultClass(item)}" type="button" role="option" data-search-index="${index}">
         <strong>${escapeHtml(item.name)}</strong>
         <span>${escapeHtml(item.label || item.type)}</span>
         <small>${escapeHtml(item.detail || '')}</small>
@@ -1130,7 +1153,7 @@ function renderRadiusPanel() {
   radiusResultsEl.innerHTML = radiusState.results.length
     ? radiusState.results
         .map((item, index) => `
-          <button class="search-result" type="button" role="option" data-radius-index="${index}">
+          <button class="${searchResultClass(item)}" type="button" role="option" data-radius-index="${index}">
             <strong>${escapeHtml(item.name)}</strong>
             <span>${escapeHtml(item.label || item.type)} · ${escapeHtml(formatDistance(item.distanceMeters))}</span>
             <small>${escapeHtml(item.detail || '')}</small>
@@ -1851,6 +1874,39 @@ function isMajorTubeStation(station) {
   return tubeStationFacilityNumber(station, 'Gates') >= 20 || tubeStationFacilityNumber(station, 'Ticket Halls') >= 3;
 }
 
+function selectedTubeLineOffsetMeters(lineId, selectedStation) {
+  const selectedLines = (selectedStation?.lines || []).filter((id) => tubeNetworkData.lines.some((line) => line.id === id));
+  if (selectedLines.length < 2) return 0;
+  const index = selectedLines.indexOf(lineId);
+  if (index === -1) return 0;
+  return (index - (selectedLines.length - 1) / 2) * 6;
+}
+
+function offsetTubeSegment(segment, offsetMeters) {
+  if (!offsetMeters || !Array.isArray(segment) || segment.length < 2) return segment;
+
+  return segment.map((point, index) => {
+    const previous = segment[Math.max(0, index - 1)];
+    const next = segment[Math.min(segment.length - 1, index + 1)];
+    const lat = Number(point[0]);
+    const lng = Number(point[1]);
+    const originLat = lat * Math.PI / 180;
+    const lngMeters = 111320 * Math.cos(originLat);
+    const latMeters = 110540;
+    const dx = (Number(next[1]) - Number(previous[1])) * lngMeters;
+    const dy = (Number(next[0]) - Number(previous[0])) * latMeters;
+    const length = Math.hypot(dx, dy);
+    if (!length) return point;
+
+    const normalX = -dy / length;
+    const normalY = dx / length;
+    return [
+      lat + (normalY * offsetMeters) / latMeters,
+      lng + (normalX * offsetMeters) / lngMeters,
+    ];
+  });
+}
+
 async function renderTubeNetwork(openStationId) {
   if (!map) return;
 
@@ -1873,16 +1929,19 @@ async function renderTubeNetwork(openStationId) {
   tubeNetwork.lines.forEach((line) => {
     const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
     const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
+    const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
     const style = {
       color: line.color || '#1d4ed8',
-      opacity: isDimmed ? 0.12 : isSelected ? 0.78 : 0.46,
+      opacity: isDimmed ? 0.12 : isSelected ? 0.88 : 0.46,
       pane: 'tubeNetwork',
       renderer: tubeNetworkRenderer,
-      weight: isSelected ? 5 : 2.5,
+      weight: isSelected && selectedLineIds.size > 1 ? 4 : isSelected ? 5 : 2.5,
       lineCap: 'round',
       lineJoin: 'round',
     };
-    const segments = line.segments.filter((segment) => Array.isArray(segment) && segment.length >= 2);
+    const segments = line.segments
+      .filter((segment) => Array.isArray(segment) && segment.length >= 2)
+      .map((segment) => offsetTubeSegment(segment, offsetMeters));
     if (!segments.length) return;
 
     const polyline = L.polyline(segments, style).bindPopup(`${escapeHtml(line.label)} line`);

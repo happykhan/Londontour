@@ -99,9 +99,9 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260621-1435'\)/);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260621-1435/);
-  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260621-1435/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1015'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260622-1015/);
+  assert.match(html, /assets\/vendor\/leaflet\.css\?v=20260622-1015/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -122,6 +122,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /id: 'monuments'/);
   assert.match(js, /id: 'plaques'/);
   assert.match(js, /id: 'pubs'/);
+  assert.match(js, /id: 'water'/);
   assert.match(js, /id: 'bus-planning'/);
   assert.match(js, /function visibleLayerCatalog/);
   assert.match(js, /function loadEditorDraft/);
@@ -151,6 +152,9 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /let radiusResultMarkers = \[\]/);
   assert.match(js, /function normaliseSearchText/);
   assert.match(js, /function buildSearchableItems/);
+  assert.match(js, /function searchResultCategory/);
+  assert.match(js, /function searchResultClass/);
+  assert.match(js, /search-result-\$\{escapeHtml\(searchResultCategory\(item\)\)\}/);
   assert.match(js, /function searchMapItems/);
   assert.match(js, /function renderSearchResults/);
   assert.match(js, /function focusSearchResult/);
@@ -188,7 +192,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function pointToSegmentDistanceMeters/);
   assert.match(js, /function loadTubeNetwork/);
   assert.match(js, /async function renderTubeNetwork/);
-  assert.match(js, /const assetVersion = '20260621-1435'/);
+  assert.match(js, /const assetVersion = '20260622-1015'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -238,7 +242,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /casingWeight: isCompact \? 12 : 16/);
   assert.match(js, /lineOpacity: 1/);
   assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : \(isCompact \? 7 : 9\)/);
-  assert.match(js, /opacity: isDimmed \? 0\.12 : isSelected \? 0\.78 : 0\.46/);
+  assert.match(js, /opacity: isDimmed \? 0\.12 : isSelected \? 0\.88 : 0\.46/);
   assert.match(js, /opacity: selectedLineIds\.size \? 0\.16 : 0\.4/);
   assert.match(js, /useOfflineTiles/);
   assert.match(js, /\/tiles\/\{z\}\/\{x\}\/\{y\}\.png/);
@@ -278,6 +282,12 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.search-form/);
   assert.match(css, /\.search-results/);
   assert.match(css, /\.search-result/);
+  assert.match(css, /\.radius-panel \.search-results/);
+  assert.match(css, /grid-template-rows: auto auto minmax\(0, 1fr\) auto/);
+  assert.match(css, /--result-accent/);
+  assert.match(css, /\.search-result-water/);
+  assert.match(css, /\.search-result-supermarkets/);
+  assert.match(css, /\.search-result-tube/);
   assert.match(css, /\.search-panel\[hidden\]/);
   assert.match(css, /\.radius-icon/);
   assert.match(css, /\.radius-panel/);
@@ -294,6 +304,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.layer-marker-monuments/);
   assert.match(css, /\.layer-marker-plaques/);
   assert.match(css, /\.layer-marker-pubs/);
+  assert.match(css, /\.layer-marker-water/);
   assert.match(css, /\.layer-marker-bus-planning/);
   assert.match(css, /\.layer-marker\.is-editor-must-show/);
   assert.match(css, /\.editor-output/);
@@ -348,7 +359,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v52/);
+  assert.match(sw, /londontour-offline-v54/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -379,6 +390,7 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
   assert.ok(counts.get('transport') >= 24, 'public transport links should include TfL river piers across the widened bbox');
   assert.ok(counts.get('bus-planning') >= 1500, 'bus stops should remain available across the widened route editing area');
   assert.ok(counts.get('toilets') >= 300, 'public toilets should cover the zone 1-4 generated dataset');
+  assert.ok(counts.get('water') >= 300, 'water refill points should cover the zone 1-4 generated dataset');
   assert.ok(counts.get('supermarkets') >= 400, 'supermarkets should cover the zone 1-4 generated dataset');
 
   const museums = catalog.layers.find((layer) => layer.id === 'museums');
@@ -389,9 +401,14 @@ test('generated layer catalog imports substantial external OpenStreetMap data', 
 
   const publicTransport = catalog.layers.find((layer) => layer.id === 'transport');
   const busPlanning = catalog.layers.find((layer) => layer.id === 'bus-planning');
+  const water = catalog.layers.find((layer) => layer.id === 'water');
   assert.equal(publicTransport.label, 'Tube and river links');
   assert.equal(publicTransport.defaultVisible, true, 'tube and river links should be enabled by default');
   assert.equal(busPlanning.editorOnly, true, 'bus stops should be hidden from normal browse controls');
+  assert.equal(water.label, 'Water refill points');
+  assert.equal(water.minZoom, 14, 'water refill markers should wait until close browse zoom');
+  assert.equal(water.markerLabel, 'H2O');
+  assert.ok(water.points.every((point) => /Drinking water/.test(point.detail)), 'water points should describe refill suitability');
 
   for (const layer of catalog.layers) {
     assert.equal(typeof layer.routeRadiusMeters, 'number', `${layer.id} should define a metre detour radius`);
@@ -422,6 +439,7 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
   assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB1'), 'RB1 river service should be present');
   assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB6'), 'RB6 river service should be present');
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Bank'), 'Bank station should be present');
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Tower Hill' && station.lines.length >= 2), 'shared-track station fixtures should exist');
   assert.ok(tubeNetwork.stations.every((station) => station.zone), 'Tube stations should include fare zone data');
 
   for (const line of tubeNetwork.lines) {
@@ -466,6 +484,13 @@ test('generated tube network imports TfL stations and OSM line geometry', () => 
     assert.doesNotMatch(`${point.name} ${point.detail}`, /underground|tube|subway|stop position/i);
   }
   assert.ok(busPlanningLayer.points.length >= 1500, 'editor bus layer should keep widened bus stop planning data');
+});
+
+test('selected multi-line tube stations render offset line bands', () => {
+  const js = read('assets/app.js');
+  assert.match(js, /function selectedTubeLineOffsetMeters/);
+  assert.match(js, /function offsetTubeSegment/);
+  assert.match(js, /selectedLineIds\.size > 1 \? 4/);
 });
 
 test('route geometry file is valid and complete', () => {

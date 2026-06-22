@@ -727,6 +727,7 @@ body[data-theme="dark"] .theme-icon::before {
   box-shadow: var(--shadow);
   display: grid;
   gap: 0.75rem;
+  grid-template-rows: auto auto minmax(0, 1fr);
   max-height: min(70vh, 620px);
   overflow: hidden;
   padding: 0.9rem;
@@ -735,6 +736,10 @@ body[data-theme="dark"] .theme-icon::before {
   top: 4.75rem;
   width: min(430px, calc(100vw - 2rem));
   z-index: 720;
+}
+
+.radius-panel {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
 }
 
 .search-panel[hidden],
@@ -781,19 +786,74 @@ body[data-theme="dark"] .radius-panel {
   display: grid;
   gap: 0.55rem;
   max-height: min(48vh, 430px);
+  min-height: 0;
   overflow: auto;
   overscroll-behavior: contain;
 }
 
+.radius-panel .search-results {
+  max-height: none;
+}
+
 .search-result {
+  --result-accent: #64748b;
   background: var(--panel);
   border: 1px solid var(--line);
+  border-left: 6px solid var(--result-accent);
   border-radius: 8px;
   color: var(--ink);
   display: grid;
   gap: 0.2rem;
   padding: 0.75rem 0.85rem;
   text-align: left;
+}
+
+.search-result-route {
+  --result-accent: #c9483a;
+}
+
+.search-result-landmarks {
+  --result-accent: #7c2d12;
+}
+
+.search-result-museums {
+  --result-accent: #0f766e;
+}
+
+.search-result-monuments {
+  --result-accent: #854d0e;
+}
+
+.search-result-plaques {
+  --result-accent: #64748b;
+}
+
+.search-result-pubs {
+  --result-accent: #9f1239;
+}
+
+.search-result-transport {
+  --result-accent: #0369a1;
+}
+
+.search-result-bus-planning {
+  --result-accent: #92400e;
+}
+
+.search-result-toilets {
+  --result-accent: #4c1d95;
+}
+
+.search-result-water {
+  --result-accent: #0284c7;
+}
+
+.search-result-supermarkets {
+  --result-accent: #166534;
+}
+
+.search-result-tube {
+  --result-accent: #111827;
 }
 
 .search-result:hover,
@@ -815,6 +875,17 @@ body[data-theme="dark"] .search-result:focus-visible {
 .search-empty {
   color: var(--muted);
   line-height: 1.35;
+}
+
+.search-result span::before {
+  background: var(--result-accent);
+  border-radius: 999px;
+  content: "";
+  display: inline-block;
+  height: 0.55rem;
+  margin-right: 0.4rem;
+  vertical-align: -0.03rem;
+  width: 0.55rem;
 }
 
 .search-empty {
@@ -1020,6 +1091,11 @@ body.route-view:not(.editor-mode) .layer-marker {
 
 .layer-marker-toilets {
   background: #4c1d95;
+}
+
+.layer-marker-water {
+  background: #0284c7;
+  font-size: 0.58rem;
 }
 
 .layer-marker-supermarkets {
