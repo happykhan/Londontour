@@ -1,17 +1,21 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const browserBaseURL = process.env.LONDONTOUR_BROWSER_BASE_URL || 'http://127.0.0.1:3000';
+const useExternalServer = Boolean(process.env.LONDONTOUR_BROWSER_BASE_URL);
+const testTimeout = useExternalServer ? 90_000 : 30_000;
+
 export default defineConfig({
   testDir: './tests/browser',
-  timeout: 30_000,
+  timeout: testTimeout,
   expect: {
     timeout: 5_000,
   },
   use: {
-    baseURL: 'http://127.0.0.1:3000',
+    baseURL: browserBaseURL,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
-  webServer: {
+  webServer: useExternalServer ? undefined : {
     command: 'npx --yes serve public --listen 3000',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: true,
