@@ -248,6 +248,7 @@
       this._styleLayers = new Set();
       this._pendingStyleLayers = new Set();
       this._nativeLineGroups = new Map();
+      this._nativeLineClickHandlers = new Map();
       this._readyCallbacks = [];
       this._loaded = false;
       this._styleReady = false;
@@ -372,6 +373,7 @@
       if (!this._styleReady || !this._map.getStyle()) return;
       const group = this._nativeLineGroups.get(id);
       if (!group) return;
+      const hitboxId = `${id}-hitbox`;
 
       if (this._map.getSource(id)) {
         this._map.getSource(id).setData(group.data);
@@ -380,6 +382,7 @@
       }
 
       if (!this._map.getLayer(id)) {
+        this._nativeLineClickHandlers.delete(id);
         const paint = {
           'line-color': ['case', ['has', 'color'], ['get', 'color'], group.fallbackColor || '#146c64'],
           'line-opacity': ['case', ['has', 'opacity'], ['get', 'opacity'], 1],
@@ -402,6 +405,45 @@
           this._map.addLayer(layer);
         }
       }
+      if (group.onClick && !this._map.getLayer(hitboxId)) {
+        this._map.addLayer({
+          id: hitboxId,
+          type: 'line',
+          source: id,
+          paint: {
+            'line-color': '#000000',
+            'line-opacity': 0.01,
+            'line-width': ['case', ['has', 'width'], ['+', ['get', 'width'], 16], 18],
+            'line-offset': ['case', ['has', 'offset'], ['get', 'offset'], 0],
+          },
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+        });
+        this._bindNativeLineClick(id);
+      }
+    }
+    _bindNativeLineClick(id) {
+      const hitboxId = `${id}-hitbox`;
+      const group = this._nativeLineGroups.get(id);
+      if (!group?.onClick || !this._map.getLayer(hitboxId) || this._nativeLineClickHandlers.has(id)) return;
+      const handler = (event) => {
+        const feature = event.features?.[0];
+        if (!feature) return;
+        event.originalEvent.londontourNativeLineClick = true;
+        group.onClick(feature.properties || {}, {
+          latlng: lngLatToLatLng(event.lngLat),
+          originalEvent: event.originalEvent,
+        });
+      };
+      const mouseenter = () => {
+        this._map.getCanvas().style.cursor = 'pointer';
+      };
+      const mouseleave = () => {
+        this._map.getCanvas().style.cursor = '';
+      };
+      this._nativeLineClickHandlers.set(id, { click: handler, mouseenter, mouseleave });
+      this._map.on('click', hitboxId, handler);
+      this._map.on('mouseenter', hitboxId, mouseenter);
+      this._map.on('mouseleave', hitboxId, mouseleave);
     }
     setLineFeatureCollection(id, data, options = {}) {
       this._nativeLineGroups.set(id, { data, ...options });
@@ -411,6 +453,15 @@
     }
     removeLineFeatureCollection(id) {
       this._nativeLineGroups.delete(id);
+      const hitboxId = `${id}-hitbox`;
+      const handlers = this._nativeLineClickHandlers.get(id);
+      if (handlers && this._map.getLayer(hitboxId)) {
+        this._map.off('click', hitboxId, handlers.click);
+        this._map.off('mouseenter', hitboxId, handlers.mouseenter);
+        this._map.off('mouseleave', hitboxId, handlers.mouseleave);
+      }
+      this._nativeLineClickHandlers.delete(id);
+      if (this._map.getLayer(hitboxId)) this._map.removeLayer(hitboxId);
       if (this._map.getLayer(id)) this._map.removeLayer(id);
       if (this._map.getSource(id)) this._map.removeSource(id);
       return this;

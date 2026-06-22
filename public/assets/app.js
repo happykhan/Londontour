@@ -380,6 +380,7 @@ let basemapOfflineAssetsPromise;
 let tubeNetworkPromise;
 let tubeNetworkData = { lines: [], riverServices: [], stations: [] };
 let selectedTubeStationId;
+let selectedTubeLineId;
 let tubeNetworkRenderToken = 0;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
 const majorTubeStationMinZoom = 12;
@@ -414,8 +415,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-2336';
-const cacheName = 'londontour-offline-v76';
+const assetVersion = '20260622-2358';
+const cacheName = 'londontour-offline-v77';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1195,6 +1196,7 @@ function focusSearchResult(item) {
       activeLayerIds.add('transport');
       saveActiveLayerIds();
       renderLayerControls();
+      selectedTubeLineId = undefined;
       selectedTubeStationId = item.stationId;
       void renderTubeNetwork(item.stationId);
     } else {
@@ -1457,6 +1459,7 @@ function focusRadiusResult(item) {
     activeLayerIds.add('transport');
     saveActiveLayerIds();
     renderLayerControls();
+    selectedTubeLineId = undefined;
     selectedTubeStationId = item.stationId;
   }
   map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), 16), { duration: 0.35 });
@@ -2128,8 +2131,9 @@ function offsetTubeSegment(segment, offsetMeters) {
 }
 
 function clearSelectedTubeStation(options = {}) {
-  if (!selectedTubeStationId) return false;
+  if (!selectedTubeStationId && !selectedTubeLineId) return false;
   selectedTubeStationId = undefined;
+  selectedTubeLineId = undefined;
   if (options.closePopup !== false) {
     map?.closePopup();
   }
@@ -2142,6 +2146,22 @@ function clearSelectedTubeStation(options = {}) {
 
 function clearTubeSelectionBeforePopup() {
   clearSelectedTubeStation({ closePopup: false, status: 'Tube line filter cleared.' });
+}
+
+function selectTubeLine(lineId) {
+  const line = tubeNetworkData.lines.find((candidate) => candidate.id === lineId);
+  if (!line) return;
+
+  if (selectedTubeLineId === lineId && !selectedTubeStationId) {
+    clearSelectedTubeStation({ status: `${line.label}: tube line filter cleared.` });
+    return;
+  }
+
+  selectedTubeStationId = undefined;
+  selectedTubeLineId = lineId;
+  map?.closePopup();
+  void renderTubeNetwork();
+  setStatus(`${line.label}: showing selected line.`);
 }
 
 async function renderTubeNetwork(openStationId) {
@@ -2157,6 +2177,7 @@ async function renderTubeNetwork(openStationId) {
 
   if (!activeLayerIds.has('transport')) {
     selectedTubeStationId = undefined;
+    selectedTubeLineId = undefined;
     map.removeLineFeatureCollection?.('tube-network-lines');
     map.removeLineFeatureCollection?.('river-service-lines');
     return;
@@ -2166,7 +2187,7 @@ async function renderTubeNetwork(openStationId) {
   if (renderToken !== tubeNetworkRenderToken) return;
 
   const selectedStation = tubeNetwork.stations.find((station) => station.id === selectedTubeStationId);
-  const selectedLineIds = new Set(selectedStation?.lines || []);
+  const selectedLineIds = new Set(selectedStation?.lines || (selectedTubeLineId ? [selectedTubeLineId] : []));
   const tubeFeatures = [];
   const riverFeatures = [];
 
@@ -2176,7 +2197,7 @@ async function renderTubeNetwork(openStationId) {
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
     const offsetPixels = selectedLineIds.size ? 0 : browseTubeLineOffsetPixels(line.id);
     const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
-    const lineOpacity = isDimmed ? 0.72 : isSelected ? 1 : 0.96;
+    const lineOpacity = isDimmed ? 0.32 : isSelected ? 1 : 0.78;
     const style = {
       color: line.color || '#1d4ed8',
       opacity: lineOpacity,
@@ -2214,7 +2235,7 @@ async function renderTubeNetwork(openStationId) {
   map.setLineFeatureCollection?.(
     'tube-network-lines',
     { type: 'FeatureCollection', features: tubeFeatures },
-    { fallbackColor: '#1d4ed8' }
+    { fallbackColor: '#1d4ed8', onClick: (properties) => selectTubeLine(properties.id) }
   );
 
   tubeNetwork.riverServices.forEach((service) => {
@@ -2280,6 +2301,7 @@ async function renderTubeNetwork(openStationId) {
         return;
       }
 
+      selectedTubeLineId = undefined;
       selectedTubeStationId = station.id;
       void renderTubeNetwork(station.id);
       setStatus(`${station.name}: showing ${stationLines.join(', ')} tube lines.`);
@@ -2296,7 +2318,8 @@ async function renderTubeNetwork(openStationId) {
   });
 }
 
-function handleMapSelectionClear() {
+function handleMapSelectionClear(event) {
+  if (event?.originalEvent?.londontourNativeLineClick) return;
   clearSelectedTubeStation({ status: 'Tube line filter cleared.' });
 }
 
