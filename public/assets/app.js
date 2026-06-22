@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-2122';
-const cacheName = 'londontour-offline-v74';
+const assetVersion = '20260622-2214';
+const cacheName = 'londontour-offline-v75';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -663,6 +663,68 @@ function popupTitle(point) {
   return `<strong><a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${name}</a></strong>`;
 }
 
+function pointSourceLabel(source = '') {
+  const value = String(source || '').toLowerCase();
+  if (value.includes('openstreetmap')) return 'OSM';
+  if (value.includes('tfl')) return 'TfL';
+  return '';
+}
+
+function cleanPointDetail(point) {
+  return String(point.detail || '')
+    .replace(/\s*(?:Attraction|Museum|Plaque|Drinking water|Bottle refill point|Point)?\s*from OpenStreetMap\.?\s*/gi, '')
+    .replace(/\s*OpenStreetMap point\.?\s*/gi, '')
+    .trim();
+}
+
+function layerIconText(layerId, point = {}) {
+  if (point.transportType === 'boat') return 'Boat';
+  if (point.transportType === 'bus') return 'Bus';
+  const icons = {
+    landmarks: 'L',
+    museums: 'M',
+    monuments: 'Mon',
+    plaques: 'Plq',
+    pubs: 'P',
+    markets: 'Mk',
+    transport: 'T',
+    toilets: 'WC',
+    water: 'H2O',
+    supermarkets: 'S',
+  };
+  return icons[layerId] || String(point.markerLabel || point.layerMarkerLabel || '').slice(0, 4) || '•';
+}
+
+function sourceBadge(point) {
+  const label = pointSourceLabel(point.source);
+  if (!label) return '';
+  return `<span class="poi-source-badge" title="${escapeHtml(point.source)}">${escapeHtml(label)}</span>`;
+}
+
+function poiPopupContent(point) {
+  const layerId = point.layerId || '';
+  const icon = layerIconText(layerId, point);
+  const detail = cleanPointDetail(point);
+  const detailHtml = detail ? `<p class="poi-popup-detail">${escapeHtml(detail)}</p>` : '';
+  return `
+    <div class="poi-popup poi-popup-${escapeHtml(layerId)}">
+      <div class="poi-popup-header">
+        <span class="poi-popup-icon layer-marker-${escapeHtml(layerId)} ${point.transportType ? `layer-marker-transport-${escapeHtml(point.transportType)}` : ''}" aria-hidden="true">${escapeHtml(icon)}</span>
+        <div>
+          ${popupTitle(point)}
+          <div class="poi-popup-meta">
+            <span>${escapeHtml(point.layerLabel || point.layerMarkerLabel || 'Point of interest')}</span>
+            ${sourceBadge(point)}
+          </div>
+        </div>
+      </div>
+      ${detailHtml}
+      ${nearbyPopupButton(point.lat, point.lng, point.name)}
+      ${editorPopupControls(point)}
+    </div>
+  `;
+}
+
 function safeLineColour(colour) {
   return /^#[0-9a-f]{6}$/i.test(colour || '') ? colour : '#111827';
 }
@@ -708,13 +770,13 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
     <div class="tube-popup">
       <div class="tube-popup-header">
         <strong>${escapeHtml(station.name)}</strong>
-        ${zone}
+        <div class="tube-meta-row">
+          ${zone}
+          ${tubeFacilityChip('Toilets', toilets)}
+          ${tubeFacilityChip('Lifts', lifts)}
+        </div>
       </div>
       <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
-      <div class="tube-facility-list">
-        ${tubeFacilityChip('Toilets', toilets)}
-        ${tubeFacilityChip('Lifts', lifts)}
-      </div>
       ${nearbyPopupButton(station.lat, station.lng, station.name)}
     </div>
   `;
@@ -902,18 +964,22 @@ function routeMustHidePoint(point, route = selectedRoute) {
 
 function activeLayerPoints(route = browseMode ? null : selectedRoute, includeZoomRules = true) {
   const zoom = map?.getZoom?.() || route?.zoom || 13;
+  const radiusFilterActive = radiusState.active && radiusState.center && radiusState.radiusMeters > 0;
   return visibleLayerCatalog().flatMap((layer) => {
-    const layerActive = activeLayerIds.has(layer.id);
+    const layerActive = radiusFilterActive || activeLayerIds.has(layer.id);
     const forcedPointIds = new Set(route?.mustShowPointIds || []);
     if (!layerActive && !forcedPointIds.size) return [];
     const points = layer.points
       .filter((point) => {
         const forced = forcedPointIds.has(point.id);
         if (!layerActive && !forced) return false;
-        if (includeZoomRules && zoom < layer.minZoom && !forced) return false;
+        if (!radiusFilterActive && includeZoomRules && zoom < layer.minZoom && !forced) return false;
+        if (radiusFilterActive && map.distance(radiusState.center, [point.lat, point.lng]) > radiusState.radiusMeters) return false;
         return !route || pointMatchesRoute(point, layer, route);
       });
-    const displayPoints = includeZoomRules && !route ? limitLayerPointsForBrowse(layer, points, zoom, forcedPointIds) : points;
+    const displayPoints = radiusFilterActive
+      ? points
+      : includeZoomRules && !route ? limitLayerPointsForBrowse(layer, points, zoom, forcedPointIds) : points;
     return displayPoints
       .map((point) => ({ ...point, layerId: layer.id, layerLabel: layer.label, layerMarkerLabel: layer.markerLabel }));
   });
@@ -1086,7 +1152,12 @@ function searchPopupContent(item) {
   }
 
   if (item.layerId && item.point) {
-    return `${popupTitle(item.point)}<br>${escapeHtml(item.layerLabel)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}${editorPopupControls(item.point)}`;
+    return poiPopupContent({
+      ...item.point,
+      layerId: item.layerId,
+      layerLabel: item.layerLabel,
+      layerMarkerLabel: item.layerMarkerLabel,
+    });
   }
 
   return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.label || item.type)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}`;
@@ -1180,6 +1251,7 @@ function clearRadiusExplore() {
   radiusButton?.setAttribute('aria-expanded', 'false');
   if (map?.dragging) map.dragging.enable();
   renderRadiusPanel();
+  renderLayerMarkers();
 }
 
 function startRadiusFromCenter(lat, lng, name = 'Selected point') {
@@ -1241,14 +1313,18 @@ function renderRadiusPanel() {
 }
 
 function markerForRadiusResult(item) {
-  const fillColor = item.stationId ? '#111827' : item.layerId === 'transport' ? '#0369a1' : item.layerId ? '#146c64' : '#c9483a';
-  const marker = L.circleMarker([item.lat, item.lng], {
-    radius: 5,
-    color: '#ffffff',
-    fillColor,
-    fillOpacity: 0.95,
-    pane: 'markerPane',
-    weight: 2,
+  if (item.layerId) return null;
+  const markerHtml = item.stationId
+    ? '<div class="tube-station-marker is-major is-selected"><span></span></div>'
+    : '<div class="poi-marker poi-marker-poi"><span>R</span></div>';
+  const markerSize = item.stationId ? [22, 22] : [26, 26];
+  const marker = L.marker([item.lat, item.lng], {
+    icon: L.divIcon({
+      className: '',
+      html: markerHtml,
+      iconSize: markerSize,
+      iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
+    }),
   }).bindPopup(searchPopupContent(item));
   if (!item.stationId) marker.on('click', clearTubeSelectionBeforePopup);
   return marker;
@@ -1313,7 +1389,9 @@ function renderRadiusOverlays() {
   }
 
   radiusState.results.forEach((item) => {
-    const marker = markerForRadiusResult(item).addTo(map);
+    const marker = markerForRadiusResult(item);
+    if (!marker) return;
+    marker.addTo(map);
     radiusResultMarkers.push(marker);
   });
 }
@@ -1327,6 +1405,7 @@ async function updateRadiusFromEdge(latLng) {
   radiusState.results = radiusResultsFor(radiusState.center, radiusState.radiusMeters);
   renderRadiusPanel();
   renderRadiusOverlays();
+  renderLayerMarkers();
 }
 
 function handleRadiusMapClick(event) {
@@ -1944,7 +2023,7 @@ function renderLayerMarkers() {
 
   activeLayerPoints().forEach((point) => {
     const layerId = escapeHtml(point.layerId);
-    const markerLabel = escapeHtml(point.markerLabel || point.layerMarkerLabel);
+    const markerLabel = escapeHtml(layerIconText(point.layerId, point));
     const layerLabel = escapeHtml(point.layerLabel);
     const detail = escapeHtml(point.detail);
     const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
@@ -1962,7 +2041,7 @@ function renderLayerMarkers() {
         iconSize: markerSize,
         iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
-    }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}${nearbyPopupButton(point.lat, point.lng, point.name)}${editorPopupControls(point)}`);
+    }).bindPopup(poiPopupContent(point));
     marker.on('click', clearTubeSelectionBeforePopup);
     marker.addTo(map);
     layerMarkers.push(marker);

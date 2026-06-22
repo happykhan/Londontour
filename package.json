@@ -4,10 +4,18 @@
   "private": true,
   "scripts": {
     "test": "node --test tests/smoke.test.mjs",
+    "test:static": "node --test tests/smoke.test.mjs",
+    "test:map": "playwright test",
+    "test:live": "node --test tests/live-smoke.test.mjs",
+    "test:all": "npm run test:static && npm run test:map",
+    "setup:browsers": "playwright install chromium",
     "tiles": "python3 scripts/generate_tiles.py",
     "layers": "node scripts/fetch_layers.mjs",
     "tube": "node scripts/fetch_tube_network.mjs",
     "start": "npx --yes serve public",
     "deploy": "npx --yes vercel deploy --prod --yes --scope happykhans-projects"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.0"
   }
 }

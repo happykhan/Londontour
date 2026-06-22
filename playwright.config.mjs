@@ -1,0 +1,30 @@
+import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests/browser',
+  timeout: 30_000,
+  expect: {
+    timeout: 5_000,
+  },
+  use: {
+    baseURL: 'http://127.0.0.1:3000',
+    trace: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+  },
+  webServer: {
+    command: 'npx --yes serve public --listen 3000',
+    url: 'http://127.0.0.1:3000',
+    reuseExistingServer: true,
+    timeout: 30_000,
+  },
+  projects: [
+    {
+      name: 'desktop-chromium',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 900 } },
+    },
+    {
+      name: 'mobile-chromium',
+      use: { ...devices['Pixel 5'], viewport: { width: 390, height: 844 } },
+    },
+  ],
+});

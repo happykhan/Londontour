@@ -369,7 +369,7 @@
       [...this._nativeLineGroups.keys()].forEach((id) => this._renderNativeLineGroup(id));
     }
     _renderNativeLineGroup(id) {
-      if (!this._styleReady || !this._map.isStyleLoaded()) return;
+      if (!this._styleReady || !this._map.getStyle()) return;
       const group = this._nativeLineGroups.get(id);
       if (!group) return;
 
@@ -416,7 +416,7 @@
       return this;
     }
     _flushPendingStyleLayers() {
-      if (!this._styleReady || !this._map.isStyleLoaded()) return;
+      if (!this._styleReady || !this._map.getStyle()) return;
       [...this._pendingStyleLayers].forEach((layer) => {
         layer._addToStyle();
         this._pendingStyleLayers.delete(layer);
@@ -424,7 +424,7 @@
       this._sortOverlayLayers();
     }
     _sortOverlayLayers() {
-      if (!this._map.isStyleLoaded()) return;
+      if (!this._styleReady || !this._map.getStyle()) return;
       [...this._styleLayers]
         .filter((layer) => this._map.getLayer(layer.id))
         .sort((a, b) => a._overlayOrder() - b._overlayOrder())
