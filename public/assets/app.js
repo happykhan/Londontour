@@ -380,6 +380,7 @@ let basemapOfflineAssetsPromise;
 let tubeNetworkPromise;
 let tubeNetworkData = { lines: [], riverServices: [], stations: [] };
 let selectedTubeStationId;
+let tubeNetworkRenderToken = 0;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
 const majorTubeStationMinZoom = 12;
 const tubeStationMinZoom = 14;
@@ -413,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1406';
-const cacheName = 'londontour-offline-v62';
+const assetVersion = '20260622-1428';
+const cacheName = 'londontour-offline-v65';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -488,6 +489,9 @@ function saveActiveLayerIds() {
 
 function applyLayerSelection(ids, message = 'Map layers updated.') {
   activeLayerIds = new Set(ids);
+  if (!activeLayerIds.has('transport')) {
+    selectedTubeStationId = undefined;
+  }
   saveActiveLayerIds();
   renderLayerControls();
   renderLayerMarkers();
@@ -1113,6 +1117,7 @@ function focusSearchResult(item) {
       selectedTubeStationId = item.stationId;
       void renderTubeNetwork(item.stationId);
     } else {
+      clearTubeSelectionBeforePopup();
       void renderTubeNetwork();
       L.popup()
         .setLatLng([item.lat, item.lng])
@@ -1237,7 +1242,7 @@ function renderRadiusPanel() {
 
 function markerForRadiusResult(item) {
   const fillColor = item.stationId ? '#111827' : item.layerId === 'transport' ? '#0369a1' : item.layerId ? '#146c64' : '#c9483a';
-  return L.circleMarker([item.lat, item.lng], {
+  const marker = L.circleMarker([item.lat, item.lng], {
     radius: 5,
     color: '#ffffff',
     fillColor,
@@ -1245,6 +1250,8 @@ function markerForRadiusResult(item) {
     pane: 'markerPane',
     weight: 2,
   }).bindPopup(searchPopupContent(item));
+  if (!item.stationId) marker.on('click', clearTubeSelectionBeforePopup);
+  return marker;
 }
 
 function renderRadiusOverlays() {
@@ -1366,6 +1373,7 @@ function focusRadiusResult(item) {
   map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), 16), { duration: 0.35 });
   window.setTimeout(() => {
     renderLayerMarkers();
+    if (!item.stationId) clearTubeSelectionBeforePopup();
     void renderTubeNetwork(item.stationId);
     L.popup()
       .setLatLng([item.lat, item.lng])
@@ -1955,6 +1963,7 @@ function renderLayerMarkers() {
         iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
     }).bindPopup(`${popupTitle(point)}<br>${layerLabel}<br>${detail}${nearbyPopupButton(point.lat, point.lng, point.name)}${editorPopupControls(point)}`);
+    marker.on('click', clearTubeSelectionBeforePopup);
     marker.addTo(map);
     layerMarkers.push(marker);
   });
@@ -2029,8 +2038,13 @@ function clearSelectedTubeStation(options = {}) {
   return true;
 }
 
+function clearTubeSelectionBeforePopup() {
+  clearSelectedTubeStation({ closePopup: false, status: 'Tube line filter cleared.' });
+}
+
 async function renderTubeNetwork(openStationId) {
   if (!map) return;
+  const renderToken = ++tubeNetworkRenderToken;
 
   tubeLineLayers.forEach((layer) => layer.remove());
   riverServiceLayers.forEach((layer) => layer.remove());
@@ -2045,6 +2059,8 @@ async function renderTubeNetwork(openStationId) {
   }
 
   const tubeNetwork = await loadTubeNetwork();
+  if (renderToken !== tubeNetworkRenderToken) return;
+
   const selectedStation = tubeNetwork.stations.find((station) => station.id === selectedTubeStationId);
   const selectedLineIds = new Set(selectedStation?.lines || []);
 
@@ -2052,12 +2068,25 @@ async function renderTubeNetwork(openStationId) {
     const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
     const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
+    const lineWeight = isSelected && selectedLineIds.size > 1 ? 5.2 : isSelected ? 6.4 : 4.4;
+    const lineOpacity = isDimmed ? 0.48 : isSelected ? 1 : 0.95;
+    const casing = {
+      color: document.body.dataset.theme === 'dark' ? '#0f172a' : '#ffffff',
+      opacity: isDimmed ? 0.5 : isSelected ? 0.92 : 0.82,
+      pane: 'tubeNetwork',
+      overlayOrder: 28,
+      renderer: tubeNetworkRenderer,
+      weight: lineWeight + 3.6,
+      lineCap: 'round',
+      lineJoin: 'round',
+    };
     const style = {
       color: line.color || '#1d4ed8',
-      opacity: isDimmed ? 0.16 : isSelected ? 0.95 : 0.68,
+      opacity: lineOpacity,
       pane: 'tubeNetwork',
+      overlayOrder: 29,
       renderer: tubeNetworkRenderer,
-      weight: isSelected && selectedLineIds.size > 1 ? 4.5 : isSelected ? 5.5 : 3.25,
+      weight: lineWeight,
       lineCap: 'round',
       lineJoin: 'round',
     };
@@ -2066,9 +2095,11 @@ async function renderTubeNetwork(openStationId) {
       .map((segment) => offsetTubeSegment(segment, offsetMeters));
     if (!segments.length) return;
 
+    const casingPolyline = L.polyline(segments, casing);
     const polyline = L.polyline(segments, style).bindPopup(`${escapeHtml(line.label)} line`);
+    casingPolyline.addTo(map);
     polyline.addTo(map);
-    tubeLineLayers.push(polyline);
+    tubeLineLayers.push(casingPolyline, polyline);
   });
 
   tubeNetwork.riverServices.forEach((service) => {
@@ -2077,8 +2108,9 @@ async function renderTubeNetwork(openStationId) {
 
     const polyline = L.polyline(segments, {
       color: service.color || '#0077b6',
-      opacity: selectedLineIds.size ? 0.18 : 0.58,
+      opacity: selectedLineIds.size ? 0.46 : 0.76,
       pane: 'tubeNetwork',
+      overlayOrder: 27,
       renderer: tubeNetworkRenderer,
       weight: 3,
       dashArray: '8 8',
@@ -2172,6 +2204,7 @@ function renderRouteMarkers() {
         iconAnchor: [14, 14],
       }),
     }).bindPopup(`<strong>${index + 1}. ${escapeHtml(stop.name)}</strong><br>${escapeHtml(stop.detail)}${nearbyPopupButton(stop.lat, stop.lng, stop.name)}`);
+    marker.on('click', clearTubeSelectionBeforePopup);
     marker.addTo(map);
     routeMarkers.push(marker);
   });
@@ -2231,6 +2264,7 @@ async function renderRouteOnMap() {
       color: '#ffffff',
       opacity: strokeStyle.casingOpacity,
       weight: strokeStyle.casingWeight,
+      overlayOrder: 60,
       lineCap: 'round',
       lineJoin: 'round',
     });
@@ -2238,6 +2272,7 @@ async function renderRouteOnMap() {
       color: segmentStylesFor(segment.segment),
       opacity: strokeStyle.lineOpacity,
       weight: strokeStyle.lineWeight,
+      overlayOrder: 61,
       lineCap: 'round',
       lineJoin: 'round',
     });
@@ -2308,6 +2343,7 @@ function setBrowseLayersOpen(open) {
   const isOpen = Boolean(open);
   document.body.classList.toggle('browse-layers-open', isOpen);
   if (isOpen) {
+    clearTubeSelectionBeforePopup();
     document.body.classList.remove('route-menu-open', 'offline-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
@@ -2328,6 +2364,7 @@ function setRouteMenuOpen(open) {
   const isOpen = Boolean(open);
   document.body.classList.toggle('route-menu-open', isOpen);
   if (isOpen) {
+    clearTubeSelectionBeforePopup();
     document.body.classList.remove('browse-layers-open', 'offline-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
@@ -2345,6 +2382,7 @@ function setOfflineMenuOpen(open) {
   const isOpen = Boolean(open);
   document.body.classList.toggle('offline-menu-open', isOpen);
   if (isOpen) {
+    clearTubeSelectionBeforePopup();
     document.body.classList.remove('browse-layers-open', 'route-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
@@ -2526,6 +2564,7 @@ function addOrUpdateUserMarker() {
     }),
   })
     .bindPopup(`<strong>Your position</strong>${nearbyPopupButton(userLocation[0], userLocation[1], 'Your position')}`)
+    .on('click', clearTubeSelectionBeforePopup)
     .addTo(map);
 }
 

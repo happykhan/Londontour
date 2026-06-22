@@ -273,6 +273,20 @@
         this._styleLayers.forEach((layer) => this._pendingStyleLayers.add(layer));
         this._flushPendingStyleLayers();
       });
+      if (new URLSearchParams(location.search).has('debug')) {
+        window.__londontourMapDebug = {
+          adapter: this,
+          styleLayerIds: () => this._map.getStyle().layers.map((layer) => layer.id),
+          overlayLayers: () => [...this._styleLayers].map((layer) => ({
+            id: layer.id,
+            order: layer._overlayOrder(),
+            pane: layer.options?.pane,
+            color: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-color') : null,
+            opacity: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-opacity') : null,
+            width: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-width') : null,
+          })),
+        };
+      }
     }
     getContainer() { return this._map.getContainer(); }
     createPane() {}

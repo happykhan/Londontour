@@ -11,11 +11,11 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1406/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1406/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260622-1406/);
-  assert.match(html, /assets\/app\.js\?v=20260622-1406/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1406'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1428/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1428/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260622-1428/);
+  assert.match(html, /assets\/app\.js\?v=20260622-1428/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1428'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
   assert.doesNotMatch(html, /basemaps\.cartocdn\.com/i);
 });
@@ -33,8 +33,8 @@ test('production serves the offline basemap manifest', async () => {
 test('production serves the MapLibre PMTiles proof page and archive', async () => {
   const html = await readText(`${liveUrl}/maplibre-poc.html`);
   assert.match(html, /London PMTiles/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1406/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1406/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1428/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1428/);
 
   const response = await fetch(`${liveUrl}/assets/basemaps/london-z14.pmtiles`, {
     headers: { Range: 'bytes=0-6' },
