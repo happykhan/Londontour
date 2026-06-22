@@ -413,8 +413,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1308';
-const cacheName = 'londontour-offline-v57';
+const assetVersion = '20260622-1325';
+const cacheName = 'londontour-offline-v58';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1709,6 +1709,7 @@ function buildMap() {
     renderRadiusOverlays();
   });
   map.on('click', handleRadiusMapClick);
+  map.on('click', handleMapSelectionClear);
   map.getContainer().addEventListener('pointerdown', handleRadiusPointerStart);
   map.getContainer().addEventListener('pointermove', handleRadiusPointerMove);
   map.getContainer().addEventListener('pointerup', handleRadiusPointerEnd);
@@ -1957,6 +1958,19 @@ function offsetTubeSegment(segment, offsetMeters) {
   });
 }
 
+function clearSelectedTubeStation(options = {}) {
+  if (!selectedTubeStationId) return false;
+  selectedTubeStationId = undefined;
+  if (options.closePopup !== false) {
+    map?.closePopup();
+  }
+  void renderTubeNetwork();
+  if (options.status) {
+    setStatus(options.status);
+  }
+  return true;
+}
+
 async function renderTubeNetwork(openStationId) {
   if (!map) return;
 
@@ -2054,10 +2068,7 @@ async function renderTubeNetwork(openStationId) {
 
     marker.on('click', () => {
       if (selectedTubeStationId === station.id) {
-        selectedTubeStationId = undefined;
-        map.closePopup();
-        void renderTubeNetwork();
-        setStatus(`${station.name}: tube line filter cleared.`);
+        clearSelectedTubeStation({ status: `${station.name}: tube line filter cleared.` });
         return;
       }
 
@@ -2075,6 +2086,10 @@ async function renderTubeNetwork(openStationId) {
     }
     tubeStationMarkers.push(marker);
   });
+}
+
+function handleMapSelectionClear() {
+  clearSelectedTubeStation({ status: 'Tube line filter cleared.' });
 }
 
 function visibleRouteStops() {
