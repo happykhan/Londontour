@@ -986,14 +986,22 @@ body[data-theme="dark"] .search-result:focus-visible {
 }
 
 .tube-zone-badge {
+  align-self: start;
   background: #111827;
   border-radius: 999px;
   color: #fff;
+  display: inline-flex;
   font-size: 0.72rem;
   font-weight: 900;
+  justify-self: end;
   line-height: 1;
   padding: 0.32rem 0.45rem;
   white-space: nowrap;
+}
+
+.tube-popup-meta {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .tube-line-list,

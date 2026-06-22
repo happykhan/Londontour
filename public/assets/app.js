@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1454';
-const cacheName = 'londontour-offline-v67';
+const assetVersion = '20260622-1542';
+const cacheName = 'londontour-offline-v69';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -708,13 +708,13 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
     <div class="tube-popup">
       <div class="tube-popup-header">
         <strong>${escapeHtml(station.name)}</strong>
-        ${zone}
       </div>
       <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
       <div class="tube-facility-list">
         ${tubeFacilityChip('Toilets', toilets)}
         ${tubeFacilityChip('Lifts', lifts)}
       </div>
+      ${zone ? `<div class="tube-popup-meta">${zone}</div>` : ''}
       ${nearbyPopupButton(station.lat, station.lng, station.name)}
     </div>
   `;
@@ -2052,6 +2052,8 @@ async function renderTubeNetwork(openStationId) {
   tubeLineLayers = [];
   riverServiceLayers = [];
   tubeStationMarkers = [];
+  map.removeLineFeatureCollection?.('tube-network-lines');
+  map.removeLineFeatureCollection?.('river-service-lines');
 
   if (!activeLayerIds.has('transport')) {
     selectedTubeStationId = undefined;
@@ -2063,6 +2065,8 @@ async function renderTubeNetwork(openStationId) {
 
   const selectedStation = tubeNetwork.stations.find((station) => station.id === selectedTubeStationId);
   const selectedLineIds = new Set(selectedStation?.lines || []);
+  const tubeFeatures = [];
+  const riverFeatures = [];
 
   tubeNetwork.lines.forEach((line) => {
     const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
@@ -2085,29 +2089,57 @@ async function renderTubeNetwork(openStationId) {
       .map((segment) => offsetTubeSegment(segment, offsetMeters));
     if (!segments.length) return;
 
-    const polyline = L.polyline(segments, style).bindPopup(`${escapeHtml(line.label)} line`);
-    polyline.addTo(map);
-    tubeLineLayers.push(polyline);
+    segments.forEach((segment) => {
+      tubeFeatures.push({
+        type: 'Feature',
+        properties: {
+          id: line.id,
+          label: line.label,
+          color: style.color,
+          opacity: style.opacity,
+          width: style.weight,
+        },
+        geometry: {
+          type: 'LineString',
+          coordinates: segment.map(([lat, lng]) => [lng, lat]),
+        },
+      });
+    });
   });
+
+  map.setLineFeatureCollection?.(
+    'tube-network-lines',
+    { type: 'FeatureCollection', features: tubeFeatures },
+    { fallbackColor: '#1d4ed8' }
+  );
 
   tubeNetwork.riverServices.forEach((service) => {
     const segments = service.segments.filter((segment) => Array.isArray(segment) && segment.length >= 2);
     if (!segments.length) return;
 
-    const polyline = L.polyline(segments, {
-      color: service.color || '#0077b6',
-      opacity: selectedLineIds.size ? 0.58 : 0.76,
-      pane: 'tubeNetwork',
-      overlayOrder: 31,
-      renderer: tubeNetworkRenderer,
-      weight: 3,
-      dashArray: '8 8',
-      lineCap: 'round',
-      lineJoin: 'round',
-    }).bindPopup(`${escapeHtml(service.label)} river service`);
-    polyline.addTo(map);
-    riverServiceLayers.push(polyline);
+    segments.forEach((segment) => {
+      riverFeatures.push({
+        type: 'Feature',
+        properties: {
+          id: service.id,
+          label: service.label,
+          color: service.color || '#0077b6',
+          opacity: selectedLineIds.size ? 0.58 : 0.76,
+          width: 3,
+        },
+        geometry: {
+          type: 'LineString',
+          coordinates: segment.map(([lat, lng]) => [lng, lat]),
+        },
+      });
+    });
   });
+
+  map.setLineFeatureCollection?.(
+    'river-service-lines',
+    { type: 'FeatureCollection', features: riverFeatures },
+    { dashArray: [1.8, 1.8], fallbackColor: '#0077b6' }
+  );
 
   const currentZoom = map.getZoom();
   const showMajorStations = currentZoom >= majorTubeStationMinZoom;

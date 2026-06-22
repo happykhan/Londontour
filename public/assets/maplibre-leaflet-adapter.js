@@ -247,6 +247,7 @@
       this._layers = new Set();
       this._styleLayers = new Set();
       this._pendingStyleLayers = new Set();
+      this._nativeLineGroups = new Map();
       this._readyCallbacks = [];
       this._loaded = false;
       this._styleReady = false;
@@ -270,23 +271,31 @@
       });
       this._map.on('style.load', () => {
         this._styleReady = true;
+        this._renderNativeLineGroups();
         this._styleLayers.forEach((layer) => this._pendingStyleLayers.add(layer));
         this._flushPendingStyleLayers();
       });
-      if (new URLSearchParams(location.search).has('debug')) {
-        window.__londontourMapDebug = {
-          adapter: this,
-          styleLayerIds: () => this._map.getStyle().layers.map((layer) => layer.id),
-          overlayLayers: () => [...this._styleLayers].map((layer) => ({
-            id: layer.id,
-            order: layer._overlayOrder(),
-            pane: layer.options?.pane,
-            color: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-color') : null,
-            opacity: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-opacity') : null,
-            width: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-width') : null,
-          })),
-        };
-      }
+      window.__londontourMapDebug = {
+        adapter: this,
+        styleLayerIds: () => this._map.getStyle().layers.map((layer) => layer.id),
+        nativeLineGroups: () => [...this._nativeLineGroups.entries()].map(([id, group]) => ({
+          id,
+          layerExists: Boolean(this._map.getLayer(id)),
+          sourceExists: Boolean(this._map.getSource(id)),
+          featureCount: group.data?.features?.length ?? 0,
+          renderedFeatureCount: this._map.getLayer(id) ? this._map.queryRenderedFeatures(undefined, { layers: [id] }).length : 0,
+          colors: [...new Set((group.data?.features || []).map((feature) => feature.properties?.color).filter(Boolean))],
+          index: this._map.getStyle().layers.findIndex((layer) => layer.id === id),
+        })),
+        overlayLayers: () => [...this._styleLayers].map((layer) => ({
+          id: layer.id,
+          order: layer._overlayOrder(),
+          pane: layer.options?.pane,
+          color: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-color') : null,
+          opacity: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-opacity') : null,
+          width: this._map.getLayer(layer.id) ? this._map.getPaintProperty(layer.id, 'line-width') : null,
+        })),
+      };
     }
     getContainer() { return this._map.getContainer(); }
     createPane() {}
@@ -355,6 +364,48 @@
     _removeStyleLayer(layer) {
       this._styleLayers.delete(layer);
       this._pendingStyleLayers.delete(layer);
+    }
+    _renderNativeLineGroups() {
+      [...this._nativeLineGroups.keys()].forEach((id) => this._renderNativeLineGroup(id));
+    }
+    _renderNativeLineGroup(id) {
+      if (!this._styleReady || !this._map.isStyleLoaded()) return;
+      const group = this._nativeLineGroups.get(id);
+      if (!group) return;
+
+      if (this._map.getSource(id)) {
+        this._map.getSource(id).setData(group.data);
+      } else {
+        this._map.addSource(id, { type: 'geojson', data: group.data });
+      }
+
+      if (!this._map.getLayer(id)) {
+        const paint = {
+          'line-color': ['case', ['has', 'color'], ['get', 'color'], group.fallbackColor || '#146c64'],
+          'line-opacity': ['case', ['has', 'opacity'], ['get', 'opacity'], 1],
+          'line-width': ['case', ['has', 'width'], ['get', 'width'], 3],
+        };
+        if (group.dashArray) paint['line-dasharray'] = group.dashArray;
+        this._map.addLayer({
+          id,
+          type: 'line',
+          source: id,
+          paint,
+          layout: { 'line-cap': 'round', 'line-join': 'round' },
+        });
+      }
+    }
+    setLineFeatureCollection(id, data, options = {}) {
+      this._nativeLineGroups.set(id, { data, ...options });
+      this._renderNativeLineGroup(id);
+      this._sortOverlayLayers();
+      return this;
+    }
+    removeLineFeatureCollection(id) {
+      this._nativeLineGroups.delete(id);
+      if (this._map.getLayer(id)) this._map.removeLayer(id);
+      if (this._map.getSource(id)) this._map.removeSource(id);
+      return this;
     }
     _flushPendingStyleLayers() {
       if (!this._styleReady || !this._map.isStyleLoaded()) return;
