@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1428';
-const cacheName = 'londontour-offline-v65';
+const assetVersion = '20260622-1438';
+const cacheName = 'londontour-offline-v66';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -690,11 +690,11 @@ function tubeStationLineChips(station, tubeNetwork = tubeNetworkData) {
 }
 
 function tubeFacilityChip(label, available) {
+  const iconLabel = label === 'Toilets' ? 'WC' : 'Lift';
+  const stateLabel = `${label} ${available ? 'available' : 'not available'}`;
   return `
-    <span class="tube-facility-chip ${available ? 'is-available' : 'is-unavailable'}">
-      <span class="tube-facility-icon" aria-hidden="true">${escapeHtml(label === 'Toilets' ? 'WC' : 'Lift')}</span>
-      <span>${escapeHtml(label)}</span>
-      <span class="tube-facility-state">${available ? 'yes' : 'no'}</span>
+    <span class="tube-facility-chip ${available ? 'is-available' : 'is-unavailable'}" aria-label="${escapeHtml(stateLabel)}" title="${escapeHtml(stateLabel)}">
+      <span class="tube-facility-icon" aria-hidden="true">${escapeHtml(iconLabel)}</span>
     </span>
   `;
 }

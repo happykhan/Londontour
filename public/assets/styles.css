@@ -964,9 +964,11 @@ body[data-theme="dark"] .search-result:focus-visible {
 }
 
 .tube-popup {
+  box-sizing: border-box;
   color: #111827;
   display: grid;
   gap: 0.65rem;
+  max-width: min(78vw, 340px);
   min-width: min(72vw, 280px);
 }
 
@@ -999,6 +1001,7 @@ body[data-theme="dark"] .search-result:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
+  max-width: 100%;
 }
 
 .tube-line-chip {
@@ -1011,8 +1014,12 @@ body[data-theme="dark"] .search-result:focus-visible {
   display: inline-flex;
   font-size: 0.82rem;
   font-weight: 900;
-  line-height: 1;
+  line-height: 1.1;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
   padding: 0.38rem 0.5rem 0.38rem 0.42rem;
+  white-space: normal;
 }
 
 .tube-facility-chip {
@@ -1024,9 +1031,8 @@ body[data-theme="dark"] .search-result:focus-visible {
   display: inline-flex;
   font-size: 0.8rem;
   font-weight: 850;
-  gap: 0.35rem;
   line-height: 1;
-  padding: 0.42rem 0.48rem;
+  padding: 0.36rem;
   position: relative;
 }
 
@@ -1061,7 +1067,6 @@ body[data-theme="dark"] .search-result:focus-visible {
   transform: rotate(-35deg);
 }
 
-.tube-facility-state,
 .tube-popup-muted {
   color: #64748b;
 }
