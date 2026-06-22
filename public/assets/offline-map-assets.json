@@ -1,5 +1,5 @@
 {
-  "version": "20260622-1542",
+  "version": "20260622-1554",
   "label": "Local basemap",
   "strategy": "pmtiles-plus-raster-fallback",
   "tileManifests": [
