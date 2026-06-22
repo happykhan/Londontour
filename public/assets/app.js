@@ -414,8 +414,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1438';
-const cacheName = 'londontour-offline-v66';
+const assetVersion = '20260622-1454';
+const cacheName = 'londontour-offline-v67';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -2068,23 +2068,13 @@ async function renderTubeNetwork(openStationId) {
     const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
     const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
-    const lineWeight = isSelected && selectedLineIds.size > 1 ? 5.2 : isSelected ? 6.4 : 4.4;
-    const lineOpacity = isDimmed ? 0.48 : isSelected ? 1 : 0.95;
-    const casing = {
-      color: document.body.dataset.theme === 'dark' ? '#0f172a' : '#ffffff',
-      opacity: isDimmed ? 0.5 : isSelected ? 0.92 : 0.82,
-      pane: 'tubeNetwork',
-      overlayOrder: 28,
-      renderer: tubeNetworkRenderer,
-      weight: lineWeight + 3.6,
-      lineCap: 'round',
-      lineJoin: 'round',
-    };
+    const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
+    const lineOpacity = isDimmed ? 0.72 : isSelected ? 1 : 0.96;
     const style = {
       color: line.color || '#1d4ed8',
       opacity: lineOpacity,
       pane: 'tubeNetwork',
-      overlayOrder: 29,
+      overlayOrder: 32,
       renderer: tubeNetworkRenderer,
       weight: lineWeight,
       lineCap: 'round',
@@ -2095,11 +2085,9 @@ async function renderTubeNetwork(openStationId) {
       .map((segment) => offsetTubeSegment(segment, offsetMeters));
     if (!segments.length) return;
 
-    const casingPolyline = L.polyline(segments, casing);
     const polyline = L.polyline(segments, style).bindPopup(`${escapeHtml(line.label)} line`);
-    casingPolyline.addTo(map);
     polyline.addTo(map);
-    tubeLineLayers.push(casingPolyline, polyline);
+    tubeLineLayers.push(polyline);
   });
 
   tubeNetwork.riverServices.forEach((service) => {
@@ -2108,9 +2096,9 @@ async function renderTubeNetwork(openStationId) {
 
     const polyline = L.polyline(segments, {
       color: service.color || '#0077b6',
-      opacity: selectedLineIds.size ? 0.46 : 0.76,
+      opacity: selectedLineIds.size ? 0.58 : 0.76,
       pane: 'tubeNetwork',
-      overlayOrder: 27,
+      overlayOrder: 31,
       renderer: tubeNetworkRenderer,
       weight: 3,
       dashArray: '8 8',
