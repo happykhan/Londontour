@@ -532,6 +532,27 @@ body[data-theme="dark"] .route-card.is-active {
   width: 100%;
 }
 
+.licence-notice {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.85rem;
+}
+
+.licence-notice h3 {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.licence-notice p {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
 .map-topbar {
   display: flex;
   gap: 0.5rem;
@@ -832,6 +853,10 @@ body[data-theme="dark"] .radius-panel {
   --result-accent: #9f1239;
 }
 
+.search-result-markets {
+  --result-accent: #b45309;
+}
+
 .search-result-transport {
   --result-accent: #0369a1;
 }
@@ -935,6 +960,15 @@ body[data-theme="dark"] .search-result:focus-visible {
   line-height: 1;
   padding: 0.24rem 0.38rem;
   white-space: nowrap;
+}
+
+.adapter-circle-marker {
+  background: var(--marker-fill);
+  border: 2px solid var(--marker-stroke);
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(17, 24, 39, 0.18);
+  height: var(--marker-size);
+  width: var(--marker-size);
 }
 
 body[data-theme="dark"] .radius-tick-label {
@@ -1050,6 +1084,11 @@ body.route-view:not(.editor-mode) .layer-marker {
 
 .layer-marker-pubs {
   background: #9f1239;
+}
+
+.layer-marker-markets {
+  background: #b45309;
+  font-size: 0.6rem;
 }
 
 .layer-marker-transport {

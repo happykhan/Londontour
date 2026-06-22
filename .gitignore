@@ -1,6 +1,7 @@
 node_modules/
 .vercel/
 dist/
+.tools/
 .DS_Store
 npm-debug.log*
 .vercel

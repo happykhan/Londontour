@@ -229,6 +229,19 @@ const fallbackLayerCatalog = [
     ],
   },
   {
+    id: 'markets',
+    label: 'Markets',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'Mk',
+    routeRadiusMeters: 550,
+    points: [
+      { id: 'borough-market', name: 'Borough Market', lat: 51.5055, lng: -0.091, detail: 'Market · opening times change; check the linked site before travelling.', url: 'https://boroughmarket.org.uk/' },
+      { id: 'camden-market', name: 'Camden Market', lat: 51.5413, lng: -0.1464, detail: 'Market · opening times change; check the linked site before travelling.', url: 'https://camdenmarket.com/' },
+      { id: 'greenwich-market', name: 'Greenwich Market', lat: 51.4816, lng: -0.0097, detail: 'Market · opening times change; check the linked site before travelling.', url: 'https://www.greenwichmarket.london/' },
+    ],
+  },
+  {
     id: 'transport',
     label: 'Tube and river links',
     defaultVisible: true,
@@ -363,12 +376,13 @@ let routeRenderToken = 0;
 let selectedRouteBounds;
 let routeGeometryPromise;
 let tileManifestPromise;
+let basemapOfflineAssetsPromise;
 let tubeNetworkPromise;
 let tubeNetworkData = { lines: [], riverServices: [], stations: [] };
 let selectedTubeStationId;
 const londonBounds = [[51.28, -0.52], [51.70, 0.34]];
 const majorTubeStationMinZoom = 12;
-const tubeStationMinZoom = 13;
+const tubeStationMinZoom = 14;
 const majorTubeStationNames = new Set([
   'bank',
   'baker street',
@@ -399,8 +413,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1015';
-const cacheName = 'londontour-offline-v54';
+const assetVersion = '20260622-1200';
+const cacheName = 'londontour-offline-v56';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1359,18 +1373,20 @@ async function renderOfflineDetails() {
   if (selections.route) parts.push(browseMode ? 'browse map' : selectedRoute.name);
   if (selections.layers) parts.push(`${activeLayerPoints(browseMode ? null : selectedRoute, false).length} selected layer items`);
   if (selections.tiles) {
-    const tileManifest = await loadTileManifest();
-    parts.push(`${tileManifest.length} local tiles`);
+    const basemapPack = await describeBasemapOfflinePack();
+    parts.push(basemapPack.label);
   }
 
   const state = getOfflineState();
   const selectedLayers = [...activeLayerIds].sort().join(',');
+  const basemapPack = selections.tiles ? await loadBasemapOfflineAssets() : null;
   const isStale =
     state &&
     (state.cacheName !== cacheName ||
       state.routeId !== (browseMode ? 'browse' : selectedRoute.id) ||
       state.layerIds !== selectedLayers ||
-      state.includesTiles !== selections.tiles);
+      state.includesTiles !== selections.tiles ||
+      state.basemapVersion !== (basemapPack?.version || 'none'));
 
   offlineDetailsEl.textContent = state
     ? `${isStale ? 'Needs refresh' : 'Ready'}: ${parts.join(', ')}. Last saved ${new Date(state.savedAt).toLocaleString()}.`
@@ -1552,6 +1568,81 @@ function loadTileManifest() {
   return tileManifestPromise;
 }
 
+function loadBasemapOfflineAssets() {
+  if (!basemapOfflineAssetsPromise) {
+    basemapOfflineAssetsPromise = fetch(assetUrl('/assets/offline-map-assets.json'))
+      .then((response) => response.json())
+      .then((data) => ({
+        version: typeof data?.version === 'string' ? data.version : 'unknown',
+        label: typeof data?.label === 'string' ? data.label : 'Local basemap',
+        tileManifests: Array.isArray(data?.tileManifests) ? data.tileManifests : [],
+        assets: Array.isArray(data?.assets) ? data.assets : [],
+      }))
+      .catch(() => ({
+        version: 'legacy-tiles',
+        label: 'Local basemap',
+        tileManifests: [{ url: '/assets/tiles-manifest.json', label: 'Offline basemap tiles', pathPattern: '^/tiles/\\d+/\\d+/\\d+\\.png$' }],
+        assets: [],
+      }));
+  }
+
+  return basemapOfflineAssetsPromise;
+}
+
+function normaliseOfflineAssetUrl(url) {
+  if (typeof url !== 'string') return null;
+  if (!url.startsWith('/') || url.startsWith('//') || url.includes('..')) return null;
+  return url;
+}
+
+function tilePathToLocalUrl(tilePath, pathPattern = '^/tiles/\\d+/\\d+/\\d+\\.png$') {
+  const pattern = new RegExp(pathPattern);
+  return typeof tilePath === 'string' && pattern.test(tilePath) ? tilePath : null;
+}
+
+async function expandBasemapOfflineUrls() {
+  const basemapPack = await loadBasemapOfflineAssets();
+  const manifestUrls = basemapPack.tileManifests
+    .map((manifest) => normaliseOfflineAssetUrl(manifest.url))
+    .filter(Boolean);
+  const staticAssets = basemapPack.assets
+    .map((asset) => normaliseOfflineAssetUrl(asset.url))
+    .filter(Boolean);
+  const tileUrls = [];
+
+  for (const manifest of basemapPack.tileManifests) {
+    const manifestUrl = normaliseOfflineAssetUrl(manifest.url);
+    if (!manifestUrl) continue;
+    const response = await fetch(assetUrl(manifestUrl), { cache: 'no-store' });
+    if (!response.ok) continue;
+    const tileManifest = await response.json();
+    if (!Array.isArray(tileManifest)) continue;
+    tileManifest
+      .map((tilePath) => tilePathToLocalUrl(tilePath, manifest.pathPattern))
+      .filter(Boolean)
+      .forEach((url) => tileUrls.push(url));
+  }
+
+  return {
+    version: basemapPack.version,
+    label: basemapPack.label,
+    manifestUrls,
+    staticAssets,
+    tileUrls,
+  };
+}
+
+async function describeBasemapOfflinePack() {
+  const expanded = await expandBasemapOfflineUrls();
+  const pieces = [];
+  if (expanded.tileUrls.length) pieces.push(`${expanded.tileUrls.length} map tiles`);
+  if (expanded.staticAssets.length) pieces.push(`${expanded.staticAssets.length} basemap file${expanded.staticAssets.length === 1 ? '' : 's'}`);
+  return {
+    version: expanded.version,
+    label: pieces.length ? `${expanded.label}: ${pieces.join(', ')}` : expanded.label,
+  };
+}
+
 function loadTubeNetwork() {
   if (!tubeNetworkPromise) {
     tubeNetworkPromise = fetch(assetUrl('/assets/tube-network.json'))
@@ -1604,50 +1695,6 @@ function buildMap() {
   map.getPane('tubeNetwork').style.zIndex = 390;
   tubeNetworkRenderer = L.svg({ pane: 'tubeNetwork' });
 
-  offlineTileLayer = L.tileLayer('/tiles/{z}/{x}/{y}.png', {
-    minZoom: 11,
-    maxZoom: 18,
-    maxNativeZoom: 15,
-    bounds: londonBounds,
-    tileSize: 256,
-    attribution: 'Offline London tile pack',
-  });
-
-  onlineBaseLayer = L.tileLayer(
-    cartoBasemapUrl('nolabels'),
-    {
-      subdomains: 'abcd',
-      maxZoom: 18,
-      tileSize: 256,
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-    }
-  );
-  onlineLabelLayer = L.tileLayer(
-    cartoBasemapUrl('only_labels'),
-    {
-      subdomains: 'abcd',
-      maxZoom: 18,
-      pane: 'basemapLabels',
-      tileSize: 256,
-    }
-  );
-  onlineTileLayer = L.layerGroup([onlineBaseLayer, onlineLabelLayer]);
-
-  const useOfflineTiles = () => {
-    if (map.hasLayer(offlineTileLayer)) return;
-    if (map.hasLayer(onlineTileLayer)) onlineTileLayer.remove();
-    offlineTileLayer.addTo(map);
-    setStatus('Using the offline fallback map tiles. Some basemap detail is reduced.');
-  };
-
-  onlineBaseLayer.once('tileerror', useOfflineTiles);
-  onlineLabelLayer.once('tileerror', useOfflineTiles);
-  if (navigator.onLine === false) {
-    useOfflineTiles();
-  } else {
-    onlineTileLayer.addTo(map);
-  }
-
   renderBasemapRepairLabels();
 
   L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -1683,15 +1730,9 @@ function updateZoomIndicator() {
   zoomIndicator.textContent = `Zoom ${map.getZoom()}`;
 }
 
-function cartoBasemapUrl(layerKind) {
-  const themePrefix = document.body.dataset.theme === 'dark' ? 'dark' : 'light';
-  return `https://{s}.basemaps.cartocdn.com/${themePrefix}_${layerKind}/{z}/{x}/{y}{r}.png`;
-}
-
 function applyBasemapTheme() {
-  if (!onlineBaseLayer || !onlineLabelLayer) return;
-  onlineBaseLayer.setUrl(cartoBasemapUrl('nolabels'));
-  onlineLabelLayer.setUrl(cartoBasemapUrl('only_labels'));
+  if (!map?._setBasemapTheme) return;
+  map._setBasemapTheme(document.body.dataset.theme === 'dark' ? 'dark' : 'light');
 }
 
 function renderBasemapRepairLabels() {
@@ -1737,10 +1778,6 @@ function routeStrokeStyle(segment) {
   };
 }
 
-function tilePathToLocalUrl(tilePath) {
-  return /^\/tiles\/\d+\/\d+\/\d+\.png$/.test(tilePath) ? tilePath : null;
-}
-
 async function cacheRequest(cache, url) {
   const response = await fetch(url, { cache: 'no-store' });
   if (response.ok) {
@@ -1765,8 +1802,10 @@ async function downloadOfflinePack() {
     await cacheRequest(cache, '/index.html');
     await cacheRequest(cache, '/assets/app.js');
     await cacheRequest(cache, '/assets/styles.css');
-    await cacheRequest(cache, '/assets/vendor/leaflet.js');
-    await cacheRequest(cache, '/assets/vendor/leaflet.css');
+    await cacheRequest(cache, '/assets/vendor/maplibre/maplibre-gl.js');
+    await cacheRequest(cache, '/assets/vendor/maplibre/maplibre-gl.css');
+    await cacheRequest(cache, '/assets/vendor/pmtiles/pmtiles.js');
+    await cacheRequest(cache, '/assets/maplibre-leaflet-adapter.js');
     if (selections.route) {
       await cacheRequest(cache, '/assets/route-geometry.json');
     }
@@ -1776,22 +1815,30 @@ async function downloadOfflinePack() {
       await cacheRequest(cache, '/assets/tube-network.json');
     }
 
+    let basemapAssetTotal = 0;
+    let cachedBasemapAssets = 0;
     let tileTotal = 0;
     let cachedTiles = 0;
+    let basemapVersion = 'none';
     if (selections.tiles) {
-      await cacheRequest(cache, '/assets/tiles-manifest.json');
-      const tileManifest = await loadTileManifest();
-      const tileUrls = tileManifest
-        .map(tilePathToLocalUrl)
-        .filter(Boolean);
-      tileTotal = tileUrls.length;
+      await cacheRequest(cache, '/assets/offline-map-assets.json');
+      const expandedBasemap = await expandBasemapOfflineUrls();
+      basemapVersion = expandedBasemap.version;
+      const basemapUrls = [
+        ...expandedBasemap.manifestUrls,
+        ...expandedBasemap.staticAssets,
+        ...expandedBasemap.tileUrls,
+      ];
+      basemapAssetTotal = basemapUrls.length;
+      tileTotal = expandedBasemap.tileUrls.length;
 
-      for (const url of tileUrls) {
+      for (const url of basemapUrls) {
         try {
           await cacheRequest(cache, url);
-          cachedTiles += 1;
+          cachedBasemapAssets += 1;
+          if (expandedBasemap.tileUrls.includes(url)) cachedTiles += 1;
         } catch (error) {
-          // Skip bad tiles and keep going.
+          // Skip bad basemap assets and keep going.
         }
       }
     }
@@ -1803,12 +1850,15 @@ async function downloadOfflinePack() {
       includesRoute: selections.route,
       includesTiles: selections.tiles,
       includesLayers: selections.layers,
+      basemapVersion,
+      cachedBasemapAssets,
+      basemapAssetTotal,
       cachedTiles,
       tileTotal,
       savedAt: new Date().toISOString(),
     });
 
-    const tileSummary = selections.tiles ? ` Cached ${cachedTiles}/${tileTotal} local tiles.` : '';
+    const tileSummary = selections.tiles ? ` Cached ${cachedBasemapAssets}/${basemapAssetTotal} basemap assets.` : '';
     setStatus(`Offline pack ready for ${browseMode ? 'browse mode' : selectedRoute.name}.${tileSummary}`);
     await renderOfflineDetails();
   } catch (error) {

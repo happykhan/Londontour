@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/leaflet.css?v=20260622-1015" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260622-1015" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260622-1200" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260622-1200" />
   </head>
   <body>
     <main class="app-shell">
@@ -89,6 +89,13 @@
             <button id="share-button" class="secondary-button" type="button">Share</button>
             <button id="print-button" class="secondary-button" type="button">Print</button>
             <a id="editor-link" class="secondary-button" href="/?mode=browse&amp;editor=1">Editor</a>
+            <a id="basemap-proof-link" class="secondary-button" href="/maplibre-poc">Basemap proof</a>
+          </div>
+          <div class="licence-notice" aria-label="Data and licences">
+            <h3>Data and licences</h3>
+            <p>Map rendering uses MapLibre GL JS. Basemap packaging uses PMTiles and Protomaps.</p>
+            <p>Map data includes OpenStreetMap contributors under the Open Database Licence. Commercial use is allowed with attribution and ODbL compliance.</p>
+            <p>Transport and generated point layers include TfL, OpenStreetMap, and generated dataset notes where applicable.</p>
           </div>
         </section>
 
@@ -98,7 +105,7 @@
           </div>
           <fieldset class="offline-options">
             <label><input type="checkbox" name="offline-route" checked /> Selected route</label>
-            <label><input type="checkbox" name="offline-tiles" checked /> Local map tiles</label>
+            <label><input type="checkbox" name="offline-tiles" checked /> Offline basemap</label>
             <label><input type="checkbox" name="offline-layers" checked /> Visible layers</label>
           </fieldset>
           <p id="offline-details" class="offline-details"></p>
@@ -148,12 +155,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/leaflet.js?v=20260622-1015"></script>
-    <script src="assets/app.js?v=20260622-1015"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260622-1200"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260622-1200"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260622-1200"></script>
+    <script src="assets/app.js?v=20260622-1200"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260622-1015').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260622-1200').catch(() => {});
         });
       }
     </script>

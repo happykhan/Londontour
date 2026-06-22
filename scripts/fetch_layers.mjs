@@ -67,6 +67,17 @@ const layerDefinitions = [
     fullZoom: 16,
   },
   {
+    id: 'markets',
+    label: 'Markets',
+    defaultVisible: false,
+    minZoom: 13,
+    markerLabel: 'Mk',
+    routeRadiusMeters: 550,
+    maxItems: 160,
+    previewLimit: 45,
+    fullZoom: 16,
+  },
+  {
     id: 'transport',
     label: 'Tube and river links',
     defaultVisible: true,
@@ -146,6 +157,18 @@ function overpassQuery(bounds = BBOX) {
   node[drinking_water=yes](${bbox});
   way[drinking_water=yes](${bbox});
   relation[drinking_water=yes](${bbox});
+  node[amenity=marketplace](${bbox});
+  way[amenity=marketplace](${bbox});
+  relation[amenity=marketplace](${bbox});
+  node[marketplace](${bbox});
+  way[marketplace](${bbox});
+  relation[marketplace](${bbox});
+  node["market:type"](${bbox});
+  way["market:type"](${bbox});
+  relation["market:type"](${bbox});
+  node["name"~"[Mm]arket"](${bbox});
+  way["name"~"[Mm]arket"](${bbox});
+  relation["name"~"[Mm]arket"](${bbox});
   node[shop~"^(supermarket|convenience)$"](${bbox});
   way[shop~"^(supermarket|convenience)$"](${bbox});
   relation[shop~"^(supermarket|convenience)$"](${bbox});
@@ -390,10 +413,35 @@ const essentialLandmarkNames = new Set([
   'westminster bridge',
 ]);
 
+const officialMarketUrlOverrides = [
+  { name: 'borough market', url: 'https://boroughmarket.org.uk/', lat: 51.5056, lng: -0.0904 },
+  { name: 'broadway market', url: 'https://broadwaymarket.co.uk/', lat: 51.5369, lng: -0.0615 },
+  { name: 'brixton village', url: 'https://brixtonvillage.com/', lat: 51.4624, lng: -0.112 },
+  { name: 'camden market', url: 'https://camdenmarket.com/', lat: 51.5424, lng: -0.1472 },
+  { name: 'camden lock market', url: 'https://camdenmarket.com/', lat: 51.5413, lng: -0.1461 },
+  { name: 'columbia road flower market', url: 'https://columbiaroadmarket.co.uk/', lat: 51.5294, lng: -0.0694 },
+  { name: 'covent garden market', url: 'https://www.coventgarden.london/', lat: 51.512, lng: -0.1227 },
+  { name: 'greenwich market', url: 'https://www.greenwichmarket.london/', lat: 51.4816, lng: -0.009 },
+  { name: 'leadenhall market', url: 'https://leadenhallmarket.co.uk/', lat: 51.5127, lng: -0.0836 },
+  { name: 'maltby street market', url: 'https://www.maltbystreet.market/', lat: 51.4993, lng: -0.0756 },
+  { name: 'old spitalfields market', url: 'https://oldspitalfieldsmarket.com/', lat: 51.5196, lng: -0.0754 },
+  { name: 'portobello market', url: 'https://visitportobello.com/', lat: 51.5161, lng: -0.2051 },
+  { name: 'portobello road market', url: 'https://visitportobello.com/', lat: 51.5161, lng: -0.2051 },
+  { name: 'seven dials market', url: 'https://www.sevendialsmarket.com/', lat: 51.5141, lng: -0.1258 },
+];
+
+const excludedMarketNames = new Set([
+  'downmarket_',
+  'market',
+  'stratford mall',
+  'whole foods market',
+]);
+
 function classify(tags = {}) {
   if (/^(pub|bar)$/.test(tags.amenity)) return 'pubs';
   if (tags.amenity === 'toilets') return 'toilets';
   if (isWaterRefill(tags)) return 'water';
+  if (isMarket(tags)) return 'markets';
   if (/^(supermarket|convenience)$/.test(tags.shop)) return 'supermarkets';
   if (transportType(tags) === 'boat') return 'transport';
   if (transportType(tags) === 'bus') return 'bus-planning';
@@ -419,6 +467,20 @@ function isMuseum(tags = {}) {
 
 function isWaterRefill(tags = {}) {
   return tags.amenity === 'drinking_water' || tags.man_made === 'water_tap' || tags.drinking_water === 'yes';
+}
+
+function isMarket(tags = {}) {
+  const name = normaliseTitle(tags.name || tags['name:en'] || '');
+  if (excludedMarketNames.has(name)) return false;
+  if (tags.amenity === 'marketplace' || tags.marketplace || tags['market:type']) return true;
+  if (!name.includes('market')) return false;
+  return (
+    tags.tourism === 'attraction' ||
+    tags.historic === 'yes' ||
+    tags.historic === 'market' ||
+    tags.building === 'retail' ||
+    tags.building === 'commercial'
+  );
 }
 
 function isPlaque(tags = {}) {
@@ -497,6 +559,7 @@ function titleCase(value = '') {
 function fallbackName(layerId, tags) {
   if (layerId === 'toilets') return 'Public toilets';
   if (layerId === 'water') return 'Water refill point';
+  if (layerId === 'markets') return 'Market';
   if (layerId === 'transport') return 'River pier';
   if (layerId === 'bus-planning') return 'Bus stop';
   if (layerId === 'supermarkets') return titleCase(tags.shop || 'Supermarket');
@@ -530,6 +593,14 @@ function detailFor(layerId, tags = {}) {
     if (tags.access) bits.push(`access: ${tags.access}`);
     if (tags.fee) bits.push(`fee: ${tags.fee}`);
     return `${bits.join(' · ')} from OpenStreetMap.`;
+  }
+
+  if (layerId === 'markets') {
+    const bits = ['Market'];
+    if (tags['market:type']) bits.push(titleCase(tags['market:type']));
+    if (tags.opening_hours) bits.push(`listed hours: ${tags.opening_hours}`);
+    bits.push('opening times change; check the linked site before travelling');
+    return `${bits.join(' · ')}.`;
   }
 
   if (layerId === 'supermarkets') {
@@ -605,6 +676,16 @@ function urlFromTags(tags = {}) {
   return undefined;
 }
 
+function officialMarketUrlFor(tags = {}, coordinate) {
+  const name = normaliseTitle(tags.name || tags['name:en'] || '');
+  if (!coordinate) return undefined;
+  return officialMarketUrlOverrides.find((market) => market.name === name && distanceMeters(coordinate, market) <= 700)?.url;
+}
+
+function marketUrlFromTags(tags = {}, coordinate) {
+  return officialMarketUrlFor(tags, coordinate) || urlFromTags(tags);
+}
+
 function scoreElement(layerId, tags = {}) {
   let score = 0;
   if (tags.name) score += 50;
@@ -620,6 +701,10 @@ function scoreElement(layerId, tags = {}) {
   if (layerId === 'water' && tags.amenity === 'drinking_water') score += 30;
   if (layerId === 'water' && tags.bottle === 'yes') score += 18;
   if (layerId === 'water' && tags.access === 'public') score += 12;
+  if (layerId === 'markets' && urlFromTags(tags)) score += 30;
+  if (layerId === 'markets' && officialMarketUrlOverrides.some((market) => market.name === normaliseTitle(tags.name || tags['name:en'] || ''))) score += 80;
+  if (layerId === 'markets' && tags.amenity === 'marketplace') score += 20;
+  if (layerId === 'markets' && tags.opening_hours) score += 12;
   if (layerId === 'supermarkets' && tags.brand) score += 12;
   if (tags.disused || tags.abandoned || tags.demolished) score -= 100;
   return score;
@@ -644,8 +729,9 @@ function cleanPoint(element) {
   const pointTransportType = layerId === 'transport' || layerId === 'bus-planning' ? transportType(tags) : null;
   if ((layerId === 'transport' || layerId === 'bus-planning') && (!pointTransportType || isRailOrTubeTransport(tags))) return null;
   if ((layerId === 'transport' || layerId === 'bus-planning') && tags.public_transport === 'stop_position') return null;
-  const pointUrl = layerId === 'museums' ? urlFromTags(tags) : undefined;
+  const pointUrl = layerId === 'museums' ? urlFromTags(tags) : layerId === 'markets' ? marketUrlFromTags(tags, coordinate) : undefined;
   if (layerId === 'museums' && !pointUrl) return null;
+  if (layerId === 'markets' && !pointUrl) return null;
 
   const name = (tags.name || tags['name:en'] || fallbackName(layerId, tags)).trim();
   if (!name) return null;

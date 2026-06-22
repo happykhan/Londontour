@@ -1,14 +1,17 @@
-const CACHE_NAME = 'londontour-offline-v54';
+const CACHE_NAME = 'londontour-offline-v56';
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/assets/app.js',
   '/assets/styles.css',
-  '/assets/vendor/leaflet.js',
-  '/assets/vendor/leaflet.css',
+  '/assets/vendor/maplibre/maplibre-gl.js',
+  '/assets/vendor/maplibre/maplibre-gl.css',
+  '/assets/vendor/pmtiles/pmtiles.js',
+  '/assets/maplibre-leaflet-adapter.js',
   '/assets/layers.json',
   '/assets/tube-network.json',
   '/assets/route-geometry.json',
+  '/assets/offline-map-assets.json',
   '/assets/tiles-manifest.json',
 ];
 

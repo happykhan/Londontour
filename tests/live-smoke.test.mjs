@@ -11,10 +11,35 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260622-1015/);
-  assert.match(html, /assets\/app\.js\?v=20260622-1015/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1015'\)/);
+  assert.match(html, /assets\/vendor\/leaflet\.js\?v=20260622-1200/);
+  assert.match(html, /assets\/app\.js\?v=20260622-1200/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-1200'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
+});
+
+test('production serves the offline basemap manifest', async () => {
+  const manifest = JSON.parse(await readText(`${liveUrl}/assets/offline-map-assets.json`));
+  assert.equal(manifest.label, 'Local basemap');
+  assert.ok(Array.isArray(manifest.tileManifests));
+  assert.ok(manifest.tileManifests.some((entry) => entry.url === '/assets/tiles-manifest.json'));
+  const pmtilesAsset = manifest.assets.find((entry) => entry.url === '/assets/basemaps/london-z14.pmtiles');
+  assert.ok(pmtilesAsset, 'production manifest should include the London PMTiles proof archive');
+  assert.equal(pmtilesAsset.bytes, 56439308);
+});
+
+test('production serves the MapLibre PMTiles proof page and archive', async () => {
+  const html = await readText(`${liveUrl}/maplibre-poc`);
+  assert.match(html, /London PMTiles/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-1200/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-1200/);
+
+  const response = await fetch(`${liveUrl}/assets/basemaps/london-z14.pmtiles`, {
+    headers: { Range: 'bytes=0-6' },
+    cache: 'no-store',
+  });
+  assert.ok([200, 206].includes(response.status), 'PMTiles archive should support a byte-range or full static response');
+  const header = Buffer.from(await response.arrayBuffer()).subarray(0, 7).toString('utf8');
+  assert.equal(header, 'PMTiles');
 });
 
 test('production serves generated OpenStreetMap layers', async () => {

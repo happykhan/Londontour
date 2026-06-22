@@ -1,0 +1,21 @@
+{
+  "version": "20260622-1200",
+  "label": "Local basemap",
+  "strategy": "pmtiles-plus-raster-fallback",
+  "tileManifests": [
+    {
+      "url": "/assets/tiles-manifest.json",
+      "label": "Current local raster fallback tiles",
+      "pathPattern": "^/tiles/\\d+/\\d+/\\d+\\.png$"
+    }
+  ],
+  "assets": [
+    {
+      "url": "/assets/basemaps/london-z14.pmtiles",
+      "label": "London vector basemap proof",
+      "bytes": 56439308,
+      "maxZoom": 14,
+      "attribution": "Protomaps, OpenStreetMap contributors"
+    }
+  ]
+}
