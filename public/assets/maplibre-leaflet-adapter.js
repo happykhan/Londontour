@@ -300,6 +300,13 @@
     closePopup() {
       document.querySelectorAll('.maplibregl-popup').forEach((popup) => popup.remove());
     }
+    _openPopup(point, html) {
+      this.closePopup();
+      return new maplibregl.Popup()
+        .setLngLat(toLngLat(point))
+        .setHTML(html || '')
+        .addTo(this._map);
+    }
     hasLayer(layer) { return this._layers.has(layer); }
     _addLayer(layer) { this._layers.add(layer); }
     _removeLayer(layer) { this._layers.delete(layer); }
@@ -359,14 +366,14 @@
     remove() { this.marker.remove(); this.map?._removeLayer(this); return this; }
     bindPopup(html) { this.popupHtml = html; return this; }
     getPopup() { return this.popupHtml ? {} : null; }
-    openPopup() { if (!this.map || !this.popupHtml) return this; new maplibregl.Popup().setLngLat(toLngLat(this.point)).setHTML(this.popupHtml).addTo(this.map._map); return this; }
+    openPopup() { if (!this.map || !this.popupHtml) return this; this.map._openPopup(this.point, this.popupHtml); return this; }
     on(eventName, handler) { this.handlers[eventName] = handler; return this; }
   }
 
   class PopupWrapper {
     setLatLng(point) { this.point = point; return this; }
     setContent(html) { this.html = html; return this; }
-    openOn(map) { new maplibregl.Popup().setLngLat(toLngLat(this.point)).setHTML(this.html || '').addTo(map._map); return this; }
+    openOn(map) { map._openPopup(this.point, this.html || ''); return this; }
   }
 
   class LineLayer {
