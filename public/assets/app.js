@@ -413,8 +413,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-1200';
-const cacheName = 'londontour-offline-v56';
+const assetVersion = '20260622-1308';
+const cacheName = 'londontour-offline-v57';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1982,10 +1982,10 @@ async function renderTubeNetwork(openStationId) {
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
     const style = {
       color: line.color || '#1d4ed8',
-      opacity: isDimmed ? 0.12 : isSelected ? 0.88 : 0.46,
+      opacity: isDimmed ? 0.16 : isSelected ? 0.95 : 0.68,
       pane: 'tubeNetwork',
       renderer: tubeNetworkRenderer,
-      weight: isSelected && selectedLineIds.size > 1 ? 4 : isSelected ? 5 : 2.5,
+      weight: isSelected && selectedLineIds.size > 1 ? 4.5 : isSelected ? 5.5 : 3.25,
       lineCap: 'round',
       lineJoin: 'round',
     };
@@ -2005,10 +2005,10 @@ async function renderTubeNetwork(openStationId) {
 
     const polyline = L.polyline(segments, {
       color: service.color || '#0077b6',
-      opacity: selectedLineIds.size ? 0.16 : 0.4,
+      opacity: selectedLineIds.size ? 0.18 : 0.58,
       pane: 'tubeNetwork',
       renderer: tubeNetworkRenderer,
-      weight: 2.5,
+      weight: 3,
       dashArray: '8 8',
       lineCap: 'round',
       lineJoin: 'round',

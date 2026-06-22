@@ -1000,11 +1000,64 @@ body[data-theme="dark"] .radius-tick-label {
   color: var(--accent-strong);
 }
 
+.leaflet-control-zoom {
+  background: var(--panel);
+  border: 1px solid rgba(184, 193, 199, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(23, 32, 42, 0.14);
+  display: grid;
+  overflow: hidden;
+  position: absolute;
+  right: 1rem;
+  top: 6.2rem;
+  z-index: 640;
+}
+
+.leaflet-control-zoom button,
 .leaflet-control-zoom a {
   align-items: center;
+  background: var(--panel);
+  border: 0;
+  border-radius: 0;
+  color: var(--ink);
   display: flex;
   font-size: 1.25rem;
+  font-weight: 900;
+  height: 42px;
   justify-content: center;
+  padding: 0;
+  width: 42px;
+}
+
+.leaflet-control-zoom button + button,
+.leaflet-control-zoom a + a {
+  border-top: 1px solid var(--line);
+}
+
+.leaflet-control-zoom button:hover,
+.leaflet-control-zoom button:focus-visible,
+.leaflet-control-zoom a:hover,
+.leaflet-control-zoom a:focus-visible {
+  background: #eef3f6;
+  color: var(--ink);
+}
+
+body[data-theme="dark"] .leaflet-control-zoom {
+  background: #202823;
+  border-color: #3a4640;
+}
+
+body[data-theme="dark"] .leaflet-control-zoom button,
+body[data-theme="dark"] .leaflet-control-zoom a {
+  background: #202823;
+  color: var(--ink);
+}
+
+body[data-theme="dark"] .leaflet-control-zoom button:hover,
+body[data-theme="dark"] .leaflet-control-zoom button:focus-visible,
+body[data-theme="dark"] .leaflet-control-zoom a:hover,
+body[data-theme="dark"] .leaflet-control-zoom a:focus-visible {
+  background: #29332e;
 }
 
 .leaflet-popup-content strong {

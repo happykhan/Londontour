@@ -4,6 +4,7 @@
   maplibregl.addProtocol('pmtiles', pmtilesProtocol.tile);
 
   let layerIdCounter = 0;
+  const defaultMaxZoom = 18;
 
   function latLng(input, lng) {
     if (Array.isArray(input)) return { lat: Number(input[0]), lng: Number(input[1]) };
@@ -233,7 +234,7 @@
         center: [-0.11, 51.5074],
         zoom: 13,
         minZoom: options.minZoom ?? 10,
-        maxZoom: Math.min(options.maxZoom ?? 18, 14),
+        maxZoom: options.maxZoom ?? defaultMaxZoom,
         maxBounds: options.maxBounds ? options.maxBounds.map((point) => [point[1], point[0]]) : undefined,
         attributionControl: false,
       });
@@ -254,10 +255,12 @@
     createPane() {}
     getPane() { return { style: {} }; }
     invalidateSize() { this._map.resize(); }
-    setView(center, zoom) { this._map.jumpTo({ center: toLngLat(center), zoom: Math.min(zoom, 14) }); return this; }
-    flyTo(center, zoom) { this._map.flyTo({ center: toLngLat(center), zoom: Math.min(zoom, 14), duration: 450 }); return this; }
+    setView(center, zoom) { this._map.jumpTo({ center: toLngLat(center), zoom: zoom ?? this._map.getZoom() }); return this; }
+    flyTo(center, zoom) { this._map.flyTo({ center: toLngLat(center), zoom: zoom ?? this._map.getZoom(), duration: 450 }); return this; }
     panTo(center) { this._map.panTo(toLngLat(center)); return this; }
-    setZoom(zoom) { this._map.zoomTo(Math.min(zoom, 14)); return this; }
+    setZoom(zoom) { this._map.zoomTo(zoom); return this; }
+    zoomIn() { this._map.zoomIn(); return this; }
+    zoomOut() { this._map.zoomOut(); return this; }
     getZoom() { return Math.round(this._map.getZoom()); }
     getBounds() {
       const b = this._map.getBounds();
@@ -273,7 +276,7 @@
           bottom: options.paddingBottomRight?.[1] || 64,
           right: options.paddingBottomRight?.[0] || 64,
         },
-        maxZoom: Math.min(options.maxZoom || 14, 14),
+        maxZoom: options.maxZoom || defaultMaxZoom,
         duration: options.animate === false ? 0 : 450,
       });
       return this;
@@ -315,6 +318,20 @@
         layer._addToStyle();
         this._pendingStyleLayers.delete(layer);
       });
+      this._sortOverlayLayers();
+    }
+    _sortOverlayLayers() {
+      if (!this._map.isStyleLoaded()) return;
+      [...this._styleLayers]
+        .filter((layer) => this._map.getLayer(layer.id))
+        .sort((a, b) => a._overlayOrder() - b._overlayOrder())
+        .forEach((layer) => {
+          try {
+            this._map.moveLayer(layer.id);
+          } catch (_) {
+            // Layer ordering is best-effort while styles are changing.
+          }
+        });
     }
     _setBasemapTheme(theme) {
       this._styleReady = false;
@@ -389,6 +406,13 @@
         paint,
         layout: { 'line-cap': this.options.lineCap || 'round', 'line-join': this.options.lineJoin || 'round' },
       });
+      map._sortOverlayLayers();
+    }
+    _overlayOrder() {
+      if (this.options.overlayOrder) return this.options.overlayOrder;
+      if (this.options.pane === 'tubeNetwork') return 20;
+      if (this.options.dashArray) return 25;
+      return 40;
     }
     remove() {
       if (this.map?._map.getLayer(this.id)) this.map._map.removeLayer(this.id);
@@ -422,6 +446,48 @@
     setUrl() { return this; }
   }
 
+  class ZoomControl {
+    constructor(options = {}) {
+      this.options = options;
+    }
+    addTo(map) {
+      this.map = map;
+      const control = document.createElement('div');
+      control.className = `leaflet-control leaflet-bar leaflet-control-zoom leaflet-control-zoom-${this.options.position || 'topright'}`;
+      control.setAttribute('aria-label', 'Zoom controls');
+      const zoomIn = document.createElement('button');
+      zoomIn.className = 'leaflet-control-zoom-in';
+      zoomIn.type = 'button';
+      zoomIn.textContent = '+';
+      zoomIn.setAttribute('aria-label', 'Zoom in');
+      const zoomOut = document.createElement('button');
+      zoomOut.className = 'leaflet-control-zoom-out';
+      zoomOut.type = 'button';
+      zoomOut.textContent = '−';
+      zoomOut.setAttribute('aria-label', 'Zoom out');
+      zoomIn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        map.zoomIn();
+      });
+      zoomOut.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        map.zoomOut();
+      });
+      control.append(zoomIn, zoomOut);
+      map.getContainer().append(control);
+      this.control = control;
+      map._addLayer(this);
+      return this;
+    }
+    remove() {
+      this.control?.remove();
+      this.map?._removeLayer(this);
+      return this;
+    }
+  }
+
   window.L = {
     map: (container, options) => new MapWrapper(container, options),
     marker: (point, options) => new HtmlMarker(point, options),
@@ -440,6 +506,6 @@
     layerGroup: () => new NoopLayer(),
     tileLayer: () => new NoopLayer(),
     svg: () => ({}),
-    control: { zoom: () => new NoopLayer() },
+    control: { zoom: (options) => new ZoomControl(options) },
   };
 })();
