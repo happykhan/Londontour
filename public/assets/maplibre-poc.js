@@ -51,11 +51,28 @@ const style = {
       paint: { 'fill-color': '#d9ead6', 'fill-opacity': 0.9 },
     },
     {
-      id: 'water',
+      id: 'water-areas',
       type: 'fill',
       source: 'london',
       'source-layer': 'water',
+      filter: [
+        'all',
+        ['==', ['geometry-type'], 'Polygon'],
+        ['!', ['in', ['get', 'kind_detail'], ['literal', ['canal']]]],
+      ],
       paint: { 'fill-color': '#aad3df' },
+    },
+    {
+      id: 'waterways',
+      type: 'line',
+      source: 'london',
+      'source-layer': 'water',
+      filter: ['in', ['get', 'kind'], ['literal', ['canal', 'river', 'stream']]],
+      paint: {
+        'line-color': '#86c9de',
+        'line-opacity': 0.86,
+        'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.8, 14, 2.4],
+      },
     },
     {
       id: 'buildings',

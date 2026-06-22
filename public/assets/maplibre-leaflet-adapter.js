@@ -97,7 +97,30 @@
           filter: ['in', ['get', 'kind'], ['literal', ['park', 'forest', 'wood', 'nature_reserve', 'garden', 'cemetery']]],
           paint: { 'fill-color': colours.park, 'fill-opacity': dark ? 0.82 : 0.9 },
         },
-        { id: 'water', type: 'fill', source: 'london', 'source-layer': 'water', paint: { 'fill-color': colours.water } },
+        {
+          id: 'water-areas',
+          type: 'fill',
+          source: 'london',
+          'source-layer': 'water',
+          filter: [
+            'all',
+            ['==', ['geometry-type'], 'Polygon'],
+            ['!', ['in', ['get', 'kind_detail'], ['literal', ['canal']]]],
+          ],
+          paint: { 'fill-color': colours.water },
+        },
+        {
+          id: 'waterways',
+          type: 'line',
+          source: 'london',
+          'source-layer': 'water',
+          filter: ['in', ['get', 'kind'], ['literal', ['canal', 'river', 'stream']]],
+          paint: {
+            'line-color': colours.water,
+            'line-opacity': dark ? 0.9 : 0.86,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.8, 14, 2.4, 18, 5.4],
+          },
+        },
         {
           id: 'buildings',
           type: 'fill',
