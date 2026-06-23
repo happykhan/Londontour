@@ -11,11 +11,11 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-2358/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-2358/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260622-2358/);
-  assert.match(html, /assets\/app\.js\?v=20260622-2358/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260622-2358'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0056/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0056/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-0056/);
+  assert.match(html, /assets\/app\.js\?v=20260623-0056/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-0056'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
   assert.doesNotMatch(html, /basemaps\.cartocdn\.com/i);
 });
@@ -33,8 +33,8 @@ test('production serves the offline basemap manifest', async () => {
 test('production serves the MapLibre PMTiles proof page and archive', async () => {
   const html = await readText(`${liveUrl}/maplibre-poc.html`);
   assert.match(html, /London PMTiles/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260622-2358/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260622-2358/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0056/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0056/);
 
   const response = await fetch(`${liveUrl}/assets/basemaps/london-z14.pmtiles`, {
     headers: { Range: 'bytes=0-6' },
@@ -53,7 +53,7 @@ test('production serves generated OpenStreetMap layers', async () => {
   const counts = new Map(catalog.layers.map((layer) => [layer.id, layer.points.length]));
   assert.equal(counts.has('attractions'), false);
   assert.equal(counts.has('food'), false);
-  assert.ok(counts.get('landmarks') >= 20);
+  assert.ok(counts.get('landmarks') >= 60);
   assert.ok(counts.get('museums') >= 300);
   assert.ok(counts.get('monuments') >= 400);
   assert.ok(counts.get('plaques') >= 300);
@@ -97,16 +97,19 @@ test('production serves generated OpenStreetMap layers', async () => {
 
 test('production serves generated tube network', async () => {
   const tubeNetwork = JSON.parse(await readText(`${liveUrl}/assets/tube-network.json`));
-  assert.ok(tubeNetwork.lines.length >= 12);
+  assert.ok(tubeNetwork.lines.length >= 13);
   assert.ok(tubeNetwork.riverServices.length >= 3);
   assert.ok(tubeNetwork.stations.length >= 260);
   assert.ok(tubeNetwork.lines.some((line) => line.id === 'central'));
   assert.ok(tubeNetwork.lines.some((line) => line.id === 'dlr' && line.segments.length > 100));
+  assert.ok(tubeNetwork.lines.some((line) => line.id === 'elizabeth' && line.segments.length >= 10));
   assert.ok(tubeNetwork.riverServices.some((service) => service.label === 'RB1' && service.segments.length > 0));
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Heathrow Terminal 5'));
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Epping'));
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Upminster'));
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Canary Wharf' && station.lines.includes('dlr')));
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Canary Wharf' && station.lines.includes('elizabeth')));
+  assert.ok(tubeNetwork.stations.some((station) => station.name === 'Abbey Wood' && station.lines.includes('elizabeth') && station.zone === '4'));
   assert.ok(tubeNetwork.stations.some((station) => station.name === 'Waterloo' && station.hasNationalRail));
 });
 

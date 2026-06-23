@@ -16,6 +16,7 @@ const lineMeta = {
   circle: { label: 'Circle', color: '#FFD300', osmNames: ['Circle'] },
   district: { label: 'District', color: '#00782A', osmNames: ['District'] },
   dlr: { label: 'DLR', color: '#00A4A7', osmNames: ['DLR', 'Docklands Light Railway'] },
+  elizabeth: { label: 'Elizabeth line', color: '#6950A1', osmNames: ['Elizabeth line', 'Elizabeth Line', 'Elizabeth'] },
   'hammersmith-city': { label: 'Hammersmith & City', color: '#F3A9BB', osmNames: ['Hammersmith & City'] },
   jubilee: { label: 'Jubilee', color: '#A0A5A9', osmNames: ['Jubilee'] },
   metropolitan: { label: 'Metropolitan', color: '#9B0056', osmNames: ['Metropolitan'] },
@@ -203,6 +204,16 @@ async function fetchDlrStations() {
   return fetchJson(url);
 }
 
+async function fetchElizabethStations() {
+  const url = 'https://api.tfl.gov.uk/StopPoint/Mode/elizabeth-line';
+  return fetchJson(url);
+}
+
+async function fetchElizabethRouteSequence() {
+  const url = 'https://api.tfl.gov.uk/Line/elizabeth/Route/Sequence/all';
+  return fetchJson(url);
+}
+
 async function fetchStopPointDetails(ids = []) {
   const detailByStationId = new Map();
   const uniqueIds = [...new Set(ids.filter(Boolean))];
@@ -250,7 +261,30 @@ function idsFromOsmLineTag(value = '') {
     .filter(Boolean);
 }
 
-function buildLines(elements = []) {
+function parseTfLLineStrings(routeSequence) {
+  const segments = new Map();
+  for (const lineString of routeSequence?.lineStrings || []) {
+    let parsed;
+    try {
+      parsed = JSON.parse(lineString);
+    } catch (error) {
+      continue;
+    }
+
+    const lineSegments = Array.isArray(parsed?.[0]?.[0]) ? parsed : [parsed];
+    for (const lineSegment of lineSegments) {
+      const segment = lineSegment
+        .filter((coordinate) => Array.isArray(coordinate) && coordinate.length >= 2)
+        .map(([lng, lat]) => [Number(Number(lat).toFixed(6)), Number(Number(lng).toFixed(6))])
+        .filter(([lat, lng]) => Number.isFinite(lat) && Number.isFinite(lng));
+      if (segment.length < 2) continue;
+      segments.set(JSON.stringify(segment), segment);
+    }
+  }
+  return [...segments.values()];
+}
+
+function buildLines(elements = [], elizabethRouteSequence) {
   const byLine = new Map(Object.keys(lineMeta).map((id) => [id, new Map()]));
 
   for (const way of elements) {
@@ -266,6 +300,10 @@ function buildLines(elements = []) {
       byLine.get(lineId)?.set(way.id, segment);
     }
   }
+
+  parseTfLLineStrings(elizabethRouteSequence).forEach((segment, index) => {
+    byLine.get('elizabeth')?.set(`tfl-elizabeth-${index}`, segment);
+  });
 
   return [...byLine.entries()]
     .map(([id, segmentsByWay]) => ({
@@ -314,6 +352,7 @@ function stationName(station, detail) {
   return (station.commonName || detail?.commonName || '')
     .replace(/\s+Underground Station$/i, '')
     .replace(/\s+DLR Station$/i, '')
+    .replace(/\s+Rail Station$/i, '')
     .replace(/\s+Station$/i, '')
     .trim();
 }
@@ -333,11 +372,12 @@ function detailLineIds(detail, modeName) {
     .flatMap((group) => group.lineIdentifier || []);
 }
 
-function hasNationalRail(detail) {
-  if (!detail) return false;
-  if ((detail.modes || []).includes('national-rail')) return true;
-  if (detailLineIds(detail, 'national-rail').length) return true;
-  return (detail.children || []).some((child) => {
+function hasNationalRail(station, detail) {
+  if ((station?.modes || []).includes('national-rail')) return true;
+  if ((station?.lines || []).some((line) => line.id === 'national-rail')) return true;
+  if (detail && (detail.modes || []).includes('national-rail')) return true;
+  if (detail && detailLineIds(detail, 'national-rail').length) return true;
+  return (detail?.children || []).some((child) => {
     return child.stopType === 'NaptanRailStation' && (child.modes || []).includes('national-rail');
   });
 }
@@ -373,7 +413,18 @@ function hasNearbyNationalRail(station, nationalRailStations = []) {
   });
 }
 
-function buildStations(tubeStopPoints = [], dlrStopPoints = [], detailByStationId = new Map(), nationalRailStations = []) {
+function stationZoneValue(station) {
+  if (station.zone) return String(station.zone);
+  return stationZones(station).join('/') || undefined;
+}
+
+function buildStations(
+  tubeStopPoints = [],
+  dlrStopPoints = [],
+  elizabethStations = [],
+  detailByStationId = new Map(),
+  nationalRailStations = []
+) {
   const candidates = [
     ...tubeStopPoints
       .filter((station) => {
@@ -395,6 +446,17 @@ function buildStations(tubeStopPoints = [], dlrStopPoints = [], detailByStationI
         const detail = detailByStationId.get(station.naptanId);
         return { station, detail, lineIds: ['dlr'] };
       }),
+    ...elizabethStations
+      .filter((station) => insideBbox(station.lat, station.lon))
+      .map((station) => {
+        const detail = detailByStationId.get(station.naptanId || station.id);
+        const lineIds = [
+          'elizabeth',
+          ...(station.lines || []).map((line) => line.id),
+          ...detailLineIds(detail, 'elizabeth-line'),
+        ].filter((lineId) => lineMeta[lineId]);
+        return { station, detail, lineIds };
+      }),
   ];
 
   const merged = new Map();
@@ -412,18 +474,18 @@ function buildStations(tubeStopPoints = [], dlrStopPoints = [], detailByStationI
       name: cleanName,
       lat: Number(station.lat.toFixed(6)),
       lng: Number(station.lon.toFixed(6)),
-      zone: stationZones(station).join('/') || undefined,
+      zone: stationZoneValue(station),
       lines: [],
       facilities: [],
       hasNationalRail: false,
-      source: `TfL StopPoint ${station.naptanId}`,
+      source: `TfL StopPoint ${station.naptanId || station.id}`,
     };
 
     record.lines = [...new Set([...record.lines, ...lines])];
     record.facilities = [...new Set([...record.facilities, ...facilities])];
-    record.hasNationalRail = record.hasNationalRail || hasNationalRail(detail) || hasNearbyNationalRail(record, nationalRailStations);
-    if (!record.zone) record.zone = stationZones(station).join('/') || undefined;
-    if (record.name.includes('DLR') && !station.commonName.includes('DLR')) {
+    record.hasNationalRail = record.hasNationalRail || hasNationalRail(station, detail) || hasNearbyNationalRail(record, nationalRailStations);
+    if (!record.zone) record.zone = stationZoneValue(station);
+    if (record.name.includes('DLR') && !(station.commonName || '').includes('DLR')) {
       record.name = stationName(station, detail);
     }
     merged.set(key, record);
@@ -436,13 +498,26 @@ function buildStations(tubeStopPoints = [], dlrStopPoints = [], detailByStationI
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-const [tubeWays, riverWays, nationalRailStations, tubeStations, dlrStations] = await Promise.all([
+const [
+  tubeWays,
+  riverWays,
+  nationalRailStations,
+  tubeStations,
+  dlrStations,
+  elizabethStations,
+  elizabethRouteSequence,
+] = await Promise.all([
   fetchTubeWays(),
   fetchRiverWays(),
   fetchNationalRailStations(),
   fetchTubeStations(),
   fetchDlrStations(),
+  fetchElizabethStations(),
+  fetchElizabethRouteSequence(),
 ]);
+const elizabethStopPoints = (elizabethStations.stopPoints || []).filter((station) => {
+  return station.stopType === 'NaptanRailStation' || station.stopType === 'NaptanMetroStation';
+});
 const stationDetails = await fetchStopPointDetails([
   ...(tubeStations.stopPoints || [])
     .filter((station) => station.stopType === 'NaptanMetroStation')
@@ -450,14 +525,21 @@ const stationDetails = await fetchStopPointDetails([
   ...(dlrStations.stopPoints || [])
     .filter((station) => station.stopType === 'NaptanMetroStation')
     .map((station) => station.naptanId),
+  ...elizabethStopPoints.map((station) => station.naptanId || station.id),
 ]);
 const output = {
   generatedAt: new Date().toISOString(),
-  source: 'OpenStreetMap subway, DLR and river ferry ways via Overpass API and TfL StopPoint tube/DLR stations within the app map bounds',
+  source: 'OpenStreetMap subway, DLR and river ferry ways via Overpass API and TfL StopPoint tube/DLR/Elizabeth line stations and Elizabeth line route sequence within the app map bounds',
   bbox: BBOX,
-  lines: buildLines(tubeWays.elements || []),
+  lines: buildLines(tubeWays.elements || [], elizabethRouteSequence),
   riverServices: buildRiverServices(riverWays.elements || []),
-  stations: buildStations(tubeStations.stopPoints || [], dlrStations.stopPoints || [], stationDetails, nationalRailStations),
+  stations: buildStations(
+    tubeStations.stopPoints || [],
+    dlrStations.stopPoints || [],
+    elizabethStopPoints,
+    stationDetails,
+    nationalRailStations
+  ),
 };
 
 await writeFile(OUTPUT_FILE, `${JSON.stringify(output, null, 2)}\n`);

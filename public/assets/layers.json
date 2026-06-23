@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T07:05:05.306Z",
+  "generatedAt": "2026-06-22T23:45:16.035Z",
   "source": "OpenStreetMap via Overpass API and TfL StopPoint river-bus piers",
   "bbox": {
     "south": 51.38,
@@ -25,7 +25,17 @@
           "lng": -0.127554,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/1879842",
-          "priority": 2
+          "priority": 37
+        },
+        {
+          "id": "landmarks-curated-alexandra-palace",
+          "name": "Alexandra Palace",
+          "lat": 51.594,
+          "lng": -0.13,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.alexandrapalace.com/",
+          "priority": 1
         },
         {
           "id": "landmarks-relation-553472-bank-of-england",
@@ -34,6 +44,26 @@
           "lng": -0.088557,
           "detail": "Attraction · Governor and Company of the Bank of England from OpenStreetMap.",
           "source": "OpenStreetMap relation/553472",
+          "priority": 38
+        },
+        {
+          "id": "landmarks-curated-barbican-centre",
+          "name": "Barbican Centre",
+          "lat": 51.5202,
+          "lng": -0.0938,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.barbican.org.uk/",
+          "priority": 2
+        },
+        {
+          "id": "landmarks-curated-battersea-power-station",
+          "name": "Battersea Power Station",
+          "lat": 51.4818,
+          "lng": -0.1447,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://batterseapowerstation.co.uk/",
           "priority": 3
         },
         {
@@ -43,7 +73,7 @@
           "lng": -0.124572,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap node/1802652184",
-          "priority": 4
+          "priority": 39
         },
         {
           "id": "landmarks-node-12855231657-borough-market",
@@ -52,7 +82,27 @@
           "lng": -0.090438,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap node/12855231657",
-          "priority": 26
+          "priority": 61
+        },
+        {
+          "id": "landmarks-curated-british-library",
+          "name": "British Library",
+          "lat": 51.5299,
+          "lng": -0.1275,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.bl.uk/",
+          "priority": 4
+        },
+        {
+          "id": "landmarks-curated-british-museum",
+          "name": "British Museum",
+          "lat": 51.5194,
+          "lng": -0.127,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.britishmuseum.org/",
+          "priority": 5
         },
         {
           "id": "landmarks-relation-5208404-buckingham-palace",
@@ -61,7 +111,17 @@
           "lng": -0.142658,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/5208404",
-          "priority": 5
+          "priority": 40
+        },
+        {
+          "id": "landmarks-curated-camden-market",
+          "name": "Camden Market",
+          "lat": 51.5413,
+          "lng": -0.1461,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://camdenmarket.com/",
+          "priority": 6
         },
         {
           "id": "landmarks-way-297331784-cleopatras-needle",
@@ -70,7 +130,27 @@
           "lng": -0.120316,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/297331784",
-          "priority": 6
+          "priority": 41
+        },
+        {
+          "id": "landmarks-curated-covent-garden",
+          "name": "Covent Garden",
+          "lat": 51.5117,
+          "lng": -0.123,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.coventgarden.london/",
+          "priority": 7
+        },
+        {
+          "id": "landmarks-curated-cutty-sark",
+          "name": "Cutty Sark",
+          "lat": 51.4828,
+          "lng": -0.0096,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.rmg.co.uk/cutty-sark",
+          "priority": 8
         },
         {
           "id": "landmarks-node-1948210427-globe-theatre",
@@ -79,7 +159,17 @@
           "lng": -0.094742,
           "detail": "Archaeological Site from OpenStreetMap.",
           "source": "OpenStreetMap node/1948210427",
-          "priority": 7
+          "priority": 42
+        },
+        {
+          "id": "landmarks-curated-greenwich-market",
+          "name": "Greenwich Market",
+          "lat": 51.4816,
+          "lng": -0.009,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.greenwichmarket.london/",
+          "priority": 9
         },
         {
           "id": "landmarks-way-539317283-guildhall",
@@ -88,7 +178,66 @@
           "lng": -0.09193,
           "detail": "Attraction · City of London Corporation from OpenStreetMap.",
           "source": "OpenStreetMap way/539317283",
-          "priority": 8
+          "priority": 43
+        },
+        {
+          "id": "landmarks-curated-hampton-court-palace",
+          "name": "Hampton Court Palace",
+          "lat": 51.4036,
+          "lng": -0.3376,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.hrp.org.uk/hampton-court-palace/",
+          "priority": 10
+        },
+        {
+          "id": "landmarks-curated-hms-belfast",
+          "name": "HMS Belfast",
+          "lat": 51.5066,
+          "lng": -0.081,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.iwm.org.uk/visits/hms-belfast",
+          "priority": 11
+        },
+        {
+          "id": "landmarks-curated-imperial-war-museum",
+          "name": "Imperial War Museum",
+          "lat": 51.4958,
+          "lng": -0.1086,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.iwm.org.uk/visits/iwm-london",
+          "priority": 12
+        },
+        {
+          "id": "landmarks-curated-kensington-palace",
+          "name": "Kensington Palace",
+          "lat": 51.505,
+          "lng": -0.1877,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.hrp.org.uk/kensington-palace/",
+          "priority": 13
+        },
+        {
+          "id": "landmarks-curated-kew-gardens",
+          "name": "Kew Gardens",
+          "lat": 51.4787,
+          "lng": -0.2956,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.kew.org/kew-gardens",
+          "priority": 15
+        },
+        {
+          "id": "landmarks-curated-kings-cross-st-pancras",
+          "name": "King's Cross St. Pancras",
+          "lat": 51.5317,
+          "lng": -0.1246,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "priority": 14
         },
         {
           "id": "landmarks-node-12431285468-leadenhall-market",
@@ -97,7 +246,7 @@
           "lng": -0.083484,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap node/12431285468",
-          "priority": 27
+          "priority": 62
         },
         {
           "id": "landmarks-way-378493707-london-bridge",
@@ -106,7 +255,7 @@
           "lng": -0.087682,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/378493707",
-          "priority": 9
+          "priority": 44
         },
         {
           "id": "landmarks-way-204068874-london-eye",
@@ -115,7 +264,26 @@
           "lng": -0.119677,
           "detail": "Attraction · Merlin Attractions Operations Limited from OpenStreetMap.",
           "source": "OpenStreetMap way/204068874",
-          "priority": 10
+          "priority": 45
+        },
+        {
+          "id": "landmarks-curated-london-zoo",
+          "name": "London Zoo",
+          "lat": 51.5353,
+          "lng": -0.1534,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.londonzoo.org/",
+          "priority": 16
+        },
+        {
+          "id": "landmarks-curated-marble-arch",
+          "name": "Marble Arch",
+          "lat": 51.5131,
+          "lng": -0.1589,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "priority": 17
         },
         {
           "id": "landmarks-way-659424463-millennium-bridge",
@@ -124,7 +292,37 @@
           "lng": -0.098523,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/659424463",
-          "priority": 11
+          "priority": 46
+        },
+        {
+          "id": "landmarks-curated-national-gallery",
+          "name": "National Gallery",
+          "lat": 51.5089,
+          "lng": -0.1283,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.nationalgallery.org.uk/",
+          "priority": 18
+        },
+        {
+          "id": "landmarks-curated-natural-history-museum",
+          "name": "Natural History Museum",
+          "lat": 51.4967,
+          "lng": -0.1764,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.nhm.ac.uk/",
+          "priority": 19
+        },
+        {
+          "id": "landmarks-curated-old-royal-naval-college",
+          "name": "Old Royal Naval College",
+          "lat": 51.483,
+          "lng": -0.0056,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://ornc.org/",
+          "priority": 20
         },
         {
           "id": "landmarks-relation-1567699-palace-of-westminster",
@@ -133,7 +331,7 @@
           "lng": -0.124566,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/1567699",
-          "priority": 12
+          "priority": 47
         },
         {
           "id": "landmarks-relation-8250949-piccadilly-circus",
@@ -142,7 +340,27 @@
           "lng": -0.134382,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/8250949",
-          "priority": 13
+          "priority": 48
+        },
+        {
+          "id": "landmarks-curated-royal-academy-of-arts",
+          "name": "Royal Academy of Arts",
+          "lat": 51.5094,
+          "lng": -0.1399,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.royalacademy.org.uk/",
+          "priority": 21
+        },
+        {
+          "id": "landmarks-curated-royal-albert-hall",
+          "name": "Royal Albert Hall",
+          "lat": 51.501,
+          "lng": -0.1774,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.royalalberthall.com/",
+          "priority": 22
         },
         {
           "id": "landmarks-relation-2335557-royal-courts-of-justice",
@@ -151,7 +369,7 @@
           "lng": -0.113041,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/2335557",
-          "priority": 14
+          "priority": 49
         },
         {
           "id": "landmarks-way-5987419-royal-festival-hall",
@@ -160,7 +378,17 @@
           "lng": -0.116784,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/5987419",
-          "priority": 15
+          "priority": 50
+        },
+        {
+          "id": "landmarks-curated-royal-observatory-greenwich",
+          "name": "Royal Observatory Greenwich",
+          "lat": 51.4769,
+          "lng": -0.0005,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.rmg.co.uk/royal-observatory",
+          "priority": 23
         },
         {
           "id": "landmarks-way-33721672-royal-opera-house",
@@ -169,7 +397,27 @@
           "lng": -0.122497,
           "detail": "Attraction · Royal Ballet and Opera from OpenStreetMap.",
           "source": "OpenStreetMap way/33721672",
-          "priority": 16
+          "priority": 51
+        },
+        {
+          "id": "landmarks-curated-science-museum",
+          "name": "Science Museum",
+          "lat": 51.4978,
+          "lng": -0.1745,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.sciencemuseum.org.uk/",
+          "priority": 24
+        },
+        {
+          "id": "landmarks-curated-sky-garden",
+          "name": "Sky Garden",
+          "lat": 51.5113,
+          "lng": -0.0835,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://skygarden.london/",
+          "priority": 25
         },
         {
           "id": "landmarks-way-372841786-somerset-house",
@@ -178,7 +426,7 @@
           "lng": -0.117456,
           "detail": "Yes from OpenStreetMap.",
           "source": "OpenStreetMap way/372841786",
-          "priority": 17
+          "priority": 52
         },
         {
           "id": "landmarks-relation-1698905-southbank-centre",
@@ -187,7 +435,7 @@
           "lng": -0.116478,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/1698905",
-          "priority": 18
+          "priority": 53
         },
         {
           "id": "landmarks-way-26183417-southwark-cathedral",
@@ -196,7 +444,17 @@
           "lng": -0.08958,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/26183417",
-          "priority": 19
+          "priority": 54
+        },
+        {
+          "id": "landmarks-curated-st-pancras-international",
+          "name": "St Pancras International",
+          "lat": 51.5319,
+          "lng": -0.1263,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://stpancras.com/",
+          "priority": 26
         },
         {
           "id": "landmarks-way-369161987-st-pauls-cathedral",
@@ -205,7 +463,27 @@
           "lng": -0.098436,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/369161987",
-          "priority": 20
+          "priority": 55
+        },
+        {
+          "id": "landmarks-curated-tate-britain",
+          "name": "Tate Britain",
+          "lat": 51.4911,
+          "lng": -0.1278,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.tate.org.uk/visit/tate-britain",
+          "priority": 27
+        },
+        {
+          "id": "landmarks-curated-tate-modern",
+          "name": "Tate Modern",
+          "lat": 51.5076,
+          "lng": -0.0994,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.tate.org.uk/visit/tate-modern",
+          "priority": 28
         },
         {
           "id": "landmarks-way-128454313-temple-church",
@@ -214,7 +492,36 @@
           "lng": -0.110263,
           "detail": "Church from OpenStreetMap.",
           "source": "OpenStreetMap way/128454313",
-          "priority": 21
+          "priority": 56
+        },
+        {
+          "id": "landmarks-curated-the-monument",
+          "name": "The Monument",
+          "lat": 51.5101,
+          "lng": -0.086,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "priority": 29
+        },
+        {
+          "id": "landmarks-curated-the-o2",
+          "name": "The O2",
+          "lat": 51.503,
+          "lng": 0.0032,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.theo2.co.uk/",
+          "priority": 30
+        },
+        {
+          "id": "landmarks-curated-the-shard",
+          "name": "The Shard",
+          "lat": 51.5045,
+          "lng": -0.0865,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.the-shard.com/",
+          "priority": 31
         },
         {
           "id": "landmarks-node-2079674503-tower-bridge",
@@ -223,7 +530,7 @@
           "lng": -0.075366,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap node/2079674503",
-          "priority": 1
+          "priority": 36
         },
         {
           "id": "landmarks-way-370870741-tower-of-london",
@@ -232,7 +539,7 @@
           "lng": -0.076286,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/370870741",
-          "priority": 22
+          "priority": 57
         },
         {
           "id": "landmarks-relation-3962877-trafalgar-square",
@@ -241,7 +548,27 @@
           "lng": -0.128273,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap relation/3962877",
-          "priority": 23
+          "priority": 58
+        },
+        {
+          "id": "landmarks-curated-victoria-and-albert-museum",
+          "name": "Victoria and Albert Museum",
+          "lat": 51.4966,
+          "lng": -0.1722,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.vam.ac.uk/",
+          "priority": 32
+        },
+        {
+          "id": "landmarks-curated-wembley-stadium",
+          "name": "Wembley Stadium",
+          "lat": 51.556,
+          "lng": -0.2796,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.wembleystadium.com/",
+          "priority": 33
         },
         {
           "id": "landmarks-way-364313092-westminster-abbey",
@@ -250,7 +577,7 @@
           "lng": -0.127391,
           "detail": "Attraction from OpenStreetMap.",
           "source": "OpenStreetMap way/364313092",
-          "priority": 24
+          "priority": 59
         },
         {
           "id": "landmarks-way-216998718-westminster-bridge",
@@ -259,7 +586,27 @@
           "lng": -0.12099,
           "detail": "Attraction · Transport for London from OpenStreetMap.",
           "source": "OpenStreetMap way/216998718",
-          "priority": 25
+          "priority": 60
+        },
+        {
+          "id": "landmarks-curated-westminster-cathedral",
+          "name": "Westminster Cathedral",
+          "lat": 51.4963,
+          "lng": -0.1396,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://westminstercathedral.org.uk/",
+          "priority": 34
+        },
+        {
+          "id": "landmarks-curated-whitechapel-gallery",
+          "name": "Whitechapel Gallery",
+          "lat": 51.5164,
+          "lng": -0.07,
+          "detail": "Essential landmark from the curated OpenStreetMap supplement.",
+          "source": "OpenStreetMap curated supplement",
+          "url": "https://www.whitechapelgallery.org/",
+          "priority": 35
         }
       ]
     },
@@ -1444,12 +1791,12 @@
           "priority": 49
         },
         {
-          "id": "museums-way-193463784-fusiliers-museum",
+          "id": "museums-node-13958592487-fusiliers-museum",
           "name": "Fusiliers Museum",
-          "lat": 51.508309,
-          "lng": -0.075237,
+          "lat": 51.508224,
+          "lng": -0.075258,
           "detail": "Museum from OpenStreetMap.",
-          "source": "OpenStreetMap way/193463784",
+          "source": "OpenStreetMap node/13958592487",
           "url": "https://www.wikidata.org/wiki/Q26318776",
           "priority": 50
         },
@@ -14899,7 +15246,7 @@
           "detail": "Market · listed hours: Sa 10:00-14:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/901200839",
           "url": "https://www.lfm.org.uk/markets/bermondsey/",
-          "priority": 14
+          "priority": 15
         },
         {
           "id": "markets-way-573803959-berwick-street-market",
@@ -14919,7 +15266,7 @@
           "detail": "Market · listed hours: Su 10:00-14:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/901200832",
           "url": "https://www.lfm.org.uk/markets/blackheath/",
-          "priority": 15
+          "priority": 16
         },
         {
           "id": "markets-way-24282400-borough-market",
@@ -14949,7 +15296,7 @@
           "detail": "Market · listed hours: Su 10:00-17:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/5039356626",
           "url": "https://www.wikidata.org/wiki/Q4965926",
-          "priority": 16
+          "priority": 17
         },
         {
           "id": "markets-way-550708698-brixton-market",
@@ -14969,7 +15316,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/185778127",
           "url": "https://brixtonvillage.com/",
-          "priority": 13
+          "priority": 14
         },
         {
           "id": "markets-node-902513135-broadgate-farmers-market",
@@ -14998,8 +15345,8 @@
           "lng": -0.166654,
           "detail": "Market · listed hours: Mo-Sa 10:00-16:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/921514067",
-          "url": "https://broadwaymarket.co.uk/",
-          "priority": 9
+          "url": "https://bmtooting.co.uk/",
+          "priority": 10
         },
         {
           "id": "markets-way-397845734-brockley-farmers-market",
@@ -15019,7 +15366,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/104240016",
           "url": "https://camdenmarket.com/",
-          "priority": 11
+          "priority": 12
         },
         {
           "id": "markets-node-3608653828-camden-market",
@@ -15049,7 +15396,7 @@
           "detail": "Market · listed hours: Fr 10:00-16:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/857150993",
           "url": "https://www.camden.gov.uk/markets",
-          "priority": 17
+          "priority": 18
         },
         {
           "id": "markets-way-239435039-chapel-market",
@@ -15079,7 +15426,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/892172557",
           "url": "https://chelseafarmersmkt.org/",
-          "priority": 97
+          "priority": 96
         },
         {
           "id": "markets-way-50437784-chrisp-street-market",
@@ -15109,7 +15456,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/633369346",
           "url": "https://www.coventgarden.london/",
-          "priority": 12
+          "priority": 13
         },
         {
           "id": "markets-node-2270648180-crystal-palace-food-market",
@@ -15119,7 +15466,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/2270648180",
           "url": "https://www.crystalpalacefoodmarket.co.uk/",
-          "priority": 98
+          "priority": 97
         },
         {
           "id": "markets-node-8781185579-crystal-palace-park-market",
@@ -15139,17 +15486,7 @@
           "detail": "Market · listed hours: We, Fr-Sa 09:00-17:30 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/156397315",
           "url": "https://lewisham.gov.uk/inmyarea/markets/street-markets/deptford-markets",
-          "priority": 18
-        },
-        {
-          "id": "markets-way-155181001-downmarket_",
-          "name": "downmarket_",
-          "lat": 51.554306,
-          "lng": -0.066287,
-          "detail": "Market · opening times change; check the linked site before travelling.",
-          "source": "OpenStreetMap way/155181001",
-          "url": "https://eatworkart.com/hackney-downs-studios/studios/downmarket-event-hire",
-          "priority": 106
+          "priority": 19
         },
         {
           "id": "markets-node-10085046069-duck-pond-market",
@@ -15179,7 +15516,7 @@
           "detail": "Market · listed hours: Mo-Sa 10:00-17:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/857170614",
           "url": "https://www.camden.gov.uk/markets",
-          "priority": 19
+          "priority": 20
         },
         {
           "id": "markets-way-40120623-east-street-market",
@@ -15199,7 +15536,7 @@
           "detail": "Market · listed hours: Mo-Tu 10:00-16:00;We 10:00-14:00;Th-Sa 10:00-16:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/155062256",
           "url": "https://en.wikipedia.org/wiki/Electric_Avenue",
-          "priority": 20
+          "priority": 21
         },
         {
           "id": "markets-node-13059868726-elephant-park-market",
@@ -15239,7 +15576,7 @@
           "detail": "Market · listed hours: Mo-Fr 10:00-15:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/856800875",
           "url": "https://www.camden.gov.uk/markets",
-          "priority": 21
+          "priority": 22
         },
         {
           "id": "markets-way-25696035-greenwich-market",
@@ -15289,7 +15626,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/13641563552",
           "url": "http://www.hounslowheathcarboot.co.uk/",
-          "priority": 99
+          "priority": 98
         },
         {
           "id": "markets-way-856806600-inverness-street-market",
@@ -15299,7 +15636,7 @@
           "detail": "Market · listed hours: Mo-Su 10:00-18:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/856806600",
           "url": "https://www.camden.gov.uk/markets",
-          "priority": 22
+          "priority": 23
         },
         {
           "id": "markets-way-95127018-jubilee-market-hall",
@@ -15349,7 +15686,7 @@
           "detail": "Market · listed hours: Mo-Fr 10:00-16:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/85625507",
           "url": "https://www.camden.gov.uk/markets",
-          "priority": 23
+          "priority": 24
         },
         {
           "id": "markets-node-12718772295-lower-marsh-market",
@@ -15379,7 +15716,7 @@
           "detail": "Market · listed hours: Sa 10:00-17:00; Su 11:00-16:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/2825011782",
           "url": "https://www.maltbystreet.market/",
-          "priority": 10
+          "priority": 11
         },
         {
           "id": "markets-node-13668768969-market",
@@ -15389,7 +15726,7 @@
           "detail": "Market · listed hours: Fr 17:00-21:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/13668768969",
           "url": "https://app.eventdisco.co.uk/thegessner-thesessile",
-          "priority": 108
+          "priority": 104
         },
         {
           "id": "markets-way-1149492663-market",
@@ -15399,7 +15736,7 @@
           "detail": "Market · listed hours: Th-Sa 09:00-16:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/1149492663",
           "url": "https://marketplace-enfield.co.uk/",
-          "priority": 109
+          "priority": 105
         },
         {
           "id": "markets-node-10743590885-market-place-peckham",
@@ -15509,7 +15846,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/16306646",
           "url": "https://oldspitalfieldsmarket.com/",
-          "priority": 7
+          "priority": 8
         },
         {
           "id": "markets-way-88813278-oval-farmers-market",
@@ -15539,7 +15876,7 @@
           "detail": "Market · listed hours: Su 09:00-15:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/5520405422",
           "url": "https://petticoatlane.london/",
-          "priority": 103
+          "priority": 101
         },
         {
           "id": "markets-way-498220261-piccadilly-market",
@@ -15578,8 +15915,8 @@
           "lng": -0.205117,
           "detail": "Market · listed hours: Mo-We 09:00-18:00; Th 09:00-13:00; Fr,Sa 09:00-19:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/3976263603",
-          "url": "https://www.portobelloroad.co.uk/",
-          "priority": 24
+          "url": "https://visitportobello.com/",
+          "priority": 7
         },
         {
           "id": "markets-node-13194632588-primrose-hill-food-market",
@@ -15610,16 +15947,6 @@
           "source": "OpenStreetMap way/687775636",
           "url": "https://en.wikipedia.org/wiki/Queen's_Market",
           "priority": 44
-        },
-        {
-          "id": "markets-node-7112412392-queensway-market",
-          "name": "Queensway Market",
-          "lat": 51.511099,
-          "lng": -0.18741,
-          "detail": "Market · opening times change; check the linked site before travelling.",
-          "source": "OpenStreetMap node/7112412392",
-          "url": "http://www.queenswaymarket.com/",
-          "priority": 107
         },
         {
           "id": "markets-way-1421182724-real-food-market",
@@ -15659,7 +15986,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/7277566692",
           "url": "https://www.sevendialsmarket.com/",
-          "priority": 8
+          "priority": 9
         },
         {
           "id": "markets-node-13176946974-seven-sisters-market",
@@ -15712,16 +16039,6 @@
           "priority": 81
         },
         {
-          "id": "markets-way-749021591-stratford-mall",
-          "name": "Stratford Mall",
-          "lat": 51.542121,
-          "lng": 0.000365,
-          "detail": "Market · opening times change; check the linked site before travelling.",
-          "source": "OpenStreetMap way/749021591",
-          "url": "https://www.62mallmanagement.co.uk/",
-          "priority": 100
-        },
-        {
           "id": "markets-way-1211583962-strutton-ground-market",
           "name": "Strutton Ground Market",
           "lat": 51.497074,
@@ -15759,7 +16076,7 @@
           "detail": "Market · listed hours: Sa 09:00-13:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/4700735610",
           "url": "https://www.thamesdittonfarmersmarket.com/",
-          "priority": 104
+          "priority": 102
         },
         {
           "id": "markets-way-613477217-the-blue-market",
@@ -15779,7 +16096,7 @@
           "detail": "Market · listed hours: Su 10:00-14:00 · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/4646622289",
           "url": "https://www.thefoodmarketchiswick.com/",
-          "priority": 105
+          "priority": 103
         },
         {
           "id": "markets-way-973163217-the-greenwich-vintage-market",
@@ -15809,7 +16126,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap node/9251984237",
           "url": "https://www.lbhf.gov.uk/business/markets/lyric-square",
-          "priority": 101
+          "priority": 99
         },
         {
           "id": "markets-way-921514069-tooting-market",
@@ -15912,16 +16229,6 @@
           "priority": 30
         },
         {
-          "id": "markets-way-30451817-whole-foods-market",
-          "name": "Whole Foods Market",
-          "lat": 51.53415,
-          "lng": -0.10492,
-          "detail": "Market · opening times change; check the linked site before travelling.",
-          "source": "OpenStreetMap way/30451817",
-          "url": "https://www.wikidata.org/wiki/Q26585482",
-          "priority": 96
-        },
-        {
           "id": "markets-node-901200849-wimbledon-farmers-market",
           "name": "Wimbledon Farmers' Market",
           "lat": 51.438396,
@@ -15939,7 +16246,7 @@
           "detail": "Market · opening times change; check the linked site before travelling.",
           "source": "OpenStreetMap way/205895206",
           "url": "https://woodstreetmarket.com/",
-          "priority": 102
+          "priority": 100
         },
         {
           "id": "markets-node-9006994333-yerbury-farmers-market",
@@ -34741,8 +35048,8 @@
         {
           "id": "toilets-node-1425191724-public-toilets",
           "name": "Public toilets",
-          "lat": 51.431334,
-          "lng": -0.276216,
+          "lat": 51.431349,
+          "lng": -0.276248,
           "detail": "Public toilet · fee: no · wheelchair: yes · access: yes from OpenStreetMap.",
           "source": "OpenStreetMap node/1425191724",
           "priority": 114
@@ -39080,21 +39387,21 @@
           "priority": 259
         },
         {
-          "id": "water-node-2351683363-water-refill-point",
-          "name": "Water refill point",
-          "lat": 51.4483,
-          "lng": -0.295367,
-          "detail": "Drinking water from OpenStreetMap.",
-          "source": "OpenStreetMap node/2351683363",
-          "priority": 260
-        },
-        {
           "id": "water-node-11264936341-water-refill-point",
           "name": "Water refill point",
           "lat": 51.442677,
           "lng": -0.293589,
           "detail": "Drinking water · fountain: drinking · access: yes · fee: no from OpenStreetMap.",
           "source": "OpenStreetMap node/11264936341",
+          "priority": 260
+        },
+        {
+          "id": "water-node-2351683363-water-refill-point",
+          "name": "Water refill point",
+          "lat": 51.449677,
+          "lng": -0.296054,
+          "detail": "Drinking water from OpenStreetMap.",
+          "source": "OpenStreetMap node/2351683363",
           "priority": 261
         },
         {
@@ -39665,7 +39972,7 @@
           "lng": -0.105985,
           "detail": "Convenience · Nisa Local from OpenStreetMap.",
           "source": "OpenStreetMap way/163379408",
-          "priority": 8
+          "priority": 9
         },
         {
           "id": "supermarkets-way-956254929-abbey-grocers",
@@ -39674,7 +39981,7 @@
           "lng": 0.005994,
           "detail": "Convenience · Happy Shopper from OpenStreetMap.",
           "source": "OpenStreetMap way/956254929",
-          "priority": 9
+          "priority": 10
         },
         {
           "id": "supermarkets-node-4144460294-aldi",
@@ -39683,7 +39990,7 @@
           "lng": -0.301228,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/4144460294",
-          "priority": 10
+          "priority": 11
         },
         {
           "id": "supermarkets-way-23484584-aldi",
@@ -39692,7 +39999,7 @@
           "lng": -0.41212,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/23484584",
-          "priority": 11
+          "priority": 12
         },
         {
           "id": "supermarkets-node-4159875453-aldi",
@@ -39701,7 +40008,7 @@
           "lng": -0.206599,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/4159875453",
-          "priority": 12
+          "priority": 13
         },
         {
           "id": "supermarkets-node-6167219574-aldi",
@@ -39710,7 +40017,7 @@
           "lng": -0.178822,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/6167219574",
-          "priority": 13
+          "priority": 14
         },
         {
           "id": "supermarkets-node-2429828501-aldi",
@@ -39719,7 +40026,7 @@
           "lng": -0.167001,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/2429828501",
-          "priority": 14
+          "priority": 15
         },
         {
           "id": "supermarkets-way-189835651-aldi",
@@ -39728,7 +40035,7 @@
           "lng": -0.272267,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/189835651",
-          "priority": 15
+          "priority": 16
         },
         {
           "id": "supermarkets-way-310822359-aldi",
@@ -39737,7 +40044,7 @@
           "lng": -0.15213,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/310822359",
-          "priority": 16
+          "priority": 17
         },
         {
           "id": "supermarkets-node-7947493944-aldi",
@@ -39746,7 +40053,7 @@
           "lng": -0.131396,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/7947493944",
-          "priority": 17
+          "priority": 18
         },
         {
           "id": "supermarkets-way-191154250-aldi",
@@ -39755,7 +40062,7 @@
           "lng": -0.076489,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/191154250",
-          "priority": 18
+          "priority": 19
         },
         {
           "id": "supermarkets-way-172844248-aldi",
@@ -39764,7 +40071,7 @@
           "lng": -0.059019,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/172844248",
-          "priority": 19
+          "priority": 20
         },
         {
           "id": "supermarkets-way-555320957-aldi",
@@ -39773,7 +40080,7 @@
           "lng": -0.035146,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/555320957",
-          "priority": 20
+          "priority": 21
         },
         {
           "id": "supermarkets-way-215417384-aldi",
@@ -39782,7 +40089,7 @@
           "lng": -0.017708,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/215417384",
-          "priority": 21
+          "priority": 22
         },
         {
           "id": "supermarkets-way-28498211-aldi",
@@ -39791,7 +40098,7 @@
           "lng": 0.114301,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/28498211",
-          "priority": 22
+          "priority": 23
         },
         {
           "id": "supermarkets-way-343519562-aldi",
@@ -39800,7 +40107,7 @@
           "lng": -0.372224,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/343519562",
-          "priority": 23
+          "priority": 24
         },
         {
           "id": "supermarkets-node-7945898884-aldi",
@@ -39809,7 +40116,7 @@
           "lng": -0.194299,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/7945898884",
-          "priority": 24
+          "priority": 25
         },
         {
           "id": "supermarkets-node-13508657978-aldi",
@@ -39818,7 +40125,7 @@
           "lng": -0.055857,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/13508657978",
-          "priority": 25
+          "priority": 26
         },
         {
           "id": "supermarkets-way-160661242-aldi",
@@ -39827,7 +40134,7 @@
           "lng": -0.010924,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/160661242",
-          "priority": 26
+          "priority": 27
         },
         {
           "id": "supermarkets-way-540747486-aldi",
@@ -39836,7 +40143,7 @@
           "lng": 0.106213,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/540747486",
-          "priority": 27
+          "priority": 28
         },
         {
           "id": "supermarkets-node-4378529094-aldi",
@@ -39845,7 +40152,7 @@
           "lng": -0.401516,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/4378529094",
-          "priority": 28
+          "priority": 29
         },
         {
           "id": "supermarkets-node-1319523746-aldi",
@@ -39854,7 +40161,7 @@
           "lng": -0.399126,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/1319523746",
-          "priority": 29
+          "priority": 30
         },
         {
           "id": "supermarkets-way-24250924-aldi",
@@ -39863,7 +40170,7 @@
           "lng": -0.356807,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/24250924",
-          "priority": 30
+          "priority": 31
         },
         {
           "id": "supermarkets-way-228954712-aldi",
@@ -39872,7 +40179,7 @@
           "lng": -0.279905,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/228954712",
-          "priority": 31
+          "priority": 32
         },
         {
           "id": "supermarkets-node-9658138128-aldi",
@@ -39881,7 +40188,7 @@
           "lng": -0.175689,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/9658138128",
-          "priority": 32
+          "priority": 33
         },
         {
           "id": "supermarkets-node-1242482560-aldi",
@@ -39890,7 +40197,7 @@
           "lng": -0.180904,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/1242482560",
-          "priority": 33
+          "priority": 34
         },
         {
           "id": "supermarkets-way-123092671-aldi",
@@ -39899,7 +40206,7 @@
           "lng": -0.196107,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/123092671",
-          "priority": 34
+          "priority": 35
         },
         {
           "id": "supermarkets-way-457644937-aldi",
@@ -39908,7 +40215,7 @@
           "lng": -0.14209,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/457644937",
-          "priority": 35
+          "priority": 36
         },
         {
           "id": "supermarkets-way-845842087-aldi",
@@ -39917,7 +40224,7 @@
           "lng": -0.14138,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/845842087",
-          "priority": 36
+          "priority": 37
         },
         {
           "id": "supermarkets-node-12291675968-aldi",
@@ -39926,7 +40233,7 @@
           "lng": -0.111886,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/12291675968",
-          "priority": 37
+          "priority": 38
         },
         {
           "id": "supermarkets-node-3384334001-aldi",
@@ -39935,7 +40242,7 @@
           "lng": -0.075289,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/3384334001",
-          "priority": 38
+          "priority": 39
         },
         {
           "id": "supermarkets-node-676071755-aldi",
@@ -39944,7 +40251,7 @@
           "lng": -0.096603,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/676071755",
-          "priority": 39
+          "priority": 40
         },
         {
           "id": "supermarkets-way-76586535-aldi",
@@ -39953,7 +40260,7 @@
           "lng": -0.133968,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/76586535",
-          "priority": 40
+          "priority": 41
         },
         {
           "id": "supermarkets-way-1484160334-aldi",
@@ -39962,7 +40269,7 @@
           "lng": -0.089379,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/1484160334",
-          "priority": 41
+          "priority": 42
         },
         {
           "id": "supermarkets-way-230850318-aldi",
@@ -39971,7 +40278,7 @@
           "lng": -0.075222,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/230850318",
-          "priority": 42
+          "priority": 43
         },
         {
           "id": "supermarkets-way-48368492-aldi",
@@ -39980,7 +40287,7 @@
           "lng": -0.030169,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/48368492",
-          "priority": 43
+          "priority": 44
         },
         {
           "id": "supermarkets-node-9657979225-aldi",
@@ -39989,7 +40296,7 @@
           "lng": 0.104703,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/9657979225",
-          "priority": 44
+          "priority": 45
         },
         {
           "id": "supermarkets-node-7952703024-aldi",
@@ -39998,7 +40305,7 @@
           "lng": 0.145052,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/7952703024",
-          "priority": 45
+          "priority": 46
         },
         {
           "id": "supermarkets-way-316688345-aldi",
@@ -40007,7 +40314,7 @@
           "lng": 0.07046,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/316688345",
-          "priority": 46
+          "priority": 47
         },
         {
           "id": "supermarkets-way-1423250001-aldi",
@@ -40016,7 +40323,7 @@
           "lng": 0.011198,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/1423250001",
-          "priority": 47
+          "priority": 48
         },
         {
           "id": "supermarkets-way-1057635166-aldi",
@@ -40025,7 +40332,7 @@
           "lng": 0.084437,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/1057635166",
-          "priority": 48
+          "priority": 49
         },
         {
           "id": "supermarkets-node-8638032874-aldi",
@@ -40034,7 +40341,7 @@
           "lng": -0.389353,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/8638032874",
-          "priority": 49
+          "priority": 50
         },
         {
           "id": "supermarkets-node-10281454556-aldi",
@@ -40043,7 +40350,7 @@
           "lng": -0.26245,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/10281454556",
-          "priority": 50
+          "priority": 51
         },
         {
           "id": "supermarkets-node-11183455928-aldi",
@@ -40052,7 +40359,7 @@
           "lng": -0.177182,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap node/11183455928",
-          "priority": 51
+          "priority": 52
         },
         {
           "id": "supermarkets-way-224040385-aldi",
@@ -40061,7 +40368,7 @@
           "lng": -0.142608,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/224040385",
-          "priority": 52
+          "priority": 53
         },
         {
           "id": "supermarkets-way-178634675-aldi",
@@ -40070,7 +40377,7 @@
           "lng": -0.163903,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/178634675",
-          "priority": 53
+          "priority": 54
         },
         {
           "id": "supermarkets-way-1106106138-aldi",
@@ -40079,7 +40386,7 @@
           "lng": -0.13785,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/1106106138",
-          "priority": 54
+          "priority": 55
         },
         {
           "id": "supermarkets-way-297649922-aldi",
@@ -40088,7 +40395,7 @@
           "lng": -0.067899,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/297649922",
-          "priority": 55
+          "priority": 56
         },
         {
           "id": "supermarkets-way-356221838-aldi",
@@ -40097,7 +40404,7 @@
           "lng": -0.056617,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/356221838",
-          "priority": 56
+          "priority": 57
         },
         {
           "id": "supermarkets-way-797911054-aldi",
@@ -40106,7 +40413,7 @@
           "lng": 0.085861,
           "detail": "Supermarket · Aldi from OpenStreetMap.",
           "source": "OpenStreetMap way/797911054",
-          "priority": 57
+          "priority": 58
         },
         {
           "id": "supermarkets-node-10268804543-aldi",
@@ -40115,7 +40422,7 @@
           "lng": 0.028897,
           "detail": "Supermarket · ALDI from OpenStreetMap.",
           "source": "OpenStreetMap node/10268804543",
-          "priority": 58
+          "priority": 59
         },
         {
           "id": "supermarkets-node-5916003255-aldi",
@@ -40124,7 +40431,7 @@
           "lng": 0.022253,
           "detail": "Supermarket · ALDI from OpenStreetMap.",
           "source": "OpenStreetMap node/5916003255",
-          "priority": 59
+          "priority": 60
         },
         {
           "id": "supermarkets-way-403542848-aldi",
@@ -40133,7 +40440,7 @@
           "lng": -0.279346,
           "detail": "Supermarket · ALDI from OpenStreetMap.",
           "source": "OpenStreetMap way/403542848",
-          "priority": 60
+          "priority": 61
         },
         {
           "id": "supermarkets-way-458658890-aldi",
@@ -40142,7 +40449,7 @@
           "lng": -0.03231,
           "detail": "Supermarket · ALDI from OpenStreetMap.",
           "source": "OpenStreetMap way/458658890",
-          "priority": 61
+          "priority": 62
         },
         {
           "id": "supermarkets-node-9661813418-amazon-fresh",
@@ -40151,7 +40458,7 @@
           "lng": -0.223055,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap node/9661813418",
-          "priority": 62
+          "priority": 63
         },
         {
           "id": "supermarkets-node-6576751662-amazon-fresh",
@@ -40160,7 +40467,7 @@
           "lng": -0.194293,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap node/6576751662",
-          "priority": 63
+          "priority": 64
         },
         {
           "id": "supermarkets-node-12488612335-amazon-fresh",
@@ -40169,7 +40476,7 @@
           "lng": -0.195898,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap node/12488612335",
-          "priority": 64
+          "priority": 65
         },
         {
           "id": "supermarkets-node-692162503-amazon-fresh",
@@ -40178,7 +40485,7 @@
           "lng": -0.084877,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap node/692162503",
-          "priority": 65
+          "priority": 66
         },
         {
           "id": "supermarkets-node-9352895797-amazon-fresh",
@@ -40187,7 +40494,7 @@
           "lng": -0.07014,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap node/9352895797",
-          "priority": 66
+          "priority": 67
         },
         {
           "id": "supermarkets-way-810617540-amazon-fresh",
@@ -40196,7 +40503,7 @@
           "lng": -0.100456,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap way/810617540",
-          "priority": 67
+          "priority": 68
         },
         {
           "id": "supermarkets-node-12426031528-amazon-fresh",
@@ -40205,7 +40512,7 @@
           "lng": -0.190887,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap node/12426031528",
-          "priority": 68
+          "priority": 69
         },
         {
           "id": "supermarkets-way-373710189-amazon-fresh",
@@ -40214,7 +40521,7 @@
           "lng": -0.151964,
           "detail": "Supermarket · Amazon Fresh from OpenStreetMap.",
           "source": "OpenStreetMap way/373710189",
-          "priority": 69
+          "priority": 70
         },
         {
           "id": "supermarkets-way-1061435265-ampm",
@@ -40223,7 +40530,7 @@
           "lng": -0.311057,
           "detail": "Convenience · ampm from OpenStreetMap.",
           "source": "OpenStreetMap way/1061435265",
-          "priority": 70
+          "priority": 71
         },
         {
           "id": "supermarkets-way-271632939-ampm",
@@ -40232,7 +40539,7 @@
           "lng": -0.071384,
           "detail": "Convenience · ampm from OpenStreetMap.",
           "source": "OpenStreetMap way/271632939",
-          "priority": 71
+          "priority": 72
         },
         {
           "id": "supermarkets-node-1123286808-apple-tree",
@@ -40241,7 +40548,7 @@
           "lng": -0.30705,
           "detail": "Convenience · Londis from OpenStreetMap.",
           "source": "OpenStreetMap node/1123286808",
-          "priority": 72
+          "priority": 73
         },
         {
           "id": "supermarkets-way-26505418-asda",
@@ -40250,7 +40557,7 @@
           "lng": -0.41212,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/26505418",
-          "priority": 73
+          "priority": 74
         },
         {
           "id": "supermarkets-way-23023212-asda",
@@ -40259,7 +40566,7 @@
           "lng": -0.289944,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/23023212",
-          "priority": 74
+          "priority": 75
         },
         {
           "id": "supermarkets-way-795362838-asda",
@@ -40268,7 +40575,7 @@
           "lng": -0.211181,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/795362838",
-          "priority": 75
+          "priority": 76
         },
         {
           "id": "supermarkets-way-31563840-asda",
@@ -40277,7 +40584,7 @@
           "lng": -0.245784,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/31563840",
-          "priority": 76
+          "priority": 77
         },
         {
           "id": "supermarkets-way-95894491-asda",
@@ -40286,7 +40593,7 @@
           "lng": -0.168233,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/95894491",
-          "priority": 77
+          "priority": 78
         },
         {
           "id": "supermarkets-way-1471637601-asda",
@@ -40295,7 +40602,7 @@
           "lng": -0.0681,
           "detail": "Convenience · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/1471637601",
-          "priority": 78
+          "priority": 79
         },
         {
           "id": "supermarkets-node-7780870532-asda",
@@ -40304,7 +40611,7 @@
           "lng": -0.361237,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/7780870532",
-          "priority": 79
+          "priority": 80
         },
         {
           "id": "supermarkets-node-7419127852-asda",
@@ -40313,7 +40620,7 @@
           "lng": -0.331819,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/7419127852",
-          "priority": 80
+          "priority": 81
         },
         {
           "id": "supermarkets-way-35824042-asda",
@@ -40322,7 +40629,7 @@
           "lng": -0.164923,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/35824042",
-          "priority": 81
+          "priority": 82
         },
         {
           "id": "supermarkets-node-6143757027-asda",
@@ -40331,7 +40638,7 @@
           "lng": -0.016593,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/6143757027",
-          "priority": 82
+          "priority": 83
         },
         {
           "id": "supermarkets-node-12532983506-asda",
@@ -40340,7 +40647,7 @@
           "lng": -0.026207,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/12532983506",
-          "priority": 83
+          "priority": 84
         },
         {
           "id": "supermarkets-way-222694491-asda",
@@ -40349,7 +40656,7 @@
           "lng": -0.069971,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/222694491",
-          "priority": 84
+          "priority": 85
         },
         {
           "id": "supermarkets-way-24458195-asda",
@@ -40358,7 +40665,7 @@
           "lng": -0.013037,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/24458195",
-          "priority": 85
+          "priority": 86
         },
         {
           "id": "supermarkets-node-387432650-asda",
@@ -40367,7 +40674,7 @@
           "lng": 0.130167,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/387432650",
-          "priority": 86
+          "priority": 87
         },
         {
           "id": "supermarkets-way-285156063-asda",
@@ -40376,7 +40683,7 @@
           "lng": 0.022283,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/285156063",
-          "priority": 87
+          "priority": 88
         },
         {
           "id": "supermarkets-way-384035748-asda",
@@ -40385,7 +40692,7 @@
           "lng": 0.142549,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/384035748",
-          "priority": 88
+          "priority": 89
         },
         {
           "id": "supermarkets-way-26505373-asda",
@@ -40394,7 +40701,7 @@
           "lng": 0.057741,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/26505373",
-          "priority": 89
+          "priority": 90
         },
         {
           "id": "supermarkets-way-708627684-asda",
@@ -40403,7 +40710,7 @@
           "lng": -0.400105,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/708627684",
-          "priority": 90
+          "priority": 91
         },
         {
           "id": "supermarkets-way-224014957-asda",
@@ -40412,7 +40719,7 @@
           "lng": -0.360861,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/224014957",
-          "priority": 91
+          "priority": 92
         },
         {
           "id": "supermarkets-way-27718895-asda",
@@ -40421,7 +40728,7 @@
           "lng": -0.270233,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/27718895",
-          "priority": 92
+          "priority": 93
         },
         {
           "id": "supermarkets-way-415833369-asda",
@@ -40430,7 +40737,7 @@
           "lng": -0.275839,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/415833369",
-          "priority": 93
+          "priority": 94
         },
         {
           "id": "supermarkets-node-1716036953-asda",
@@ -40439,7 +40746,7 @@
           "lng": -0.024756,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/1716036953",
-          "priority": 94
+          "priority": 95
         },
         {
           "id": "supermarkets-way-142400997-asda",
@@ -40448,7 +40755,7 @@
           "lng": -0.063978,
           "detail": "Convenience · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/142400997",
-          "priority": 95
+          "priority": 96
         },
         {
           "id": "supermarkets-way-10804706-asda",
@@ -40457,7 +40764,7 @@
           "lng": -0.009039,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/10804706",
-          "priority": 96
+          "priority": 97
         },
         {
           "id": "supermarkets-node-3883368417-asda",
@@ -40466,7 +40773,7 @@
           "lng": 0.077217,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/3883368417",
-          "priority": 97
+          "priority": 98
         },
         {
           "id": "supermarkets-way-22870156-asda",
@@ -40475,7 +40782,7 @@
           "lng": 0.142463,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/22870156",
-          "priority": 98
+          "priority": 99
         },
         {
           "id": "supermarkets-relation-11771259-asda",
@@ -40484,7 +40791,7 @@
           "lng": 0.143182,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap relation/11771259",
-          "priority": 99
+          "priority": 100
         },
         {
           "id": "supermarkets-way-241870401-asda",
@@ -40493,7 +40800,7 @@
           "lng": -0.335682,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/241870401",
-          "priority": 100
+          "priority": 101
         },
         {
           "id": "supermarkets-way-95496593-asda",
@@ -40502,7 +40809,7 @@
           "lng": -0.281483,
           "detail": "Convenience · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/95496593",
-          "priority": 101
+          "priority": 102
         },
         {
           "id": "supermarkets-way-228952703-asda",
@@ -40511,7 +40818,7 @@
           "lng": -0.261186,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/228952703",
-          "priority": 102
+          "priority": 103
         },
         {
           "id": "supermarkets-node-3138276750-asda",
@@ -40520,7 +40827,7 @@
           "lng": -0.046031,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap node/3138276750",
-          "priority": 103
+          "priority": 104
         },
         {
           "id": "supermarkets-way-178815210-asda",
@@ -40529,7 +40836,7 @@
           "lng": -0.069038,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/178815210",
-          "priority": 104
+          "priority": 105
         },
         {
           "id": "supermarkets-way-9404298-asda",
@@ -40538,7 +40845,7 @@
           "lng": -0.131465,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/9404298",
-          "priority": 105
+          "priority": 106
         },
         {
           "id": "supermarkets-way-1286701228-asda",
@@ -40547,7 +40854,7 @@
           "lng": -0.091153,
           "detail": "Convenience · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/1286701228",
-          "priority": 106
+          "priority": 107
         },
         {
           "id": "supermarkets-way-98487989-asda",
@@ -40556,7 +40863,7 @@
           "lng": -0.059524,
           "detail": "Supermarket · Asda from OpenStreetMap.",
           "source": "OpenStreetMap way/98487989",
-          "priority": 107
+          "priority": 108
         },
         {
           "id": "supermarkets-way-264139842-asda-express",
@@ -40565,7 +40872,7 @@
           "lng": -0.245047,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/264139842",
-          "priority": 108
+          "priority": 109
         },
         {
           "id": "supermarkets-node-6572865792-asda-express",
@@ -40574,7 +40881,7 @@
           "lng": -0.316355,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/6572865792",
-          "priority": 109
+          "priority": 110
         },
         {
           "id": "supermarkets-way-1258163364-asda-express",
@@ -40583,7 +40890,7 @@
           "lng": -0.371663,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/1258163364",
-          "priority": 110
+          "priority": 111
         },
         {
           "id": "supermarkets-node-11470885412-asda-express",
@@ -40592,7 +40899,7 @@
           "lng": -0.26632,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/11470885412",
-          "priority": 111
+          "priority": 112
         },
         {
           "id": "supermarkets-node-12150126174-asda-express",
@@ -40601,7 +40908,7 @@
           "lng": -0.142533,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/12150126174",
-          "priority": 112
+          "priority": 113
         },
         {
           "id": "supermarkets-node-11347163325-asda-express",
@@ -40610,7 +40917,7 @@
           "lng": -0.014352,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/11347163325",
-          "priority": 113
+          "priority": 114
         },
         {
           "id": "supermarkets-node-13142801761-asda-express",
@@ -40619,7 +40926,7 @@
           "lng": -0.040922,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/13142801761",
-          "priority": 114
+          "priority": 115
         },
         {
           "id": "supermarkets-way-1245506117-asda-express",
@@ -40628,7 +40935,7 @@
           "lng": -0.297526,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/1245506117",
-          "priority": 115
+          "priority": 116
         },
         {
           "id": "supermarkets-node-11467353688-asda-express",
@@ -40637,7 +40944,7 @@
           "lng": -0.244206,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/11467353688",
-          "priority": 116
+          "priority": 117
         },
         {
           "id": "supermarkets-node-13802865845-asda-express",
@@ -40646,7 +40953,7 @@
           "lng": -0.105931,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/13802865845",
-          "priority": 117
+          "priority": 118
         },
         {
           "id": "supermarkets-node-2204421496-asda-express",
@@ -40655,7 +40962,7 @@
           "lng": -0.02189,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/2204421496",
-          "priority": 118
+          "priority": 119
         },
         {
           "id": "supermarkets-node-13512838957-asda-express",
@@ -40664,7 +40971,7 @@
           "lng": -0.101316,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/13512838957",
-          "priority": 119
+          "priority": 120
         },
         {
           "id": "supermarkets-node-10242003508-asda-express",
@@ -40673,7 +40980,7 @@
           "lng": -0.059261,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/10242003508",
-          "priority": 120
+          "priority": 121
         },
         {
           "id": "supermarkets-way-533465665-asda-express",
@@ -40682,7 +40989,7 @@
           "lng": -0.119752,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/533465665",
-          "priority": 121
+          "priority": 122
         },
         {
           "id": "supermarkets-way-409063623-asda-express",
@@ -40691,7 +40998,7 @@
           "lng": -0.030115,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/409063623",
-          "priority": 122
+          "priority": 123
         },
         {
           "id": "supermarkets-way-1059063367-asda-express",
@@ -40700,7 +41007,7 @@
           "lng": 0.033454,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/1059063367",
-          "priority": 123
+          "priority": 124
         },
         {
           "id": "supermarkets-node-13948659768-asda-express",
@@ -40709,7 +41016,7 @@
           "lng": -0.341203,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/13948659768",
-          "priority": 124
+          "priority": 125
         },
         {
           "id": "supermarkets-way-1232185929-asda-express",
@@ -40718,7 +41025,7 @@
           "lng": -0.317113,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/1232185929",
-          "priority": 125
+          "priority": 126
         },
         {
           "id": "supermarkets-way-729857652-asda-express",
@@ -40727,7 +41034,7 @@
           "lng": -0.415945,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/729857652",
-          "priority": 126
+          "priority": 127
         },
         {
           "id": "supermarkets-way-222398696-asda-express",
@@ -40736,7 +41043,7 @@
           "lng": -0.304089,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap way/222398696",
-          "priority": 127
+          "priority": 128
         },
         {
           "id": "supermarkets-node-11455203328-asda-express",
@@ -40745,7 +41052,7 @@
           "lng": -0.241998,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/11455203328",
-          "priority": 128
+          "priority": 129
         },
         {
           "id": "supermarkets-node-13135375030-asda-express",
@@ -40754,7 +41061,7 @@
           "lng": -0.174303,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/13135375030",
-          "priority": 129
+          "priority": 130
         },
         {
           "id": "supermarkets-node-13263845129-asda-express",
@@ -40763,7 +41070,7 @@
           "lng": -0.036561,
           "detail": "Convenience · Asda Express from OpenStreetMap.",
           "source": "OpenStreetMap node/13263845129",
-          "priority": 130
+          "priority": 131
         },
         {
           "id": "supermarkets-node-10580298220-atkar-superstore",
@@ -40772,7 +41079,7 @@
           "lng": 0.140036,
           "detail": "Convenience · Premier from OpenStreetMap.",
           "source": "OpenStreetMap node/10580298220",
-          "priority": 131
+          "priority": 132
         },
         {
           "id": "supermarkets-node-10816505620-bk-low-cost-supermarket",
@@ -40781,7 +41088,7 @@
           "lng": -0.001906,
           "detail": "Convenience · Mace from OpenStreetMap.",
           "source": "OpenStreetMap node/10816505620",
-          "priority": 132
+          "priority": 133
         },
         {
           "id": "supermarkets-node-6951713165-bavish-food-wine",
@@ -40790,7 +41097,7 @@
           "lng": 0.055731,
           "detail": "Convenience · Lycamobile from OpenStreetMap.",
           "source": "OpenStreetMap node/6951713165",
-          "priority": 133
+          "priority": 134
         },
         {
           "id": "supermarkets-node-6326073873-bbn-mini-mart",
@@ -40799,7 +41106,7 @@
           "lng": 0.067168,
           "detail": "Convenience · Ministop from OpenStreetMap.",
           "source": "OpenStreetMap node/6326073873",
-          "priority": 134
+          "priority": 135
         },
         {
           "id": "supermarkets-node-13684700231-beckenham-stores",
@@ -40808,7 +41115,7 @@
           "lng": -0.03269,
           "detail": "Convenience · Premier from OpenStreetMap.",
           "source": "OpenStreetMap node/13684700231",
-          "priority": 135
+          "priority": 136
         },
         {
           "id": "supermarkets-way-745434918-bengal-mini-market",
@@ -40817,7 +41124,7 @@
           "lng": -0.035712,
           "detail": "Convenience · Lycamobile from OpenStreetMap.",
           "source": "OpenStreetMap way/745434918",
-          "priority": 136
+          "priority": 137
         },
         {
           "id": "supermarkets-way-1212065393-best-foods-hounslow",
@@ -40826,7 +41133,7 @@
           "lng": -0.389131,
           "detail": "Supermarket · Best Foods from OpenStreetMap.",
           "source": "OpenStreetMap way/1212065393",
-          "priority": 137
+          "priority": 138
         },
         {
           "id": "supermarkets-node-4517154860-best-one",
@@ -40835,7 +41142,7 @@
           "lng": -0.201806,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/4517154860",
-          "priority": 138
+          "priority": 139
         },
         {
           "id": "supermarkets-way-345630057-best-one",
@@ -40844,7 +41151,7 @@
           "lng": -0.204745,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/345630057",
-          "priority": 139
+          "priority": 140
         },
         {
           "id": "supermarkets-node-1969539029-best-one",
@@ -40853,7 +41160,7 @@
           "lng": -0.414753,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/1969539029",
-          "priority": 140
+          "priority": 141
         },
         {
           "id": "supermarkets-node-4314539928-best-one",
@@ -40862,7 +41169,7 @@
           "lng": -0.307706,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/4314539928",
-          "priority": 141
+          "priority": 142
         },
         {
           "id": "supermarkets-way-441808840-best-one",
@@ -40871,7 +41178,7 @@
           "lng": -0.303924,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/441808840",
-          "priority": 142
+          "priority": 143
         },
         {
           "id": "supermarkets-node-1681995519-best-one",
@@ -40880,7 +41187,7 @@
           "lng": -0.19015,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/1681995519",
-          "priority": 143
+          "priority": 144
         },
         {
           "id": "supermarkets-node-278080092-best-one",
@@ -40889,7 +41196,7 @@
           "lng": -0.175352,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/278080092",
-          "priority": 144
+          "priority": 145
         },
         {
           "id": "supermarkets-node-5594703043-best-one",
@@ -40898,7 +41205,7 @@
           "lng": -0.217476,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/5594703043",
-          "priority": 145
+          "priority": 146
         },
         {
           "id": "supermarkets-way-363976692-best-one",
@@ -40907,7 +41214,7 @@
           "lng": -0.199336,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/363976692",
-          "priority": 146
+          "priority": 147
         },
         {
           "id": "supermarkets-way-1066251194-best-one",
@@ -40916,7 +41223,7 @@
           "lng": -0.054135,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/1066251194",
-          "priority": 147
+          "priority": 148
         },
         {
           "id": "supermarkets-node-10214561453-best-one",
@@ -40925,7 +41232,7 @@
           "lng": -0.337858,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/10214561453",
-          "priority": 148
+          "priority": 149
         },
         {
           "id": "supermarkets-node-418215043-best-one",
@@ -40934,7 +41241,7 @@
           "lng": -0.216833,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/418215043",
-          "priority": 149
+          "priority": 150
         },
         {
           "id": "supermarkets-node-4418165683-best-one",
@@ -40943,7 +41250,7 @@
           "lng": -0.223707,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/4418165683",
-          "priority": 150
+          "priority": 151
         },
         {
           "id": "supermarkets-node-3358778599-best-one",
@@ -40952,7 +41259,7 @@
           "lng": -0.190244,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/3358778599",
-          "priority": 151
+          "priority": 152
         },
         {
           "id": "supermarkets-node-3450865519-best-one",
@@ -40961,7 +41268,7 @@
           "lng": -0.190722,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/3450865519",
-          "priority": 152
+          "priority": 153
         },
         {
           "id": "supermarkets-node-10226494940-best-one",
@@ -40970,7 +41277,7 @@
           "lng": -0.156048,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/10226494940",
-          "priority": 153
+          "priority": 154
         },
         {
           "id": "supermarkets-way-209434645-best-one",
@@ -40979,7 +41286,7 @@
           "lng": -0.255104,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/209434645",
-          "priority": 154
+          "priority": 155
         },
         {
           "id": "supermarkets-node-13070815817-best-one",
@@ -40988,7 +41295,7 @@
           "lng": -0.105221,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/13070815817",
-          "priority": 155
+          "priority": 156
         },
         {
           "id": "supermarkets-node-3813864107-best-one",
@@ -40997,7 +41304,7 @@
           "lng": -0.102644,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/3813864107",
-          "priority": 156
+          "priority": 157
         },
         {
           "id": "supermarkets-node-341525725-best-one",
@@ -41006,7 +41313,7 @@
           "lng": -0.047922,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/341525725",
-          "priority": 157
+          "priority": 158
         },
         {
           "id": "supermarkets-node-4085693310-best-one",
@@ -41015,7 +41322,7 @@
           "lng": -0.058155,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/4085693310",
-          "priority": 158
+          "priority": 159
         },
         {
           "id": "supermarkets-node-6332597621-best-one",
@@ -41024,7 +41331,7 @@
           "lng": -0.04319,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/6332597621",
-          "priority": 159
+          "priority": 160
         },
         {
           "id": "supermarkets-way-249340689-best-one",
@@ -41033,7 +41340,7 @@
           "lng": -0.128657,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/249340689",
-          "priority": 160
+          "priority": 161
         },
         {
           "id": "supermarkets-way-267559621-best-one",
@@ -41042,7 +41349,7 @@
           "lng": -0.070884,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/267559621",
-          "priority": 161
+          "priority": 162
         },
         {
           "id": "supermarkets-way-238840662-best-one",
@@ -41051,7 +41358,7 @@
           "lng": 0.055349,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/238840662",
-          "priority": 162
+          "priority": 163
         },
         {
           "id": "supermarkets-node-13474239702-best-one",
@@ -41060,7 +41367,7 @@
           "lng": -0.361707,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/13474239702",
-          "priority": 163
+          "priority": 164
         },
         {
           "id": "supermarkets-node-1647865988-best-one",
@@ -41069,7 +41376,7 @@
           "lng": -0.101797,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/1647865988",
-          "priority": 164
+          "priority": 165
         },
         {
           "id": "supermarkets-node-3574808276-best-one",
@@ -41078,7 +41385,7 @@
           "lng": -0.017562,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/3574808276",
-          "priority": 165
+          "priority": 166
         },
         {
           "id": "supermarkets-node-9805131772-best-one",
@@ -41087,7 +41394,7 @@
           "lng": -0.102475,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/9805131772",
-          "priority": 166
+          "priority": 167
         },
         {
           "id": "supermarkets-way-864126693-best-one",
@@ -41096,7 +41403,7 @@
           "lng": -0.130705,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/864126693",
-          "priority": 167
+          "priority": 168
         },
         {
           "id": "supermarkets-node-11203673990-best-one",
@@ -41105,7 +41412,7 @@
           "lng": 0.096014,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/11203673990",
-          "priority": 168
+          "priority": 169
         },
         {
           "id": "supermarkets-node-4612610221-best-one",
@@ -41114,7 +41421,7 @@
           "lng": 0.116178,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/4612610221",
-          "priority": 169
+          "priority": 170
         },
         {
           "id": "supermarkets-way-1007818612-best-one",
@@ -41123,7 +41430,7 @@
           "lng": 0.023144,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/1007818612",
-          "priority": 170
+          "priority": 171
         },
         {
           "id": "supermarkets-way-595097793-best-one",
@@ -41132,7 +41439,7 @@
           "lng": 0.026846,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/595097793",
-          "priority": 171
+          "priority": 172
         },
         {
           "id": "supermarkets-way-1029391106-best-one",
@@ -41141,7 +41448,7 @@
           "lng": -0.153671,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap way/1029391106",
-          "priority": 172
+          "priority": 173
         },
         {
           "id": "supermarkets-node-7156064249-best-one",
@@ -41150,7 +41457,7 @@
           "lng": -0.123586,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/7156064249",
-          "priority": 173
+          "priority": 174
         },
         {
           "id": "supermarkets-way-432808177-best-one-express",
@@ -41168,7 +41475,7 @@
           "lng": 0.008671,
           "detail": "Convenience · Best-one from OpenStreetMap.",
           "source": "OpenStreetMap node/10008533817",
-          "priority": 174
+          "priority": 175
         },
         {
           "id": "supermarkets-way-376258296-billet-road-post-office",
@@ -41177,7 +41484,7 @@
           "lng": -0.028279,
           "detail": "Convenience · Post Office from OpenStreetMap.",
           "source": "OpenStreetMap way/376258296",
-          "priority": 175
+          "priority": 176
         },
         {
           "id": "supermarkets-node-10280308664-blackheath-village-post-office",
@@ -41186,7 +41493,7 @@
           "lng": 0.009987,
           "detail": "Convenience · Post Office from OpenStreetMap.",
           "source": "OpenStreetMap node/10280308664",
-          "priority": 176
+          "priority": 177
         },
         {
           "id": "supermarkets-node-3757136021-budgens",
@@ -41195,7 +41502,7 @@
           "lng": -0.40607,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/3757136021",
-          "priority": 177
+          "priority": 178
         },
         {
           "id": "supermarkets-node-13537467103-budgens",
@@ -41204,7 +41511,7 @@
           "lng": -0.30312,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/13537467103",
-          "priority": 178
+          "priority": 179
         },
         {
           "id": "supermarkets-way-766719315-budgens",
@@ -41213,7 +41520,7 @@
           "lng": -0.333763,
           "detail": "Supermarket · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/766719315",
-          "priority": 179
+          "priority": 180
         },
         {
           "id": "supermarkets-node-278080075-budgens",
@@ -41222,7 +41529,7 @@
           "lng": -0.174201,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/278080075",
-          "priority": 180
+          "priority": 181
         },
         {
           "id": "supermarkets-node-423749772-budgens",
@@ -41231,7 +41538,7 @@
           "lng": -0.205854,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/423749772",
-          "priority": 181
+          "priority": 182
         },
         {
           "id": "supermarkets-node-11133777313-budgens",
@@ -41240,7 +41547,7 @@
           "lng": -0.148254,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11133777313",
-          "priority": 182
+          "priority": 183
         },
         {
           "id": "supermarkets-way-690960361-budgens",
@@ -41249,7 +41556,7 @@
           "lng": -0.243643,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/690960361",
-          "priority": 183
+          "priority": 184
         },
         {
           "id": "supermarkets-node-523082107-budgens",
@@ -41258,7 +41565,7 @@
           "lng": -0.117284,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/523082107",
-          "priority": 184
+          "priority": 185
         },
         {
           "id": "supermarkets-node-1169783092-budgens",
@@ -41267,7 +41574,7 @@
           "lng": -0.129842,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/1169783092",
-          "priority": 185
+          "priority": 186
         },
         {
           "id": "supermarkets-node-11136495724-budgens",
@@ -41276,7 +41583,7 @@
           "lng": -0.12452,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11136495724",
-          "priority": 186
+          "priority": 187
         },
         {
           "id": "supermarkets-way-913852183-budgens",
@@ -41285,7 +41592,7 @@
           "lng": -0.077553,
           "detail": "Supermarket · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/913852183",
-          "priority": 187
+          "priority": 188
         },
         {
           "id": "supermarkets-way-909152701-budgens",
@@ -41294,7 +41601,7 @@
           "lng": -0.037713,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/909152701",
-          "priority": 188
+          "priority": 189
         },
         {
           "id": "supermarkets-way-194212857-budgens",
@@ -41303,7 +41610,7 @@
           "lng": -0.079895,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/194212857",
-          "priority": 189
+          "priority": 190
         },
         {
           "id": "supermarkets-way-1046557952-budgens",
@@ -41312,7 +41619,7 @@
           "lng": -0.05898,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/1046557952",
-          "priority": 190
+          "priority": 191
         },
         {
           "id": "supermarkets-way-1121556666-budgens",
@@ -41321,7 +41628,7 @@
           "lng": -0.08884,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/1121556666",
-          "priority": 191
+          "priority": 192
         },
         {
           "id": "supermarkets-node-11136459738-budgens",
@@ -41330,7 +41637,7 @@
           "lng": 0.009221,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11136459738",
-          "priority": 192
+          "priority": 193
         },
         {
           "id": "supermarkets-node-11133773832-budgens",
@@ -41339,7 +41646,7 @@
           "lng": -0.417322,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11133773832",
-          "priority": 193
+          "priority": 194
         },
         {
           "id": "supermarkets-node-10736578429-budgens",
@@ -41348,7 +41655,7 @@
           "lng": -0.279893,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/10736578429",
-          "priority": 194
+          "priority": 195
         },
         {
           "id": "supermarkets-node-8562101222-budgens",
@@ -41357,7 +41664,7 @@
           "lng": -0.263328,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/8562101222",
-          "priority": 195
+          "priority": 196
         },
         {
           "id": "supermarkets-node-9124614246-budgens",
@@ -41366,7 +41673,7 @@
           "lng": -0.21106,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/9124614246",
-          "priority": 196
+          "priority": 197
         },
         {
           "id": "supermarkets-node-11136481020-budgens",
@@ -41375,7 +41682,7 @@
           "lng": -0.155992,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11136481020",
-          "priority": 197
+          "priority": 198
         },
         {
           "id": "supermarkets-node-2273789347-budgens",
@@ -41384,7 +41691,7 @@
           "lng": -0.175282,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/2273789347",
-          "priority": 198
+          "priority": 199
         },
         {
           "id": "supermarkets-way-229763442-budgens",
@@ -41393,7 +41700,7 @@
           "lng": -0.271623,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/229763442",
-          "priority": 199
+          "priority": 200
         },
         {
           "id": "supermarkets-way-374508244-budgens",
@@ -41402,7 +41709,7 @@
           "lng": -0.200507,
           "detail": "Supermarket · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/374508244",
-          "priority": 200
+          "priority": 201
         },
         {
           "id": "supermarkets-node-11133754350-budgens",
@@ -41411,7 +41718,7 @@
           "lng": -0.094152,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11133754350",
-          "priority": 201
+          "priority": 202
         },
         {
           "id": "supermarkets-node-10259388422-budgens",
@@ -41420,7 +41727,7 @@
           "lng": -0.016217,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/10259388422",
-          "priority": 202
+          "priority": 203
         },
         {
           "id": "supermarkets-way-125758858-budgens",
@@ -41429,7 +41736,7 @@
           "lng": -0.094091,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/125758858",
-          "priority": 203
+          "priority": 204
         },
         {
           "id": "supermarkets-way-431529992-budgens",
@@ -41438,7 +41745,7 @@
           "lng": -0.059332,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/431529992",
-          "priority": 204
+          "priority": 205
         },
         {
           "id": "supermarkets-node-11133775974-budgens",
@@ -41447,7 +41754,7 @@
           "lng": 0.099177,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11133775974",
-          "priority": 205
+          "priority": 206
         },
         {
           "id": "supermarkets-node-9875989233-budgens",
@@ -41456,7 +41763,7 @@
           "lng": 0.026203,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/9875989233",
-          "priority": 206
+          "priority": 207
         },
         {
           "id": "supermarkets-way-838366841-budgens",
@@ -41465,7 +41772,7 @@
           "lng": 0.011882,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/838366841",
-          "priority": 207
+          "priority": 208
         },
         {
           "id": "supermarkets-node-5532725374-budgens",
@@ -41474,7 +41781,7 @@
           "lng": -0.392225,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/5532725374",
-          "priority": 208
+          "priority": 209
         },
         {
           "id": "supermarkets-node-11136458856-budgens",
@@ -41483,7 +41790,7 @@
           "lng": -0.412262,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11136458856",
-          "priority": 209
+          "priority": 210
         },
         {
           "id": "supermarkets-node-11132865491-budgens",
@@ -41492,7 +41799,7 @@
           "lng": -0.407606,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11132865491",
-          "priority": 210
+          "priority": 211
         },
         {
           "id": "supermarkets-way-244221418-budgens",
@@ -41501,7 +41808,7 @@
           "lng": -0.317233,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/244221418",
-          "priority": 211
+          "priority": 212
         },
         {
           "id": "supermarkets-node-411115287-budgens",
@@ -41510,7 +41817,7 @@
           "lng": -0.211518,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/411115287",
-          "priority": 212
+          "priority": 213
         },
         {
           "id": "supermarkets-node-7768143623-budgens",
@@ -41519,7 +41826,7 @@
           "lng": -0.164348,
           "detail": "Supermarket · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/7768143623",
-          "priority": 213
+          "priority": 214
         },
         {
           "id": "supermarkets-node-2481856556-budgens",
@@ -41528,7 +41835,7 @@
           "lng": -0.131723,
           "detail": "Supermarket · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/2481856556",
-          "priority": 214
+          "priority": 215
         },
         {
           "id": "supermarkets-node-331880904-budgens",
@@ -41537,7 +41844,7 @@
           "lng": -0.103463,
           "detail": "Supermarket · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/331880904",
-          "priority": 215
+          "priority": 216
         },
         {
           "id": "supermarkets-way-164845192-budgens",
@@ -41546,7 +41853,7 @@
           "lng": -0.078955,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/164845192",
-          "priority": 216
+          "priority": 217
         },
         {
           "id": "supermarkets-node-10565470934-budgens",
@@ -41555,7 +41862,7 @@
           "lng": 0.127191,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/10565470934",
-          "priority": 217
+          "priority": 218
         },
         {
           "id": "supermarkets-way-223457421-budgens",
@@ -41564,7 +41871,7 @@
           "lng": -0.342951,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap way/223457421",
-          "priority": 218
+          "priority": 219
         },
         {
           "id": "supermarkets-node-11132809896-budgens",
@@ -41573,7 +41880,7 @@
           "lng": -0.041661,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/11132809896",
-          "priority": 219
+          "priority": 220
         },
         {
           "id": "supermarkets-node-9447078492-budgens",
@@ -41582,7 +41889,7 @@
           "lng": 0.113074,
           "detail": "Convenience · Budgens from OpenStreetMap.",
           "source": "OpenStreetMap node/9447078492",
-          "priority": 220
+          "priority": 221
         },
         {
           "id": "supermarkets-node-12140277610-cd-food-wine",
@@ -41591,7 +41898,7 @@
           "lng": -0.22558,
           "detail": "Convenience · Londis from OpenStreetMap.",
           "source": "OpenStreetMap node/12140277610",
-          "priority": 221
+          "priority": 222
         },
         {
           "id": "supermarkets-node-701608617-central",
@@ -41600,7 +41907,7 @@
           "lng": -0.136783,
           "detail": "Convenience · Central Convenience Store from OpenStreetMap.",
           "source": "OpenStreetMap node/701608617",
-          "priority": 222
+          "priority": 223
         },
         {
           "id": "supermarkets-way-589989923-central-express",
@@ -41609,7 +41916,7 @@
           "lng": -0.055086,
           "detail": "Convenience · Central Convenience Store from OpenStreetMap.",
           "source": "OpenStreetMap way/589989923",
-          "priority": 223
+          "priority": 224
         },
         {
           "id": "supermarkets-node-7472000483-chiswick-convenience-store",
@@ -41618,7 +41925,7 @@
           "lng": -0.262721,
           "detail": "Convenience · Premier from OpenStreetMap.",
           "source": "OpenStreetMap node/7472000483",
-          "priority": 224
+          "priority": 225
         },
         {
           "id": "supermarkets-way-766347577-co-op",
@@ -41627,7 +41934,7 @@
           "lng": 0.125528,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/766347577",
-          "priority": 225
+          "priority": 226
         },
         {
           "id": "supermarkets-way-967287399-co-op",
@@ -41636,7 +41943,7 @@
           "lng": 0.133082,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/967287399",
-          "priority": 226
+          "priority": 227
         },
         {
           "id": "supermarkets-node-3371588016-co-op",
@@ -41645,7 +41952,7 @@
           "lng": -0.383178,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3371588016",
-          "priority": 227
+          "priority": 228
         },
         {
           "id": "supermarkets-node-2461447376-co-op-small",
@@ -41654,7 +41961,7 @@
           "lng": -0.29571,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2461447376",
-          "priority": 228
+          "priority": 229
         },
         {
           "id": "supermarkets-node-12770500761-co-op-food",
@@ -41663,7 +41970,7 @@
           "lng": -0.411921,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/12770500761",
-          "priority": 229
+          "priority": 230
         },
         {
           "id": "supermarkets-node-5575759222-co-op-food",
@@ -41672,7 +41979,7 @@
           "lng": -0.295038,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5575759222",
-          "priority": 230
+          "priority": 231
         },
         {
           "id": "supermarkets-node-1202312485-co-op-food",
@@ -41681,7 +41988,7 @@
           "lng": -0.323031,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1202312485",
-          "priority": 231
+          "priority": 232
         },
         {
           "id": "supermarkets-way-949363369-co-op-food",
@@ -41690,7 +41997,7 @@
           "lng": -0.34744,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/949363369",
-          "priority": 232
+          "priority": 233
         },
         {
           "id": "supermarkets-way-731909920-co-op-food",
@@ -41699,7 +42006,7 @@
           "lng": -0.318971,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/731909920",
-          "priority": 233
+          "priority": 234
         },
         {
           "id": "supermarkets-way-965614427-co-op-food",
@@ -41708,7 +42015,7 @@
           "lng": -0.29462,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/965614427",
-          "priority": 234
+          "priority": 235
         },
         {
           "id": "supermarkets-way-1253627047-co-op-food",
@@ -41717,7 +42024,7 @@
           "lng": -0.293527,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1253627047",
-          "priority": 235
+          "priority": 236
         },
         {
           "id": "supermarkets-node-13566351603-co-op-food",
@@ -41726,7 +42033,7 @@
           "lng": -0.262434,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/13566351603",
-          "priority": 236
+          "priority": 237
         },
         {
           "id": "supermarkets-node-6561914324-co-op-food",
@@ -41735,7 +42042,7 @@
           "lng": -0.223073,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6561914324",
-          "priority": 237
+          "priority": 238
         },
         {
           "id": "supermarkets-node-5438825599-co-op-food",
@@ -41744,7 +42051,7 @@
           "lng": -0.231881,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5438825599",
-          "priority": 238
+          "priority": 239
         },
         {
           "id": "supermarkets-node-420153298-co-op-food",
@@ -41753,7 +42060,7 @@
           "lng": -0.212776,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/420153298",
-          "priority": 239
+          "priority": 240
         },
         {
           "id": "supermarkets-node-8900881626-co-op-food",
@@ -41762,7 +42069,7 @@
           "lng": -0.17832,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8900881626",
-          "priority": 240
+          "priority": 241
         },
         {
           "id": "supermarkets-node-7820785809-co-op-food",
@@ -41771,7 +42078,7 @@
           "lng": -0.175899,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7820785809",
-          "priority": 241
+          "priority": 242
         },
         {
           "id": "supermarkets-node-5329694988-co-op-food",
@@ -41780,7 +42087,7 @@
           "lng": -0.148412,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5329694988",
-          "priority": 242
+          "priority": 243
         },
         {
           "id": "supermarkets-way-932193700-co-op-food",
@@ -41789,7 +42096,7 @@
           "lng": -0.24192,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/932193700",
-          "priority": 243
+          "priority": 244
         },
         {
           "id": "supermarkets-way-361576624-co-op-food",
@@ -41798,7 +42105,7 @@
           "lng": -0.197503,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/361576624",
-          "priority": 244
+          "priority": 245
         },
         {
           "id": "supermarkets-way-414956993-co-op-food",
@@ -41807,7 +42114,7 @@
           "lng": -0.190824,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/414956993",
-          "priority": 245
+          "priority": 246
         },
         {
           "id": "supermarkets-node-7098743790-co-op-food",
@@ -41816,7 +42123,7 @@
           "lng": -0.038265,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7098743790",
-          "priority": 246
+          "priority": 247
         },
         {
           "id": "supermarkets-node-6032700640-co-op-food",
@@ -41825,7 +42132,7 @@
           "lng": -0.13228,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6032700640",
-          "priority": 247
+          "priority": 248
         },
         {
           "id": "supermarkets-node-8215522335-co-op-food",
@@ -41834,7 +42141,7 @@
           "lng": -0.04758,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8215522335",
-          "priority": 248
+          "priority": 249
         },
         {
           "id": "supermarkets-node-7756557961-co-op-food",
@@ -41843,7 +42150,7 @@
           "lng": -0.021195,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7756557961",
-          "priority": 249
+          "priority": 250
         },
         {
           "id": "supermarkets-node-4086368559-co-op-food",
@@ -41852,7 +42159,7 @@
           "lng": -0.010482,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4086368559",
-          "priority": 250
+          "priority": 251
         },
         {
           "id": "supermarkets-way-289774141-co-op-food",
@@ -41861,7 +42168,7 @@
           "lng": -0.123364,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/289774141",
-          "priority": 251
+          "priority": 252
         },
         {
           "id": "supermarkets-way-843913435-co-op-food",
@@ -41870,7 +42177,7 @@
           "lng": -0.106698,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/843913435",
-          "priority": 252
+          "priority": 253
         },
         {
           "id": "supermarkets-way-251145053-co-op-food",
@@ -41879,7 +42186,7 @@
           "lng": -0.067419,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/251145053",
-          "priority": 253
+          "priority": 254
         },
         {
           "id": "supermarkets-way-322427541-co-op-food",
@@ -41888,7 +42195,7 @@
           "lng": -0.103478,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/322427541",
-          "priority": 254
+          "priority": 255
         },
         {
           "id": "supermarkets-node-2530634771-co-op-food",
@@ -41897,7 +42204,7 @@
           "lng": 0.070926,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2530634771",
-          "priority": 255
+          "priority": 256
         },
         {
           "id": "supermarkets-way-144475046-co-op-food",
@@ -41906,7 +42213,7 @@
           "lng": 0.107061,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/144475046",
-          "priority": 256
+          "priority": 257
         },
         {
           "id": "supermarkets-way-536721733-co-op-food",
@@ -41915,7 +42222,7 @@
           "lng": 0.013425,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/536721733",
-          "priority": 257
+          "priority": 258
         },
         {
           "id": "supermarkets-way-403276956-co-op-food",
@@ -41924,7 +42231,7 @@
           "lng": 0.045698,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/403276956",
-          "priority": 258
+          "priority": 259
         },
         {
           "id": "supermarkets-way-769758895-co-op-food",
@@ -41933,7 +42240,7 @@
           "lng": 0.086871,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/769758895",
-          "priority": 259
+          "priority": 260
         },
         {
           "id": "supermarkets-way-1013333203-co-op-food",
@@ -41942,7 +42249,7 @@
           "lng": 0.105739,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1013333203",
-          "priority": 260
+          "priority": 261
         },
         {
           "id": "supermarkets-way-1008106371-co-op-food",
@@ -41951,7 +42258,7 @@
           "lng": 0.121363,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1008106371",
-          "priority": 261
+          "priority": 262
         },
         {
           "id": "supermarkets-node-6228055948-co-op-food",
@@ -41960,7 +42267,7 @@
           "lng": -0.325998,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6228055948",
-          "priority": 262
+          "priority": 263
         },
         {
           "id": "supermarkets-node-5352806574-co-op-food",
@@ -41969,7 +42276,7 @@
           "lng": -0.314376,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5352806574",
-          "priority": 263
+          "priority": 264
         },
         {
           "id": "supermarkets-node-552439299-co-op-food",
@@ -41978,7 +42285,7 @@
           "lng": -0.306148,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/552439299",
-          "priority": 264
+          "priority": 265
         },
         {
           "id": "supermarkets-node-679126475-co-op-food",
@@ -41987,7 +42294,7 @@
           "lng": -0.26788,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/679126475",
-          "priority": 265
+          "priority": 266
         },
         {
           "id": "supermarkets-node-9898005636-co-op-food",
@@ -41996,7 +42303,7 @@
           "lng": -0.275359,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9898005636",
-          "priority": 266
+          "priority": 267
         },
         {
           "id": "supermarkets-node-1962468305-co-op-food",
@@ -42005,7 +42312,7 @@
           "lng": -0.210007,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1962468305",
-          "priority": 267
+          "priority": 268
         },
         {
           "id": "supermarkets-node-8749595525-co-op-food",
@@ -42014,7 +42321,7 @@
           "lng": -0.238916,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8749595525",
-          "priority": 268
+          "priority": 269
         },
         {
           "id": "supermarkets-node-352644243-co-op-food",
@@ -42023,7 +42330,7 @@
           "lng": -0.212511,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/352644243",
-          "priority": 269
+          "priority": 270
         },
         {
           "id": "supermarkets-node-7795006634-co-op-food",
@@ -42032,7 +42339,7 @@
           "lng": -0.203413,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7795006634",
-          "priority": 270
+          "priority": 271
         },
         {
           "id": "supermarkets-node-3668994573-co-op-food",
@@ -42041,7 +42348,7 @@
           "lng": -0.200867,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3668994573",
-          "priority": 271
+          "priority": 272
         },
         {
           "id": "supermarkets-node-2499436452-co-op-food",
@@ -42050,7 +42357,7 @@
           "lng": -0.193503,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2499436452",
-          "priority": 272
+          "priority": 273
         },
         {
           "id": "supermarkets-node-1277049467-co-op-food",
@@ -42059,7 +42366,7 @@
           "lng": -0.181014,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1277049467",
-          "priority": 273
+          "priority": 274
         },
         {
           "id": "supermarkets-node-3749907547-co-op-food",
@@ -42068,7 +42375,7 @@
           "lng": -0.139232,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3749907547",
-          "priority": 274
+          "priority": 275
         },
         {
           "id": "supermarkets-node-7062852881-co-op-food",
@@ -42077,7 +42384,7 @@
           "lng": -0.194632,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7062852881",
-          "priority": 275
+          "priority": 276
         },
         {
           "id": "supermarkets-node-6853206774-co-op-food",
@@ -42086,7 +42393,7 @@
           "lng": -0.171184,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6853206774",
-          "priority": 276
+          "priority": 277
         },
         {
           "id": "supermarkets-way-144713459-co-op-food",
@@ -42095,7 +42402,7 @@
           "lng": -0.213354,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/144713459",
-          "priority": 277
+          "priority": 278
         },
         {
           "id": "supermarkets-way-957902160-co-op-food",
@@ -42104,7 +42411,7 @@
           "lng": -0.24346,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/957902160",
-          "priority": 278
+          "priority": 279
         },
         {
           "id": "supermarkets-way-948721337-co-op-food",
@@ -42113,7 +42420,7 @@
           "lng": -0.238076,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/948721337",
-          "priority": 279
+          "priority": 280
         },
         {
           "id": "supermarkets-way-34185535-co-op-food",
@@ -42122,7 +42429,7 @@
           "lng": -0.216465,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/34185535",
-          "priority": 280
+          "priority": 281
         },
         {
           "id": "supermarkets-way-327211074-co-op-food",
@@ -42131,7 +42438,7 @@
           "lng": -0.184501,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/327211074",
-          "priority": 281
+          "priority": 282
         },
         {
           "id": "supermarkets-way-147314583-co-op-food",
@@ -42140,7 +42447,7 @@
           "lng": -0.206689,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/147314583",
-          "priority": 282
+          "priority": 283
         },
         {
           "id": "supermarkets-way-665534635-co-op-food",
@@ -42149,7 +42456,7 @@
           "lng": -0.153142,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/665534635",
-          "priority": 283
+          "priority": 284
         },
         {
           "id": "supermarkets-node-12977587226-co-op-food",
@@ -42158,7 +42465,7 @@
           "lng": -0.116962,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/12977587226",
-          "priority": 284
+          "priority": 285
         },
         {
           "id": "supermarkets-node-4756036819-co-op-food",
@@ -42167,7 +42474,7 @@
           "lng": -0.112186,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4756036819",
-          "priority": 285
+          "priority": 286
         },
         {
           "id": "supermarkets-node-5184548475-co-op-food",
@@ -42176,7 +42483,7 @@
           "lng": -0.114125,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5184548475",
-          "priority": 286
+          "priority": 287
         },
         {
           "id": "supermarkets-node-4729848033-co-op-food",
@@ -42185,7 +42492,7 @@
           "lng": -0.100942,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4729848033",
-          "priority": 287
+          "priority": 288
         },
         {
           "id": "supermarkets-node-12572476247-co-op-food",
@@ -42194,7 +42501,7 @@
           "lng": -0.093421,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/12572476247",
-          "priority": 288
+          "priority": 289
         },
         {
           "id": "supermarkets-node-8039470512-co-op-food",
@@ -42203,7 +42510,7 @@
           "lng": -0.097336,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8039470512",
-          "priority": 289
+          "priority": 290
         },
         {
           "id": "supermarkets-node-282618049-co-op-food",
@@ -42212,7 +42519,7 @@
           "lng": -0.09929,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/282618049",
-          "priority": 290
+          "priority": 291
         },
         {
           "id": "supermarkets-node-9679643248-co-op-food",
@@ -42221,7 +42528,7 @@
           "lng": -0.079211,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9679643248",
-          "priority": 291
+          "priority": 292
         },
         {
           "id": "supermarkets-node-4478054555-co-op-food",
@@ -42230,7 +42537,7 @@
           "lng": -0.072998,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4478054555",
-          "priority": 292
+          "priority": 293
         },
         {
           "id": "supermarkets-node-11739088874-co-op-food",
@@ -42239,7 +42546,7 @@
           "lng": -0.067751,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11739088874",
-          "priority": 293
+          "priority": 294
         },
         {
           "id": "supermarkets-node-5550231148-co-op-food",
@@ -42248,7 +42555,7 @@
           "lng": -0.034108,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5550231148",
-          "priority": 294
+          "priority": 295
         },
         {
           "id": "supermarkets-node-12961239335-co-op-food",
@@ -42257,7 +42564,7 @@
           "lng": -0.021742,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/12961239335",
-          "priority": 295
+          "priority": 296
         },
         {
           "id": "supermarkets-node-6832825739-co-op-food",
@@ -42266,7 +42573,7 @@
           "lng": -0.039097,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6832825739",
-          "priority": 296
+          "priority": 297
         },
         {
           "id": "supermarkets-node-3595325918-co-op-food",
@@ -42275,7 +42582,7 @@
           "lng": -0.015954,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3595325918",
-          "priority": 297
+          "priority": 298
         },
         {
           "id": "supermarkets-node-9598106773-co-op-food",
@@ -42284,7 +42591,7 @@
           "lng": -0.134305,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9598106773",
-          "priority": 298
+          "priority": 299
         },
         {
           "id": "supermarkets-node-1557467257-co-op-food",
@@ -42293,7 +42600,7 @@
           "lng": -0.126424,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1557467257",
-          "priority": 299
+          "priority": 300
         },
         {
           "id": "supermarkets-node-3356884658-co-op-food",
@@ -42302,7 +42609,7 @@
           "lng": -0.09733,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3356884658",
-          "priority": 300
+          "priority": 301
         },
         {
           "id": "supermarkets-node-6206722380-co-op-food",
@@ -42311,7 +42618,7 @@
           "lng": -0.078103,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6206722380",
-          "priority": 301
+          "priority": 302
         },
         {
           "id": "supermarkets-node-6224944634-co-op-food",
@@ -42320,7 +42627,7 @@
           "lng": -0.041656,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6224944634",
-          "priority": 302
+          "priority": 303
         },
         {
           "id": "supermarkets-node-8787180289-co-op-food",
@@ -42329,7 +42636,7 @@
           "lng": 0.002716,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8787180289",
-          "priority": 303
+          "priority": 304
         },
         {
           "id": "supermarkets-way-1017231187-co-op-food",
@@ -42338,7 +42645,7 @@
           "lng": -0.12298,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1017231187",
-          "priority": 304
+          "priority": 305
         },
         {
           "id": "supermarkets-way-95223674-co-op-food",
@@ -42347,7 +42654,7 @@
           "lng": -0.075371,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/95223674",
-          "priority": 305
+          "priority": 306
         },
         {
           "id": "supermarkets-way-224554854-co-op-food",
@@ -42356,7 +42663,7 @@
           "lng": -0.102762,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/224554854",
-          "priority": 306
+          "priority": 307
         },
         {
           "id": "supermarkets-way-223048890-co-op-food",
@@ -42365,7 +42672,7 @@
           "lng": -0.00647,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/223048890",
-          "priority": 307
+          "priority": 308
         },
         {
           "id": "supermarkets-way-269439725-co-op-food",
@@ -42374,7 +42681,7 @@
           "lng": -0.021605,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/269439725",
-          "priority": 308
+          "priority": 309
         },
         {
           "id": "supermarkets-way-670990648-co-op-food",
@@ -42383,7 +42690,7 @@
           "lng": -0.117557,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/670990648",
-          "priority": 309
+          "priority": 310
         },
         {
           "id": "supermarkets-way-810617537-co-op-food",
@@ -42392,7 +42699,7 @@
           "lng": -0.100899,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/810617537",
-          "priority": 310
+          "priority": 311
         },
         {
           "id": "supermarkets-way-428095767-co-op-food",
@@ -42401,7 +42708,7 @@
           "lng": -0.063381,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/428095767",
-          "priority": 311
+          "priority": 312
         },
         {
           "id": "supermarkets-way-160981234-co-op-food",
@@ -42410,7 +42717,7 @@
           "lng": 0.005865,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/160981234",
-          "priority": 312
+          "priority": 313
         },
         {
           "id": "supermarkets-node-11032858176-co-op-food",
@@ -42419,7 +42726,7 @@
           "lng": 0.040499,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11032858176",
-          "priority": 313
+          "priority": 314
         },
         {
           "id": "supermarkets-node-12251669457-co-op-food",
@@ -42428,7 +42735,7 @@
           "lng": 0.035152,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/12251669457",
-          "priority": 314
+          "priority": 315
         },
         {
           "id": "supermarkets-node-7081045233-co-op-food",
@@ -42437,7 +42744,7 @@
           "lng": 0.011783,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7081045233",
-          "priority": 315
+          "priority": 316
         },
         {
           "id": "supermarkets-node-9275031843-co-op-food",
@@ -42446,7 +42753,7 @@
           "lng": 0.016403,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9275031843",
-          "priority": 316
+          "priority": 317
         },
         {
           "id": "supermarkets-node-12578972337-co-op-food",
@@ -42455,7 +42762,7 @@
           "lng": 0.037087,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/12578972337",
-          "priority": 317
+          "priority": 318
         },
         {
           "id": "supermarkets-node-1668640307-co-op-food",
@@ -42464,7 +42771,7 @@
           "lng": 0.113715,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1668640307",
-          "priority": 318
+          "priority": 319
         },
         {
           "id": "supermarkets-node-8176629229-co-op-food",
@@ -42473,7 +42780,7 @@
           "lng": 0.072285,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8176629229",
-          "priority": 319
+          "priority": 320
         },
         {
           "id": "supermarkets-way-238426726-co-op-food",
@@ -42482,7 +42789,7 @@
           "lng": 0.050624,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/238426726",
-          "priority": 320
+          "priority": 321
         },
         {
           "id": "supermarkets-way-179062691-co-op-food",
@@ -42491,7 +42798,7 @@
           "lng": 0.045904,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/179062691",
-          "priority": 321
+          "priority": 322
         },
         {
           "id": "supermarkets-way-35215707-co-op-food",
@@ -42500,7 +42807,7 @@
           "lng": 0.104576,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/35215707",
-          "priority": 322
+          "priority": 323
         },
         {
           "id": "supermarkets-way-266638590-co-op-food",
@@ -42509,7 +42816,7 @@
           "lng": 0.069856,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/266638590",
-          "priority": 323
+          "priority": 324
         },
         {
           "id": "supermarkets-way-232841491-co-op-food",
@@ -42518,7 +42825,7 @@
           "lng": 0.080801,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/232841491",
-          "priority": 324
+          "priority": 325
         },
         {
           "id": "supermarkets-way-1034346584-co-op-food",
@@ -42527,7 +42834,7 @@
           "lng": 0.109329,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1034346584",
-          "priority": 325
+          "priority": 326
         },
         {
           "id": "supermarkets-way-1123865375-co-op-food",
@@ -42536,7 +42843,7 @@
           "lng": 0.145144,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1123865375",
-          "priority": 326
+          "priority": 327
         },
         {
           "id": "supermarkets-way-564117878-co-op-food",
@@ -42545,7 +42852,7 @@
           "lng": 0.009266,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/564117878",
-          "priority": 327
+          "priority": 328
         },
         {
           "id": "supermarkets-node-2319693669-co-op-food",
@@ -42554,7 +42861,7 @@
           "lng": -0.373975,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2319693669",
-          "priority": 328
+          "priority": 329
         },
         {
           "id": "supermarkets-node-7807407955-co-op-food",
@@ -42563,7 +42870,7 @@
           "lng": -0.315263,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7807407955",
-          "priority": 329
+          "priority": 330
         },
         {
           "id": "supermarkets-node-9308990397-co-op-food",
@@ -42572,7 +42879,7 @@
           "lng": -0.342593,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9308990397",
-          "priority": 330
+          "priority": 331
         },
         {
           "id": "supermarkets-node-11684774518-co-op-food",
@@ -42581,7 +42888,7 @@
           "lng": -0.281406,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11684774518",
-          "priority": 331
+          "priority": 332
         },
         {
           "id": "supermarkets-node-6506185325-co-op-food",
@@ -42590,7 +42897,7 @@
           "lng": -0.279269,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6506185325",
-          "priority": 332
+          "priority": 333
         },
         {
           "id": "supermarkets-way-863760452-co-op-food",
@@ -42599,7 +42906,7 @@
           "lng": -0.312811,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/863760452",
-          "priority": 333
+          "priority": 334
         },
         {
           "id": "supermarkets-node-11880037969-co-op-food",
@@ -42608,7 +42915,7 @@
           "lng": -0.210767,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11880037969",
-          "priority": 334
+          "priority": 335
         },
         {
           "id": "supermarkets-node-1567342580-co-op-food",
@@ -42617,7 +42924,7 @@
           "lng": -0.215097,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1567342580",
-          "priority": 335
+          "priority": 336
         },
         {
           "id": "supermarkets-node-5188912377-co-op-food",
@@ -42626,7 +42933,7 @@
           "lng": -0.225688,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5188912377",
-          "priority": 336
+          "priority": 337
         },
         {
           "id": "supermarkets-node-9256688417-co-op-food",
@@ -42635,7 +42942,7 @@
           "lng": -0.157425,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9256688417",
-          "priority": 337
+          "priority": 338
         },
         {
           "id": "supermarkets-node-6236246263-co-op-food",
@@ -42644,7 +42951,7 @@
           "lng": -0.206261,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6236246263",
-          "priority": 338
+          "priority": 339
         },
         {
           "id": "supermarkets-node-8566051562-co-op-food",
@@ -42653,7 +42960,7 @@
           "lng": -0.208723,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8566051562",
-          "priority": 339
+          "priority": 340
         },
         {
           "id": "supermarkets-node-4140733554-co-op-food",
@@ -42662,7 +42969,7 @@
           "lng": -0.197436,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4140733554",
-          "priority": 340
+          "priority": 341
         },
         {
           "id": "supermarkets-node-4906774365-co-op-food",
@@ -42671,7 +42978,7 @@
           "lng": -0.141455,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4906774365",
-          "priority": 341
+          "priority": 342
         },
         {
           "id": "supermarkets-way-659717208-co-op-food",
@@ -42680,7 +42987,7 @@
           "lng": -0.160152,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/659717208",
-          "priority": 342
+          "priority": 343
         },
         {
           "id": "supermarkets-way-451762771-co-op-food",
@@ -42689,7 +42996,7 @@
           "lng": -0.145222,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/451762771",
-          "priority": 343
+          "priority": 344
         },
         {
           "id": "supermarkets-way-878202913-co-op-food",
@@ -42698,7 +43005,7 @@
           "lng": -0.140688,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/878202913",
-          "priority": 344
+          "priority": 345
         },
         {
           "id": "supermarkets-way-1244638194-co-op-food",
@@ -42707,7 +43014,7 @@
           "lng": -0.141351,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1244638194",
-          "priority": 345
+          "priority": 346
         },
         {
           "id": "supermarkets-node-4899105377-co-op-food",
@@ -42716,7 +43023,7 @@
           "lng": -0.113763,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4899105377",
-          "priority": 346
+          "priority": 347
         },
         {
           "id": "supermarkets-node-452445964-co-op-food",
@@ -42725,7 +43032,7 @@
           "lng": -0.108559,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/452445964",
-          "priority": 347
+          "priority": 348
         },
         {
           "id": "supermarkets-node-3250494178-co-op-food",
@@ -42734,7 +43041,7 @@
           "lng": -0.13049,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3250494178",
-          "priority": 348
+          "priority": 349
         },
         {
           "id": "supermarkets-node-4046850724-co-op-food",
@@ -42743,7 +43050,7 @@
           "lng": -0.109725,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4046850724",
-          "priority": 349
+          "priority": 350
         },
         {
           "id": "supermarkets-node-8048972596-co-op-food",
@@ -42752,7 +43059,7 @@
           "lng": -0.125751,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8048972596",
-          "priority": 350
+          "priority": 351
         },
         {
           "id": "supermarkets-node-10799377374-co-op-food",
@@ -42761,7 +43068,7 @@
           "lng": -0.104484,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/10799377374",
-          "priority": 351
+          "priority": 352
         },
         {
           "id": "supermarkets-node-248444186-co-op-food",
@@ -42770,7 +43077,7 @@
           "lng": -0.090535,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/248444186",
-          "priority": 352
+          "priority": 353
         },
         {
           "id": "supermarkets-node-7055025394-co-op-food",
@@ -42779,7 +43086,7 @@
           "lng": -0.056801,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/7055025394",
-          "priority": 353
+          "priority": 354
         },
         {
           "id": "supermarkets-node-5188912373-co-op-food",
@@ -42788,7 +43095,7 @@
           "lng": -0.074889,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5188912373",
-          "priority": 354
+          "priority": 355
         },
         {
           "id": "supermarkets-node-8742504872-co-op-food",
@@ -42797,7 +43104,7 @@
           "lng": -0.075261,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8742504872",
-          "priority": 355
+          "priority": 356
         },
         {
           "id": "supermarkets-node-2055183499-co-op-food",
@@ -42806,7 +43113,7 @@
           "lng": -0.050839,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2055183499",
-          "priority": 356
+          "priority": 357
         },
         {
           "id": "supermarkets-node-11944559635-co-op-food",
@@ -42815,7 +43122,7 @@
           "lng": -0.095911,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11944559635",
-          "priority": 357
+          "priority": 358
         },
         {
           "id": "supermarkets-node-1274738273-co-op-food",
@@ -42824,7 +43131,7 @@
           "lng": -0.052027,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/1274738273",
-          "priority": 358
+          "priority": 359
         },
         {
           "id": "supermarkets-node-5574638795-co-op-food",
@@ -42833,7 +43140,7 @@
           "lng": -0.040412,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/5574638795",
-          "priority": 359
+          "priority": 360
         },
         {
           "id": "supermarkets-way-32826154-co-op-food",
@@ -42842,7 +43149,7 @@
           "lng": -0.117377,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/32826154",
-          "priority": 360
+          "priority": 361
         },
         {
           "id": "supermarkets-way-76586543-co-op-food",
@@ -42851,7 +43158,7 @@
           "lng": -0.134467,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/76586543",
-          "priority": 361
+          "priority": 362
         },
         {
           "id": "supermarkets-way-205102539-co-op-food",
@@ -42860,7 +43167,7 @@
           "lng": -0.094694,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/205102539",
-          "priority": 362
+          "priority": 363
         },
         {
           "id": "supermarkets-way-596073690-co-op-food",
@@ -42869,7 +43176,7 @@
           "lng": -0.035492,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/596073690",
-          "priority": 363
+          "priority": 364
         },
         {
           "id": "supermarkets-way-854086846-co-op-food",
@@ -42878,7 +43185,7 @@
           "lng": -0.045742,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/854086846",
-          "priority": 364
+          "priority": 365
         },
         {
           "id": "supermarkets-way-853427640-co-op-food",
@@ -42887,7 +43194,7 @@
           "lng": -0.044501,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/853427640",
-          "priority": 365
+          "priority": 366
         },
         {
           "id": "supermarkets-node-6119888179-co-op-food",
@@ -42896,7 +43203,7 @@
           "lng": 0.024625,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6119888179",
-          "priority": 366
+          "priority": 367
         },
         {
           "id": "supermarkets-node-11203673991-co-op-food",
@@ -42905,7 +43212,7 @@
           "lng": 0.096086,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11203673991",
-          "priority": 367
+          "priority": 368
         },
         {
           "id": "supermarkets-node-10767484632-co-op-food",
@@ -42914,7 +43221,7 @@
           "lng": 0.069615,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/10767484632",
-          "priority": 368
+          "priority": 369
         },
         {
           "id": "supermarkets-node-3827778657-co-op-food",
@@ -42923,7 +43230,7 @@
           "lng": 0.10767,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/3827778657",
-          "priority": 369
+          "priority": 370
         },
         {
           "id": "supermarkets-node-10568476646-co-op-food",
@@ -42932,7 +43239,7 @@
           "lng": 0.113616,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/10568476646",
-          "priority": 370
+          "priority": 371
         },
         {
           "id": "supermarkets-node-9714584090-co-op-food",
@@ -42941,7 +43248,7 @@
           "lng": 0.135571,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9714584090",
-          "priority": 371
+          "priority": 372
         },
         {
           "id": "supermarkets-way-1304231205-co-op-food",
@@ -42950,7 +43257,7 @@
           "lng": 0.018548,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1304231205",
-          "priority": 372
+          "priority": 373
         },
         {
           "id": "supermarkets-way-1351829023-co-op-food",
@@ -42959,7 +43266,7 @@
           "lng": 0.027006,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/1351829023",
-          "priority": 373
+          "priority": 374
         },
         {
           "id": "supermarkets-way-124105185-co-op-food",
@@ -42968,7 +43275,7 @@
           "lng": 0.128588,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/124105185",
-          "priority": 374
+          "priority": 375
         },
         {
           "id": "supermarkets-node-10903514644-co-op-food",
@@ -42977,7 +43284,7 @@
           "lng": -0.40928,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/10903514644",
-          "priority": 375
+          "priority": 376
         },
         {
           "id": "supermarkets-node-9173383505-co-op-food",
@@ -42986,7 +43293,7 @@
           "lng": -0.250014,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9173383505",
-          "priority": 376
+          "priority": 377
         },
         {
           "id": "supermarkets-node-9805242527-co-op-food",
@@ -42995,7 +43302,7 @@
           "lng": -0.261323,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9805242527",
-          "priority": 377
+          "priority": 378
         },
         {
           "id": "supermarkets-node-10959301444-co-op-food",
@@ -43004,7 +43311,7 @@
           "lng": -0.210185,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/10959301444",
-          "priority": 378
+          "priority": 379
         },
         {
           "id": "supermarkets-node-9935695261-co-op-food",
@@ -43013,7 +43320,7 @@
           "lng": -0.143896,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/9935695261",
-          "priority": 379
+          "priority": 380
         },
         {
           "id": "supermarkets-way-171417014-co-op-food",
@@ -43022,7 +43329,7 @@
           "lng": -0.159584,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/171417014",
-          "priority": 380
+          "priority": 381
         },
         {
           "id": "supermarkets-node-13733445563-co-op-food",
@@ -43031,7 +43338,7 @@
           "lng": -0.11295,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/13733445563",
-          "priority": 381
+          "priority": 382
         },
         {
           "id": "supermarkets-node-4545980436-co-op-food",
@@ -43040,7 +43347,7 @@
           "lng": -0.026617,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/4545980436",
-          "priority": 382
+          "priority": 383
         },
         {
           "id": "supermarkets-way-139911654-co-op-food",
@@ -43049,7 +43356,7 @@
           "lng": -0.035439,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/139911654",
-          "priority": 383
+          "priority": 384
         },
         {
           "id": "supermarkets-way-926312504-co-op-food",
@@ -43058,7 +43365,7 @@
           "lng": 0.00559,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/926312504",
-          "priority": 384
+          "priority": 385
         },
         {
           "id": "supermarkets-way-336668282-co-op-food",
@@ -43067,7 +43374,7 @@
           "lng": 0.002097,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/336668282",
-          "priority": 385
+          "priority": 386
         },
         {
           "id": "supermarkets-node-2091367254-co-op-food",
@@ -43076,7 +43383,7 @@
           "lng": 0.028673,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2091367254",
-          "priority": 386
+          "priority": 387
         },
         {
           "id": "supermarkets-node-11036100778-co-op-food",
@@ -43085,7 +43392,7 @@
           "lng": 0.054113,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11036100778",
-          "priority": 387
+          "priority": 388
         },
         {
           "id": "supermarkets-node-2129514728-co-op-food",
@@ -43094,7 +43401,7 @@
           "lng": 0.084001,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/2129514728",
-          "priority": 388
+          "priority": 389
         },
         {
           "id": "supermarkets-way-75126299-co-op-food",
@@ -43103,7 +43410,7 @@
           "lng": 0.032255,
           "detail": "Supermarket · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap way/75126299",
-          "priority": 389
+          "priority": 390
         },
         {
           "id": "supermarkets-node-11157766531-co-op-food-acton",
@@ -43112,7 +43419,7 @@
           "lng": -0.267767,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/11157766531",
-          "priority": 390
+          "priority": 391
         },
         {
           "id": "supermarkets-node-8461037274-co-op-food-kensal-green",
@@ -43121,7 +43428,7 @@
           "lng": -0.232029,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8461037274",
-          "priority": 391
+          "priority": 392
         },
         {
           "id": "supermarkets-node-6804141556-co-op-on-the-go",
@@ -43130,7 +43437,7 @@
           "lng": -0.089521,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/6804141556",
-          "priority": 392
+          "priority": 393
         },
         {
           "id": "supermarkets-node-8972234717-co-op-wood-lane",
@@ -43139,7 +43446,7 @@
           "lng": 0.141662,
           "detail": "Convenience · Co-op Food from OpenStreetMap.",
           "source": "OpenStreetMap node/8972234717",
-          "priority": 393
+          "priority": 394
         },
         {
           "id": "supermarkets-way-63657673-costcutter",
@@ -43148,15 +43455,6 @@
           "lng": -0.375442,
           "detail": "Convenience · Costcutter from OpenStreetMap.",
           "source": "OpenStreetMap way/63657673",
-          "priority": 394
-        },
-        {
-          "id": "supermarkets-way-781268999-costcutter",
-          "name": "Costcutter",
-          "lat": 51.421245,
-          "lng": -0.319284,
-          "detail": "Convenience · Costcutter from OpenStreetMap.",
-          "source": "OpenStreetMap way/781268999",
           "priority": 395
         },
         {
@@ -43391,7 +43689,7 @@
           "lng": -0.008434,
           "detail": "Convenience from OpenStreetMap.",
           "source": "OpenStreetMap node/10266440612",
-          "priority": 6
+          "priority": 7
         },
         {
           "id": "supermarkets-way-143369836-sainsburys",
@@ -43418,7 +43716,7 @@
           "lng": -0.004476,
           "detail": "Convenience from OpenStreetMap.",
           "source": "OpenStreetMap way/206168285",
-          "priority": 7
+          "priority": 8
         },
         {
           "id": "supermarkets-way-312265219-tesco",
@@ -43437,6 +43735,15 @@
           "detail": "Supermarket · Waitrose from OpenStreetMap.",
           "source": "OpenStreetMap way/252251159",
           "priority": 5
+        },
+        {
+          "id": "supermarkets-way-30451817-whole-foods-market",
+          "name": "Whole Foods Market",
+          "lat": 51.53415,
+          "lng": -0.10492,
+          "detail": "Supermarket · Whole Foods Market from OpenStreetMap.",
+          "source": "OpenStreetMap way/30451817",
+          "priority": 6
         }
       ]
     }

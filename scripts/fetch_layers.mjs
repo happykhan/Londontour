@@ -378,24 +378,47 @@ const essentialLandmarkNames = new Set([
   'bank of england',
   'big ben',
   'borough market',
+  'alexandra palace',
+  'barbican centre',
+  'battersea power station',
+  'british library',
+  'british museum',
   'buckingham palace',
+  'camden market',
   'charing cross',
   "cleopatra's needle",
   'covent garden',
+  'cutty sark',
   'globe theatre',
+  'greenwich market',
+  'hampton court palace',
   'guildhall',
   'hms belfast',
+  'imperial war museum',
+  'kensington palace',
+  "king's cross st. pancras",
+  'kew gardens',
   'leadenhall market',
   'london eye',
   'london bridge',
+  'london zoo',
   'mansion house',
+  'marble arch',
   'millennium bridge',
+  'national gallery',
+  'natural history museum',
+  'old royal naval college',
   'palace of westminster',
   'piccadilly circus',
+  'royal academy of arts',
+  'royal albert hall',
   'royal courts of justice',
+  'royal observatory greenwich',
   'royal exchange',
   'royal festival hall',
   'royal opera house',
+  'science museum',
+  'sky garden',
   'somerset house',
   'southbank centre',
   "st paul's cathedral",
@@ -404,14 +427,61 @@ const essentialLandmarkNames = new Set([
   "st. james's palace",
   'southwark cathedral',
   'temple church',
+  'the british library',
+  'the british museum',
+  'the monument',
   'the monument to the great fire of london',
+  'the o2',
   'the royal courts of justice',
+  'the shard',
   'tower bridge',
   'tower of london',
   'trafalgar square',
+  'victoria and albert museum',
+  'wembley stadium',
   'westminster abbey',
   'westminster bridge',
+  'westminster cathedral',
+  'whitechapel gallery',
 ]);
+
+const curatedEssentialLandmarks = [
+  { name: 'Alexandra Palace', lat: 51.5940, lng: -0.1300, url: 'https://www.alexandrapalace.com/' },
+  { name: 'Barbican Centre', lat: 51.5202, lng: -0.0938, url: 'https://www.barbican.org.uk/' },
+  { name: 'Battersea Power Station', lat: 51.4818, lng: -0.1447, url: 'https://batterseapowerstation.co.uk/' },
+  { name: 'British Library', lat: 51.5299, lng: -0.1275, url: 'https://www.bl.uk/' },
+  { name: 'British Museum', lat: 51.5194, lng: -0.1270, url: 'https://www.britishmuseum.org/' },
+  { name: 'Camden Market', lat: 51.5413, lng: -0.1461, url: 'https://camdenmarket.com/' },
+  { name: 'Covent Garden', lat: 51.5117, lng: -0.1230, url: 'https://www.coventgarden.london/' },
+  { name: 'Cutty Sark', lat: 51.4828, lng: -0.0096, url: 'https://www.rmg.co.uk/cutty-sark' },
+  { name: 'Greenwich Market', lat: 51.4816, lng: -0.0090, url: 'https://www.greenwichmarket.london/' },
+  { name: 'Hampton Court Palace', lat: 51.4036, lng: -0.3376, url: 'https://www.hrp.org.uk/hampton-court-palace/' },
+  { name: 'HMS Belfast', lat: 51.5066, lng: -0.0810, url: 'https://www.iwm.org.uk/visits/hms-belfast' },
+  { name: 'Imperial War Museum', lat: 51.4958, lng: -0.1086, url: 'https://www.iwm.org.uk/visits/iwm-london' },
+  { name: 'Kensington Palace', lat: 51.5050, lng: -0.1877, url: 'https://www.hrp.org.uk/kensington-palace/' },
+  { name: "King's Cross St. Pancras", lat: 51.5317, lng: -0.1246 },
+  { name: 'Kew Gardens', lat: 51.4787, lng: -0.2956, url: 'https://www.kew.org/kew-gardens' },
+  { name: 'London Zoo', lat: 51.5353, lng: -0.1534, url: 'https://www.londonzoo.org/' },
+  { name: 'Marble Arch', lat: 51.5131, lng: -0.1589 },
+  { name: 'National Gallery', lat: 51.5089, lng: -0.1283, url: 'https://www.nationalgallery.org.uk/' },
+  { name: 'Natural History Museum', lat: 51.4967, lng: -0.1764, url: 'https://www.nhm.ac.uk/' },
+  { name: 'Old Royal Naval College', lat: 51.4830, lng: -0.0056, url: 'https://ornc.org/' },
+  { name: 'Royal Academy of Arts', lat: 51.5094, lng: -0.1399, url: 'https://www.royalacademy.org.uk/' },
+  { name: 'Royal Albert Hall', lat: 51.5010, lng: -0.1774, url: 'https://www.royalalberthall.com/' },
+  { name: 'Royal Observatory Greenwich', lat: 51.4769, lng: -0.0005, url: 'https://www.rmg.co.uk/royal-observatory' },
+  { name: 'Science Museum', lat: 51.4978, lng: -0.1745, url: 'https://www.sciencemuseum.org.uk/' },
+  { name: 'Sky Garden', lat: 51.5113, lng: -0.0835, url: 'https://skygarden.london/' },
+  { name: 'St Pancras International', lat: 51.5319, lng: -0.1263, url: 'https://stpancras.com/' },
+  { name: 'Tate Britain', lat: 51.4911, lng: -0.1278, url: 'https://www.tate.org.uk/visit/tate-britain' },
+  { name: 'Tate Modern', lat: 51.5076, lng: -0.0994, url: 'https://www.tate.org.uk/visit/tate-modern' },
+  { name: 'The Monument', lat: 51.5101, lng: -0.0860 },
+  { name: 'The O2', lat: 51.5030, lng: 0.0032, url: 'https://www.theo2.co.uk/' },
+  { name: 'The Shard', lat: 51.5045, lng: -0.0865, url: 'https://www.the-shard.com/' },
+  { name: 'Victoria and Albert Museum', lat: 51.4966, lng: -0.1722, url: 'https://www.vam.ac.uk/' },
+  { name: 'Wembley Stadium', lat: 51.5560, lng: -0.2796, url: 'https://www.wembleystadium.com/' },
+  { name: 'Westminster Cathedral', lat: 51.4963, lng: -0.1396, url: 'https://westminstercathedral.org.uk/' },
+  { name: 'Whitechapel Gallery', lat: 51.5164, lng: -0.0700, url: 'https://www.whitechapelgallery.org/' },
+];
 
 const officialMarketUrlOverrides = [
   { name: 'borough market', url: 'https://boroughmarket.org.uk/', lat: 51.5056, lng: -0.0904 },
@@ -758,6 +828,24 @@ function cleanPoint(element) {
   };
 }
 
+function curatedLandmarkItems() {
+  return curatedEssentialLandmarks
+    .filter((point) => isInBounds(point))
+    .map((point, index) => ({
+      layerId: 'landmarks',
+      point: {
+        id: `landmarks-curated-${slugify(point.name)}`,
+        name: point.name,
+        lat: point.lat,
+        lng: point.lng,
+        detail: 'Essential landmark from the curated OpenStreetMap supplement.',
+        source: 'OpenStreetMap curated supplement',
+        ...(point.url ? { url: point.url } : {}),
+      },
+      score: 240 - index,
+    }));
+}
+
 function distanceMeters(a, b) {
   const originLat = ((a.lat + b.lat) / 2) * Math.PI / 180;
   const latMeters = 110540;
@@ -812,6 +900,7 @@ function buildLayers(elements, tubeStations, riverPiers) {
     if (isDuplicateTubeTransport(item, tubeStations)) return;
     pointsByLayer.get(item.layerId)?.push(item);
   });
+  curatedLandmarkItems().forEach((item) => pointsByLayer.get('landmarks')?.push(item));
   for (const pier of riverPiers) {
     pointsByLayer.get('transport')?.push(pier);
   }

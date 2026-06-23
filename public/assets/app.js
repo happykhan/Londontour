@@ -415,8 +415,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260622-2358';
-const cacheName = 'londontour-offline-v77';
+const assetVersion = '20260623-0056';
+const cacheName = 'londontour-offline-v78';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -730,6 +730,11 @@ function safeLineColour(colour) {
   return /^#[0-9a-f]{6}$/i.test(colour || '') ? colour : '#111827';
 }
 
+function displayTubeLineColour(line) {
+  if (line?.id === 'northern' && document.body.dataset.theme === 'dark') return '#f8fafc';
+  return safeLineColour(line?.color);
+}
+
 function tubeStationFacilityAvailable(station, label) {
   const entry = (station.facilities || []).find((item) => item.toLowerCase().startsWith(`${label.toLowerCase()}:`));
   if (!entry) return false;
@@ -748,7 +753,7 @@ function tubeStationLineChips(station, tubeNetwork = tubeNetworkData) {
   if (!lines.length) return '<span class="tube-popup-muted">Tube station</span>';
 
   return lines
-    .map((line) => `<span class="tube-line-chip" style="--tube-line-colour: ${safeLineColour(line.color)}">${escapeHtml(line.label)}</span>`)
+    .map((line) => `<span class="tube-line-chip" style="--tube-line-colour: ${displayTubeLineColour(line)}">${escapeHtml(line.label)}</span>`)
     .join('');
 }
 
@@ -2085,24 +2090,11 @@ function isMajorTubeStation(station) {
 }
 
 function selectedTubeLineOffsetMeters(lineId, selectedStation) {
-  const selectedLines = (selectedStation?.lines || []).filter((id) => tubeNetworkData.lines.some((line) => line.id === id));
-  if (selectedLines.length < 2) return 0;
-  const index = selectedLines.indexOf(lineId);
-  if (index === -1) return 0;
-  return (index - (selectedLines.length - 1) / 2) * 6;
+  return 0;
 }
 
 function browseTubeLineOffsetPixels(lineId) {
-  const offsets = {
-    circle: -4.5,
-    district: 4.5,
-    'hammersmith-city': 8.5,
-    metropolitan: -8.5,
-    piccadilly: -4.5,
-    northern: 4.5,
-    victoria: 4,
-  };
-  return offsets[lineId] || 0;
+  return 0;
 }
 
 function offsetTubeSegment(segment, offsetMeters) {
@@ -2199,7 +2191,7 @@ async function renderTubeNetwork(openStationId) {
     const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
     const lineOpacity = isDimmed ? 0.32 : isSelected ? 1 : 0.78;
     const style = {
-      color: line.color || '#1d4ed8',
+      color: displayTubeLineColour(line),
       opacity: lineOpacity,
       pane: 'tubeNetwork',
       overlayOrder: 32,
@@ -2289,7 +2281,7 @@ async function renderTubeNetwork(openStationId) {
     const marker = L.marker([station.lat, station.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="tube-station-marker ${isMajorStation ? 'is-major' : ''} ${isSelectedStation ? 'is-selected' : ''} ${station.hasNationalRail ? 'has-national-rail' : ''}"><span></span>${station.hasNationalRail ? '<b aria-hidden="true">NR</b>' : ''}</div>`,
+        html: `<div class="tube-station-marker ${isMajorStation ? 'is-major' : ''} ${isSelectedStation ? 'is-selected' : ''}"><span></span></div>`,
         iconSize: isMajorStation ? [22, 22] : [18, 18],
         iconAnchor: isMajorStation ? [11, 11] : [9, 9],
       }),
@@ -2606,6 +2598,7 @@ function applyTheme(theme) {
   themeButton.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
   themeButton.setAttribute('title', `Switch to ${nextTheme} mode`);
   applyBasemapTheme();
+  void renderTubeNetwork();
   try {
     localStorage.setItem(themeStateKey, activeTheme);
   } catch (error) {
