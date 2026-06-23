@@ -339,6 +339,7 @@ const radiusButton = document.querySelector('#radius-button');
 const radiusPanel = document.querySelector('#radius-panel');
 const radiusSummaryEl = document.querySelector('#radius-summary');
 const radiusResultsEl = document.querySelector('#radius-results');
+const radiusLockButton = document.querySelector('#radius-lock-button');
 const radiusCloseButton = document.querySelector('#radius-close-button');
 const radiusClearButton = document.querySelector('#radius-clear-button');
 const changeRouteButton = document.querySelector('#change-route-button');
@@ -415,8 +416,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260623-1142';
-const cacheName = 'londontour-offline-v83';
+const assetVersion = '20260623-1220';
+const cacheName = 'londontour-offline-v84';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -475,7 +476,9 @@ let radiusState = {
   radiusMeters: 0,
   edge: null,
   dragging: false,
+  locked: false,
   results: [],
+  selectedResultId: '',
 };
 let radiusOverlayLayers = [];
 let radiusResultMarkers = [];
@@ -706,7 +709,7 @@ function popupShell(content, kind = 'generic') {
   return `<div class="map-popup-card map-popup-card-${escapeHtml(kind)}">${content}</div>`;
 }
 
-function poiPopupContent(point) {
+function poiPopupContent(point, options = {}) {
   const layerId = point.layerId || '';
   const icon = layerIconText(layerId, point);
   const detail = cleanPointDetail(point);
@@ -724,7 +727,7 @@ function poiPopupContent(point) {
         </div>
       </div>
       ${detailHtml}
-      ${nearbyPopupButton(point.lat, point.lng, point.name)}
+      ${nearbyPopupButton(point.lat, point.lng, point.name, options)}
       ${editorPopupControls(point)}
     </div>
   `, layerId || 'generic');
@@ -780,7 +783,7 @@ function tubeRailChip(station) {
   `;
 }
 
-function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
+function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData, options = {}) {
   const zone = station.zone ? `<span class="tube-zone-badge">Zone ${escapeHtml(station.zone)}</span>` : '';
   const toilets = tubeStationFacilityAvailable(station, 'Toilets');
   const lifts = tubeStationFacilityAvailable(station, 'Lifts');
@@ -789,15 +792,15 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
     <div class="tube-popup">
       <div class="tube-popup-header">
         <strong>${escapeHtml(station.name)}</strong>
-        <div class="tube-meta-row">
-          ${zone}
-          ${tubeFacilityChip('Toilets', toilets)}
-          ${tubeFacilityChip('Lifts', lifts)}
-          ${tubeRailChip(station)}
-        </div>
+      <div class="tube-meta-row">
+        ${zone}
+        ${tubeFacilityChip('Toilets', toilets)}
+        ${tubeFacilityChip('Lifts', lifts)}
+        ${tubeRailChip(station)}
+      </div>
       </div>
       <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
-      ${nearbyPopupButton(station.lat, station.lng, station.name)}
+      ${nearbyPopupButton(station.lat, station.lng, station.name, options)}
     </div>
   `, 'tube');
 }
@@ -814,7 +817,8 @@ function editorPopupControls(point) {
   `;
 }
 
-function nearbyPopupButton(lat, lng, name) {
+function nearbyPopupButton(lat, lng, name, options = {}) {
+  if (options.hideNearbyButton) return '';
   return `
     <div class="nearby-popup-actions">
       <button class="secondary-button" type="button" data-nearby-center data-lat="${Number(lat)}" data-lng="${Number(lng)}" data-name="${escapeHtml(name)}">Nearby</button>
@@ -1164,11 +1168,11 @@ function setSearchOpen(open) {
   }
 }
 
-function searchPopupContent(item) {
+function searchPopupContent(item, options = {}) {
   if (item.stationId) {
     const station = tubeNetworkData.stations.find((candidate) => candidate.id === item.stationId);
-    if (station) return tubeStationPopupContent(station);
-    return `<strong>${escapeHtml(item.name)}</strong>${nearbyPopupButton(item.lat, item.lng, item.name)}`;
+    if (station) return tubeStationPopupContent(station, tubeNetworkData, options);
+    return `<strong>${escapeHtml(item.name)}</strong>${nearbyPopupButton(item.lat, item.lng, item.name, options)}`;
   }
 
   if (item.layerId && item.point) {
@@ -1177,7 +1181,7 @@ function searchPopupContent(item) {
       layerId: item.layerId,
       layerLabel: item.layerLabel,
       layerMarkerLabel: item.layerMarkerLabel,
-    });
+    }, options);
   }
 
   return popupShell(`
@@ -1191,7 +1195,7 @@ function searchPopupContent(item) {
         </div>
       </div>
       <p class="poi-popup-detail">${escapeHtml(item.detail || '')}</p>
-      ${nearbyPopupButton(item.lat, item.lng, item.name)}
+      ${nearbyPopupButton(item.lat, item.lng, item.name, options)}
     </div>
   `, 'generic');
 }
@@ -1257,7 +1261,7 @@ function setRadiusOpen(open) {
     setBrowseLayersOpen(false);
     setRouteMenuOpen(false);
     setOfflineMenuOpen(false);
-    setStatus(radiusState.center ? 'Drag on the map to set the nearby radius.' : 'Drop a nearby search pin on the map.');
+    setStatus(radiusState.center ? (radiusState.locked ? 'Nearby radius locked. Tap markers to inspect them.' : 'Drag on the map to set the nearby radius.') : 'Drop a nearby search pin on the map.');
   } else {
     radiusState.dragging = false;
     if (map?.dragging) map.dragging.enable();
@@ -1274,7 +1278,9 @@ function clearRadiusExplore() {
     radiusMeters: 0,
     edge: null,
     dragging: false,
+    locked: false,
     results: [],
+    selectedResultId: '',
   };
   radiusOverlayLayers.forEach((layer) => layer.remove());
   radiusResultMarkers.forEach((marker) => marker.remove());
@@ -1295,16 +1301,18 @@ function startRadiusFromCenter(lat, lng, name = 'Selected point') {
   radiusState.centerName = name;
   radiusState.radiusMeters = 0;
   radiusState.edge = null;
+  radiusState.locked = false;
   radiusState.results = [];
+  radiusState.selectedResultId = '';
   setRadiusOpen(true);
   map.closePopup();
-  map.panTo(radiusState.center, { animate: true });
+  window.setTimeout(() => keepRadiusCenterVisible(), 0);
   setStatus(`${name}: drag out a nearby search radius.`);
 }
 
 function radiusSearchItems() {
   const items = buildSearchableItems();
-  return items.filter((item) => Number.isFinite(item.lat) && Number.isFinite(item.lng));
+  return items.filter((item) => Number.isFinite(item.lat) && Number.isFinite(item.lng) && !item.routeId);
 }
 
 function radiusResultsFor(center, radiusMeters) {
@@ -1318,32 +1326,116 @@ function radiusResultsFor(center, radiusMeters) {
     .sort((a, b) => a.distanceMeters - b.distanceMeters || a.name.localeCompare(b.name));
 }
 
+function radiusSelectionActive() {
+  return Boolean(radiusState.active && radiusState.center && radiusState.radiusMeters > 0);
+}
+
+function selectedRadiusResult() {
+  if (!radiusState.selectedResultId) return null;
+  return radiusState.results.find((item) => item.id === radiusState.selectedResultId) || null;
+}
+
+function syncRadiusSelectedResult() {
+  const selected = selectedRadiusResult();
+  if (selected) return selected;
+  radiusState.selectedResultId = radiusState.results.length === 1 ? radiusState.results[0].id : '';
+  return selectedRadiusResult();
+}
+
+function keepRadiusCenterVisible() {
+  if (!map || !radiusState.center || !radiusPanel || radiusPanel.hidden) return;
+  const panelHeight = radiusPanel.offsetHeight || 0;
+  if (!panelHeight) return;
+  const point = map.latLngToContainerPoint(radiusState.center);
+  const topSafe = 88;
+  const bottomSafe = panelHeight + 28;
+  const minY = topSafe;
+  const maxY = window.innerHeight - bottomSafe;
+  if (point.y < minY) {
+    map.panBy([0, point.y - minY], { animate: true });
+  } else if (point.y > maxY) {
+    map.panBy([0, point.y - maxY], { animate: true });
+  }
+}
+
+function radiusSelectionPlaceholder(title, detail) {
+  return `
+    <div class="radius-selection-card">
+      <div class="radius-selection-empty">
+        <strong>${escapeHtml(title)}</strong>
+        <span>${escapeHtml(detail)}</span>
+        ${radiusState.center ? `<small>${escapeHtml(radiusState.locked ? 'Radius locked. Unlock it if you want to drag the boundary again.' : 'Lock the radius once it looks right, then tap markers on the map to inspect them here.')}</small>` : ''}
+      </div>
+    </div>
+  `;
+}
+
 function renderRadiusPanel() {
   if (!radiusSummaryEl || !radiusResultsEl) return;
+  if (radiusLockButton) {
+    const canLock = Boolean(radiusState.center);
+    radiusLockButton.disabled = !canLock;
+    radiusLockButton.setAttribute('aria-pressed', radiusState.locked ? 'true' : 'false');
+    radiusLockButton.setAttribute('aria-label', radiusState.locked ? 'Unlock nearby radius' : 'Lock nearby radius');
+    radiusLockButton.setAttribute('title', radiusState.locked ? 'Unlock nearby radius' : 'Lock nearby radius');
+  }
+
   if (!radiusState.center) {
     radiusSummaryEl.textContent = 'Drop a pin on the map, then drag out the radius.';
-    radiusResultsEl.innerHTML = '<p class="search-empty">No radius selected yet.</p>';
+    radiusResultsEl.innerHTML = radiusSelectionPlaceholder('No nearby area yet', 'Drop a pin or choose Nearby from a popup to start.');
     return;
   }
 
   if (!radiusState.radiusMeters) {
     radiusSummaryEl.textContent = `${radiusState.centerName || 'Selected point'} is the centre. Drag on the map to set the radius.`;
-    radiusResultsEl.innerHTML = '<p class="search-empty">Drag out from the centre to reveal nearby places.</p>';
+    radiusResultsEl.innerHTML = radiusSelectionPlaceholder('Set the radius', 'Drag out from the centre to reveal nearby places.');
     return;
   }
 
+  const selection = syncRadiusSelectedResult();
   radiusSummaryEl.textContent = `${radiusState.results.length} result${radiusState.results.length === 1 ? '' : 's'} within ${formatDistance(radiusState.radiusMeters)} of ${radiusState.centerName || 'the pin'}.`;
-  radiusResultsEl.innerHTML = radiusState.results.length
-    ? radiusState.results
-        .map((item, index) => `
-          <button class="${searchResultClass(item)}" type="button" role="option" data-radius-index="${index}">
-            <strong>${escapeHtml(item.name)}</strong>
-            <span>${escapeHtml(item.label || item.type)} · ${escapeHtml(formatDistance(item.distanceMeters))}</span>
-            <small>${escapeHtml(item.detail || '')}</small>
-          </button>
-        `)
-        .join('')
-    : '<p class="search-empty">No mapped places inside this circle.</p>';
+  radiusResultsEl.innerHTML = selection
+    ? `<div class="radius-selection-card">${searchPopupContent(selection, { hideNearbyButton: true })}</div>`
+    : radiusSelectionPlaceholder('Tap a marker to inspect it', 'The map is the navigator here. Tap any marker inside the circle to load its details below.');
+}
+
+function radiusResultForLayerPoint(point) {
+  return radiusState.results.find((item) => item.layerId === point.layerId && (item.sourcePointId === point.id || item.point?.id === point.id)) || null;
+}
+
+function radiusResultForTubeStation(station) {
+  return radiusState.results.find((item) => item.stationId === station.id) || null;
+}
+
+function radiusResultForRouteStop(routeId, routeStopIndex) {
+  return radiusState.results.find((item) => item.routeId === routeId && item.routeStopIndex === routeStopIndex) || null;
+}
+
+function focusRadiusResult(item, options = {}) {
+  if (!item || !map || !radiusSelectionActive()) return;
+  if (item.layerId) {
+    activateSearchLayer(item);
+  }
+  if (item.stationId) {
+    activeLayerIds.add('transport');
+    saveActiveLayerIds();
+    renderLayerControls();
+    selectedTubeLineId = undefined;
+    selectedTubeStationId = item.stationId;
+    void renderTubeNetwork();
+  }
+  radiusState.selectedResultId = item.id;
+  renderLayerMarkers();
+  renderRadiusPanel();
+  if (options.flyTo) {
+    map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), item.stationId ? 15 : 16), { duration: 0.35 });
+  }
+  if (options.closePopup !== false) {
+    window.setTimeout(() => map.closePopup(), 0);
+  }
+  if (options.status) {
+    setStatus(options.status);
+  }
 }
 
 function markerForRadiusResult(item) {
@@ -1360,7 +1452,10 @@ function markerForRadiusResult(item) {
       iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
     }),
   }).bindPopup(searchPopupContent(item));
-  if (!item.stationId) marker.on('click', clearTubeSelectionBeforePopup);
+  marker.on('click', () => {
+    if (!item.stationId) clearTubeSelectionBeforePopup();
+    focusRadiusResult(item, { status: `${item.name} selected from nearby results.` });
+  });
   return marker;
 }
 
@@ -1437,9 +1532,11 @@ async function updateRadiusFromEdge(latLng) {
   radiusState.radiusMeters = Math.round(distance / 25) * 25;
   radiusState.edge = latLng;
   radiusState.results = radiusResultsFor(radiusState.center, radiusState.radiusMeters);
+  syncRadiusSelectedResult();
   renderRadiusPanel();
   renderRadiusOverlays();
   renderLayerMarkers();
+  keepRadiusCenterVisible();
 }
 
 function handleRadiusMapClick(event) {
@@ -1448,9 +1545,9 @@ function handleRadiusMapClick(event) {
 }
 
 function handleRadiusPointerStart(event) {
-  if (!radiusState.active || !radiusState.center) return;
+  if (!radiusState.active || !radiusState.center || radiusState.locked) return;
   const target = event.target;
-  if (target?.closest?.('.leaflet-popup, .leaflet-control, .map-topbar, .search-panel, .radius-panel')) return;
+  if (target?.closest?.('.leaflet-popup, .leaflet-control, .leaflet-marker-icon, .map-topbar, .search-panel, .radius-panel')) return;
   event.preventDefault();
   radiusState.dragging = true;
   event.currentTarget?.setPointerCapture?.(event.pointerId);
@@ -1472,29 +1569,6 @@ function handleRadiusPointerEnd(event) {
   if (map?.dragging) map.dragging.enable();
   void updateRadiusFromEdge(map.mouseEventToLatLng(event));
   setStatus(`Nearby radius set to ${formatDistance(radiusState.radiusMeters)}.`);
-}
-
-function focusRadiusResult(item) {
-  if (!map || !item) return;
-  if (item.layerId) activateSearchLayer(item);
-  if (item.stationId) {
-    activeLayerIds.add('transport');
-    saveActiveLayerIds();
-    renderLayerControls();
-    selectedTubeLineId = undefined;
-    selectedTubeStationId = item.stationId;
-  }
-  map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), 16), { duration: 0.35 });
-  window.setTimeout(() => {
-    renderLayerMarkers();
-    if (!item.stationId) clearTubeSelectionBeforePopup();
-    void renderTubeNetwork(item.stationId);
-    L.popup()
-      .setLatLng([item.lat, item.lng])
-      .setContent(searchPopupContent(item))
-      .openOn(map);
-    setStatus(`${item.name} selected from nearby results.`);
-  }, 400);
 }
 
 function renderLayerControls() {
@@ -2082,7 +2156,13 @@ function renderLayerMarkers() {
         iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
     }).bindPopup(poiPopupContent(point));
-    marker.on('click', clearTubeSelectionBeforePopup);
+    marker.on('click', () => {
+      clearTubeSelectionBeforePopup();
+      const radiusItem = radiusResultForLayerPoint(point);
+      if (radiusItem) {
+        focusRadiusResult(radiusItem, { status: `${point.name} selected from nearby results.` });
+      }
+    });
     marker.addTo(map);
     layerMarkers.push(marker);
   });
@@ -2412,7 +2492,17 @@ async function renderTubeNetwork(openStationId) {
 
     marker.on('click', () => {
       if (selectedTubeStationId === station.id) {
+        if (radiusState.selectedResultId) {
+          radiusState.selectedResultId = '';
+          renderRadiusPanel();
+        }
         clearSelectedTubeStation({ status: `${station.name}: tube line filter cleared.` });
+        return;
+      }
+
+      const radiusItem = radiusResultForTubeStation(station);
+      if (radiusItem) {
+        focusRadiusResult(radiusItem, { status: `${station.name}: showing ${stationLines.join(', ')} tube lines.` });
         return;
       }
 
@@ -2882,14 +2972,15 @@ searchResultsEl.addEventListener('click', (event) => {
 });
 radiusButton.addEventListener('click', () => setRadiusOpen(!document.body.classList.contains('radius-open')));
 radiusCloseButton.addEventListener('click', () => setRadiusOpen(false));
+radiusLockButton?.addEventListener('click', () => {
+  if (!radiusState.center) return;
+  radiusState.locked = !radiusState.locked;
+  renderRadiusPanel();
+  setStatus(radiusState.locked ? 'Nearby radius locked. Tap markers to inspect them.' : 'Nearby radius unlocked. Drag the map to change the boundary.');
+});
 radiusClearButton.addEventListener('click', () => {
   clearRadiusExplore();
   setStatus('Nearby radius cleared.');
-});
-radiusResultsEl.addEventListener('click', (event) => {
-  const resultButton = event.target.closest('button[data-radius-index]');
-  if (!resultButton) return;
-  focusRadiusResult(radiusState.results[Number(resultButton.dataset.radiusIndex)]);
 });
 menuButton.addEventListener('click', toggleMenu);
 changeRouteButton.addEventListener('click', toggleRouteMenu);

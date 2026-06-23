@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260623-1142" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260623-1142" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260623-1220" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260623-1220" />
   </head>
   <body>
     <main class="app-shell">
@@ -149,29 +149,32 @@
           </div>
         </section>
         <section id="radius-panel" class="radius-panel" role="dialog" aria-labelledby="radius-title" hidden>
-          <div class="search-header">
-            <h2 id="radius-title">Explore nearby</h2>
-            <button id="radius-close-button" class="secondary-button compact-button" type="button">Cancel</button>
+          <div class="radius-header">
+            <div class="radius-heading">
+              <h2 id="radius-title">Explore nearby</h2>
+              <p id="radius-summary" class="radius-summary">Drop a pin on the map, then drag out the radius.</p>
+            </div>
+            <div class="radius-actions">
+              <button id="radius-lock-button" class="icon-button radius-lock-button" type="button" aria-label="Lock nearby radius" aria-pressed="false" title="Lock nearby radius"><span class="lock-icon" aria-hidden="true"></span></button>
+              <button id="radius-clear-button" class="secondary-button compact-button" type="button">Clear</button>
+              <button id="radius-close-button" class="secondary-button compact-button" type="button">Cancel</button>
+            </div>
           </div>
-          <p id="radius-summary" class="radius-summary">Drop a pin on the map, then drag out the radius.</p>
-          <div class="radius-actions">
-            <button id="radius-clear-button" class="secondary-button compact-button" type="button">Clear</button>
-          </div>
-          <div id="radius-results" class="search-results" role="listbox" aria-label="Nearby results">
+          <div id="radius-results" class="radius-selection" aria-live="polite">
             <p class="search-empty">No radius selected yet.</p>
           </div>
         </section>
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260623-1142"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260623-1142"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260623-1142"></script>
-    <script src="assets/app.js?v=20260623-1142"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260623-1220"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260623-1220"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260623-1220"></script>
+    <script src="assets/app.js?v=20260623-1220"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260623-1142').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260623-1220').catch(() => {});
         });
       }
     </script>

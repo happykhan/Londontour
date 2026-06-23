@@ -763,8 +763,30 @@ body[data-theme="dark"] .theme-icon::before {
   width: 15px;
 }
 
-.search-panel,
-.radius-panel {
+.lock-icon {
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  height: 14px;
+  position: relative;
+  width: 16px;
+}
+
+.lock-icon::before {
+  border: 2px solid currentColor;
+  border-bottom: 0;
+  border-radius: 999px 999px 0 0;
+  box-sizing: border-box;
+  content: "";
+  height: 9px;
+  left: 2px;
+  position: absolute;
+  top: -8px;
+  width: 8px;
+}
+
+.search-panel {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(207, 213, 218, 0.95);
   border-radius: 10px;
@@ -783,7 +805,22 @@ body[data-theme="dark"] .theme-icon::before {
 }
 
 .radius-panel {
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(207, 213, 218, 0.98);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 0.8rem;
+  left: 50%;
+  max-width: min(34rem, calc(100vw - 1rem));
+  overflow: hidden;
+  padding: 0.9rem;
+  position: absolute;
+  bottom: 0.75rem;
+  top: auto;
+  transform: translateX(-50%);
+  width: min(34rem, calc(100vw - 1rem));
+  z-index: 720;
 }
 
 .search-panel[hidden],
@@ -949,10 +986,79 @@ body[data-theme="dark"] .search-result:focus-visible {
   margin: 0;
 }
 
+.radius-header {
+  align-items: start;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.radius-heading {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.radius-heading h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
 .radius-actions {
+  align-items: start;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: flex-end;
+}
+
+.radius-lock-button {
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.radius-lock-button[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+.radius-selection {
+  display: grid;
+  gap: 0.65rem;
+  min-height: 0;
+}
+
+.radius-selection-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.8rem;
+}
+
+.radius-selection-card .map-popup-card {
+  display: grid;
+  inline-size: 100%;
+  max-inline-size: none;
+}
+
+.radius-selection-card .tube-popup,
+.radius-selection-card .poi-popup {
+  gap: 0.55rem;
+}
+
+.radius-selection-empty {
+  color: var(--muted);
+  display: grid;
+  gap: 0.3rem;
+  line-height: 1.4;
+}
+
+.radius-selection-empty strong {
+  color: var(--ink);
+}
+
+.radius-selection-empty small {
+  color: var(--muted);
 }
 
 .nearby-popup-actions {
@@ -1220,6 +1326,11 @@ body[data-theme="dark"] .tube-facility-chip.is-unavailable {
 body[data-theme="dark"] .poi-popup,
 body[data-theme="dark"] .tube-popup {
   color: var(--ink);
+}
+
+body[data-theme="dark"] .radius-selection-card {
+  background: rgba(29, 37, 33, 0.9);
+  border-color: rgba(58, 70, 64, 0.95);
 }
 
 body[data-theme="dark"] .poi-popup-detail,
@@ -1848,18 +1959,12 @@ body.route-view:not(.editor-mode) .layer-marker {
   }
 
   .radius-panel {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    bottom: 0;
-    grid-template-rows: auto auto minmax(0, 1fr) auto;
-    height: min(54dvh, 460px);
-    left: 0;
-    max-height: calc(100dvh - 7.5rem - env(safe-area-inset-top));
+    bottom: calc(0.5rem + env(safe-area-inset-bottom));
+    left: 50%;
+    max-height: calc(100dvh - 8.25rem - env(safe-area-inset-top));
+    max-width: calc(100vw - 1rem);
     padding-bottom: calc(0.9rem + env(safe-area-inset-bottom));
-    position: fixed;
-    right: 0;
-    top: auto;
-    width: auto;
+    width: calc(100vw - 1rem);
     z-index: 780;
   }
 
@@ -1867,10 +1972,20 @@ body.route-view:not(.editor-mode) .layer-marker {
     max-height: calc(100dvh - 16.75rem - env(safe-area-inset-top));
   }
 
-  .radius-panel .search-results {
-    max-height: none;
-    min-height: 0;
-    overflow-y: auto;
+  .radius-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .radius-actions {
+    justify-content: stretch;
+  }
+
+  .radius-actions > * {
+    flex: 1 1 auto;
+  }
+
+  .radius-lock-button {
+    min-width: 44px;
   }
 
   .search-form {

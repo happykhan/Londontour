@@ -90,6 +90,7 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /class="radius-icon"/);
   assert.match(html, /id="radius-panel"/);
   assert.match(html, /id="radius-summary"/);
+  assert.match(html, /id="radius-lock-button"/);
   assert.match(html, /id="radius-results"/);
   assert.match(html, /Drop a pin on the map, then drag out the radius/);
   assert.match(html, /id="menu-panel"/);
@@ -129,11 +130,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-1142'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1142/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-1142/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1142/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-1142/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-1220'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1220/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-1220/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1220/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-1220/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -178,8 +179,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /const searchInput = document\.querySelector\('#search-input'\)/);
   assert.match(js, /const radiusButton = document\.querySelector\('#radius-button'\)/);
   assert.match(js, /const radiusResultsEl = document\.querySelector\('#radius-results'\)/);
+  assert.match(js, /const radiusLockButton = document\.querySelector\('#radius-lock-button'\)/);
   assert.match(js, /let searchResults = \[\]/);
   assert.match(js, /let radiusState = \{/);
+  assert.match(js, /locked: false/);
+  assert.match(js, /selectedResultId: ''/);
   assert.match(js, /let radiusOverlayLayers = \[\]/);
   assert.match(js, /let radiusResultMarkers = \[\]/);
   assert.match(js, /function normaliseSearchText/);
@@ -198,6 +202,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function renderRadiusOverlays/);
   assert.match(js, /function renderRadiusPanel/);
   assert.match(js, /function radiusResultsFor/);
+  assert.match(js, /function keepRadiusCenterVisible/);
+  assert.match(js, /function radiusSelectionPlaceholder/);
   assert.match(js, /radiusState\.radiusMeters/);
   assert.match(js, /for \(let tick = 200; tick <= radiusState\.radiusMeters; tick \+= 200\)/);
   assert.match(js, /function handleRadiusPointerStart/);
@@ -234,7 +240,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260623-1142'/);
+  assert.match(js, /const assetVersion = '20260623-1220'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -263,7 +269,6 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /class="tube-line-chip"/);
   assert.match(js, /class="tube-facility-chip/);
   assert.match(js, /tubeStationPopupContent\(station, tubeNetwork\)/);
-  assert.match(js, /tubeStationPopupContent\(station\)/);
   assert.match(js, /showMajorStations/);
   assert.doesNotMatch(js, /Major interchange/);
   assert.doesNotMatch(js, /stationInfo/);
@@ -420,8 +425,10 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.search-form/);
   assert.match(css, /\.search-results/);
   assert.match(css, /\.search-result/);
-  assert.match(css, /\.radius-panel \.search-results/);
-  assert.match(css, /grid-template-rows: auto auto minmax\(0, 1fr\) auto/);
+  assert.match(css, /\.radius-selection/);
+  assert.match(css, /\.radius-selection-card/);
+  assert.match(css, /\.radius-lock-button/);
+  assert.match(css, /\.lock-icon/);
   assert.match(css, /--result-accent/);
   assert.match(css, /\.search-result-water/);
   assert.match(css, /\.search-result-supermarkets/);
@@ -429,7 +436,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.search-panel\[hidden\]/);
   assert.match(css, /\.radius-icon/);
   assert.match(css, /\.radius-panel/);
-  assert.match(css, /height: min\(54dvh, 460px\)/);
+  assert.match(css, /max-width: min\(34rem, calc\(100vw - 1rem\)\)/);
   assert.match(css, /-webkit-overflow-scrolling: touch/);
   assert.match(css, /\.radius-center-marker/);
   assert.match(css, /\.radius-tick-label/);
@@ -523,7 +530,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v83/);
+  assert.match(sw, /londontour-offline-v84/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -726,7 +733,7 @@ test('tile manifest maps to real files', () => {
 
 test('offline basemap manifest can drive the download button', () => {
   const manifest = JSON.parse(read('assets/offline-map-assets.json'));
-  assert.equal(manifest.version, '20260623-1142');
+  assert.equal(manifest.version, '20260623-1220');
   assert.equal(manifest.label, 'Local basemap');
   assert.equal(manifest.strategy, 'pmtiles-plus-raster-fallback');
   assert.ok(Array.isArray(manifest.tileManifests), 'offline basemap should support tile manifests');
@@ -749,9 +756,9 @@ test('MapLibre PMTiles proof page is wired to self-hosted London archive', () =>
   const archiveHeader = readFileSync(archivePath).subarray(0, 7).toString('utf8');
   const archiveStats = statSync(archivePath);
 
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1142/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1142/);
-  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-1142/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1220/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1220/);
+  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-1220/);
   assert.match(html, /London PMTiles/);
   assert.match(html, /data-route="london-tour"/);
   assert.match(html, /data-route="secret-ldn-sightseeing"/);
