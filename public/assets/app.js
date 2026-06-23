@@ -415,8 +415,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260623-0056';
-const cacheName = 'londontour-offline-v78';
+const assetVersion = '20260623-0650';
+const cacheName = 'londontour-offline-v79';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -2189,7 +2189,7 @@ async function renderTubeNetwork(openStationId) {
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
     const offsetPixels = selectedLineIds.size ? 0 : browseTubeLineOffsetPixels(line.id);
     const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
-    const lineOpacity = isDimmed ? 0.32 : isSelected ? 1 : 0.78;
+    const lineOpacity = isDimmed ? 0.32 : isSelected ? 1 : 0.62;
     const style = {
       color: displayTubeLineColour(line),
       opacity: lineOpacity,
