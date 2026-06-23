@@ -415,8 +415,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260623-0735';
-const cacheName = 'londontour-offline-v81';
+const assetVersion = '20260623-0942';
+const cacheName = 'londontour-offline-v82';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -2144,6 +2144,87 @@ function offsetTubeSegment(segment, offsetMeters) {
   });
 }
 
+function segmentLengthMeters(start, end) {
+  const originLat = ((Number(start[0]) + Number(end[0])) / 2) * Math.PI / 180;
+  const latMeters = 110540;
+  const lngMeters = 111320 * Math.cos(originLat);
+  return Math.hypot((Number(end[1]) - Number(start[1])) * lngMeters, (Number(end[0]) - Number(start[0])) * latMeters);
+}
+
+function interpolateSegmentPoint(start, end, fraction) {
+  return [
+    Number(start[0]) + (Number(end[0]) - Number(start[0])) * fraction,
+    Number(start[1]) + (Number(end[1]) - Number(start[1])) * fraction,
+  ];
+}
+
+function canonicalTubeSegment(segment) {
+  const forward = segment.map((point) => `${Number(point[0]).toFixed(6)},${Number(point[1]).toFixed(6)}`);
+  const reversed = [...forward].reverse();
+  return forward.join('|') <= reversed.join('|') ? segment : [...segment].reverse();
+}
+
+function tubeSegmentKey(segment) {
+  return canonicalTubeSegment(segment)
+    .map((point) => `${Number(point[0]).toFixed(6)},${Number(point[1]).toFixed(6)}`)
+    .join('|');
+}
+
+function buildTubeSegmentGroups(lines = []) {
+  const groups = new Map();
+  lines.forEach((line) => {
+    line.segments
+      .filter((segment) => Array.isArray(segment) && segment.length >= 2)
+      .forEach((segment) => {
+        const canonical = canonicalTubeSegment(segment);
+        const key = tubeSegmentKey(canonical);
+        const existing = groups.get(key) || { segment: canonical, lineIds: [] };
+        if (!existing.lineIds.includes(line.id)) existing.lineIds.push(line.id);
+        groups.set(key, existing);
+      });
+  });
+  return [...groups.values()];
+}
+
+function splitSegmentIntoStripeSections(segment, sectionMeters) {
+  if (!Array.isArray(segment) || segment.length < 2) return [];
+
+  const sections = [];
+  let stripeIndex = 0;
+  let current = [segment[0]];
+  let remaining = sectionMeters;
+
+  for (let index = 1; index < segment.length; index += 1) {
+    let start = current[current.length - 1];
+    const target = segment[index];
+    let edgeMeters = segmentLengthMeters(start, target);
+    if (!edgeMeters) continue;
+
+    while (edgeMeters > remaining) {
+      const splitPoint = interpolateSegmentPoint(start, target, remaining / edgeMeters);
+      current.push(splitPoint);
+      if (current.length >= 2) sections.push({ coordinates: current, stripeIndex });
+      stripeIndex += 1;
+      current = [splitPoint];
+      start = splitPoint;
+      edgeMeters = segmentLengthMeters(start, target);
+      remaining = sectionMeters;
+    }
+
+    current.push(target);
+    remaining -= edgeMeters;
+    if (remaining <= 0.5) {
+      if (current.length >= 2) sections.push({ coordinates: current, stripeIndex });
+      stripeIndex += 1;
+      current = [target];
+      remaining = sectionMeters;
+    }
+  }
+
+  if (current.length >= 2) sections.push({ coordinates: current, stripeIndex });
+  return sections;
+}
+
 function clearSelectedTubeStation(options = {}) {
   if (!selectedTubeStationId && !selectedTubeLineId) return false;
   selectedTubeStationId = undefined;
@@ -2204,42 +2285,63 @@ async function renderTubeNetwork(openStationId) {
   const selectedLineIds = new Set(selectedStation?.lines || (selectedTubeLineId ? [selectedTubeLineId] : []));
   const tubeFeatures = [];
   const riverFeatures = [];
+  const lineById = new Map(tubeNetwork.lines.map((line) => [line.id, line]));
+  const segmentGroups = buildTubeSegmentGroups(tubeNetwork.lines);
 
-  tubeNetwork.lines.forEach((line) => {
-    const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
-    const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
-    const offsetPixels = selectedLineIds.size ? 0 : browseTubeLineOffsetPixels(line.id);
-    const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
-    const lineOpacity = isSelected ? 1 : 0.56;
-    const style = {
-      color: displayTubeLineColour(line),
-      opacity: lineOpacity,
-      pane: 'tubeNetwork',
-      overlayOrder: 32,
-      renderer: tubeNetworkRenderer,
-      weight: lineWeight,
-      lineCap: 'round',
-      lineJoin: 'round',
-    };
-    const segments = line.segments
-      .filter((segment) => Array.isArray(segment) && segment.length >= 2)
-      .map((segment) => offsetTubeSegment(segment, offsetMeters));
-    if (!segments.length) return;
+  segmentGroups.forEach((group) => {
+    const displayLineIds = selectedLineIds.size
+      ? group.lineIds.filter((lineId) => selectedLineIds.has(lineId))
+      : group.lineIds;
+    if (!displayLineIds.length) return;
 
-    segments.forEach((segment) => {
+    const isSelected = selectedLineIds.size ? displayLineIds.some((lineId) => selectedLineIds.has(lineId)) : false;
+    const offsetPixels = selectedLineIds.size ? 0 : browseTubeLineOffsetPixels(displayLineIds[0]);
+    const lineWeight = isSelected && displayLineIds.length > 1 ? 6 : isSelected ? 7 : 5.2;
+    const lineOpacity = isSelected ? 1 : 0.5;
+    const segment = displayLineIds.length === 1
+      ? offsetTubeSegment(group.segment, selectedTubeLineOffsetMeters(displayLineIds[0], selectedStation))
+      : group.segment;
+
+    if (displayLineIds.length === 1) {
+      const line = lineById.get(displayLineIds[0]);
+      if (!line) return;
       tubeFeatures.push({
         type: 'Feature',
         properties: {
           id: line.id,
           label: line.label,
-          color: style.color,
+          color: displayTubeLineColour(line),
           offset: offsetPixels,
-          opacity: style.opacity,
-          width: style.weight,
+          opacity: lineOpacity,
+          width: lineWeight,
         },
         geometry: {
           type: 'LineString',
           coordinates: segment.map(([lat, lng]) => [lng, lat]),
+        },
+      });
+      return;
+    }
+
+    const stripeSectionMeters = isSelected ? 110 : 135;
+    const stripeSections = splitSegmentIntoStripeSections(segment, stripeSectionMeters);
+    stripeSections.forEach((stripe) => {
+      const lineId = displayLineIds[stripe.stripeIndex % displayLineIds.length];
+      const line = lineById.get(lineId);
+      if (!line || stripe.coordinates.length < 2) return;
+      tubeFeatures.push({
+        type: 'Feature',
+        properties: {
+          id: line.id,
+          label: line.label,
+          color: displayTubeLineColour(line),
+          offset: 0,
+          opacity: lineOpacity,
+          width: lineWeight,
+        },
+        geometry: {
+          type: 'LineString',
+          coordinates: stripe.coordinates.map(([lat, lng]) => [lng, lat]),
         },
       });
     });

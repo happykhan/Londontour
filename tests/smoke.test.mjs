@@ -129,11 +129,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-0735'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0735/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-0735/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0735/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-0735/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-0942'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0942/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-0942/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0942/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-0942/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -234,7 +234,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260623-0735'/);
+  assert.match(js, /const assetVersion = '20260623-0942'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -283,6 +283,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /map\.on\('moveend', \(\) => \{/);
   assert.match(js, /function layerPreviewLimit/);
   assert.match(js, /function limitLayerPointsForBrowse/);
+  assert.match(js, /function buildTubeSegmentGroups/);
+  assert.match(js, /function splitSegmentIntoStripeSections/);
   assert.match(js, /pointInViewport/);
   assert.match(js, /const riverFeatures = \[\]/);
   assert.match(js, /riverFeatures\.push\(\{/);
@@ -298,18 +300,20 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /casingWeight: isCompact \? 12 : 16/);
   assert.match(js, /lineOpacity: 1/);
   assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : \(isCompact \? 7 : 9\)/);
-  assert.match(js, /const lineWeight = isSelected && selectedLineIds\.size > 1 \? 6 : isSelected \? 7 : 5\.2/);
-  assert.match(js, /const lineOpacity = isSelected \? 1 : 0\.56/);
+  assert.match(js, /const lineWeight = isSelected && displayLineIds\.length > 1 \? 6 : isSelected \? 7 : 5\.2/);
+  assert.match(js, /const lineOpacity = isSelected \? 1 : 0\.5/);
   assert.match(js, /function browseTubeLineOffsetPixels/);
   assert.match(js, /function displayTubeLineColour/);
   assert.match(js, /line\?\.id === 'northern' && document\.body\.dataset\.theme === 'dark'/);
-  assert.match(js, /const offsetPixels = selectedLineIds\.size \? 0 : browseTubeLineOffsetPixels\(line\.id\)/);
+  assert.match(js, /const offsetPixels = selectedLineIds\.size \? 0 : browseTubeLineOffsetPixels\(displayLineIds\[0\]\)/);
   assert.match(js, /offset: offsetPixels/);
   assert.doesNotMatch(js, /casingPolyline/);
   assert.doesNotMatch(js, /weight: lineWeight \+ 3\.6/);
   assert.doesNotMatch(js, /has-national-rail/);
   assert.match(js, /const tubeFeatures = \[\]/);
+  assert.match(js, /const segmentGroups = buildTubeSegmentGroups\(tubeNetwork\.lines\)/);
   assert.match(js, /tubeFeatures\.push\(\{/);
+  assert.match(js, /const stripeSections = splitSegmentIntoStripeSections\(segment, stripeSectionMeters\)/);
   assert.match(js, /coordinates: segment\.map\(\(\[lat, lng\]\) => \[lng, lat\]\)/);
   assert.match(js, /map\.setLineFeatureCollection\?\.\(\s*'tube-network-lines'/);
   assert.match(js, /onClick: \(properties\) => selectTubeLine\(properties\.id\)/);
@@ -518,7 +522,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v81/);
+  assert.match(sw, /londontour-offline-v82/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -681,9 +685,12 @@ test('tube line rendering avoids dynamic geometry offsets', () => {
   const js = read('assets/app.js');
   assert.match(js, /function selectedTubeLineOffsetMeters/);
   assert.match(js, /function offsetTubeSegment/);
+  assert.match(js, /function buildTubeSegmentGroups/);
+  assert.match(js, /function splitSegmentIntoStripeSections/);
   assert.match(js, /function selectedTubeLineOffsetMeters\(lineId, selectedStation\) \{\s*return 0;\s*\}/);
   assert.match(js, /function browseTubeLineOffsetPixels\(lineId\) \{\s*return 0;\s*\}/);
-  assert.match(js, /selectedLineIds\.size > 1 \? 6/);
+  assert.match(js, /displayLineIds\.length > 1 \? 6/);
+  assert.match(js, /const segmentGroups = buildTubeSegmentGroups\(tubeNetwork\.lines\)/);
   assert.match(js, /tubeFeatures\.push\(\{/);
   assert.match(js, /map\.setLineFeatureCollection\?\.\(\s*'tube-network-lines'/);
   assert.doesNotMatch(js, /const casingPolyline = L\.polyline\(segments, casing\)/);
@@ -718,7 +725,7 @@ test('tile manifest maps to real files', () => {
 
 test('offline basemap manifest can drive the download button', () => {
   const manifest = JSON.parse(read('assets/offline-map-assets.json'));
-  assert.equal(manifest.version, '20260623-0735');
+  assert.equal(manifest.version, '20260623-0942');
   assert.equal(manifest.label, 'Local basemap');
   assert.equal(manifest.strategy, 'pmtiles-plus-raster-fallback');
   assert.ok(Array.isArray(manifest.tileManifests), 'offline basemap should support tile manifests');
@@ -741,9 +748,9 @@ test('MapLibre PMTiles proof page is wired to self-hosted London archive', () =>
   const archiveHeader = readFileSync(archivePath).subarray(0, 7).toString('utf8');
   const archiveStats = statSync(archivePath);
 
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0735/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0735/);
-  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-0735/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0942/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0942/);
+  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-0942/);
   assert.match(html, /London PMTiles/);
   assert.match(html, /data-route="london-tour"/);
   assert.match(html, /data-route="secret-ldn-sightseeing"/);
