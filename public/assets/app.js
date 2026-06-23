@@ -415,8 +415,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260623-0713';
-const cacheName = 'londontour-offline-v80';
+const assetVersion = '20260623-0735';
+const cacheName = 'londontour-offline-v81';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -702,16 +702,20 @@ function sourceBadge(point) {
   return `<span class="poi-source-badge" title="${escapeHtml(point.source)}">${escapeHtml(label)}</span>`;
 }
 
+function popupShell(content, kind = 'generic') {
+  return `<div class="map-popup-card map-popup-card-${escapeHtml(kind)}">${content}</div>`;
+}
+
 function poiPopupContent(point) {
   const layerId = point.layerId || '';
   const icon = layerIconText(layerId, point);
   const detail = cleanPointDetail(point);
   const detailHtml = detail ? `<p class="poi-popup-detail">${escapeHtml(detail)}</p>` : '';
-  return `
+  return popupShell(`
     <div class="poi-popup poi-popup-${escapeHtml(layerId)}">
       <div class="poi-popup-header">
         <span class="poi-popup-icon layer-marker-${escapeHtml(layerId)} ${point.transportType ? `layer-marker-transport-${escapeHtml(point.transportType)}` : ''}" aria-hidden="true">${escapeHtml(icon)}</span>
-        <div>
+        <div class="poi-popup-copy">
           ${popupTitle(point)}
           <div class="poi-popup-meta">
             <span>${escapeHtml(point.layerLabel || point.layerMarkerLabel || 'Point of interest')}</span>
@@ -723,7 +727,7 @@ function poiPopupContent(point) {
       ${nearbyPopupButton(point.lat, point.lng, point.name)}
       ${editorPopupControls(point)}
     </div>
-  `;
+  `, layerId || 'generic');
 }
 
 function safeLineColour(colour) {
@@ -781,7 +785,7 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
   const toilets = tubeStationFacilityAvailable(station, 'Toilets');
   const lifts = tubeStationFacilityAvailable(station, 'Lifts');
 
-  return `
+  return popupShell(`
     <div class="tube-popup">
       <div class="tube-popup-header">
         <strong>${escapeHtml(station.name)}</strong>
@@ -795,7 +799,7 @@ function tubeStationPopupContent(station, tubeNetwork = tubeNetworkData) {
       <div class="tube-line-list">${tubeStationLineChips(station, tubeNetwork)}</div>
       ${nearbyPopupButton(station.lat, station.lng, station.name)}
     </div>
-  `;
+  `, 'tube');
 }
 
 function editorPopupControls(point) {
@@ -1176,7 +1180,20 @@ function searchPopupContent(item) {
     });
   }
 
-  return `<strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.label || item.type)}<br>${escapeHtml(item.detail || '')}${nearbyPopupButton(item.lat, item.lng, item.name)}`;
+  return popupShell(`
+    <div class="poi-popup">
+      <div class="poi-popup-header">
+        <div class="poi-popup-copy">
+          <strong>${escapeHtml(item.name)}</strong>
+          <div class="poi-popup-meta">
+            <span>${escapeHtml(item.label || item.type)}</span>
+          </div>
+        </div>
+      </div>
+      <p class="poi-popup-detail">${escapeHtml(item.detail || '')}</p>
+      ${nearbyPopupButton(item.lat, item.lng, item.name)}
+    </div>
+  `, 'generic');
 }
 
 function activateSearchLayer(item) {
@@ -1871,6 +1888,11 @@ function buildMap() {
     renderDetails();
     renderRadiusOverlays();
   });
+  map.on('moveend', () => {
+    if (!browseMode && !radiusState.active) return;
+    renderLayerMarkers();
+    renderDetails();
+  });
   map.on('click', handleRadiusMapClick);
   map.on('click', handleMapSelectionClear);
   map.getContainer().addEventListener('pointerdown', handleRadiusPointerStart);
@@ -2185,11 +2207,10 @@ async function renderTubeNetwork(openStationId) {
 
   tubeNetwork.lines.forEach((line) => {
     const isSelected = selectedLineIds.size && selectedLineIds.has(line.id);
-    const isDimmed = selectedLineIds.size && !selectedLineIds.has(line.id);
     const offsetMeters = isSelected ? selectedTubeLineOffsetMeters(line.id, selectedStation) : 0;
     const offsetPixels = selectedLineIds.size ? 0 : browseTubeLineOffsetPixels(line.id);
     const lineWeight = isSelected && selectedLineIds.size > 1 ? 6 : isSelected ? 7 : 5.2;
-    const lineOpacity = isDimmed ? 0.32 : isSelected ? 1 : 0.62;
+    const lineOpacity = isSelected ? 1 : 0.56;
     const style = {
       color: displayTubeLineColour(line),
       opacity: lineOpacity,

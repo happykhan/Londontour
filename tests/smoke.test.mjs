@@ -129,11 +129,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-0713'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0713/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-0713/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0713/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-0713/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-0735'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0735/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-0735/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0735/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-0735/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -234,7 +234,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260623-0713'/);
+  assert.match(js, /const assetVersion = '20260623-0735'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -243,6 +243,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /assetUrl\('\/assets\/layers\.json'\)/);
   assert.match(js, /function safeExternalUrl/);
   assert.match(js, /function popupTitle/);
+  assert.match(js, /function popupShell/);
   assert.match(js, /target="_blank"/);
   assert.match(js, /transportType/);
   assert.match(js, /layer-marker-transport-/);
@@ -279,6 +280,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /Tube line filter cleared\./);
   assert.match(js, /map\?\.closePopup\(\)/);
   assert.match(js, /marker\.on\('click', clearTubeSelectionBeforePopup\)/);
+  assert.match(js, /map\.on\('moveend', \(\) => \{/);
   assert.match(js, /function layerPreviewLimit/);
   assert.match(js, /function limitLayerPointsForBrowse/);
   assert.match(js, /pointInViewport/);
@@ -297,7 +299,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /lineOpacity: 1/);
   assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : \(isCompact \? 7 : 9\)/);
   assert.match(js, /const lineWeight = isSelected && selectedLineIds\.size > 1 \? 6 : isSelected \? 7 : 5\.2/);
-  assert.match(js, /const lineOpacity = isDimmed \? 0\.32 : isSelected \? 1 : 0\.62/);
+  assert.match(js, /const lineOpacity = isSelected \? 1 : 0\.56/);
   assert.match(js, /function browseTubeLineOffsetPixels/);
   assert.match(js, /function displayTubeLineColour/);
   assert.match(js, /line\?\.id === 'northern' && document\.body\.dataset\.theme === 'dark'/);
@@ -451,20 +453,22 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.doesNotMatch(css, /\.boat-marker-icon::after/);
   assert.match(css, /\.tube-station-marker\.is-major/);
   assert.match(css, /\.maplibregl-popup-content/);
+  assert.match(css, /\.map-popup-card/);
   assert.match(css, /\.poi-popup/);
+  assert.match(css, /\.poi-popup-copy/);
   assert.match(css, /\.poi-popup-icon/);
   assert.match(css, /\.poi-source-badge/);
   assert.match(css, /\.poi-popup-detail/);
   assert.match(css, /\.tube-popup/);
   assert.match(css, /\.tube-popup-header/);
-  assert.match(css, /width: min\(86vw, 360px\)/);
+  assert.match(css, /inline-size: min\(84vw, 22rem\)/);
   assert.match(css, /\.tube-meta-row/);
   assert.match(css, /\.tube-zone-badge/);
   assert.match(css, /\.tube-line-chip/);
   assert.match(css, /flex: 0 1 auto/);
   assert.match(css, /overflow-wrap: anywhere/);
-  assert.match(css, /max-width: calc\(100vw - 2rem\)/);
-  assert.match(css, /overflow: visible/);
+  assert.match(css, /\.leaflet-popup-content-wrapper/);
+  assert.doesNotMatch(css, /max-height: 9\.5rem/);
   assert.match(css, /\.tube-facility-chip/);
   assert.match(css, /\.tube-facility-icon/);
   assert.match(css, /\.tube-facility-chip\.is-unavailable \.tube-facility-icon::after/);
@@ -514,7 +518,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v80/);
+  assert.match(sw, /londontour-offline-v81/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -714,7 +718,7 @@ test('tile manifest maps to real files', () => {
 
 test('offline basemap manifest can drive the download button', () => {
   const manifest = JSON.parse(read('assets/offline-map-assets.json'));
-  assert.equal(manifest.version, '20260623-0713');
+  assert.equal(manifest.version, '20260623-0735');
   assert.equal(manifest.label, 'Local basemap');
   assert.equal(manifest.strategy, 'pmtiles-plus-raster-fallback');
   assert.ok(Array.isArray(manifest.tileManifests), 'offline basemap should support tile manifests');
@@ -737,9 +741,9 @@ test('MapLibre PMTiles proof page is wired to self-hosted London archive', () =>
   const archiveHeader = readFileSync(archivePath).subarray(0, 7).toString('utf8');
   const archiveStats = statSync(archivePath);
 
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0713/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0713/);
-  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-0713/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0735/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0735/);
+  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-0735/);
   assert.match(html, /London PMTiles/);
   assert.match(html, /data-route="london-tour"/);
   assert.match(html, /data-route="secret-ldn-sightseeing"/);
