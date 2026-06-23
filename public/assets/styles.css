@@ -977,8 +977,9 @@ body[data-theme="dark"] .search-result:focus-visible {
 
 .map-popup-card {
   box-sizing: border-box;
-  inline-size: min(84vw, 22rem);
-  max-inline-size: 100%;
+  display: inline-grid;
+  inline-size: fit-content;
+  max-inline-size: min(84vw, 22rem);
   min-inline-size: 0;
 }
 
@@ -990,7 +991,7 @@ body[data-theme="dark"] .search-result:focus-visible {
   max-width: 100%;
   min-width: 0;
   overflow: hidden;
-  width: 100%;
+  width: auto;
 }
 
 .tube-popup-header {
@@ -1149,7 +1150,7 @@ body[data-theme="dark"] .tube-facility-chip.is-unavailable {
   max-width: 100%;
   min-width: 0;
   overflow: hidden;
-  width: 100%;
+  width: auto;
 }
 
 .poi-popup-header {
@@ -1354,7 +1355,7 @@ body[data-theme="dark"] .leaflet-control-zoom a:focus-visible {
 .leaflet-popup-content {
   line-height: 1.35;
   margin: 0.7rem 0.8rem;
-  max-width: calc(100vw - 2rem);
+  max-width: min(84vw, 22rem);
   min-width: 0;
   width: auto;
 }

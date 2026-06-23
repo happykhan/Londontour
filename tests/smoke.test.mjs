@@ -129,11 +129,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-0942'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0942/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-0942/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0942/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-0942/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-1142'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1142/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-1142/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1142/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-1142/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -234,7 +234,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260623-0942'/);
+  assert.match(js, /const assetVersion = '20260623-1142'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -465,7 +465,8 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.poi-popup-detail/);
   assert.match(css, /\.tube-popup/);
   assert.match(css, /\.tube-popup-header/);
-  assert.match(css, /inline-size: min\(84vw, 22rem\)/);
+  assert.match(css, /inline-size: fit-content/);
+  assert.match(css, /max-inline-size: min\(84vw, 22rem\)/);
   assert.match(css, /\.tube-meta-row/);
   assert.match(css, /\.tube-zone-badge/);
   assert.match(css, /\.tube-line-chip/);
@@ -522,7 +523,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v82/);
+  assert.match(sw, /londontour-offline-v83/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
@@ -725,7 +726,7 @@ test('tile manifest maps to real files', () => {
 
 test('offline basemap manifest can drive the download button', () => {
   const manifest = JSON.parse(read('assets/offline-map-assets.json'));
-  assert.equal(manifest.version, '20260623-0942');
+  assert.equal(manifest.version, '20260623-1142');
   assert.equal(manifest.label, 'Local basemap');
   assert.equal(manifest.strategy, 'pmtiles-plus-raster-fallback');
   assert.ok(Array.isArray(manifest.tileManifests), 'offline basemap should support tile manifests');
@@ -748,9 +749,9 @@ test('MapLibre PMTiles proof page is wired to self-hosted London archive', () =>
   const archiveHeader = readFileSync(archivePath).subarray(0, 7).toString('utf8');
   const archiveStats = statSync(archivePath);
 
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-0942/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-0942/);
-  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-0942/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1142/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1142/);
+  assert.match(html, /assets\/maplibre-poc\.js\?v=20260623-1142/);
   assert.match(html, /London PMTiles/);
   assert.match(html, /data-route="london-tour"/);
   assert.match(html, /data-route="secret-ldn-sightseeing"/);
