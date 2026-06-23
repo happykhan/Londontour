@@ -412,7 +412,7 @@
           source: id,
           paint: {
             'line-color': '#000000',
-            'line-opacity': 0.01,
+            'line-opacity': 0,
             'line-width': ['case', ['has', 'width'], ['+', ['get', 'width'], 16], 18],
             'line-offset': ['case', ['has', 'offset'], ['get', 'offset'], 0],
           },
