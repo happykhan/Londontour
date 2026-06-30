@@ -96,8 +96,10 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="menu-panel"/);
   assert.match(html, /id="editor-link"/);
   assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
-  assert.match(html, /id="basemap-proof-link"/);
-  assert.match(html, /href="\/maplibre-poc\.html"/);
+  assert.match(html, /id="help-button"/);
+  assert.match(html, /id="menu-offline-button"/);
+  assert.doesNotMatch(html, /id="basemap-proof-link"/);
+  assert.doesNotMatch(html, /id="print-button"/);
   assert.match(html, /class="about-notice"/);
   assert.match(html, />About Londontour<\/h3>/);
   assert.match(html, />Data and licences<\/h3>/);
@@ -118,6 +120,11 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /Offline basemap<\/label>/);
   assert.match(html, /name="offline-layers"/);
   assert.match(html, /id="recenter-button"/);
+  assert.match(html, /id="route-key"/);
+  assert.match(html, /id="route-sections"/);
+  assert.match(html, /id="start-guide-button"/);
+  assert.match(html, /id="editor-validation"/);
+  assert.match(html, /id="onboarding-panel"/);
   assert.match(html, /id="locate-button"/);
   assert.match(html, /aria-label="Use my location"/);
   assert.match(html, /id="theme-button" class="icon-button"/);
@@ -126,15 +133,15 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /class="theme-icon"/);
   assert.match(html, /class="menu-icon"/);
   assert.match(html, /id="theme-button"/);
-  assert.match(html, /id="share-button"/);
+  assert.match(html, /id="route-share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260623-1220'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260623-1220/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260623-1220/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260623-1220/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260623-1220/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-issues'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-issues/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-issues/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-issues/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-issues/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -240,7 +247,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260623-1220'/);
+  assert.match(js, /const assetVersion = '20260630-issues'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -304,7 +311,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /casingOpacity: isCompact \? 0\.94 : 0\.98/);
   assert.match(js, /casingWeight: isCompact \? 12 : 16/);
   assert.match(js, /lineOpacity: 1/);
-  assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : \(isCompact \? 7 : 9\)/);
+  assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : segment === 'boat' \? \(isCompact \? 6 : 8\) : \(isCompact \? 7 : 9\)/);
   assert.match(js, /const lineWeight = isSelected && displayLineIds\.length > 1 \? 6 : isSelected \? 7 : 5\.2/);
   assert.match(js, /const lineOpacity = isSelected \? 1 : 0\.5/);
   assert.match(js, /function browseTubeLineOffsetPixels/);
@@ -340,7 +347,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /overlayOrder: 60/);
   assert.match(js, /overlayOrder: 61/);
   assert.match(js, /if \(!activeLayerIds\.has\('transport'\)\) \{/);
-  assert.match(js, /clearTubeSelectionBeforePopup\(\);\n\s+document\.body\.classList\.remove\('route-menu-open', 'offline-menu-open'\)/);
+  assert.match(js, /clearTubeSelectionBeforePopup\(\);\n\s+document\.body\.classList\.remove\('route-menu-open', 'offline-menu-open', 'menu-open'\)/);
   assert.doesNotMatch(js, /useOfflineTiles/);
   assert.match(js, /\/assets\/tiles-manifest\.json/);
   assert.match(js, /function loadBasemapOfflineAssets/);
@@ -410,7 +417,8 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\.route-view\.route-menu-open \.route-picker-heading/);
   assert.match(css, /body\.route-view\.route-menu-open \.route-card/);
   assert.match(css, /body\.route-view\.offline-menu-open \.tour-panel/);
-  assert.match(css, /body\.route-view\.offline-menu-open \.menu-panel/);
+  assert.match(css, /body\.route-view\.offline-menu-open \.offline-panel/);
+  assert.match(css, /body\.route-view\.menu-open \.menu-panel/);
   assert.match(css, /body\.route-view \.tour-panel[\s\S]*width: auto/);
   assert.match(css, /\.zoom-indicator/);
   assert.match(css, /\.leaflet-control-zoom/);
@@ -530,7 +538,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v84/);
+  assert.match(sw, /londontour-offline-v85/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

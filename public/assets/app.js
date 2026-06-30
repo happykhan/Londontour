@@ -320,6 +320,7 @@ const layersAllButton = document.querySelector('#layers-all-button');
 const layersNoneButton = document.querySelector('#layers-none-button');
 const editorPanel = document.querySelector('#editor-panel');
 const editorSummary = document.querySelector('#editor-summary');
+const editorValidation = document.querySelector('#editor-validation');
 const editorOutput = document.querySelector('#editor-output');
 const editorUndoButton = document.querySelector('#editor-undo-button');
 const editorClearButton = document.querySelector('#editor-clear-button');
@@ -327,8 +328,9 @@ const editorCopyButton = document.querySelector('#editor-copy-button');
 const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
-const printButton = document.querySelector('#print-button');
 const menuButton = document.querySelector('#menu-button');
+const helpButton = document.querySelector('#help-button');
+const menuOfflineButton = document.querySelector('#menu-offline-button');
 const searchButton = document.querySelector('#search-button');
 const searchPanel = document.querySelector('#search-panel');
 const searchForm = document.querySelector('#search-form');
@@ -348,12 +350,24 @@ const browsePickerButton = document.querySelector('#browse-picker-button');
 const browseMapButton = document.querySelector('#browse-map-button');
 const themeButton = document.querySelector('#theme-button');
 const shareButton = document.querySelector('#share-button');
+const routeShareButton = document.querySelector('#route-share-button');
+const routeOfflineButton = document.querySelector('#route-offline-button');
+const routeRecenterButton = document.querySelector('#route-recenter-button');
+const startGuideButton = document.querySelector('#start-guide-button');
+const routeKeyEl = document.querySelector('#route-key');
+const routeSectionsEl = document.querySelector('#route-sections');
+const guidePanel = document.querySelector('#guide-panel');
+const onboardingPanel = document.querySelector('#onboarding-panel');
+const onboardingRouteButton = document.querySelector('#onboarding-route-button');
+const onboardingBrowseButton = document.querySelector('#onboarding-browse-button');
+const onboardingDismissButton = document.querySelector('#onboarding-dismiss-button');
 
 const initialSearchParams = new URLSearchParams(window.location.search);
 const editorMode = initialSearchParams.get('editor') === '1';
 const initialRouteId = initialSearchParams.get('route');
 const initialRoute = routes.find((route) => route.id === initialRouteId);
 const initialBrowseMode = editorMode || initialSearchParams.get('mode') === 'browse' || !initialRoute;
+const initialMapViewProvided = initialSearchParams.has('lat') && initialSearchParams.has('lng');
 let selectedRoute = initialRoute || routes[0];
 let browseMode = initialBrowseMode;
 let map;
@@ -416,13 +430,19 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260623-1220';
-const cacheName = 'londontour-offline-v84';
+const assetVersion = '20260630-issues';
+const cacheName = 'londontour-offline-v85';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
+const onboardingStateKey = 'londontour-onboarding-dismissed-v1';
+let selectedPointId = initialSearchParams.get('selected') || '';
+let followUser = initialSearchParams.get('follow') === '1';
+let lastLocationAccuracy = null;
+let guideSimulationTimer = null;
+let guideSimulationIndex = 0;
 
 function assetUrl(path) {
   return `${path}?v=${assetVersion}`;
@@ -453,6 +473,13 @@ function publicLayerCatalog() {
 }
 
 function loadActiveLayerIds() {
+  const urlLayerIds = initialSearchParams.get('layers')?.split(',').map((id) => id.trim()).filter(Boolean) || [];
+  if (urlLayerIds.length) {
+    const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
+    const selected = urlLayerIds.filter((id) => validIds.has(id));
+    if (selected.length) return new Set(selected);
+  }
+
   try {
     const stored = JSON.parse(localStorage.getItem(editorMode ? editorLayerStateKey : layerStateKey) || '[]');
     const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
@@ -580,6 +607,46 @@ function editorExport() {
   };
 }
 
+function validateRouteDraft() {
+  const issues = [];
+  const ids = new Set();
+  const duplicates = new Set();
+  [...editorDraft.mustShow, ...editorDraft.mustHide].forEach((id) => {
+    if (ids.has(id)) duplicates.add(id);
+    ids.add(id);
+  });
+
+  editorDraft.path.forEach((point, index) => {
+    if (!Number.isFinite(point.lat) || !Number.isFinite(point.lng)) {
+      issues.push({ level: 'error', text: `Path point ${index + 1} has invalid coordinates.` });
+    } else if (!isInsideLondon([point.lat, point.lng])) {
+      issues.push({ level: 'warning', text: `Path point ${index + 1} is outside the London map area.` });
+    }
+
+    const previous = editorDraft.path[index - 1];
+    if (previous && Number.isFinite(point.lat) && Number.isFinite(previous.lat)) {
+      const jumpMeters = pointToSegmentDistanceMeters(point, previous, previous);
+      if (jumpMeters > 1800) {
+        issues.push({ level: 'warning', text: `Path point ${index + 1} jumps ${formatDistance(jumpMeters)} from the previous point.` });
+      }
+    }
+  });
+
+  duplicates.forEach((id) => issues.push({ level: 'error', text: `Point ${id} is duplicated across editor lists.` }));
+  editorDraft.mustShow.filter((id) => editorDraft.mustHide.includes(id)).forEach((id) => {
+    issues.push({ level: 'error', text: `Point ${id} is both must-show and must-hide.` });
+  });
+  [...ids].filter((id) => !findLayerPoint(id)).forEach((id) => {
+    issues.push({ level: 'warning', text: `Point ${id} no longer exists in the layer data.` });
+  });
+
+  if (editorDraft.path.length === 1) {
+    issues.push({ level: 'warning', text: 'Draft route has only one path point.' });
+  }
+
+  return issues;
+}
+
 function renderEditorPanel() {
   if (!editorPanel) return;
   editorPanel.hidden = !editorMode;
@@ -588,7 +655,16 @@ function renderEditorPanel() {
   const pathCount = editorDraft.path.length;
   const mustShowCount = editorDraft.mustShow.length;
   const mustHideCount = editorDraft.mustHide.length;
+  const issues = validateRouteDraft();
   editorSummary.textContent = `${pathCount} path point${pathCount === 1 ? '' : 's'} · ${mustShowCount} must show · ${mustHideCount} must hide. Click the map to draw; use point popups to tag items.`;
+  if (editorValidation) {
+    editorValidation.innerHTML = issues.length
+      ? `
+        <strong>${issues.filter((issue) => issue.level === 'error').length} error${issues.filter((issue) => issue.level === 'error').length === 1 ? '' : 's'} · ${issues.filter((issue) => issue.level === 'warning').length} warning${issues.filter((issue) => issue.level === 'warning').length === 1 ? '' : 's'}</strong>
+        <ul>${issues.map((issue) => `<li class="validation-${issue.level}">${escapeHtml(issue.text)}</li>`).join('')}</ul>
+      `
+      : '<strong>Ready to export</strong><span>No route draft validation issues found.</span>';
+  }
   editorOutput.value = JSON.stringify(editorExport(), null, 2);
 }
 
@@ -1154,7 +1230,7 @@ function setSearchOpen(open) {
   searchButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   if (isOpen) {
     document.body.classList.add('route-view');
-    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open');
+    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open');
     setRadiusOpen(false);
     setBrowseLayersOpen(false);
     setRouteMenuOpen(false);
@@ -1226,7 +1302,9 @@ function focusSearchResult(item) {
       selectedTubeStationId = item.stationId;
       void renderTubeNetwork(item.stationId);
     } else {
+      selectedPointId = item.sourcePointId || item.point?.id || '';
       clearTubeSelectionBeforePopup();
+      renderLayerMarkers();
       void renderTubeNetwork();
       L.popup()
         .setLatLng([item.lat, item.lng])
@@ -1256,7 +1334,7 @@ function setRadiusOpen(open) {
   radiusButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   if (isOpen) {
     document.body.classList.add('route-view');
-    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open');
+    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open');
     setSearchOpen(false);
     setBrowseLayersOpen(false);
     setRouteMenuOpen(false);
@@ -1425,6 +1503,7 @@ function focusRadiusResult(item, options = {}) {
     void renderTubeNetwork();
   }
   radiusState.selectedResultId = item.id;
+  selectedPointId = item.sourcePointId || item.point?.id || selectedPointId;
   renderLayerMarkers();
   renderRadiusPanel();
   if (options.flyTo) {
@@ -1665,11 +1744,42 @@ function renderPicker() {
 function renderDetails() {
   titleEl.textContent = selectedRoute.name;
   summaryEl.textContent = selectedRoute.summary;
+  const startStop = selectedRoute.stops[0];
+  const endStop = selectedRoute.stops[selectedRoute.stops.length - 1];
   metaEl.innerHTML = `
+    <div><span class="label">Start</span><strong>${escapeHtml(startStop?.name || 'Not set')}</strong></div>
+    <div><span class="label">End</span><strong>${escapeHtml(endStop?.name || 'Not set')}</strong></div>
     <div><span class="label">Transport</span><strong>${selectedRoute.transport}</strong></div>
     <div><span class="label">Distance</span><strong>${selectedRoute.distance}</strong></div>
     <div><span class="label">Time</span><strong>${selectedRoute.time}</strong></div>
   `;
+
+  const routeSegments = groupRouteStops(selectedRoute.stops);
+  if (routeKeyEl) {
+    routeKeyEl.innerHTML = routeSegments
+      .map((group) => `
+        <span class="route-key-item route-key-${escapeHtml(group.segment)}">
+          <span aria-hidden="true"></span>${escapeHtml(segmentLabel(group.segment))}
+        </span>
+      `)
+      .join('');
+  }
+
+  if (routeSectionsEl) {
+    routeSectionsEl.innerHTML = routeSegments
+      .map((group) => {
+        const first = group.stops[0];
+        const last = group.stops[group.stops.length - 1];
+        return `
+          <article class="route-section route-section-${escapeHtml(group.segment)}">
+            <strong>${escapeHtml(group.segmentLabel || `${segmentLabel(group.segment)} section`)}</strong>
+            <span>${escapeHtml(first?.name || 'Start')} to ${escapeHtml(last?.name || 'finish')}</span>
+            <small>${group.stops.length} stop${group.stops.length === 1 ? '' : 's'} · ${escapeHtml(segmentLabel(group.segment))}</small>
+          </article>
+        `;
+      })
+      .join('');
+  }
 
   directionsEl.innerHTML = selectedRoute.stops
     .map((stop, index) => {
@@ -1683,7 +1793,7 @@ function renderDetails() {
             <strong>${stop.name}</strong>
             <span>${stop.detail}</span>
           </div>
-          <span class="stop-segment">${stop.segment === 'walk' ? 'Walk' : stop.segment === 'bus' ? 'Bus' : stop.segment}</span>
+          <span class="stop-segment">${escapeHtml(segmentLabel(stop.segment))}</span>
         </li>
       `;
     })
@@ -1691,8 +1801,17 @@ function renderDetails() {
 
   if (highlightsEl) {
     const pois = activeLayerPoints(selectedRoute, false);
+    const categoryCounts = pois.reduce((counts, poi) => {
+      counts.set(poi.layerLabel, (counts.get(poi.layerLabel) || 0) + 1);
+      return counts;
+    }, new Map());
+    const summaryRows = [...categoryCounts.entries()]
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+      .slice(0, 5)
+      .map(([label, count]) => `<li class="poi-item poi-summary"><strong>${escapeHtml(label)}</strong><span>${count} nearby</span></li>`)
+      .join('');
     highlightsEl.innerHTML = pois.length
-      ? pois
+      ? summaryRows + pois
           .map(
             (poi) => `
               <li class="poi-item">
@@ -1952,7 +2071,14 @@ function buildMap() {
   renderBasemapRepairLabels();
 
   L.control.zoom({ position: 'bottomright' }).addTo(map);
-  map.setView(selectedRoute.center, selectedRoute.zoom);
+  const urlLat = Number(initialSearchParams.get('lat'));
+  const urlLng = Number(initialSearchParams.get('lng'));
+  const urlZoom = Number(initialSearchParams.get('z'));
+  if (Number.isFinite(urlLat) && Number.isFinite(urlLng) && isInsideLondon([urlLat, urlLng])) {
+    map.setView([urlLat, urlLng], Number.isFinite(urlZoom) ? Math.max(11, Math.min(18, urlZoom)) : selectedRoute.zoom);
+  } else {
+    map.setView(selectedRoute.center, selectedRoute.zoom);
+  }
   updateZoomIndicator();
   map.on('zoomend', () => {
     updateZoomIndicator();
@@ -1978,7 +2104,7 @@ function buildMap() {
   }
   map.whenReady(() => {
     if (browseMode) {
-      renderBrowseMap({ animate: false });
+      renderBrowseMap({ animate: false, preserveView: initialMapViewProvided });
     } else {
       renderRouteOnMap();
     }
@@ -2020,12 +2146,32 @@ function renderBasemapRepairLabels() {
 function segmentStylesFor(segment) {
   const colours = {
     walk: '#c9483a',
-    bus: '#146c64',
+    bus: '#b45309',
     tube: '#6f2dbd',
-    boat: '#0f766e',
+    boat: '#0369a1',
   };
 
   return colours[segment] || '#c9483a';
+}
+
+function segmentLabel(segment) {
+  const labels = {
+    walk: 'Walk',
+    bus: 'Bus',
+    tube: 'Tube',
+    boat: 'Boat',
+    train: 'Rail',
+  };
+  return labels[segment] || String(segment || 'Route');
+}
+
+function routeLineDash(segment) {
+  const dashes = {
+    bus: '12 9',
+    boat: '2 10',
+    transfer: '4 8',
+  };
+  return dashes[segment] || null;
 }
 
 function routeStrokeStyle(segment) {
@@ -2034,7 +2180,7 @@ function routeStrokeStyle(segment) {
     casingOpacity: isCompact ? 0.94 : 0.98,
     casingWeight: isCompact ? 12 : 16,
     lineOpacity: 1,
-    lineWeight: segment === 'tube' ? (isCompact ? 8 : 10) : (isCompact ? 7 : 9),
+    lineWeight: segment === 'tube' ? (isCompact ? 8 : 10) : segment === 'boat' ? (isCompact ? 6 : 8) : (isCompact ? 7 : 9),
   };
 }
 
@@ -2097,6 +2243,9 @@ async function downloadOfflinePack() {
           await cacheRequest(cache, url);
           cachedBasemapAssets += 1;
           if (expandedBasemap.tileUrls.includes(url)) cachedTiles += 1;
+          if (cachedBasemapAssets === basemapAssetTotal || cachedBasemapAssets % 25 === 0) {
+            setStatus(`Downloading offline basemap: ${cachedBasemapAssets}/${basemapAssetTotal} assets cached.`);
+          }
         } catch (error) {
           // Skip bad basemap assets and keep going.
         }
@@ -2143,26 +2292,32 @@ function renderLayerMarkers() {
     const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
     const editorStateClass = editorPointState(point) ? ` is-editor-${editorPointState(point)}` : '';
     const routeStateClass = !browseMode && routeMustShowPoint(point) ? ' is-route-required' : routeMustHidePoint(point) ? ' is-route-hidden' : '';
+    const selectedClass = point.id === selectedPointId ? ' is-selected' : '';
+    const nearbyClass = radiusResultForLayerPoint(point)?.id === radiusState.selectedResultId ? ' is-nearby-selected' : '';
+    const backgroundClass = !browseMode && !routeMustShowPoint(point) && point.id !== selectedPointId ? ' is-background' : '';
     const isBoatMarker = point.transportType === 'boat';
-    const markerSize = isBoatMarker ? [22, 22] : [30, 30];
+    const markerSize = point.id === selectedPointId ? [34, 34] : isBoatMarker ? [22, 22] : [30, 30];
     const markerHtml = isBoatMarker
       ? '<svg class="boat-marker-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v5h2.2l1.8 6H2l1.8-6H6V3Zm2 2v3h8V5H8Zm-1.5 5-1 3h13l-1-3h-11Z"/><path d="M4 17c1.4 0 1.4 1 2.8 1s1.4-1 2.8-1 1.4 1 2.8 1 1.4-1 2.8-1 1.4 1 2.8 1 1.4-1 2.8-1v2c-1.4 0-1.4 1-2.8 1s-1.4-1-2.8-1-1.4 1-2.8 1-1.4-1-2.8-1-1.4 1-2.8 1S5.4 19 4 19v-2Z"/></svg>'
       : `<span>${markerLabel}</span>`;
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}" title="${escapeHtml(point.name)}">${markerHtml}</div>`,
+        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}${selectedClass}${nearbyClass}${backgroundClass}" title="${escapeHtml(point.name)}">${markerHtml}</div>`,
         iconSize: markerSize,
         iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
     }).bindPopup(poiPopupContent(point));
     marker.on('click', () => {
       clearTubeSelectionBeforePopup();
+      selectedPointId = point.id;
       const radiusItem = radiusResultForLayerPoint(point);
       if (radiusItem) {
         focusRadiusResult(radiusItem, { status: `${point.name} selected from nearby results.` });
       }
+      renderLayerMarkers();
     });
+    if (point.id === selectedPointId || routeMustShowPoint(point)) marker.setZIndexOffset(800);
     marker.addTo(map);
     layerMarkers.push(marker);
   });
@@ -2622,6 +2777,7 @@ async function renderRouteOnMap() {
     });
     const line = L.polyline(latLngs, {
       color: segmentStylesFor(segment.segment),
+      dashArray: routeLineDash(segment.segment),
       opacity: strokeStyle.lineOpacity,
       weight: strokeStyle.lineWeight,
       overlayOrder: 61,
@@ -2640,7 +2796,7 @@ async function renderRouteOnMap() {
 
   if (routeHasPoints) {
     selectedRouteBounds = routeBounds;
-    fitSelectedRouteBounds({ animate: false, minZoom: 13 });
+    if (!initialMapViewProvided) fitSelectedRouteBounds({ animate: false, minZoom: 13 });
   }
 
   if (userLocation) {
@@ -2682,7 +2838,7 @@ function renderBrowseMap(options = {}) {
 }
 
 function updateMenuButtonState() {
-  const isOpen = document.body.classList.contains('offline-menu-open');
+  const isOpen = document.body.classList.contains('menu-open');
   menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   menuButton.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
 }
@@ -2696,7 +2852,7 @@ function setBrowseLayersOpen(open) {
   document.body.classList.toggle('browse-layers-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('route-menu-open', 'offline-menu-open');
+    document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
   }
@@ -2717,7 +2873,7 @@ function setRouteMenuOpen(open) {
   document.body.classList.toggle('route-menu-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('browse-layers-open', 'offline-menu-open');
+    document.body.classList.remove('browse-layers-open', 'offline-menu-open', 'menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
   }
@@ -2735,7 +2891,7 @@ function setOfflineMenuOpen(open) {
   document.body.classList.toggle('offline-menu-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('browse-layers-open', 'route-menu-open');
+    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
     void renderOfflineDetails();
@@ -2745,7 +2901,25 @@ function setOfflineMenuOpen(open) {
   changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
   updateMenuButtonState();
   updateBrowsePickerButtonState();
-  if (isOpen) setStatus('Menu opened. Offline downloads are under Offline pack.');
+  if (isOpen) setStatus('Offline pack opened. Download before walking away from Wi-Fi.');
+  if (map) window.setTimeout(() => map.invalidateSize(), 0);
+}
+
+function setMainMenuOpen(open) {
+  const isOpen = Boolean(open);
+  document.body.classList.toggle('menu-open', isOpen);
+  if (isOpen) {
+    clearTubeSelectionBeforePopup();
+    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'offline-menu-open');
+    setSearchOpen(false);
+    setRadiusOpen(false);
+  }
+  browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
+  browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
+  changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
+  updateMenuButtonState();
+  updateBrowsePickerButtonState();
+  if (isOpen) setStatus('Menu opened. Help, about, and editor links are here.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
@@ -2756,7 +2930,7 @@ function toggleBrowseLayers() {
 function enterBrowseMode(options = {}) {
   browseMode = true;
   document.body.classList.add('route-view', 'browse-view');
-  document.body.classList.remove('route-menu-open', 'offline-menu-open');
+  document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open');
   setBrowseLayersOpen(options.openLayers ?? false);
   const url = new URL(window.location.href);
   url.searchParams.delete('route');
@@ -2779,7 +2953,7 @@ function selectRoute(route) {
   selectedRoute = route;
   selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
-  document.body.classList.remove('browse-view', 'browse-layers-open', 'route-menu-open', 'offline-menu-open');
+  document.body.classList.remove('browse-view', 'browse-layers-open', 'route-menu-open', 'offline-menu-open', 'menu-open');
   setBrowseLayersOpen(false);
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
@@ -2832,6 +3006,17 @@ async function shareRoute() {
     url.searchParams.set('route', selectedRoute.id);
     url.searchParams.delete('mode');
   }
+  if (map) {
+    const center = map.getCenter();
+    url.searchParams.set('lat', center.lat.toFixed(5));
+    url.searchParams.set('lng', center.lng.toFixed(5));
+    url.searchParams.set('z', String(map.getZoom()));
+  }
+  if (activeLayerIds.size) url.searchParams.set('layers', [...activeLayerIds].sort().join(','));
+  if (document.body.dataset.theme === 'dark') url.searchParams.set('theme', 'dark');
+  else url.searchParams.delete('theme');
+  if (selectedPointId) url.searchParams.set('selected', selectedPointId);
+  else url.searchParams.delete('selected');
   window.history.replaceState({}, '', url);
   const shareData = {
     title: browseMode ? 'Londontour: browse map' : `Londontour: ${selectedRoute.name}`,
@@ -2865,14 +3050,21 @@ function locateUser() {
   }
 
   locationRequested = true;
+  locateButton?.classList.add('is-loading');
+  locateButton?.setAttribute('aria-label', 'Finding your location');
+  locateButton?.setAttribute('title', 'Finding your location');
   setStatus('Finding your location...');
 
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const { latitude, longitude, accuracy } = position.coords;
       const latLng = [latitude, longitude];
+      lastLocationAccuracy = Number.isFinite(accuracy) ? accuracy : null;
 
       if (!isInsideLondon(latLng)) {
+        locateButton?.classList.remove('is-loading', 'is-active');
+        locateButton?.setAttribute('aria-label', 'Use my location');
+        locateButton?.setAttribute('title', 'Use my location');
         setStatus('Your position is outside the London map area. Route pins are still available.');
         return;
       }
@@ -2882,7 +3074,11 @@ function locateUser() {
 
       map.flyTo([latitude, longitude], Math.max(map.getZoom(), 16), { duration: 0.6 });
       if (userMarker && userMarker.getPopup()) userMarker.openPopup();
-      setStatus('Your position is shown on the map.');
+      locateButton?.classList.remove('is-loading');
+      locateButton?.classList.add('is-active');
+      locateButton?.setAttribute('aria-label', 'Your location is shown');
+      locateButton?.setAttribute('title', 'Your location is shown');
+      setStatus(`Your position is shown on the map${lastLocationAccuracy ? `, accuracy about ${formatDistance(lastLocationAccuracy)}` : ''}.`);
     },
     (error) => {
       const messages = {
@@ -2891,6 +3087,9 @@ function locateUser() {
         3: 'Location lookup timed out. Try again from the map button.',
       };
 
+      locateButton?.classList.remove('is-loading', 'is-active');
+      locateButton?.setAttribute('aria-label', 'Use my location');
+      locateButton?.setAttribute('title', 'Use my location');
       setStatus(messages[error.code] || 'Location lookup failed.');
     },
     {
@@ -2916,7 +3115,7 @@ function addOrUpdateUserMarker() {
       iconAnchor: [11, 11],
     }),
   })
-    .bindPopup(`<strong>Your position</strong>${nearbyPopupButton(userLocation[0], userLocation[1], 'Your position')}`)
+    .bindPopup(`<strong>Your position</strong>${lastLocationAccuracy ? `<br><span>Accuracy about ${escapeHtml(formatDistance(lastLocationAccuracy))}</span>` : ''}${nearbyPopupButton(userLocation[0], userLocation[1], 'Your position')}`)
     .on('click', clearTubeSelectionBeforePopup)
     .addTo(map);
 }
@@ -2929,7 +3128,79 @@ function toggleRouteMenu() {
 
 function toggleMenu() {
   document.body.classList.add('route-view');
-  setOfflineMenuOpen(!document.body.classList.contains('offline-menu-open'));
+  setMainMenuOpen(!document.body.classList.contains('menu-open'));
+}
+
+function showOnboarding(force = false) {
+  if (!onboardingPanel || editorMode) return;
+  const dismissed = localStorage.getItem(onboardingStateKey) === '1';
+  if (!force && dismissed) return;
+  onboardingPanel.hidden = false;
+  document.body.classList.add('onboarding-open');
+}
+
+function dismissOnboarding(remember = true) {
+  if (!onboardingPanel) return;
+  onboardingPanel.hidden = true;
+  document.body.classList.remove('onboarding-open');
+  if (remember) localStorage.setItem(onboardingStateKey, '1');
+}
+
+function renderGuidePanel() {
+  if (!guidePanel) return;
+  const stops = selectedRoute.stops;
+  const current = stops[Math.min(guideSimulationIndex, stops.length - 1)];
+  const next = stops[Math.min(guideSimulationIndex + 1, stops.length - 1)];
+  guidePanel.hidden = false;
+  guidePanel.innerHTML = `
+    <strong>${guideSimulationTimer ? 'Guide simulation running' : 'Audio guide preview'}</strong>
+    <span>Current: ${escapeHtml(current?.name || selectedRoute.name)}</span>
+    <span>Next: ${escapeHtml(next?.name || 'End of route')}</span>
+    <div class="guide-actions">
+      <button id="guide-pause-button" class="secondary-button compact-button" type="button">${guideSimulationTimer ? 'Pause' : 'Resume'}</button>
+      <button id="guide-stop-button" class="secondary-button compact-button" type="button">Stop</button>
+    </div>
+  `;
+}
+
+function stopGuideSimulation() {
+  if (guideSimulationTimer) window.clearInterval(guideSimulationTimer);
+  guideSimulationTimer = null;
+  guideSimulationIndex = 0;
+  if (guidePanel) guidePanel.hidden = true;
+  startGuideButton.textContent = 'Start guide';
+  setStatus('Guide simulation stopped.');
+}
+
+function stepGuideSimulation() {
+  guideSimulationIndex = Math.min(guideSimulationIndex + 1, selectedRoute.stops.length - 1);
+  const stop = selectedRoute.stops[guideSimulationIndex];
+  if (stop) setStatus(`Guide simulation: ${stop.name}.`);
+  renderGuidePanel();
+  if (guideSimulationIndex >= selectedRoute.stops.length - 1) {
+    stopGuideSimulation();
+    setStatus('Guide simulation reached the end of the route.');
+  }
+}
+
+function startGuideSimulation() {
+  if (browseMode) {
+    setStatus('Choose a route before starting guide simulation.');
+    return;
+  }
+  if (guideSimulationTimer) {
+    window.clearInterval(guideSimulationTimer);
+    guideSimulationTimer = null;
+    startGuideButton.textContent = 'Resume guide';
+    renderGuidePanel();
+    setStatus('Guide simulation paused.');
+    return;
+  }
+  guideSimulationIndex = Math.min(guideSimulationIndex, selectedRoute.stops.length - 1);
+  guideSimulationTimer = window.setInterval(stepGuideSimulation, 3000);
+  startGuideButton.textContent = 'Pause guide';
+  renderGuidePanel();
+  setStatus('Guide simulation started. This prototype uses authored route stops without live rerouting.');
 }
 
 function handleOfflineButtonClick() {
@@ -2955,7 +3226,8 @@ pickerEl.addEventListener('click', (event) => {
 
 locateButton.addEventListener('click', locateUser);
 offlineButton.addEventListener('click', handleOfflineButtonClick);
-printButton.addEventListener('click', () => window.print());
+helpButton?.addEventListener('click', () => showOnboarding(true));
+menuOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
 searchButton.addEventListener('click', () => setSearchOpen(!document.body.classList.contains('search-open')));
 searchCloseButton.addEventListener('click', () => setSearchOpen(false));
 searchForm.addEventListener('submit', (event) => {
@@ -2988,7 +3260,20 @@ recenterButton.addEventListener('click', recenterRoute);
 browsePickerButton.addEventListener('click', handleBrowsePickerClick);
 browseMapButton.addEventListener('click', toggleBrowseLayers);
 themeButton.addEventListener('click', toggleTheme);
-shareButton.addEventListener('click', shareRoute);
+shareButton?.addEventListener('click', shareRoute);
+routeShareButton?.addEventListener('click', shareRoute);
+routeOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
+routeRecenterButton?.addEventListener('click', recenterRoute);
+startGuideButton?.addEventListener('click', startGuideSimulation);
+onboardingDismissButton?.addEventListener('click', () => dismissOnboarding(true));
+onboardingRouteButton?.addEventListener('click', () => {
+  dismissOnboarding(true);
+  setRouteMenuOpen(true);
+});
+onboardingBrowseButton?.addEventListener('click', () => {
+  dismissOnboarding(true);
+  enterBrowseMode({ preserveView: true, openLayers: true });
+});
 editorUndoButton.addEventListener('click', () => {
   if (!editorMode) return;
   editorDraft.path.pop();
@@ -3026,6 +3311,16 @@ document.addEventListener('click', (event) => {
   const action = button.dataset.editorAction;
   setEditorPointState(pointId, action === 'must-show' || action === 'must-hide' ? action : '');
   setStatus(action === 'must-show' ? 'Point marked as must show.' : action === 'must-hide' ? 'Point marked as must hide.' : 'Point editor tag cleared.');
+});
+
+document.addEventListener('click', (event) => {
+  const guideButton = event.target.closest('#guide-pause-button, #guide-stop-button');
+  if (!guideButton) return;
+  if (guideButton.id === 'guide-stop-button') {
+    stopGuideSimulation();
+  } else {
+    startGuideSimulation();
+  }
 });
 
 document.addEventListener('click', (event) => {
@@ -3069,7 +3364,7 @@ document.querySelectorAll('.offline-options input').forEach((input) => {
   });
 });
 
-applyTheme(localStorage.getItem(themeStateKey) || 'light');
+applyTheme(initialSearchParams.get('theme') || localStorage.getItem(themeStateKey) || 'light');
 if (initialRoute) {
   document.body.classList.add('route-view');
 }
@@ -3088,8 +3383,9 @@ buildMap();
 void loadLayerCatalog();
 void resetLegacyRuntime();
 if (browseMode) {
-  renderBrowseMap({ animate: false });
+  renderBrowseMap({ animate: false, preserveView: initialMapViewProvided });
 } else {
   void renderRouteOnMap();
   setStatus('Pick the route to open the map, then tap a marker or use my location. Available offline after the first visit.');
 }
+window.setTimeout(() => showOnboarding(false), 300);

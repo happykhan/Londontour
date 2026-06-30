@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260623-1220" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260623-1220" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-issues" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-issues" />
   </head>
   <body>
     <main class="app-shell">
@@ -53,6 +53,7 @@
             </div>
           </div>
           <p id="editor-summary" class="offline-details"></p>
+          <div id="editor-validation" class="validation-summary" aria-live="polite"></div>
           <textarea id="editor-output" class="editor-output" readonly aria-label="Route editor JSON"></textarea>
           <button id="editor-copy-button" class="secondary-button" type="button">Copy route draft JSON</button>
         </section>
@@ -65,6 +66,15 @@
           <p id="route-summary" class="route-summary-text"></p>
 
           <div id="route-meta" class="route-meta"></div>
+          <div class="route-actions">
+            <button id="start-guide-button" type="button">Start guide</button>
+            <button id="route-offline-button" class="secondary-button" type="button">Offline</button>
+            <button id="route-share-button" class="secondary-button" type="button">Share</button>
+            <button id="route-recenter-button" class="secondary-button" type="button">Recenter</button>
+          </div>
+          <div id="route-key" class="route-key" aria-label="Route key"></div>
+          <div id="route-sections" class="route-sections" aria-label="Route sections"></div>
+          <div id="guide-panel" class="guide-panel" hidden></div>
         </section>
 
         <section class="directions-panel" aria-label="Printable directions">
@@ -86,10 +96,9 @@
             <h2>Menu</h2>
           </div>
           <div class="menu-actions" aria-label="App actions">
-            <button id="share-button" class="secondary-button" type="button">Share</button>
-            <button id="print-button" class="secondary-button" type="button">Print</button>
+            <button id="help-button" class="secondary-button" type="button">Help</button>
+            <button id="menu-offline-button" class="secondary-button" type="button">Offline pack</button>
             <a id="editor-link" class="secondary-button" href="/?mode=browse&amp;editor=1">Editor</a>
-            <a id="basemap-proof-link" class="secondary-button" href="/maplibre-poc.html">Basemap proof</a>
           </div>
           <div class="about-notice" aria-label="About and licences">
             <h3>About Londontour</h3>
@@ -164,17 +173,34 @@
             <p class="search-empty">No radius selected yet.</p>
           </div>
         </section>
+        <section id="onboarding-panel" class="onboarding-panel" role="dialog" aria-labelledby="onboarding-title" hidden>
+          <div class="onboarding-copy">
+            <h2 id="onboarding-title">Welcome to Londontour</h2>
+            <p>Choose a route, browse nearby places, and use layers to show museums, pubs, toilets, water, transport, and more.</p>
+            <ol>
+              <li>Pick a route or browse freely.</li>
+              <li>Turn layers on for places and facilities.</li>
+              <li>Tap markers for details or use search.</li>
+              <li>Download offline before walking.</li>
+            </ol>
+          </div>
+          <div class="onboarding-actions">
+            <button id="onboarding-route-button" type="button">Choose a route</button>
+            <button id="onboarding-browse-button" class="secondary-button" type="button">Browse map</button>
+            <button id="onboarding-dismiss-button" class="secondary-button" type="button">Dismiss</button>
+          </div>
+        </section>
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260623-1220"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260623-1220"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260623-1220"></script>
-    <script src="assets/app.js?v=20260623-1220"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-issues"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-issues"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-issues"></script>
+    <script src="assets/app.js?v=20260630-issues"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260623-1220').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-issues').catch(() => {});
         });
       }
     </script>
