@@ -514,6 +514,11 @@
     bindPopup(html) { this.popupHtml = html; return this; }
     getPopup() { return this.popupHtml ? {} : null; }
     getElement() { return this.element; }
+    setLatLng(point) {
+      this.point = point;
+      this.marker.setLngLat(toLngLat(point));
+      return this;
+    }
     setZIndexOffset(offset = 0) {
       this.element.style.zIndex = String(offset);
       return this;

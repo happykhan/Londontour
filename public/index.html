@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-validation" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260630-validation" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-editor" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-editor" />
   </head>
   <body>
     <main class="app-shell">
@@ -50,10 +50,19 @@
             <h2>Route editor</h2>
             <div class="layer-actions" aria-label="Editor actions">
               <button id="editor-undo-button" class="secondary-button compact-button" type="button">Undo</button>
+              <button id="editor-redo-button" class="secondary-button compact-button" type="button">Redo</button>
               <button id="editor-clear-button" class="secondary-button compact-button" type="button">Clear</button>
             </div>
           </div>
+          <div class="editor-mode-tabs" role="toolbar" aria-label="Editor tools">
+            <button class="is-active" type="button" data-editor-mode="draw">Draw path</button>
+            <button type="button" data-editor-mode="edit">Edit path</button>
+            <button type="button" data-editor-mode="insert">Insert point</button>
+            <button type="button" data-editor-mode="tag">Tag POIs</button>
+            <button type="button" data-editor-mode="preview">Preview</button>
+          </div>
           <p id="editor-summary" class="offline-details"></p>
+          <div id="editor-inspector" class="editor-inspector" aria-live="polite"></div>
           <div id="editor-validation" class="validation-summary" aria-live="polite"></div>
           <section id="simulation-panel" class="simulation-panel" aria-label="Route simulation">
             <div class="section-row">
@@ -78,7 +87,10 @@
             <ol id="simulation-timeline" class="simulation-timeline"></ol>
           </section>
           <textarea id="editor-output" class="editor-output" readonly aria-label="Route editor JSON"></textarea>
-          <button id="editor-copy-button" class="secondary-button" type="button">Copy route draft JSON</button>
+          <div class="editor-export-actions">
+            <button id="editor-copy-button" class="secondary-button" type="button">Copy route draft JSON</button>
+            <button id="editor-download-button" class="secondary-button" type="button">Download draft JSON</button>
+          </div>
         </section>
 
         <section class="route-card-view" aria-label="Selected route">
@@ -241,14 +253,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-validation"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-validation"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-validation"></script>
-    <script src="assets/app.js?v=20260630-validation"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-editor"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-editor"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-editor"></script>
+    <script src="assets/app.js?v=20260630-editor"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260630-validation').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-editor').catch(() => {});
         });
       }
     </script>

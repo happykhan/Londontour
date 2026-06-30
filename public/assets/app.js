@@ -322,10 +322,14 @@ const layersCloseButton = document.querySelector('#layers-close-button');
 const editorPanel = document.querySelector('#editor-panel');
 const editorSummary = document.querySelector('#editor-summary');
 const editorValidation = document.querySelector('#editor-validation');
+const editorInspector = document.querySelector('#editor-inspector');
 const editorOutput = document.querySelector('#editor-output');
 const editorUndoButton = document.querySelector('#editor-undo-button');
+const editorRedoButton = document.querySelector('#editor-redo-button');
 const editorClearButton = document.querySelector('#editor-clear-button');
 const editorCopyButton = document.querySelector('#editor-copy-button');
+const editorDownloadButton = document.querySelector('#editor-download-button');
+const editorModeButtons = document.querySelectorAll('[data-editor-mode]');
 const simulationPanel = document.querySelector('#simulation-panel');
 const simulationSlider = document.querySelector('#simulation-slider');
 const simulationProgressLabel = document.querySelector('#simulation-progress-label');
@@ -450,8 +454,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-validation';
-const cacheName = 'londontour-offline-v98';
+const assetVersion = '20260630-editor';
+const cacheName = 'londontour-offline-v99';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -543,6 +547,11 @@ function loadActiveLayerIds() {
 
 let activeLayerIds = loadActiveLayerIds();
 let editorDraft = loadEditorDraft();
+let editorUiMode = 'draw';
+let selectedEditorPointIndex = -1;
+let editorDragState = null;
+let editorHistory = [];
+let editorRedoHistory = [];
 let searchResults = [];
 let radiusState = {
   active: false,
@@ -596,12 +605,83 @@ function loadEditorDraft() {
   }
 }
 
+function cloneEditorDraft(draft = editorDraft) {
+  return {
+    path: draft.path.map((point) => ({ lat: point.lat, lng: point.lng })),
+    mustShow: [...draft.mustShow],
+    mustHide: [...draft.mustHide],
+  };
+}
+
+function pushEditorHistory() {
+  editorHistory.push(cloneEditorDraft());
+  if (editorHistory.length > 80) editorHistory.shift();
+  editorRedoHistory = [];
+}
+
+function restoreEditorDraft(draft) {
+  editorDraft = cloneEditorDraft(draft);
+  selectedEditorPointIndex = Math.min(selectedEditorPointIndex, editorDraft.path.length - 1);
+  if (!editorDraft.path.length) selectedEditorPointIndex = -1;
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  renderLayerMarkers();
+}
+
+function undoEditorAction() {
+  if (!editorHistory.length) {
+    setStatus('Nothing to undo.');
+    return;
+  }
+  editorRedoHistory.push(cloneEditorDraft());
+  restoreEditorDraft(editorHistory.pop());
+  setStatus('Editor action undone.');
+}
+
+function redoEditorAction() {
+  if (!editorRedoHistory.length) {
+    setStatus('Nothing to redo.');
+    return;
+  }
+  editorHistory.push(cloneEditorDraft());
+  restoreEditorDraft(editorRedoHistory.pop());
+  setStatus('Editor action redone.');
+}
+
 function saveEditorDraft() {
   try {
     localStorage.setItem(editorDraftStateKey, JSON.stringify(editorDraft));
   } catch (error) {
     // Editor export still works for the current page session.
   }
+}
+
+function editorPathPointLabel(index) {
+  return `Point ${index + 1} of ${editorDraft.path.length}`;
+}
+
+function selectEditorPoint(index, options = {}) {
+  selectedEditorPointIndex = Number.isInteger(index) && editorDraft.path[index] ? index : -1;
+  if (options.focus && selectedEditorPointIndex >= 0 && map) {
+    const point = editorDraft.path[selectedEditorPointIndex];
+    map.setView([point.lat, point.lng], Math.max(map.getZoom(), 16));
+  }
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+}
+
+function setEditorUiMode(mode) {
+  editorUiMode = ['draw', 'edit', 'insert', 'tag', 'preview'].includes(mode) ? mode : 'draw';
+  editorModeButtons.forEach((button) => {
+    const isActive = button.dataset.editorMode === editorUiMode;
+    button.classList.toggle('is-active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  renderLayerMarkers();
+  setStatus(`Editor mode: ${editorUiMode === 'draw' ? 'draw path' : editorUiMode === 'edit' ? 'edit path' : editorUiMode === 'insert' ? 'insert point' : editorUiMode === 'tag' ? 'tag POIs' : 'preview'}.`);
 }
 
 function findLayerPoint(pointId) {
@@ -620,6 +700,7 @@ function editorPointState(point) {
 }
 
 function setEditorPointState(pointId, state) {
+  pushEditorHistory();
   editorDraft.mustShow = editorDraft.mustShow.filter((id) => id !== pointId);
   editorDraft.mustHide = editorDraft.mustHide.filter((id) => id !== pointId);
   if (state === 'must-show') editorDraft.mustShow.push(pointId);
@@ -627,6 +708,82 @@ function setEditorPointState(pointId, state) {
   saveEditorDraft();
   renderEditorPanel();
   renderLayerMarkers();
+}
+
+function updateEditorPoint(index, point, options = {}) {
+  if (!editorDraft.path[index]) return;
+  editorDraft.path[index] = {
+    lat: Number(point.lat.toFixed(6)),
+    lng: Number(point.lng.toFixed(6)),
+  };
+  selectedEditorPointIndex = index;
+  saveEditorDraft();
+  renderEditorPanel();
+  if (options.refreshOverlay !== false) renderEditorDraftOverlays();
+}
+
+function deleteEditorPoint(index = selectedEditorPointIndex) {
+  if (!editorDraft.path[index]) {
+    setStatus('No path point selected.');
+    return;
+  }
+  pushEditorHistory();
+  editorDraft.path.splice(index, 1);
+  selectedEditorPointIndex = Math.min(index, editorDraft.path.length - 1);
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus('Path point deleted.');
+}
+
+function duplicateEditorPoint(index = selectedEditorPointIndex) {
+  const point = editorDraft.path[index];
+  if (!point) {
+    setStatus('No path point selected.');
+    return;
+  }
+  pushEditorHistory();
+  editorDraft.path.splice(index + 1, 0, { lat: point.lat, lng: point.lng });
+  selectedEditorPointIndex = index + 1;
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus('Path point duplicated.');
+}
+
+function insertEditorPointAfter(index = selectedEditorPointIndex) {
+  if (!editorDraft.path.length) {
+    setStatus('Draw a path point first.');
+    return;
+  }
+  const anchorIndex = Math.max(0, Math.min(index, editorDraft.path.length - 1));
+  const anchor = editorDraft.path[anchorIndex];
+  const next = editorDraft.path[anchorIndex + 1];
+  const inserted = next
+    ? { lat: Number(((anchor.lat + next.lat) / 2).toFixed(6)), lng: Number(((anchor.lng + next.lng) / 2).toFixed(6)) }
+    : { lat: anchor.lat, lng: anchor.lng };
+  pushEditorHistory();
+  editorDraft.path.splice(anchorIndex + 1, 0, inserted);
+  selectedEditorPointIndex = anchorIndex + 1;
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus('Path point inserted.');
+}
+
+function insertEditorPointAt(latLng) {
+  if (!latLng) return;
+  pushEditorHistory();
+  const insertIndex = selectedEditorPointIndex >= 0 ? selectedEditorPointIndex + 1 : editorDraft.path.length;
+  editorDraft.path.splice(insertIndex, 0, {
+    lat: Number(latLng.lat.toFixed(6)),
+    lng: Number(latLng.lng.toFixed(6)),
+  });
+  selectedEditorPointIndex = insertIndex;
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus(`Inserted ${editorPathPointLabel(insertIndex)}.`);
 }
 
 function editorExport() {
@@ -646,11 +803,35 @@ function editorExport() {
 
   return {
     routeDraft: {
+      id: selectedRoute.id,
+      name: selectedRoute.name,
+      kind: selectedRoute.kind,
+      summary: selectedRoute.summary,
+      distance: selectedRoute.distance,
+      time: selectedRoute.time,
+      transport: selectedRoute.transport,
+      colour: selectedRoute.colour || selectedRoute.color || '',
       path: editorDraft.path,
+      stops: selectedRoute.stops,
+      guideEvents: routeSimulationEvents().map((event) => ({
+        id: event.id,
+        type: event.kind,
+        title: event.name,
+        body: event.detail,
+        lat: event.lat,
+        lng: event.lng,
+        progressM: event.distanceM,
+        radiusM: event.kind === 'transport' ? 160 : 60,
+        speak: event.kind !== 'direction',
+        once: true,
+        segment: event.segment,
+      })),
+      customPins: [],
       mustShowPointIds: editorDraft.mustShow,
       mustHidePointIds: editorDraft.mustHide,
       mustShowPoints: editorDraft.mustShow.map(pointForExport),
       mustHidePoints: editorDraft.mustHide.map(pointForExport),
+      validation: validateRouteDraft().map((issue) => ({ level: issue.level, text: issue.text })),
     },
   };
 }
@@ -782,6 +963,39 @@ function focusValidationIssue(target = {}) {
   }
 }
 
+function renderEditorInspector() {
+  if (!editorInspector) return;
+  if (editorUiMode === 'preview') {
+    editorInspector.innerHTML = `
+      <strong>Preview mode</strong>
+      <span>Editor handles are hidden. Route and selected POIs are shown as they will appear in the public map.</span>
+    `;
+    return;
+  }
+  const point = editorDraft.path[selectedEditorPointIndex];
+  if (!point) {
+    editorInspector.innerHTML = `
+      <strong>No path point selected</strong>
+      <span>${editorUiMode === 'draw' ? 'Click the map to append points.' : editorUiMode === 'insert' ? 'Select a point or click the map to insert.' : 'Select a route vertex to edit it.'}</span>
+    `;
+    return;
+  }
+  editorInspector.innerHTML = `
+    <strong>Selected path point</strong>
+    <span>${escapeHtml(editorPathPointLabel(selectedEditorPointIndex))}</span>
+    <dl>
+      <div><dt>Lat</dt><dd>${point.lat.toFixed(6)}</dd></div>
+      <div><dt>Lng</dt><dd>${point.lng.toFixed(6)}</dd></div>
+    </dl>
+    <div class="editor-inspector-actions">
+      <button type="button" data-editor-inspector-action="focus">Focus</button>
+      <button type="button" data-editor-inspector-action="insert-after">Insert after</button>
+      <button type="button" data-editor-inspector-action="duplicate">Duplicate</button>
+      <button type="button" data-editor-inspector-action="delete">Delete</button>
+    </div>
+  `;
+}
+
 function renderEditorPanel() {
   if (!editorPanel) return;
   editorPanel.hidden = !editorMode;
@@ -792,6 +1006,9 @@ function renderEditorPanel() {
   const mustHideCount = editorDraft.mustHide.length;
   const issues = validateRouteDraft();
   editorSummary.textContent = `${pathCount} path point${pathCount === 1 ? '' : 's'} · ${mustShowCount} must show · ${mustHideCount} must hide. Click the map to draw; use point popups to tag items.`;
+  editorUndoButton.disabled = editorHistory.length === 0;
+  editorRedoButton.disabled = editorRedoHistory.length === 0;
+  renderEditorInspector();
   if (editorValidation) {
     editorValidation.innerHTML = issues.length
       ? `
@@ -812,6 +1029,7 @@ function clearEditorDraftLayers() {
 function renderEditorDraftOverlays() {
   if (!map || !editorMode) return;
   clearEditorDraftLayers();
+  if (editorUiMode === 'preview') return;
   if (!editorDraft.path.length) return;
 
   const latLngs = editorDraft.path.map((point) => [point.lat, point.lng]);
@@ -825,18 +1043,79 @@ function renderEditorDraftOverlays() {
       lineJoin: 'round',
     }).addTo(map);
     editorDraftLayers.push(line);
+    latLngs.slice(1).forEach((latLng, index) => {
+      const previous = latLngs[index];
+      const midpoint = [(previous[0] + latLng[0]) / 2, (previous[1] + latLng[1]) / 2];
+      const midpointMarker = L.marker(midpoint, {
+        icon: L.divIcon({
+          className: '',
+          html: `<button class="editor-midpoint-handle" type="button" title="Insert point after ${index + 1}" data-editor-insert-after="${index}">+</button>`,
+          iconSize: [22, 22],
+          iconAnchor: [11, 11],
+        }),
+      });
+      midpointMarker.on('click', () => insertEditorPointAfter(index));
+      midpointMarker.addTo(map);
+      editorDraftLayers.push(midpointMarker);
+    });
   }
 
   latLngs.forEach((latLng, index) => {
-    const marker = L.circleMarker(latLng, {
-      radius: 5,
-      color: '#ffffff',
-      fillColor: '#111827',
-      fillOpacity: 1,
-      weight: 2,
-    }).bindPopup(`<strong>Draft path ${index + 1}</strong>`);
+    const isSelected = index === selectedEditorPointIndex;
+    const marker = L.marker(latLng, {
+      icon: L.divIcon({
+        className: '',
+        html: `<button class="editor-path-handle ${isSelected ? 'is-selected' : ''}" type="button" title="${escapeHtml(editorPathPointLabel(index))}" data-editor-path-index="${index}">${index + 1}</button>`,
+        iconSize: [isSelected ? 28 : 24, isSelected ? 28 : 24],
+        iconAnchor: [isSelected ? 14 : 12, isSelected ? 14 : 12],
+      }),
+    }).bindPopup(`
+      <strong>${escapeHtml(editorPathPointLabel(index))}</strong>
+      <div class="editor-popup-actions" data-editor-path-index="${index}">
+        <button type="button" data-editor-path-action="insert-after">Insert after</button>
+        <button type="button" data-editor-path-action="duplicate">Duplicate</button>
+        <button type="button" data-editor-path-action="delete">Delete</button>
+      </div>
+    `);
+    marker.on('click', () => selectEditorPoint(index));
     marker.addTo(map);
+    attachEditorHandleEvents(marker, index);
     editorDraftLayers.push(marker);
+  });
+}
+
+function attachEditorHandleEvents(marker, index) {
+  const element = marker.getElement?.();
+  const handle = element?.querySelector?.('.editor-path-handle');
+  if (!handle) return;
+  handle.addEventListener('pointerdown', (event) => {
+    if (editorUiMode !== 'edit') {
+      selectEditorPoint(index);
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    pushEditorHistory();
+    selectedEditorPointIndex = index;
+    editorDragState = { index, moved: false };
+    handle.setPointerCapture?.(event.pointerId);
+  });
+  handle.addEventListener('pointermove', (event) => {
+    if (!editorDragState || editorDragState.index !== index || !map) return;
+    const latLng = map.mouseEventToLatLng(event);
+    updateEditorPoint(index, { lat: latLng.lat, lng: latLng.lng }, { refreshOverlay: false });
+    marker.setLatLng([latLng.lat, latLng.lng]);
+    editorDragState.moved = true;
+  });
+  handle.addEventListener('pointerup', (event) => {
+    if (!editorDragState || editorDragState.index !== index) return;
+    handle.releasePointerCapture?.(event.pointerId);
+    const moved = editorDragState.moved;
+    editorDragState = null;
+    if (!moved) editorHistory.pop();
+    selectEditorPoint(index);
+    renderEditorDraftOverlays();
+    setStatus(moved ? `${editorPathPointLabel(index)} moved.` : `${editorPathPointLabel(index)} selected.`);
   });
 }
 
@@ -976,14 +1255,25 @@ function handleEditorMapClick(event) {
   if (!editorMode || radiusState.active) return;
   const target = event.originalEvent?.target;
   if (target?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-control, .map-topbar')) return;
+  if (editorUiMode === 'preview' || editorUiMode === 'tag') return;
+  if (editorUiMode === 'insert') {
+    insertEditorPointAt(event.latlng);
+    return;
+  }
+  if (editorUiMode !== 'draw') {
+    setStatus('Switch to Draw path or Insert point to add route geometry.');
+    return;
+  }
+  pushEditorHistory();
   editorDraft.path.push({
     lat: Number(event.latlng.lat.toFixed(6)),
     lng: Number(event.latlng.lng.toFixed(6)),
   });
+  selectedEditorPointIndex = editorDraft.path.length - 1;
   saveEditorDraft();
   renderEditorPanel();
   renderEditorDraftOverlays();
-  setStatus('Editor path point added.');
+  setStatus(`${editorPathPointLabel(selectedEditorPointIndex)} added.`);
 }
 
 function escapeHtml(value = '') {
@@ -3955,17 +4245,26 @@ onboardingBrowseButton?.addEventListener('click', () => {
   dismissOnboarding(true);
   enterBrowseMode({ preserveView: true, openLayers: true });
 });
+editorModeButtons.forEach((button) => {
+  button.addEventListener('click', () => setEditorUiMode(button.dataset.editorMode));
+});
 editorUndoButton.addEventListener('click', () => {
   if (!editorMode) return;
-  editorDraft.path.pop();
-  saveEditorDraft();
-  renderEditorPanel();
-  renderEditorDraftOverlays();
-  setStatus('Last editor path point removed.');
+  undoEditorAction();
+});
+editorRedoButton?.addEventListener('click', () => {
+  if (!editorMode) return;
+  redoEditorAction();
 });
 editorClearButton.addEventListener('click', () => {
   if (!editorMode) return;
+  if (editorDraft.path.length || editorDraft.mustShow.length || editorDraft.mustHide.length) {
+    const confirmed = window.confirm('Clear the saved editor draft? This keeps the baked public route unchanged.');
+    if (!confirmed) return;
+  }
+  pushEditorHistory();
   editorDraft = { path: [], mustShow: [], mustHide: [] };
+  selectedEditorPointIndex = -1;
   saveEditorDraft();
   renderEditorPanel();
   renderLayerMarkers();
@@ -3984,6 +4283,26 @@ editorCopyButton.addEventListener('click', async () => {
     editorOutput.select();
     setStatus(errorCount ? `Route draft JSON is selected. Review ${errorCount} validation error${errorCount === 1 ? '' : 's'} before publishing.` : 'Route draft JSON is selected.');
   }
+});
+editorDownloadButton?.addEventListener('click', () => {
+  if (!editorMode) return;
+  renderEditorPanel();
+  const blob = new Blob([editorOutput.value], { type: 'application/json' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${selectedRoute.id || 'route'}-draft.json`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+  setStatus('Route draft JSON downloaded.');
+});
+editorInspector?.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-editor-inspector-action]');
+  if (!button) return;
+  const action = button.dataset.editorInspectorAction;
+  if (action === 'focus') selectEditorPoint(selectedEditorPointIndex, { focus: true });
+  if (action === 'insert-after') insertEditorPointAfter();
+  if (action === 'duplicate') duplicateEditorPoint();
+  if (action === 'delete') deleteEditorPoint();
 });
 editorValidation?.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-validation-type]');
@@ -4028,6 +4347,18 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-editor-path-action]');
+  if (!button || !editorMode) return;
+  const index = Number(button.closest('.editor-popup-actions')?.dataset.editorPathIndex);
+  if (!Number.isInteger(index)) return;
+  selectEditorPoint(index);
+  const action = button.dataset.editorPathAction;
+  if (action === 'insert-after') insertEditorPointAfter(index);
+  if (action === 'duplicate') duplicateEditorPoint(index);
+  if (action === 'delete') deleteEditorPoint(index);
+});
+
+document.addEventListener('click', (event) => {
   const guideButton = event.target.closest('#guide-pause-button, #guide-stop-button');
   if (!guideButton) return;
   if (guideButton.id === 'guide-stop-button') {
@@ -4044,6 +4375,32 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('keydown', (event) => {
+  if (editorMode) {
+    const isTextInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target?.tagName || '');
+    if (!isTextInput && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'z') {
+      event.preventDefault();
+      if (event.shiftKey) redoEditorAction();
+      else undoEditorAction();
+      return;
+    }
+    if (!isTextInput && (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'y') {
+      event.preventDefault();
+      redoEditorAction();
+      return;
+    }
+    if (!isTextInput && (event.key === 'Delete' || event.key === 'Backspace')) {
+      event.preventDefault();
+      deleteEditorPoint();
+      return;
+    }
+    if (!isTextInput && event.key === 'Escape' && selectedEditorPointIndex >= 0) {
+      selectedEditorPointIndex = -1;
+      renderEditorPanel();
+      renderEditorDraftOverlays();
+      setStatus('Editor selection cleared.');
+      return;
+    }
+  }
   if (event.key === 'Escape' && document.body.classList.contains('search-open')) {
     setSearchOpen(false);
     return;
