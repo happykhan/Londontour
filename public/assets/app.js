@@ -441,15 +441,17 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-menupanels';
-const cacheName = 'londontour-offline-v93';
+const assetVersion = '20260630-sharepoi';
+const cacheName = 'londontour-offline-v94';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
 const onboardingStateKey = 'londontour-onboarding-dismissed-v1';
-let selectedPointId = initialSearchParams.get('selected') || '';
+const initialSharedPoi = parseSharedPoiParam(initialSearchParams.get('poi'));
+let selectedPointId = initialSharedPoi?.pointId || initialSearchParams.get('selected') || '';
+let sharedPoiRestored = false;
 let followUser = initialSearchParams.get('follow') === '1';
 let lastLocationAccuracy = null;
 let guideSimulationTimer = null;
@@ -483,11 +485,21 @@ function publicLayerCatalog() {
   return layerCatalog.filter((layer) => !layer.editorOnly);
 }
 
+function parseSharedPoiParam(value) {
+  const raw = String(value || '').trim();
+  if (!raw || !raw.includes(':')) return null;
+  const [layerId, ...pointParts] = raw.split(':');
+  const pointId = pointParts.join(':');
+  if (!layerId || !pointId) return null;
+  return { layerId, pointId };
+}
+
 function loadActiveLayerIds() {
   const urlLayerIds = initialSearchParams.get('layers')?.split(',').map((id) => id.trim()).filter(Boolean) || [];
   if (urlLayerIds.length) {
     const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
     const selected = urlLayerIds.filter((id) => validIds.has(id));
+    if (initialSharedPoi?.layerId && validIds.has(initialSharedPoi.layerId)) selected.push(initialSharedPoi.layerId);
     if (selected.length) return new Set(selected);
   }
 
@@ -495,13 +507,19 @@ function loadActiveLayerIds() {
     const stored = JSON.parse(localStorage.getItem(editorMode ? editorLayerStateKey : layerStateKey) || '[]');
     const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
     const selected = stored.filter((id) => validIds.has(id));
+    if (initialSharedPoi?.layerId && validIds.has(initialSharedPoi.layerId)) selected.push(initialSharedPoi.layerId);
     if (selected.length) return new Set(selected);
   } catch (error) {
     // Use defaults when storage is unavailable.
   }
 
-  if (editorMode) return new Set(visibleLayerCatalog().map((layer) => layer.id));
-  return new Set(publicLayerCatalog().filter((layer) => layer.defaultVisible).map((layer) => layer.id));
+  const defaults = editorMode
+    ? visibleLayerCatalog().map((layer) => layer.id)
+    : publicLayerCatalog().filter((layer) => layer.defaultVisible).map((layer) => layer.id);
+  if (initialSharedPoi?.layerId && visibleLayerCatalog().some((layer) => layer.id === initialSharedPoi.layerId)) {
+    defaults.push(initialSharedPoi.layerId);
+  }
+  return new Set(defaults);
 }
 
 let activeLayerIds = loadActiveLayerIds();
@@ -966,6 +984,9 @@ async function loadLayerCatalog() {
     layerCatalog = catalog;
     const validIds = new Set(visibleLayerCatalog().map((layer) => layer.id));
     activeLayerIds = new Set([...activeLayerIds].filter((id) => validIds.has(id)));
+    if (initialSharedPoi?.layerId && validIds.has(initialSharedPoi.layerId)) {
+      activeLayerIds.add(initialSharedPoi.layerId);
+    }
     if (!activeLayerIds.size) {
       activeLayerIds = editorMode
         ? new Set(visibleLayerCatalog().map((layer) => layer.id))
@@ -977,6 +998,7 @@ async function loadLayerCatalog() {
     renderLayerMarkers();
     void renderTubeNetwork();
     await renderOfflineDetails();
+    restoreSharedPoiFromUrl();
   } catch (error) {
     // Keep the bundled fallback layer catalog if the generated dataset cannot load.
   }
@@ -1162,6 +1184,32 @@ function buildSearchableItems() {
     ...item,
     searchText: normaliseSearchText(`${item.name} ${item.label} ${item.type} ${item.detail || ''}`),
   }));
+}
+
+function findLayerSearchItem(layerId, pointId) {
+  if (!layerId || !pointId) return null;
+  return buildSearchableItems().find((item) => item.layerId === layerId && item.sourcePointId === pointId) || null;
+}
+
+function findLayerPointForShare(pointId) {
+  if (!pointId) return null;
+  for (const layer of searchableLayerCatalog()) {
+    const point = layer.points.find((candidate) => candidate.id === pointId);
+    if (point) return { layer, point };
+  }
+  return null;
+}
+
+function restoreSharedPoiFromUrl() {
+  if (sharedPoiRestored || !map || !initialSharedPoi) return;
+  const item = findLayerSearchItem(initialSharedPoi.layerId, initialSharedPoi.pointId);
+  if (!item) return;
+  sharedPoiRestored = true;
+  activeLayerIds.add(item.layerId);
+  saveActiveLayerIds();
+  renderLayerControls();
+  selectedPointId = item.sourcePointId;
+  window.setTimeout(() => focusSearchResult(item), 120);
 }
 
 function scoreSearchItem(item, terms, query) {
@@ -3085,8 +3133,13 @@ async function shareRoute() {
   if (activeLayerIds.size) url.searchParams.set('layers', [...activeLayerIds].sort().join(','));
   if (document.body.dataset.theme === 'dark') url.searchParams.set('theme', 'dark');
   else url.searchParams.delete('theme');
-  if (selectedPointId) url.searchParams.set('selected', selectedPointId);
-  else url.searchParams.delete('selected');
+  const selectedPoint = findLayerPointForShare(selectedPointId);
+  if (selectedPoint) {
+    url.searchParams.set('poi', `${selectedPoint.layer.id}:${selectedPoint.point.id}`);
+  } else {
+    url.searchParams.delete('poi');
+  }
+  url.searchParams.delete('selected');
   window.history.replaceState({}, '', url);
   const shareData = {
     title: browseMode ? 'Londontour: browse map' : `Londontour: ${selectedRoute.name}`,
