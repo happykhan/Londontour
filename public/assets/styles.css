@@ -1893,9 +1893,9 @@ body[data-theme="dark"] .leaflet-control-zoom a:focus-visible {
 .layer-marker {
   align-items: center;
   background: #1f2937;
-  border: 3px solid #fff;
+  border: 2px solid rgba(255, 255, 255, 0.96);
   border-radius: 999px;
-  box-shadow: 0 8px 18px rgba(31, 41, 55, 0.22);
+  box-shadow: 0 5px 12px rgba(31, 41, 55, 0.18);
   color: #fff;
   display: flex;
   font-size: 0.68rem;
@@ -1906,21 +1906,72 @@ body[data-theme="dark"] .leaflet-control-zoom a:focus-visible {
 }
 
 body.route-view:not(.editor-mode) .layer-marker {
-  opacity: 0.82;
+  opacity: 0.78;
 }
 
 body.route-view:not(.editor-mode) .layer-marker.is-background {
-  box-shadow: 0 4px 10px rgba(31, 41, 55, 0.12);
-  opacity: 0.62;
-  transform: scale(0.9);
+  box-shadow: 0 3px 7px rgba(31, 41, 55, 0.1);
+  opacity: 0.54;
+  transform: scale(0.86);
 }
 
 .layer-marker.is-selected,
 .layer-marker.is-nearby-selected {
-  border-color: #facc15;
-  box-shadow: 0 0 0 5px rgba(250, 204, 21, 0.36), 0 12px 26px rgba(17, 24, 39, 0.32);
+  border-color: #fff;
+  box-shadow: 0 0 0 3px #facc15, 0 0 0 7px rgba(17, 24, 39, 0.82), 0 14px 30px rgba(17, 24, 39, 0.34);
   opacity: 1 !important;
-  transform: scale(1.18);
+  transform: scale(1.16);
+}
+
+.layer-marker.is-nearby-selected {
+  border-color: #facc15;
+}
+
+.layer-marker.is-density-compact {
+  border-width: 2px;
+  box-shadow: 0 3px 8px rgba(31, 41, 55, 0.16);
+  font-size: 0.58rem;
+  height: 24px;
+  width: 24px;
+}
+
+.layer-marker.is-density-medium {
+  font-size: 0.64rem;
+  height: 28px;
+  width: 28px;
+}
+
+.layer-marker.is-density-full {
+  height: 30px;
+  width: 30px;
+}
+
+.layer-marker.is-long-label {
+  font-size: 0.54rem;
+}
+
+.layer-marker.is-density-compact.is-long-label {
+  font-size: 0.46rem;
+}
+
+.layer-marker.is-marker-facility,
+.layer-marker.is-marker-transport {
+  border-color: rgba(255, 255, 255, 0.98);
+}
+
+.layer-marker.is-marker-food {
+  box-shadow: 0 4px 10px rgba(159, 18, 57, 0.16);
+}
+
+.layer-marker.is-marker-attraction.is-background {
+  filter: saturate(0.84);
+}
+
+.layer-marker.is-route-required {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px #facc15, 0 9px 22px rgba(17, 24, 39, 0.28);
+  opacity: 1 !important;
+  transform: scale(1.1);
 }
 
 .layer-marker-landmarks {
@@ -1957,7 +2008,7 @@ body.route-view:not(.editor-mode) .layer-marker.is-background {
 .layer-marker-bus-planning {
   background: #92400e;
   font-size: 0.52rem;
-  opacity: 0.58;
+  opacity: 0.5;
 }
 
 .layer-marker-transport-bus {
@@ -1967,13 +2018,13 @@ body.route-view:not(.editor-mode) .layer-marker.is-background {
 .layer-marker-bus-planning.layer-marker-transport-bus {
   background: #92400e;
   font-size: 0.52rem;
-  opacity: 0.58;
+  opacity: 0.5;
 }
 
 .layer-marker-transport-boat {
   background: #0369a1;
   border-width: 2px;
-  box-shadow: 0 6px 14px rgba(3, 105, 161, 0.22);
+  box-shadow: 0 4px 10px rgba(3, 105, 161, 0.2);
   color: #fff;
   font-size: 0;
   height: 22px;
@@ -2003,15 +2054,23 @@ body.route-view:not(.editor-mode) .layer-marker.is-background {
 .layer-marker.is-editor-must-show,
 .layer-marker.is-route-required {
   border-color: #facc15;
-  box-shadow: 0 0 0 5px rgba(250, 204, 21, 0.28), 0 10px 24px rgba(17, 24, 39, 0.3);
+  box-shadow: 0 0 0 3px #fff, 0 0 0 7px rgba(250, 204, 21, 0.42), 0 10px 24px rgba(17, 24, 39, 0.3);
   opacity: 1;
-  transform: scale(1.18);
+  transform: scale(1.12);
 }
 
 .layer-marker.is-editor-must-hide,
 .layer-marker.is-route-hidden {
   filter: grayscale(1);
   opacity: 0.28;
+}
+
+.layer-marker.is-selected,
+.layer-marker.is-nearby-selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px #facc15, 0 0 0 7px rgba(17, 24, 39, 0.82), 0 14px 30px rgba(17, 24, 39, 0.34);
+  opacity: 1 !important;
+  transform: scale(1.16);
 }
 
 .editor-path-handle,

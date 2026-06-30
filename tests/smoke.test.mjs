@@ -156,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-segments'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-segments/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-segments/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-segments/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-segments/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-markers'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-markers/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-markers/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-markers/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-markers/);
   assert.match(html, /data-editor-mode="draw"/);
   assert.match(html, /data-editor-mode="edit"/);
   assert.match(html, /data-editor-mode="insert"/);
@@ -295,8 +295,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260701-segments'/);
-  assert.match(js, /const cacheName = 'londontour-offline-v102'/);
+  assert.match(js, /const assetVersion = '20260701-markers'/);
+  assert.match(js, /const cacheName = 'londontour-offline-v103'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -566,6 +566,13 @@ test('nearby radius drag and marker selection keep their interaction state', () 
   assert.match(layerMarkerClick, /classList\.add\('is-selected', 'is-nearby-selected'\)/);
   assert.match(renderLayerMarkers, /elevateMarker\(marker\)/);
   assert.doesNotMatch(renderLayerMarkers, /marker\.setZIndexOffset/);
+  assert.match(js, /function layerMarkerDensity/);
+  assert.match(js, /function layerMarkerRole/);
+  assert.match(js, /function layerMarkerSize/);
+  assert.match(renderLayerMarkers, /is-density-\$\{layerMarkerDensity\(\)\}/);
+  assert.match(renderLayerMarkers, /is-marker-\$\{layerMarkerRole\(point\)\}/);
+  assert.match(renderLayerMarkers, /is-long-label/);
+  assert.doesNotMatch(js, /cluster|spiderfy|spiderfying/i);
 
   const elevateMarkerHelper = js.slice(js.indexOf('function elevateMarker'), js.indexOf('function normaliseTubeStationName'));
   assert.match(elevateMarkerHelper, /typeof marker\?\.setZIndexOffset === 'function'/);
@@ -668,6 +675,11 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.layer-marker-water/);
   assert.match(css, /\.layer-marker-bus-planning/);
   assert.match(css, /\.layer-marker\.is-editor-must-show/);
+  assert.match(css, /\.layer-marker\.is-density-compact/);
+  assert.match(css, /\.layer-marker\.is-marker-facility/);
+  assert.match(css, /\.layer-marker\.is-marker-attraction\.is-background/);
+  assert.match(css, /\.layer-marker\.is-nearby-selected/);
+  assert.match(css, /\.layer-marker\.is-long-label/);
   assert.match(css, /\.editor-output/);
   assert.match(css, /\.route-key-bus span/);
   assert.match(css, /border: 3px var\(--route-segment-dash, solid\) var\(--route-segment-colour, var\(--route\)\)/);
@@ -746,7 +758,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v102/);
+  assert.match(sw, /londontour-offline-v103/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

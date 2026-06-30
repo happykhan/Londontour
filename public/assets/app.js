@@ -540,8 +540,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260701-segments';
-const cacheName = 'londontour-offline-v102';
+const assetVersion = '20260701-markers';
+const cacheName = 'londontour-offline-v103';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -3422,15 +3422,18 @@ function renderLayerMarkers() {
     const selectedClass = point.id === selectedPointId ? ' is-selected' : '';
     const nearbyClass = radiusResultForLayerPoint(point)?.id === radiusState.selectedResultId ? ' is-nearby-selected' : '';
     const backgroundClass = !browseMode && !routeMustShowPoint(point) && point.id !== selectedPointId ? ' is-background' : '';
+    const densityClass = ` is-density-${layerMarkerDensity()}`;
+    const roleClass = ` is-marker-${layerMarkerRole(point)}`;
+    const longLabelClass = markerLabel.length > 2 ? ' is-long-label' : '';
     const isBoatMarker = point.transportType === 'boat';
-    const markerSize = point.id === selectedPointId ? [34, 34] : isBoatMarker ? [22, 22] : [30, 30];
+    const markerSize = layerMarkerSize(point, { isSelected: point.id === selectedPointId, isNearbySelected: Boolean(nearbyClass), isBoatMarker });
     const markerHtml = isBoatMarker
       ? '<svg class="boat-marker-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v5h2.2l1.8 6H2l1.8-6H6V3Zm2 2v3h8V5H8Zm-1.5 5-1 3h13l-1-3h-11Z"/><path d="M4 17c1.4 0 1.4 1 2.8 1s1.4-1 2.8-1 1.4 1 2.8 1 1.4-1 2.8-1 1.4 1 2.8 1 1.4-1 2.8-1v2c-1.4 0-1.4 1-2.8 1s-1.4-1-2.8-1-1.4 1-2.8 1-1.4-1-2.8-1-1.4 1-2.8 1S5.4 19 4 19v-2Z"/></svg>'
       : `<span>${markerLabel}</span>`;
     const marker = L.marker([point.lat, point.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}${selectedClass}${nearbyClass}${backgroundClass}" title="${escapeHtml(point.name)}">${markerHtml}</div>`,
+        html: `<div class="layer-marker layer-marker-${layerId}${transportTypeClass}${editorStateClass}${routeStateClass}${selectedClass}${nearbyClass}${backgroundClass}${densityClass}${roleClass}${longLabelClass}" title="${escapeHtml(point.name)}">${markerHtml}</div>`,
         iconSize: markerSize,
         iconAnchor: [markerSize[0] / 2, markerSize[1] / 2],
       }),
@@ -3454,6 +3457,27 @@ function renderLayerMarkers() {
     layerMarkers.push(marker);
   });
   renderEditorDraftOverlays();
+}
+
+function layerMarkerDensity() {
+  const zoom = map?.getZoom?.() || 13;
+  if (zoom < 14) return 'compact';
+  if (zoom < 15.5) return 'medium';
+  return 'full';
+}
+
+function layerMarkerRole(point) {
+  if (point.transportType) return 'transport';
+  if (['toilets', 'water'].includes(point.layerId)) return 'facility';
+  if (['pubs', 'markets', 'supermarkets'].includes(point.layerId)) return 'food';
+  return 'attraction';
+}
+
+function layerMarkerSize(point, state = {}) {
+  const density = layerMarkerDensity();
+  const base = state.isBoatMarker ? 22 : density === 'compact' ? 24 : density === 'medium' ? 28 : 30;
+  const boosted = state.isSelected || state.isNearbySelected ? base + 8 : routeMustShowPoint(point) ? base + 5 : base;
+  return [boosted, boosted];
 }
 
 function elevateMarker(marker, offset = 800) {
