@@ -601,9 +601,11 @@ body[data-theme="dark"] .route-card.is-active {
 }
 
 .panel-close-button {
+  background: var(--panel);
+  border: 1px solid #cfd5da;
   border-radius: 8px;
-  color: var(--ink);
-  font-size: 1.35rem;
+  color: #24323a;
+  font-size: 1.1rem;
   font-weight: 900;
   line-height: 1;
   min-height: 40px;
@@ -613,12 +615,25 @@ body[data-theme="dark"] .route-card.is-active {
 
 .panel-close-button:hover,
 .panel-close-button:focus {
-  background: rgba(20, 108, 100, 0.08);
+  background: #eef3f6;
+  color: var(--accent-strong);
 }
 
 .panel-close-button:focus-visible {
   outline: 3px solid rgba(20, 108, 100, 0.38);
   outline-offset: 2px;
+}
+
+body[data-theme="dark"] .panel-close-button {
+  background: #202823;
+  border-color: #3a4640;
+  color: var(--ink);
+}
+
+body[data-theme="dark"] .panel-close-button:hover,
+body[data-theme="dark"] .panel-close-button:focus {
+  background: #29332e;
+  color: var(--accent);
 }
 
 .offline-options {

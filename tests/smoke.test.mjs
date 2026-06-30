@@ -147,11 +147,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-panels'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-panels/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-panels/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-panels/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-panels/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-closefix'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-closefix/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-closefix/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-closefix/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-closefix/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -265,7 +265,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-panels'/);
+  assert.match(js, /const assetVersion = '20260630-closefix'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -511,7 +511,11 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
   assert.match(css, /\.panel-close-button/);
+  assert.match(css, /\.panel-close-button[\s\S]*background: var\(--panel\)/);
+  assert.match(css, /\.panel-close-button[\s\S]*border: 1px solid #cfd5da/);
+  assert.match(css, /\.panel-close-button:hover,\s*\.panel-close-button:focus[\s\S]*background: #eef3f6/);
   assert.match(css, /\.panel-close-button:focus-visible/);
+  assert.match(css, /body\[data-theme="dark"\] \.panel-close-button/);
   assert.match(css, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
   assert.match(css, /#recenter-button,\s*#radius-button,\s*#theme-button[\s\S]*display: none/);
   assert.match(css, /\.about-notice/);
@@ -598,7 +602,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v88/);
+  assert.match(sw, /londontour-offline-v89/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
