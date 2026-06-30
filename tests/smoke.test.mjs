@@ -137,11 +137,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-nearby'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-nearby/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-nearby/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-nearby/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-nearby/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-zoomfix'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-zoomfix/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-zoomfix/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-zoomfix/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-zoomfix/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -250,7 +250,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-nearby'/);
+  assert.match(js, /const assetVersion = '20260630-zoomfix'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -421,11 +421,21 @@ test('nearby radius drag and marker selection keep their interaction state', () 
   assert.match(focusRadiusResult, /if \(options\.closePopup\)/);
   assert.doesNotMatch(focusRadiusResult, /options\.closePopup !== false/);
 
-  const renderLayerMarkers = js.slice(js.indexOf('function renderLayerMarkers'), js.indexOf('function normaliseTubeStationName'));
+  const renderLayerMarkers = js.slice(js.indexOf('function renderLayerMarkers'), js.indexOf('function elevateMarker'));
   assert.match(renderLayerMarkers, /focusRadiusResult\(radiusItem,\s*\{\s*closePopup: false,\s*renderMarkers: false/s);
   const layerMarkerClick = renderLayerMarkers.slice(renderLayerMarkers.indexOf("marker.on('click'"), renderLayerMarkers.indexOf('if (point.id === selectedPointId'));
   assert.doesNotMatch(layerMarkerClick, /renderLayerMarkers\(\)/);
   assert.match(layerMarkerClick, /classList\.add\('is-selected', 'is-nearby-selected'\)/);
+  assert.match(renderLayerMarkers, /elevateMarker\(marker\)/);
+  assert.doesNotMatch(renderLayerMarkers, /marker\.setZIndexOffset/);
+
+  const elevateMarkerHelper = js.slice(js.indexOf('function elevateMarker'), js.indexOf('function normaliseTubeStationName'));
+  assert.match(elevateMarkerHelper, /typeof marker\?\.setZIndexOffset === 'function'/);
+  assert.match(elevateMarkerHelper, /marker\?\.getElement\?\.\(\) \|\| marker\?\.element/);
+
+  const adapter = read('assets/maplibre-leaflet-adapter.js');
+  assert.match(adapter, /getElement\(\) \{ return this\.element; \}/);
+  assert.match(adapter, /setZIndexOffset\(offset = 0\)/);
 });
 
 test('dark mode has explicit mobile surfaces and controls', () => {
@@ -562,7 +572,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v86/);
+  assert.match(sw, /londontour-offline-v87/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

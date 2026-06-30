@@ -430,8 +430,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-nearby';
-const cacheName = 'londontour-offline-v86';
+const assetVersion = '20260630-zoomfix';
+const cacheName = 'londontour-offline-v87';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -2341,15 +2341,27 @@ function renderLayerMarkers() {
           renderMarkers: false,
           status: `${point.name} selected from nearby results.`,
         });
-        marker.setZIndexOffset(800);
+        elevateMarker(marker);
         marker.getElement()?.querySelector('.layer-marker')?.classList.add('is-selected', 'is-nearby-selected');
       }
     });
-    if (point.id === selectedPointId || routeMustShowPoint(point)) marker.setZIndexOffset(800);
+    if (point.id === selectedPointId || routeMustShowPoint(point)) elevateMarker(marker);
     marker.addTo(map);
     layerMarkers.push(marker);
   });
   renderEditorDraftOverlays();
+}
+
+function elevateMarker(marker, offset = 800) {
+  if (typeof marker?.setZIndexOffset === 'function') {
+    marker.setZIndexOffset(offset);
+    return;
+  }
+
+  const element = marker?.getElement?.() || marker?.element;
+  if (element?.style) {
+    element.style.zIndex = String(offset);
+  }
 }
 
 function normaliseTubeStationName(name) {

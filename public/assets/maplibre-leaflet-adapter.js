@@ -513,6 +513,11 @@
     remove() { this.marker.remove(); this.map?._removeLayer(this); return this; }
     bindPopup(html) { this.popupHtml = html; return this; }
     getPopup() { return this.popupHtml ? {} : null; }
+    getElement() { return this.element; }
+    setZIndexOffset(offset = 0) {
+      this.element.style.zIndex = String(offset);
+      return this;
+    }
     openPopup() { if (!this.map || !this.popupHtml) return this; this.map._openPopup(this.point, this.popupHtml); return this; }
     on(eventName, handler) { this.handlers[eventName] = handler; return this; }
   }
