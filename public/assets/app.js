@@ -430,8 +430,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-issues';
-const cacheName = 'londontour-offline-v85';
+const assetVersion = '20260630-nearby';
+const cacheName = 'londontour-offline-v86';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1504,12 +1504,14 @@ function focusRadiusResult(item, options = {}) {
   }
   radiusState.selectedResultId = item.id;
   selectedPointId = item.sourcePointId || item.point?.id || selectedPointId;
-  renderLayerMarkers();
+  if (options.renderMarkers !== false) {
+    renderLayerMarkers();
+  }
   renderRadiusPanel();
   if (options.flyTo) {
     map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), item.stationId ? 15 : 16), { duration: 0.35 });
   }
-  if (options.closePopup !== false) {
+  if (options.closePopup) {
     window.setTimeout(() => map.closePopup(), 0);
   }
   if (options.status) {
@@ -1533,7 +1535,11 @@ function markerForRadiusResult(item) {
   }).bindPopup(searchPopupContent(item));
   marker.on('click', () => {
     if (!item.stationId) clearTubeSelectionBeforePopup();
-    focusRadiusResult(item, { status: `${item.name} selected from nearby results.` });
+    focusRadiusResult(item, {
+      closePopup: false,
+      renderMarkers: false,
+      status: `${item.name} selected from nearby results.`,
+    });
   });
   return marker;
 }
@@ -1578,6 +1584,17 @@ function renderRadiusOverlays() {
       weight: 2,
     }).addTo(map);
     radiusOverlayLayers.push(line);
+
+    const edgeMarker = L.marker(radiusState.edge, {
+      interactive: false,
+      icon: L.divIcon({
+        className: '',
+        html: '<div class="radius-edge-marker"></div>',
+        iconSize: [18, 18],
+        iconAnchor: [9, 9],
+      }),
+    }).addTo(map);
+    radiusOverlayLayers.push(edgeMarker);
 
     for (let tick = 200; tick <= radiusState.radiusMeters; tick += 200) {
       const ratio = tick / radiusState.radiusMeters;
@@ -1626,7 +1643,13 @@ function handleRadiusMapClick(event) {
 function handleRadiusPointerStart(event) {
   if (!radiusState.active || !radiusState.center || radiusState.locked) return;
   const target = event.target;
-  if (target?.closest?.('.leaflet-popup, .leaflet-control, .leaflet-marker-icon, .map-topbar, .search-panel, .radius-panel')) return;
+  const isRadiusHandle = Boolean(target?.closest?.('.radius-center-marker, .radius-edge-marker, .radius-tick-label'));
+  if (
+    target?.closest?.('.leaflet-popup, .leaflet-control, .map-topbar, .search-panel, .radius-panel') ||
+    (target?.closest?.('.leaflet-marker-icon') && !isRadiusHandle)
+  ) {
+    return;
+  }
   event.preventDefault();
   radiusState.dragging = true;
   event.currentTarget?.setPointerCapture?.(event.pointerId);
@@ -2313,9 +2336,14 @@ function renderLayerMarkers() {
       selectedPointId = point.id;
       const radiusItem = radiusResultForLayerPoint(point);
       if (radiusItem) {
-        focusRadiusResult(radiusItem, { status: `${point.name} selected from nearby results.` });
+        focusRadiusResult(radiusItem, {
+          closePopup: false,
+          renderMarkers: false,
+          status: `${point.name} selected from nearby results.`,
+        });
+        marker.setZIndexOffset(800);
+        marker.getElement()?.querySelector('.layer-marker')?.classList.add('is-selected', 'is-nearby-selected');
       }
-      renderLayerMarkers();
     });
     if (point.id === selectedPointId || routeMustShowPoint(point)) marker.setZIndexOffset(800);
     marker.addTo(map);

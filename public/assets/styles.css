@@ -1499,6 +1499,15 @@ body[data-theme="dark"] .tube-zone-badge {
   width: 18px;
 }
 
+.radius-edge-marker {
+  background: #fff;
+  border: 3px solid var(--accent);
+  border-radius: 999px;
+  box-shadow: 0 8px 18px rgba(20, 108, 100, 0.24);
+  height: 18px;
+  width: 18px;
+}
+
 .radius-tick-label {
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid rgba(20, 108, 100, 0.28);
