@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-editor" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260630-editor" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-hints" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-hints" />
   </head>
   <body>
     <main class="app-shell">
@@ -236,12 +236,12 @@
         <section id="onboarding-panel" class="onboarding-panel" role="dialog" aria-labelledby="onboarding-title" hidden>
           <div class="onboarding-copy">
             <h2 id="onboarding-title">Welcome to Londontour</h2>
-            <p>Choose a route, browse nearby places, and use layers to show museums, pubs, toilets, water, transport, and more.</p>
+            <p>Choose a route, browse nearby places, use search and location, and turn layers on for museums, pubs, toilets, water, transport, and more.</p>
             <ol>
               <li>Pick a route or browse freely.</li>
-              <li>Turn layers on for places and facilities.</li>
-              <li>Tap markers for details or use search.</li>
-              <li>Download offline before walking.</li>
+              <li>Turn layers on for places, facilities, and transport.</li>
+              <li>Search for places, stations, piers, route stops, and POIs.</li>
+              <li>Use location on the walk, and download offline before leaving Wi-Fi.</li>
             </ol>
           </div>
           <div class="onboarding-actions">
@@ -250,17 +250,24 @@
             <button id="onboarding-dismiss-button" class="secondary-button" type="button">Dismiss</button>
           </div>
         </section>
+        <section id="feature-hint-panel" class="feature-hint-panel" aria-live="polite" hidden>
+          <div>
+            <strong id="feature-hint-title">Tip</strong>
+            <p id="feature-hint-copy"></p>
+          </div>
+          <button id="feature-hint-dismiss-button" class="secondary-button compact-button" type="button">Got it</button>
+        </section>
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-editor"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-editor"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-editor"></script>
-    <script src="assets/app.js?v=20260630-editor"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-hints"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-hints"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-hints"></script>
+    <script src="assets/app.js?v=20260630-hints"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260630-editor').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-hints').catch(() => {});
         });
       }
     </script>

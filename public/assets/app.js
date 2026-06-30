@@ -385,6 +385,10 @@ const onboardingPanel = document.querySelector('#onboarding-panel');
 const onboardingRouteButton = document.querySelector('#onboarding-route-button');
 const onboardingBrowseButton = document.querySelector('#onboarding-browse-button');
 const onboardingDismissButton = document.querySelector('#onboarding-dismiss-button');
+const featureHintPanel = document.querySelector('#feature-hint-panel');
+const featureHintTitle = document.querySelector('#feature-hint-title');
+const featureHintCopy = document.querySelector('#feature-hint-copy');
+const featureHintDismissButton = document.querySelector('#feature-hint-dismiss-button');
 
 const initialSearchParams = new URLSearchParams(window.location.search);
 const editorMode = initialSearchParams.get('editor') === '1';
@@ -454,14 +458,15 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-editor';
-const cacheName = 'londontour-offline-v99';
+const assetVersion = '20260630-hints';
+const cacheName = 'londontour-offline-v100';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
 const themeStateKey = 'londontour-theme';
 const offlineStateKey = 'londontour-offline-state-v1';
 const onboardingStateKey = 'londontour-onboarding-dismissed-v1';
+const featureHintStateKey = 'londontour-feature-hints-v1';
 const initialSharedPoi = parseSharedPoiParam(initialSearchParams.get('poi'));
 let selectedPointId = initialSharedPoi?.pointId || initialSearchParams.get('selected') || '';
 let sharedPoiRestored = false;
@@ -469,6 +474,7 @@ let followUser = initialSearchParams.get('follow') === '1';
 let lastLocationAccuracy = null;
 let guideSimulationTimer = null;
 let guideSimulationIndex = 0;
+let activeFeatureHintKey = '';
 let simulationTimer = null;
 let simulationMarker = null;
 let simulationState = {
@@ -1975,6 +1981,7 @@ function setRadiusOpen(open) {
     setRouteMenuOpen(false);
     setOfflineMenuOpen(false);
     setStatus(radiusState.center ? (radiusState.locked ? 'Nearby radius locked. Tap markers to inspect them.' : 'Drag on the map to set the nearby radius.') : 'Drop a nearby search pin on the map.');
+    showFeatureHint('nearby', 'Explore nearby', 'Tap Nearby on a place, then drag the radius edge to find pubs, toilets, water, stations, and other useful stops around it.');
   } else {
     radiusState.dragging = false;
     if (map?.dragging) map.dragging.enable();
@@ -3816,6 +3823,7 @@ function setOfflineMenuOpen(open) {
   updateMenuButtonState();
   updateBrowsePickerButtonState();
   if (isOpen) setStatus('Offline pack opened. Download before walking away from Wi-Fi.');
+  if (isOpen) showFeatureHint('offline', 'Going walking?', 'Use Offline download before leaving Wi-Fi. It saves the app shell, selected route, visible layers, and local basemap pack.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
@@ -3904,6 +3912,7 @@ function selectRoute(route) {
     }
   }, 0);
   setStatus(`Viewing ${route.name}. Tap markers for more info, or use my location.`);
+  showFeatureHint('route-selected', 'Route selected', 'Tap route stops and nearby markers for details. Use search for places and the location button to check where you are.');
 }
 
 function setStatus(message) {
@@ -4084,6 +4093,43 @@ function dismissOnboarding(remember = true) {
   if (remember) localStorage.setItem(onboardingStateKey, '1');
 }
 
+function loadFeatureHintState() {
+  try {
+    return JSON.parse(localStorage.getItem(featureHintStateKey) || '{}');
+  } catch (error) {
+    return {};
+  }
+}
+
+function saveFeatureHintState(state) {
+  try {
+    localStorage.setItem(featureHintStateKey, JSON.stringify(state));
+  } catch (error) {
+    // Hints are optional and should never block map use.
+  }
+}
+
+function showFeatureHint(key, title, copy, options = {}) {
+  if (!featureHintPanel || editorMode) return;
+  const state = loadFeatureHintState();
+  if (!options.force && state[key]) return;
+  activeFeatureHintKey = key;
+  featureHintTitle.textContent = title;
+  featureHintCopy.textContent = copy;
+  featureHintPanel.hidden = false;
+}
+
+function dismissFeatureHint(remember = true) {
+  if (!featureHintPanel) return;
+  featureHintPanel.hidden = true;
+  if (remember && activeFeatureHintKey) {
+    const state = loadFeatureHintState();
+    state[activeFeatureHintKey] = true;
+    saveFeatureHintState(state);
+  }
+  activeFeatureHintKey = '';
+}
+
 function renderGuidePanel() {
   if (!guidePanel) return;
   const stops = selectedRoute.stops;
@@ -4170,7 +4216,10 @@ offlineBackButton?.addEventListener('click', () => {
 });
 offlineCloseButton?.addEventListener('click', () => setOfflineMenuOpen(false));
 menuCloseButton?.addEventListener('click', () => setMainMenuOpen(false));
-helpButton?.addEventListener('click', () => showOnboarding(true));
+helpButton?.addEventListener('click', () => {
+  dismissFeatureHint(false);
+  showOnboarding(true);
+});
 menuRecenterButton?.addEventListener('click', () => {
   setMainMenuOpen(false);
   recenterRoute();
@@ -4237,6 +4286,7 @@ routeOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
 routeRecenterButton?.addEventListener('click', recenterRoute);
 startGuideButton?.addEventListener('click', startGuideSimulation);
 onboardingDismissButton?.addEventListener('click', () => dismissOnboarding(true));
+featureHintDismissButton?.addEventListener('click', () => dismissFeatureHint(true));
 onboardingRouteButton?.addEventListener('click', () => {
   dismissOnboarding(true);
   setRouteMenuOpen(true);
