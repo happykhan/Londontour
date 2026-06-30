@@ -435,8 +435,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-closefix';
-const cacheName = 'londontour-offline-v89';
+const assetVersion = '20260630-notoptheme';
+const cacheName = 'londontour-offline-v90';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -3027,8 +3027,8 @@ function applyTheme(theme) {
   const activeTheme = theme === 'dark' ? 'dark' : 'light';
   const nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
   document.body.dataset.theme = activeTheme;
-  themeButton.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
-  themeButton.setAttribute('title', `Switch to ${nextTheme} mode`);
+  themeButton?.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
+  themeButton?.setAttribute('title', `Switch to ${nextTheme} mode`);
   if (menuThemeButton) menuThemeButton.textContent = `Switch to ${nextTheme} mode`;
   applyBasemapTheme();
   void renderTubeNetwork();
@@ -3326,7 +3326,7 @@ layersCloseButton?.addEventListener('click', () => {
   setBrowseLayersOpen(false);
   setStatus('Map layers closed.');
 });
-themeButton.addEventListener('click', toggleTheme);
+themeButton?.addEventListener('click', toggleTheme);
 shareButton?.addEventListener('click', shareRoute);
 routeShareButton?.addEventListener('click', shareRoute);
 routeOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));

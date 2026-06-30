@@ -2218,8 +2218,7 @@ body[data-theme="dark"] .onboarding-panel {
   }
 
   #recenter-button,
-  #radius-button,
-  #theme-button {
+  #radius-button {
     display: none;
   }
 
