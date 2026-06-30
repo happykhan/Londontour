@@ -441,8 +441,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-offlinepack';
-const cacheName = 'londontour-offline-v95';
+const assetVersion = '20260630-popupcopy';
+const cacheName = 'londontour-offline-v96';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -779,11 +779,55 @@ function pointSourceLabel(source = '') {
   return '';
 }
 
+const weakPointDetails = new Set([
+  '',
+  'attraction',
+  'bottle refill point',
+  'bus stop',
+  'convenience',
+  'drinking water',
+  'gallery',
+  'market',
+  'monument',
+  'museum',
+  'openstreetmap point',
+  'plaque',
+  'point',
+  'pub',
+  'public toilet',
+  'river pier',
+  'sculpture',
+  'statue',
+  'supermarket',
+]);
+
+function pointFallbackDetail(point = {}) {
+  const layerId = point.layerId || '';
+  if (layerId === 'monuments') return 'Statue, sculpture, or memorial near the route.';
+  if (layerId === 'plaques') return 'Historic plaque or marker.';
+  if (layerId === 'museums') return 'Museum or gallery.';
+  if (layerId === 'pubs') return 'Pub or bar.';
+  if (layerId === 'markets') return 'Market or food and shopping area.';
+  if (layerId === 'water') return 'Drinking water or bottle refill point.';
+  if (layerId === 'toilets') return 'Public toilet facility. Opening times may change.';
+  if (layerId === 'supermarkets') return 'Food shop or supermarket.';
+  if (layerId === 'transport' || point.transportType) return 'Transport stop, station, or pier.';
+  if (layerId === 'bus-planning') return 'Bus stop for route planning.';
+  if (layerId === 'landmarks') return 'London landmark or place of interest.';
+  return 'Nearby point of interest.';
+}
+
 function cleanPointDetail(point) {
-  return String(point.detail || '')
-    .replace(/\s*(?:Attraction|Museum|Plaque|Drinking water|Bottle refill point|Point)?\s*from OpenStreetMap\.?\s*/gi, '')
+  return String(point?.detail || '')
     .replace(/\s*OpenStreetMap point\.?\s*/gi, '')
+    .replace(/\s*\bfrom OpenStreetMap\.?\s*/gi, '')
+    .replace(/\s*\bfrom TfL StopPoint\.?\s*/gi, '')
     .trim();
+}
+
+function pointDetailText(point = {}) {
+  const cleaned = cleanPointDetail(point).replace(/\s*·\s*$/, '').trim();
+  return weakPointDetails.has(cleaned.toLowerCase()) ? pointFallbackDetail(point) : cleaned;
 }
 
 function layerIconText(layerId, point = {}) {
@@ -817,7 +861,7 @@ function popupShell(content, kind = 'generic') {
 function poiPopupContent(point, options = {}) {
   const layerId = point.layerId || '';
   const icon = layerIconText(layerId, point);
-  const detail = cleanPointDetail(point);
+  const detail = pointDetailText(point);
   const detailHtml = detail ? `<p class="poi-popup-detail">${escapeHtml(detail)}</p>` : '';
   return popupShell(`
     <div class="poi-popup poi-popup-${escapeHtml(layerId)}">
@@ -1319,6 +1363,8 @@ function searchPopupContent(item, options = {}) {
     }, options);
   }
 
+  const detail = pointDetailText(item);
+  const detailHtml = detail ? `<p class="poi-popup-detail">${escapeHtml(detail)}</p>` : '';
   return popupShell(`
     <div class="poi-popup">
       <div class="poi-popup-header">
@@ -1326,10 +1372,11 @@ function searchPopupContent(item, options = {}) {
           <strong>${escapeHtml(item.name)}</strong>
           <div class="poi-popup-meta">
             <span>${escapeHtml(item.label || item.type)}</span>
+            ${sourceBadge(item)}
           </div>
         </div>
       </div>
-      <p class="poi-popup-detail">${escapeHtml(item.detail || '')}</p>
+      ${detailHtml}
       ${nearbyPopupButton(item.lat, item.lng, item.name, options)}
     </div>
   `, 'generic');
@@ -2542,8 +2589,6 @@ function renderLayerMarkers() {
   activeLayerPoints().forEach((point) => {
     const layerId = escapeHtml(point.layerId);
     const markerLabel = escapeHtml(layerIconText(point.layerId, point));
-    const layerLabel = escapeHtml(point.layerLabel);
-    const detail = escapeHtml(point.detail);
     const transportTypeClass = point.transportType ? ` layer-marker-transport-${escapeHtml(point.transportType)}` : '';
     const editorStateClass = editorPointState(point) ? ` is-editor-${editorPointState(point)}` : '';
     const routeStateClass = !browseMode && routeMustShowPoint(point) ? ' is-route-required' : routeMustHidePoint(point) ? ' is-route-hidden' : '';

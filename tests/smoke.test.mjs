@@ -156,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-offlinepack'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-offlinepack/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-offlinepack/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-offlinepack/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-offlinepack/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-popupcopy'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-popupcopy/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-popupcopy/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-popupcopy/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-popupcopy/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -280,7 +280,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-offlinepack'/);
+  assert.match(js, /const assetVersion = '20260630-popupcopy'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -295,6 +295,16 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function restoreSharedPoiFromUrl/);
   assert.match(js, /restoreSharedPoiFromUrl\(\)/);
   assert.match(js, /function popupTitle/);
+  assert.match(js, /function pointDetailText/);
+  assert.match(js, /function pointFallbackDetail/);
+  assert.match(js, /weakPointDetails/);
+  assert.match(js, /Statue, sculpture, or memorial near the route/);
+  assert.match(js, /Historic plaque or marker/);
+  assert.match(js, /Drinking water or bottle refill point/);
+  assert.match(js, /Transport stop, station, or pier/);
+  assert.match(js, /const detail = pointDetailText\(item\)/);
+  assert.match(js, /\$\{sourceBadge\(item\)\}/);
+  assert.doesNotMatch(js, /<p class="poi-popup-detail">\$\{escapeHtml\(item\.detail \|\| ''\)\}<\/p>/);
   assert.match(js, /function popupShell/);
   assert.match(js, /target="_blank"/);
   assert.match(js, /transportType/);
@@ -642,7 +652,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v95/);
+  assert.match(sw, /londontour-offline-v96/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
