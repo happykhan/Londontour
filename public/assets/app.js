@@ -441,8 +441,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-sharepoi';
-const cacheName = 'londontour-offline-v94';
+const assetVersion = '20260630-offlinepack';
+const cacheName = 'londontour-offline-v95';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1781,31 +1781,104 @@ function setOfflineState(state) {
   }
 }
 
+function formatOfflineSavedAt(savedAt) {
+  if (!savedAt) return 'Never';
+  return new Date(savedAt).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes) || bytes <= 0) return '';
+  const units = ['B', 'KB', 'MB', 'GB'];
+  let value = bytes;
+  let unitIndex = 0;
+  while (value >= 1024 && unitIndex < units.length - 1) {
+    value /= 1024;
+    unitIndex += 1;
+  }
+  return `${value >= 10 || unitIndex === 0 ? Math.round(value) : value.toFixed(1)} ${units[unitIndex]}`;
+}
+
+function offlineContextId() {
+  return browseMode ? 'browse' : selectedRoute.id;
+}
+
+function offlineLayerIdSummary() {
+  return [...activeLayerIds].sort().join(',');
+}
+
+async function offlineStaleReason(state, selections) {
+  if (!state) return '';
+  const basemapPack = selections.tiles ? await loadBasemapOfflineAssets() : null;
+  if (state.cacheName !== cacheName) return 'The app shell changed since the last download.';
+  if (state.routeId !== offlineContextId()) return 'The selected route changed since the last download.';
+  if (state.layerIds !== offlineLayerIdSummary()) return 'The selected map layers changed since the last download.';
+  if (state.includesRoute !== selections.route || state.includesLayers !== selections.layers || state.includesTiles !== selections.tiles) {
+    return 'The offline pack options changed since the last download.';
+  }
+  if (state.basemapVersion !== (basemapPack?.version || 'none')) return 'The offline basemap changed since the last download.';
+  return '';
+}
+
+function renderOfflineStatusControls(label = 'Not saved') {
+  if (routeOfflineButton) routeOfflineButton.textContent = `Offline: ${label}`;
+  if (menuOfflineButton) menuOfflineButton.textContent = `Offline: ${label}`;
+}
+
+function renderOfflineProgress(rows, title = 'Downloading offline pack') {
+  if (!offlineDetailsEl) return;
+  const rowHtml = rows
+    .map((row) => {
+      const state = row.failed ? `${row.completed}/${row.total} saved, ${row.failed} failed` : row.completed >= row.total ? 'Done' : `${row.completed}/${row.total}`;
+      return `
+        <li class="${row.failed ? 'has-error' : row.completed >= row.total ? 'is-done' : ''}">
+          <span>${escapeHtml(row.label)}</span>
+          <strong>${escapeHtml(state)}</strong>
+        </li>
+      `;
+    })
+    .join('');
+  offlineDetailsEl.innerHTML = `
+    <div class="offline-status-block">
+      <strong>${escapeHtml(title)}</strong>
+      <ul class="offline-progress-list">${rowHtml}</ul>
+    </div>
+  `;
+}
+
 async function renderOfflineDetails() {
   if (!offlineDetailsEl) return;
   const selections = offlineSelections();
-  const parts = ['app shell'];
-  if (selections.route) parts.push(browseMode ? 'browse map' : selectedRoute.name);
-  if (selections.layers) parts.push(`${activeLayerPoints(browseMode ? null : selectedRoute, false).length} selected layer items`);
+  const planRows = [{ label: 'App shell', value: 'Core app files and map libraries' }];
+  if (selections.route) planRows.push({ label: 'Route geometry', value: browseMode ? 'Browse map state' : selectedRoute.name });
+  if (selections.layers) planRows.push({ label: 'Visible layers', value: `${activeLayerPoints(browseMode ? null : selectedRoute, false).length} selected layer items plus transport data` });
   if (selections.tiles) {
     const basemapPack = await describeBasemapOfflinePack();
-    parts.push(basemapPack.label);
+    planRows.push({ label: 'Offline basemap', value: basemapPack.label });
   }
 
   const state = getOfflineState();
-  const selectedLayers = [...activeLayerIds].sort().join(',');
-  const basemapPack = selections.tiles ? await loadBasemapOfflineAssets() : null;
-  const isStale =
-    state &&
-    (state.cacheName !== cacheName ||
-      state.routeId !== (browseMode ? 'browse' : selectedRoute.id) ||
-      state.layerIds !== selectedLayers ||
-      state.includesTiles !== selections.tiles ||
-      state.basemapVersion !== (basemapPack?.version || 'none'));
+  const staleReason = await offlineStaleReason(state, selections);
+  const statusLabel = !state ? 'Not saved' : staleReason ? 'Needs refresh' : 'Ready';
+  const failureLabel = state?.failedAssets ? ` · ${state.failedAssets} failed asset${state.failedAssets === 1 ? '' : 's'}` : '';
+  renderOfflineStatusControls(statusLabel);
+  if (offlineButton) offlineButton.textContent = state ? 'Refresh offline pack' : 'Download offline pack';
 
-  offlineDetailsEl.textContent = state
-    ? `${isStale ? 'Needs refresh' : 'Ready'}: ${parts.join(', ')}. Last saved ${new Date(state.savedAt).toLocaleString()}.`
-    : `Not downloaded yet. Will include ${parts.join(', ')}.`;
+  offlineDetailsEl.innerHTML = `
+    <div class="offline-status-block ${state?.failedAssets ? 'has-error' : ''}">
+      <strong>Offline: ${escapeHtml(statusLabel)}</strong>
+      <span>Last saved: ${escapeHtml(formatOfflineSavedAt(state?.savedAt))}${escapeHtml(failureLabel)}</span>
+      ${staleReason ? `<small>${escapeHtml(staleReason)}</small>` : ''}
+      ${state?.errorSummary ? `<small>${escapeHtml(state.errorSummary)}</small>` : ''}
+    </div>
+    <div class="offline-status-block">
+      <strong>Save for offline use</strong>
+      <ul class="offline-progress-list">
+        ${planRows
+          .map((row) => `<li><span>${escapeHtml(row.label)}</span><strong>${escapeHtml(row.value)}</strong></li>`)
+          .join('')}
+      </ul>
+    </div>
+  `;
 }
 
 function renderPicker() {
@@ -2063,19 +2136,24 @@ async function expandBasemapOfflineUrls() {
   const staticAssets = basemapPack.assets
     .map((asset) => normaliseOfflineAssetUrl(asset.url))
     .filter(Boolean);
+  const staticBytes = basemapPack.assets.reduce((sum, asset) => sum + (Number.isFinite(asset?.bytes) ? asset.bytes : 0), 0);
   const tileUrls = [];
 
   for (const manifest of basemapPack.tileManifests) {
     const manifestUrl = normaliseOfflineAssetUrl(manifest.url);
     if (!manifestUrl) continue;
-    const response = await fetch(assetUrl(manifestUrl), { cache: 'no-store' });
-    if (!response.ok) continue;
-    const tileManifest = await response.json();
-    if (!Array.isArray(tileManifest)) continue;
-    tileManifest
-      .map((tilePath) => tilePathToLocalUrl(tilePath, manifest.pathPattern))
-      .filter(Boolean)
-      .forEach((url) => tileUrls.push(url));
+    try {
+      const response = await fetch(assetUrl(manifestUrl), { cache: 'no-store' });
+      if (!response.ok) continue;
+      const tileManifest = await response.json();
+      if (!Array.isArray(tileManifest)) continue;
+      tileManifest
+        .map((tilePath) => tilePathToLocalUrl(tilePath, manifest.pathPattern))
+        .filter(Boolean)
+        .forEach((url) => tileUrls.push(url));
+    } catch (error) {
+      // Keep the offline panel usable if a tile manifest cannot be inspected.
+    }
   }
 
   return {
@@ -2083,6 +2161,7 @@ async function expandBasemapOfflineUrls() {
     label: basemapPack.label,
     manifestUrls,
     staticAssets,
+    staticBytes,
     tileUrls,
   };
 }
@@ -2091,7 +2170,10 @@ async function describeBasemapOfflinePack() {
   const expanded = await expandBasemapOfflineUrls();
   const pieces = [];
   if (expanded.tileUrls.length) pieces.push(`${expanded.tileUrls.length} map tiles`);
-  if (expanded.staticAssets.length) pieces.push(`${expanded.staticAssets.length} basemap file${expanded.staticAssets.length === 1 ? '' : 's'}`);
+  if (expanded.staticAssets.length) {
+    const size = formatBytes(expanded.staticBytes);
+    pieces.push(`${expanded.staticAssets.length} basemap file${expanded.staticAssets.length === 1 ? '' : 's'}${size ? `, ${size}` : ''}`);
+  }
   return {
     version: expanded.version,
     label: pieces.length ? `${expanded.label}: ${pieces.join(', ')}` : expanded.label,
@@ -2266,15 +2348,58 @@ function routeStrokeStyle(segment) {
   };
 }
 
-async function cacheRequest(cache, url) {
-  const response = await fetch(url, { cache: 'no-store' });
-  if (response.ok) {
-    await cache.put(url, response.clone());
+function offlineErrorMessage(error, category = 'offline pack') {
+  const message = error?.message || String(error || 'Unknown error');
+  if (/quota|storage/i.test(message) || error?.name === 'QuotaExceededError') {
+    return `Storage may be full while saving ${category}. Try clearing old offline data.`;
   }
+  if (/fetch|network|failed to/i.test(message) || error instanceof TypeError) {
+    return `Network failure while saving ${category}. Check the connection and retry.`;
+  }
+  return `Failed while saving ${category}: ${message}`;
+}
+
+async function cacheRequest(cache, url, category = 'asset') {
+  try {
+    const response = await fetch(url, { cache: 'no-store' });
+    if (!response.ok) {
+      return { ok: false, url, category, error: `${response.status} ${response.statusText || 'HTTP error'}` };
+    }
+    await cache.put(url, response.clone());
+    return { ok: true, url, category };
+  } catch (error) {
+    return { ok: false, url, category, error: offlineErrorMessage(error, category) };
+  }
+}
+
+async function cacheRequestBatch(cache, urls, category, progressRow, rows) {
+  const failures = [];
+  progressRow.total = urls.length;
+  renderOfflineProgress(rows);
+  for (const url of urls) {
+    const result = await cacheRequest(cache, url, category);
+    if (result.ok) {
+      progressRow.completed += 1;
+    } else {
+      progressRow.failed += 1;
+      failures.push(result);
+    }
+    renderOfflineProgress(rows);
+  }
+  return failures;
 }
 
 async function downloadOfflinePack() {
   if (!window.caches) {
+    renderOfflineStatusControls('Unsupported');
+    if (offlineDetailsEl) {
+      offlineDetailsEl.innerHTML = `
+        <div class="offline-status-block has-error">
+          <strong>Offline caching is not supported</strong>
+          <span>This browser does not expose the Cache API needed for offline downloads.</span>
+        </div>
+      `;
+    }
     setStatus('Offline caching is not supported in this browser.');
     return;
   }
@@ -2283,24 +2408,43 @@ async function downloadOfflinePack() {
   offlineButton.disabled = true;
   offlineButton.textContent = 'Downloading...';
   setStatus('Downloading the selected offline pack...');
+  let shouldRenderOfflineDetails = true;
 
   try {
     const cache = await caches.open(cacheName);
-    await cacheRequest(cache, '/');
-    await cacheRequest(cache, '/index.html');
-    await cacheRequest(cache, '/assets/app.js');
-    await cacheRequest(cache, '/assets/styles.css');
-    await cacheRequest(cache, '/assets/vendor/maplibre/maplibre-gl.js');
-    await cacheRequest(cache, '/assets/vendor/maplibre/maplibre-gl.css');
-    await cacheRequest(cache, '/assets/vendor/pmtiles/pmtiles.js');
-    await cacheRequest(cache, '/assets/maplibre-leaflet-adapter.js');
+    const failures = [];
+    const progressRows = [
+      { key: 'shell', label: 'App shell', completed: 0, total: 8, failed: 0 },
+    ];
+    const appShellRow = progressRows[0];
+    failures.push(
+      ...(await cacheRequestBatch(
+        cache,
+        [
+          '/',
+          '/index.html',
+          '/assets/app.js',
+          '/assets/styles.css',
+          '/assets/vendor/maplibre/maplibre-gl.js',
+          '/assets/vendor/maplibre/maplibre-gl.css',
+          '/assets/vendor/pmtiles/pmtiles.js',
+          '/assets/maplibre-leaflet-adapter.js',
+        ],
+        'app shell',
+        appShellRow,
+        progressRows
+      ))
+    );
     if (selections.route) {
-      await cacheRequest(cache, '/assets/route-geometry.json');
+      const routeRow = { key: 'route', label: 'Route geometry', completed: 0, total: 1, failed: 0 };
+      progressRows.push(routeRow);
+      failures.push(...(await cacheRequestBatch(cache, ['/assets/route-geometry.json'], 'route geometry', routeRow, progressRows)));
     }
 
     if (selections.layers) {
-      await cacheRequest(cache, '/assets/layers.json');
-      await cacheRequest(cache, '/assets/tube-network.json');
+      const layerRow = { key: 'layers', label: 'Layers and transport', completed: 0, total: 2, failed: 0 };
+      progressRows.push(layerRow);
+      failures.push(...(await cacheRequestBatch(cache, ['/assets/layers.json', '/assets/tube-network.json'], 'layers', layerRow, progressRows)));
     }
 
     let basemapAssetTotal = 0;
@@ -2309,7 +2453,9 @@ async function downloadOfflinePack() {
     let cachedTiles = 0;
     let basemapVersion = 'none';
     if (selections.tiles) {
-      await cacheRequest(cache, '/assets/offline-map-assets.json');
+      const basemapRow = { key: 'basemap', label: 'Basemap', completed: 0, total: 1, failed: 0 };
+      progressRows.push(basemapRow);
+      failures.push(...(await cacheRequestBatch(cache, ['/assets/offline-map-assets.json'], 'basemap manifest', basemapRow, progressRows)));
       const expandedBasemap = await expandBasemapOfflineUrls();
       basemapVersion = expandedBasemap.version;
       const basemapUrls = [
@@ -2319,25 +2465,35 @@ async function downloadOfflinePack() {
       ];
       basemapAssetTotal = basemapUrls.length;
       tileTotal = expandedBasemap.tileUrls.length;
+      basemapRow.total = basemapUrls.length + 1;
 
       for (const url of basemapUrls) {
-        try {
-          await cacheRequest(cache, url);
+        const result = await cacheRequest(cache, url, expandedBasemap.tileUrls.includes(url) ? 'basemap tiles' : 'basemap assets');
+        if (result.ok) {
+          basemapRow.completed += 1;
           cachedBasemapAssets += 1;
           if (expandedBasemap.tileUrls.includes(url)) cachedTiles += 1;
-          if (cachedBasemapAssets === basemapAssetTotal || cachedBasemapAssets % 25 === 0) {
-            setStatus(`Downloading offline basemap: ${cachedBasemapAssets}/${basemapAssetTotal} assets cached.`);
-          }
-        } catch (error) {
-          // Skip bad basemap assets and keep going.
+        } else {
+          basemapRow.failed += 1;
+          failures.push(result);
+        }
+        if (cachedBasemapAssets === basemapAssetTotal || cachedBasemapAssets % 25 === 0 || result.ok === false) {
+          setStatus(`Downloading offline basemap: ${cachedBasemapAssets}/${basemapAssetTotal} assets cached.`);
+          renderOfflineProgress(progressRows);
         }
       }
     }
 
+    const failedAssets = failures.length;
+    const failureCategories = [...new Set(failures.map((failure) => failure.category))];
+    const errorSummary = failedAssets
+      ? `${failedAssets} asset${failedAssets === 1 ? '' : 's'} failed in ${failureCategories.join(', ')}. ${failures[0]?.error || 'Retry the offline pack.'}`
+      : '';
+
     setOfflineState({
       cacheName,
-      routeId: browseMode ? 'browse' : selectedRoute.id,
-      layerIds: [...activeLayerIds].sort().join(','),
+      routeId: offlineContextId(),
+      layerIds: offlineLayerIdSummary(),
       includesRoute: selections.route,
       includesTiles: selections.tiles,
       includesLayers: selections.layers,
@@ -2346,17 +2502,34 @@ async function downloadOfflinePack() {
       basemapAssetTotal,
       cachedTiles,
       tileTotal,
+      failedAssets,
+      failureCategories,
+      errorSummary,
       savedAt: new Date().toISOString(),
     });
 
-    const tileSummary = selections.tiles ? ` Cached ${cachedBasemapAssets}/${basemapAssetTotal} basemap assets.` : '';
-    setStatus(`Offline pack ready for ${browseMode ? 'browse mode' : selectedRoute.name}.${tileSummary}`);
+    const tileSummary = selections.tiles ? ` Cached ${cachedBasemapAssets}/${basemapAssetTotal} basemap assets and ${cachedTiles}/${tileTotal} map tiles.` : '';
+    setStatus(
+      failedAssets
+        ? `Offline pack saved with ${failedAssets} failed asset${failedAssets === 1 ? '' : 's'}.${tileSummary}`
+        : `Offline pack ready for ${browseMode ? 'browse mode' : selectedRoute.name}.${tileSummary}`
+    );
     await renderOfflineDetails();
   } catch (error) {
-    setStatus('Offline pack download failed.');
+    shouldRenderOfflineDetails = false;
+    const message = offlineErrorMessage(error, 'offline pack');
+    if (offlineDetailsEl) {
+      offlineDetailsEl.innerHTML = `
+        <div class="offline-status-block has-error">
+          <strong>Offline download failed</strong>
+          <span>${escapeHtml(message)}</span>
+        </div>
+      `;
+    }
+    setStatus(message);
   } finally {
     offlineButton.disabled = false;
-    offlineButton.textContent = document.body.classList.contains('offline-menu-open') ? 'Download offline pack' : 'Offline';
+    if (shouldRenderOfflineDetails) await renderOfflineDetails();
   }
 }
 

@@ -156,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-sharepoi'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-sharepoi/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-sharepoi/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-sharepoi/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-sharepoi/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-offlinepack'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-offlinepack/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-offlinepack/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-offlinepack/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-offlinepack/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -280,7 +280,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-sharepoi'/);
+  assert.match(js, /const assetVersion = '20260630-offlinepack'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -406,7 +406,12 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /\/assets\/offline-map-assets\.json/);
   assert.match(js, /function expandBasemapOfflineUrls/);
   assert.match(js, /basemapVersion/);
-  assert.match(js, /Cached \$\{cachedBasemapAssets\}\/\$\{basemapAssetTotal\} basemap assets/);
+  assert.match(js, /function renderOfflineProgress/);
+  assert.match(js, /cacheRequestBatch/);
+  assert.match(js, /failedAssets/);
+  assert.match(js, /Cached \$\{cachedBasemapAssets\}\/\$\{basemapAssetTotal\} basemap assets and \$\{cachedTiles\}\/\$\{tileTotal\} map tiles/);
+  assert.match(js, /Offline: \$\{escapeHtml\(statusLabel\)\}/);
+  assert.match(js, /Network failure while saving \$\{category\}/);
   assert.doesNotMatch(js, /\/api\/tile/);
   const adapter = read('assets/maplibre-leaflet-adapter.js');
   assert.match(adapter, /maplibregl\.addProtocol\('pmtiles', pmtilesProtocol\.tile\)/);
@@ -637,7 +642,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v94/);
+  assert.match(sw, /londontour-offline-v95/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
