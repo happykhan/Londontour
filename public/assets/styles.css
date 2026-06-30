@@ -381,23 +381,21 @@ body[data-theme="dark"] .route-card.is-active {
 }
 
 .route-key-item span {
-  border: 3px solid var(--route-key-colour, var(--route));
+  border: 3px var(--route-segment-dash, solid) var(--route-segment-colour, var(--route));
   border-radius: 999px;
   display: inline-block;
   width: 2.2rem;
 }
 
-.route-key-bus span {
-  --route-key-colour: #b45309;
+.route-key-bus span,
+.route-key-boat span,
+.route-key-train span,
+.route-key-transfer span,
+.route-key-custom span {
   border-style: dashed;
 }
 
 .route-key-tube span {
-  --route-key-colour: #6f2dbd;
-}
-
-.route-key-boat span {
-  --route-key-colour: #0369a1;
   border-style: dotted;
 }
 
@@ -409,23 +407,22 @@ body[data-theme="dark"] .route-card.is-active {
 
 .route-section {
   border: 1px solid var(--line);
-  border-left: 5px solid var(--route-section-colour, var(--route));
+  border-left: 5px solid var(--route-segment-colour, var(--route));
   border-radius: 8px;
   display: grid;
   gap: 0.2rem;
   padding: 0.75rem;
 }
 
-.route-section-bus {
-  --route-section-colour: #b45309;
-}
-
-.route-section-tube {
-  --route-section-colour: #6f2dbd;
-}
-
-.route-section-boat {
-  --route-section-colour: #0369a1;
+.route-section-bus,
+.route-section-tube,
+.route-section-boat,
+.route-section-train,
+.route-section-transfer,
+.route-section-custom {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--route-segment-colour) 12%, transparent), transparent 42%),
+    var(--card);
 }
 
 .route-section span,
@@ -573,7 +570,7 @@ body[data-theme="dark"] .route-card.is-active {
 
 .stop-index {
   align-items: center;
-  background: var(--accent);
+  background: var(--route-segment-colour, var(--accent));
   border-radius: 999px;
   color: #fff;
   display: inline-flex;
@@ -607,15 +604,24 @@ body[data-theme="dark"] .route-card.is-active {
 }
 
 .directions .segment-divider {
+  align-items: center;
   background: transparent;
   border: 0;
-  color: var(--accent-strong);
+  color: var(--route-segment-colour, var(--accent-strong));
+  display: flex;
   font-size: 0.82rem;
   font-weight: 800;
+  gap: 0.45rem;
   letter-spacing: 0.08em;
   list-style: none;
   padding: 0.35rem 0 0.1rem;
   text-transform: uppercase;
+}
+
+.directions .segment-divider span {
+  border-top: 3px var(--route-segment-dash, solid) currentColor;
+  border-radius: 999px;
+  flex: 0 0 2.4rem;
 }
 
 .poi-list {
@@ -2172,6 +2178,51 @@ body.route-view:not(.editor-mode) .layer-marker.is-background {
   margin: 0.1rem 0 0;
 }
 
+.editor-segment-controls {
+  display: grid;
+  gap: 0.4rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.editor-segment-controls button {
+  background: #fff;
+  border: 2px var(--route-segment-dash, solid) var(--route-segment-colour, var(--accent-strong));
+  border-radius: 7px;
+  color: #111827;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 850;
+  min-height: 32px;
+  padding: 0.28rem 0.32rem;
+}
+
+.editor-segment-controls button[aria-pressed="true"] {
+  background: var(--route-segment-colour, var(--accent-strong));
+  color: #fff;
+}
+
+.editor-segment-label {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.editor-segment-label span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.editor-segment-label input {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  font: inherit;
+  min-height: 34px;
+  padding: 0.35rem 0.45rem;
+}
+
 .editor-inspector-actions,
 .editor-export-actions {
   display: grid;
@@ -2367,9 +2418,33 @@ body[data-theme="dark"] .feature-hint-panel {
   background: var(--accent);
 }
 
+.poi-marker-walk {
+  background: var(--route);
+}
+
 .poi-marker-bus {
-  background: var(--accent);
-  box-shadow: 0 8px 18px rgba(20, 108, 100, 0.24);
+  background: #b45309;
+  box-shadow: 0 8px 18px rgba(180, 83, 9, 0.24);
+}
+
+.poi-marker-tube {
+  background: #6f2dbd;
+  box-shadow: 0 8px 18px rgba(111, 45, 189, 0.24);
+}
+
+.poi-marker-boat {
+  background: #0369a1;
+  box-shadow: 0 8px 18px rgba(3, 105, 161, 0.24);
+}
+
+.poi-marker-train,
+.poi-marker-custom {
+  background: #475569;
+}
+
+.poi-marker-transfer {
+  box-shadow: 0 0 0 4px #fff, 0 0 0 7px #111827, 0 10px 22px rgba(17, 24, 39, 0.32);
+  transform: scale(1.08);
 }
 
 .user-location-marker {

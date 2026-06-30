@@ -307,6 +307,79 @@ const fallbackLayerCatalog = [
 
 let layerCatalog = fallbackLayerCatalog;
 
+const routeSegmentStyles = {
+  walk: {
+    label: 'Walk',
+    longLabel: 'Walking section',
+    colour: '#c9483a',
+    dashArray: null,
+    lineWeight: { compact: 7, full: 9 },
+    casingWeight: { compact: 12, full: 16 },
+    markerLabel: 'Walk stop',
+  },
+  bus: {
+    label: 'Bus',
+    longLabel: 'Bus section',
+    colour: '#b45309',
+    dashArray: '13 8',
+    lineWeight: { compact: 8, full: 10 },
+    casingWeight: { compact: 13, full: 17 },
+    markerLabel: 'Bus stop or transfer',
+  },
+  tube: {
+    label: 'Tube',
+    longLabel: 'Tube section',
+    colour: '#6f2dbd',
+    dashArray: '1 10',
+    lineWeight: { compact: 8, full: 10 },
+    casingWeight: { compact: 13, full: 17 },
+    markerLabel: 'Tube station or transfer',
+  },
+  boat: {
+    label: 'Boat',
+    longLabel: 'Boat section',
+    colour: '#0369a1',
+    dashArray: '2 9',
+    lineWeight: { compact: 7, full: 9 },
+    casingWeight: { compact: 12, full: 16 },
+    markerLabel: 'Pier or boat transfer',
+  },
+  train: {
+    label: 'Rail',
+    longLabel: 'Rail section',
+    colour: '#475569',
+    dashArray: '10 6 2 6',
+    lineWeight: { compact: 7, full: 9 },
+    casingWeight: { compact: 12, full: 16 },
+    markerLabel: 'Rail station or transfer',
+  },
+  transfer: {
+    label: 'Transfer',
+    longLabel: 'Transfer',
+    colour: '#111827',
+    dashArray: '4 7',
+    lineWeight: { compact: 6, full: 8 },
+    casingWeight: { compact: 11, full: 14 },
+    markerLabel: 'Transfer point',
+  },
+  custom: {
+    label: 'Custom',
+    longLabel: 'Custom section',
+    colour: '#64748b',
+    dashArray: '6 6',
+    lineWeight: { compact: 7, full: 9 },
+    casingWeight: { compact: 12, full: 16 },
+    markerLabel: 'Route point',
+  },
+};
+
+const routeSegmentTypes = Object.keys(routeSegmentStyles);
+
+function normaliseRouteSegment(segment) {
+  const key = String(segment || 'walk').toLowerCase();
+  return routeSegmentStyles[key] ? key : 'custom';
+}
+
 const pickerEl = document.querySelector('#route-picker');
 const titleEl = document.querySelector('#route-title');
 const summaryEl = document.querySelector('#route-summary');
@@ -467,8 +540,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260701-location';
-const cacheName = 'londontour-offline-v101';
+const assetVersion = '20260701-segments';
+const cacheName = 'londontour-offline-v102';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -606,23 +679,54 @@ function applyLayerSelection(ids, message = 'Map layers updated.') {
 function loadEditorDraft() {
   try {
     const parsed = JSON.parse(localStorage.getItem(editorDraftStateKey) || '{}');
-    return {
-      path: Array.isArray(parsed.path)
-        ? parsed.path
-            .map((point) => ({ lat: Number(point.lat), lng: Number(point.lng) }))
-            .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
-        : [],
+    const path = Array.isArray(parsed.path)
+      ? parsed.path
+          .map((point) => ({ lat: Number(point.lat), lng: Number(point.lng) }))
+          .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
+      : [];
+    return normaliseEditorDraft({
+      path,
+      segments: parsed.segments,
       mustShow: Array.isArray(parsed.mustShow) ? parsed.mustShow.map(String) : [],
       mustHide: Array.isArray(parsed.mustHide) ? parsed.mustHide.map(String) : [],
-    };
+    });
   } catch (error) {
-    return { path: [], mustShow: [], mustHide: [] };
+    return { path: [], segments: [], mustShow: [], mustHide: [] };
   }
+}
+
+function normaliseEditorDraft(draft = {}) {
+  const path = Array.isArray(draft.path)
+    ? draft.path
+        .map((point) => ({ lat: Number(point.lat), lng: Number(point.lng) }))
+        .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
+    : [];
+  const pathMaxIndex = Math.max(0, path.length - 1);
+  const segments = Array.isArray(draft.segments)
+    ? draft.segments
+        .map((segment) => ({
+          fromPathIndex: Math.max(0, Math.min(pathMaxIndex, Number(segment.fromPathIndex) || 0)),
+          type: normaliseRouteSegment(segment.type),
+          label: String(segment.label || '').trim(),
+        }))
+        .sort((a, b) => a.fromPathIndex - b.fromPathIndex)
+        .filter((segment, index, list) => index === 0 || segment.fromPathIndex !== list[index - 1].fromPathIndex)
+    : [];
+  if (path.length && segments[0]?.fromPathIndex !== 0) {
+    segments.unshift({ fromPathIndex: 0, type: 'walk', label: routeSegmentStyles.walk.longLabel });
+  }
+  return {
+    path,
+    segments: path.length ? segments : [],
+    mustShow: Array.isArray(draft.mustShow) ? draft.mustShow.map(String) : [],
+    mustHide: Array.isArray(draft.mustHide) ? draft.mustHide.map(String) : [],
+  };
 }
 
 function cloneEditorDraft(draft = editorDraft) {
   return {
     path: draft.path.map((point) => ({ lat: point.lat, lng: point.lng })),
+    segments: (draft.segments || []).map((segment) => ({ ...segment })),
     mustShow: [...draft.mustShow],
     mustHide: [...draft.mustHide],
   };
@@ -635,7 +739,7 @@ function pushEditorHistory() {
 }
 
 function restoreEditorDraft(draft) {
-  editorDraft = cloneEditorDraft(draft);
+  editorDraft = normaliseEditorDraft(cloneEditorDraft(draft));
   selectedEditorPointIndex = Math.min(selectedEditorPointIndex, editorDraft.path.length - 1);
   if (!editorDraft.path.length) selectedEditorPointIndex = -1;
   saveEditorDraft();
@@ -674,6 +778,68 @@ function saveEditorDraft() {
 
 function editorPathPointLabel(index) {
   return `Point ${index + 1} of ${editorDraft.path.length}`;
+}
+
+function editorSegmentsForExport() {
+  const segments = normaliseEditorDraft(editorDraft).segments;
+  return segments.map((segment, index) => ({
+    id: `segment-${index + 1}`,
+    type: segment.type,
+    label: segment.label || routeSegmentStyles[segment.type]?.longLabel || segmentLabel(segment.type),
+    fromPathIndex: segment.fromPathIndex,
+    toPathIndex: Math.max(segment.fromPathIndex, (segments[index + 1]?.fromPathIndex ?? editorDraft.path.length) - 1),
+  }));
+}
+
+function editorSegmentForPoint(index = selectedEditorPointIndex) {
+  if (!editorDraft.path[index]) return null;
+  const candidates = editorSegmentsForExport().filter((segment) => segment.fromPathIndex <= index);
+  return candidates[candidates.length - 1] || { id: 'segment-1', type: 'walk', label: routeSegmentStyles.walk.longLabel, fromPathIndex: 0, toPathIndex: editorDraft.path.length - 1 };
+}
+
+function setEditorSegmentAt(index, updates = {}) {
+  if (!editorDraft.path[index]) {
+    setStatus('No path point selected.');
+    return;
+  }
+  pushEditorHistory();
+  const existing = normaliseEditorDraft(editorDraft).segments;
+  const type = normaliseRouteSegment(updates.type || existing.find((segment) => segment.fromPathIndex === index)?.type || editorSegmentForPoint(index)?.type);
+  const label = String(updates.label ?? existing.find((segment) => segment.fromPathIndex === index)?.label ?? routeSegmentStyles[type]?.longLabel ?? segmentLabel(type)).trim();
+  editorDraft.segments = [
+    ...existing.filter((segment) => segment.fromPathIndex !== index),
+    { fromPathIndex: index, type, label },
+  ].sort((a, b) => a.fromPathIndex - b.fromPathIndex);
+  editorDraft = normaliseEditorDraft(editorDraft);
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus(`${editorPathPointLabel(index)} starts ${segmentLabel(type)}.`);
+}
+
+function mergeEditorSegmentAt(index = selectedEditorPointIndex) {
+  const segment = editorSegmentForPoint(index);
+  if (!segment || segment.fromPathIndex === 0) {
+    setStatus('This is already part of the first segment.');
+    return;
+  }
+  pushEditorHistory();
+  editorDraft.segments = normaliseEditorDraft(editorDraft).segments.filter((item) => item.fromPathIndex !== segment.fromPathIndex);
+  editorDraft = normaliseEditorDraft(editorDraft);
+  saveEditorDraft();
+  renderEditorPanel();
+  renderEditorDraftOverlays();
+  setStatus('Segment merged with previous section.');
+}
+
+function shiftEditorSegmentsAfter(index, delta) {
+  editorDraft.segments = normaliseEditorDraft(editorDraft).segments
+    .map((segment) => ({
+      ...segment,
+      fromPathIndex: segment.fromPathIndex > index ? segment.fromPathIndex + delta : segment.fromPathIndex,
+    }))
+    .filter((segment) => segment.fromPathIndex >= 0 && segment.fromPathIndex < editorDraft.path.length);
+  editorDraft = normaliseEditorDraft(editorDraft);
 }
 
 function selectEditorPoint(index, options = {}) {
@@ -744,6 +910,13 @@ function deleteEditorPoint(index = selectedEditorPointIndex) {
   }
   pushEditorHistory();
   editorDraft.path.splice(index, 1);
+  editorDraft.segments = normaliseEditorDraft(editorDraft).segments
+    .filter((segment) => segment.fromPathIndex !== index)
+    .map((segment) => ({
+      ...segment,
+      fromPathIndex: segment.fromPathIndex > index ? segment.fromPathIndex - 1 : segment.fromPathIndex,
+    }));
+  editorDraft = normaliseEditorDraft(editorDraft);
   selectedEditorPointIndex = Math.min(index, editorDraft.path.length - 1);
   saveEditorDraft();
   renderEditorPanel();
@@ -759,6 +932,7 @@ function duplicateEditorPoint(index = selectedEditorPointIndex) {
   }
   pushEditorHistory();
   editorDraft.path.splice(index + 1, 0, { lat: point.lat, lng: point.lng });
+  shiftEditorSegmentsAfter(index, 1);
   selectedEditorPointIndex = index + 1;
   saveEditorDraft();
   renderEditorPanel();
@@ -779,6 +953,7 @@ function insertEditorPointAfter(index = selectedEditorPointIndex) {
     : { lat: anchor.lat, lng: anchor.lng };
   pushEditorHistory();
   editorDraft.path.splice(anchorIndex + 1, 0, inserted);
+  shiftEditorSegmentsAfter(anchorIndex, 1);
   selectedEditorPointIndex = anchorIndex + 1;
   saveEditorDraft();
   renderEditorPanel();
@@ -794,6 +969,7 @@ function insertEditorPointAt(latLng) {
     lat: Number(latLng.lat.toFixed(6)),
     lng: Number(latLng.lng.toFixed(6)),
   });
+  shiftEditorSegmentsAfter(insertIndex - 1, 1);
   selectedEditorPointIndex = insertIndex;
   saveEditorDraft();
   renderEditorPanel();
@@ -827,6 +1003,7 @@ function editorExport() {
       transport: selectedRoute.transport,
       colour: selectedRoute.colour || selectedRoute.color || '',
       path: editorDraft.path,
+      segments: editorSegmentsForExport(),
       stops: selectedRoute.stops,
       guideEvents: routeSimulationEvents().map((event) => ({
         id: event.id,
@@ -836,10 +1013,11 @@ function editorExport() {
         lat: event.lat,
         lng: event.lng,
         progressM: event.distanceM,
-        radiusM: event.kind === 'transport' ? 160 : 60,
+        radiusM: event.kind === 'transport' ? (event.segment === 'boat' ? 180 : event.segment === 'tube' ? 140 : 160) : 60,
         speak: event.kind !== 'direction',
         once: true,
         segment: event.segment,
+        segmentLabel: event.segmentLabel,
       })),
       customPins: [],
       mustShowPointIds: editorDraft.mustShow,
@@ -866,6 +1044,14 @@ function validateRouteDraft() {
   if (selectedRoute.colour && !/^#[0-9a-f]{6}$/i.test(selectedRoute.colour)) addIssue('warning', `Route colour "${selectedRoute.colour}" is not a valid hex colour.`);
   if (!selectedRoute.stops?.[0]?.name || !selectedRoute.stops?.at(-1)?.name) addIssue('error', 'Route needs named start and end stops.');
   if (editorDraft.path.length < 2) addIssue('error', 'Draft route has fewer than 2 path points.', { type: 'path', index: 0 });
+  editorSegmentsForExport().forEach((segment) => {
+    if (!routeSegmentTypes.includes(segment.type)) addIssue('error', `Draft segment ${segment.id} uses unknown type "${segment.type}".`, { type: 'path', index: segment.fromPathIndex });
+    if (segment.fromPathIndex > segment.toPathIndex) addIssue('error', `Draft segment ${segment.id} has an invalid point range.`, { type: 'path', index: segment.fromPathIndex });
+    if (['bus', 'tube', 'boat'].includes(segment.type)) {
+      const hasTransferStop = selectedRoute.stops.some((stop) => normaliseRouteSegment(stop.segment) === segment.type);
+      if (!hasTransferStop) addIssue('warning', `${segment.label} has no matching ${segmentLabel(segment.type).toLowerCase()} stop or guide event yet.`, { type: 'path', index: segment.fromPathIndex });
+    }
+  });
 
   [...editorDraft.mustShow, ...editorDraft.mustHide].forEach((id) => {
     if (ids.has(id)) duplicates.add(id);
@@ -983,7 +1169,7 @@ function renderEditorInspector() {
   if (editorUiMode === 'preview') {
     editorInspector.innerHTML = `
       <strong>Preview mode</strong>
-      <span>Editor handles are hidden. Route and selected POIs are shown as they will appear in the public map.</span>
+      <span>Editor handles are hidden. Route, segment styles, and selected POIs are shown as they will appear in the public map.</span>
     `;
     return;
   }
@@ -995,16 +1181,38 @@ function renderEditorInspector() {
     `;
     return;
   }
+  const currentSegment = editorSegmentForPoint(selectedEditorPointIndex);
+  const segmentTypeButtons = ['walk', 'bus', 'tube', 'boat', 'train']
+    .map((type) => `
+      <button
+        type="button"
+        data-editor-segment-type="${type}"
+        aria-pressed="${currentSegment?.type === type ? 'true' : 'false'}"
+        style="${routeSegmentCssVars(type)}"
+      >${escapeHtml(segmentLabel(type))}</button>
+    `)
+    .join('');
   editorInspector.innerHTML = `
     <strong>Selected path point</strong>
     <span>${escapeHtml(editorPathPointLabel(selectedEditorPointIndex))}</span>
     <dl>
       <div><dt>Lat</dt><dd>${point.lat.toFixed(6)}</dd></div>
       <div><dt>Lng</dt><dd>${point.lng.toFixed(6)}</dd></div>
+      <div><dt>Segment</dt><dd>${escapeHtml(currentSegment?.label || segmentLabel(currentSegment?.type))}</dd></div>
+      <div><dt>Range</dt><dd>${Number(currentSegment?.fromPathIndex || 0) + 1}-${Number(currentSegment?.toPathIndex || selectedEditorPointIndex) + 1}</dd></div>
     </dl>
+    <div class="editor-segment-controls" aria-label="Segment type for selected path point">
+      ${segmentTypeButtons}
+    </div>
+    <label class="editor-segment-label">
+      <span>Segment label</span>
+      <input type="text" value="${escapeHtml(currentSegment?.label || '')}" data-editor-segment-label aria-label="Segment label" />
+    </label>
     <div class="editor-inspector-actions">
       <button type="button" data-editor-inspector-action="focus">Focus</button>
       <button type="button" data-editor-inspector-action="insert-after">Insert after</button>
+      <button type="button" data-editor-inspector-action="split-segment">Split here</button>
+      <button type="button" data-editor-inspector-action="merge-segment">Merge prev</button>
       <button type="button" data-editor-inspector-action="duplicate">Duplicate</button>
       <button type="button" data-editor-inspector-action="delete">Delete</button>
     </div>
@@ -1049,15 +1257,31 @@ function renderEditorDraftOverlays() {
 
   const latLngs = editorDraft.path.map((point) => [point.lat, point.lng]);
   if (latLngs.length > 1) {
-    const line = L.polyline(latLngs, {
-      color: '#111827',
-      dashArray: '8 6',
-      opacity: 0.82,
-      weight: 4,
-      lineCap: 'round',
-      lineJoin: 'round',
-    }).addTo(map);
-    editorDraftLayers.push(line);
+    editorSegmentsForExport().forEach((segment) => {
+      const segmentLatLngs = editorDraft.path
+        .slice(segment.fromPathIndex, segment.toPathIndex + 1)
+        .map((point) => [point.lat, point.lng]);
+      if (segmentLatLngs.length < 2) return;
+      const strokeStyle = routeStrokeStyle(segment.type);
+      const casing = L.polyline(segmentLatLngs, {
+        color: '#ffffff',
+        opacity: 0.92,
+        weight: Math.max(8, strokeStyle.lineWeight + 5),
+        overlayOrder: 62,
+        lineCap: 'round',
+        lineJoin: 'round',
+      }).addTo(map);
+      const line = L.polyline(segmentLatLngs, {
+        color: segmentStylesFor(segment.type),
+        dashArray: routeLineDash(segment.type),
+        opacity: 0.88,
+        weight: Math.max(4, strokeStyle.lineWeight - 2),
+        overlayOrder: 63,
+        lineCap: 'round',
+        lineJoin: 'round',
+      }).addTo(map);
+      editorDraftLayers.push(casing, line);
+    });
     latLngs.slice(1).forEach((latLng, index) => {
       const previous = latLngs[index];
       const midpoint = [(previous[0] + latLng[0]) / 2, (previous[1] + latLng[1]) / 2];
@@ -2505,7 +2729,7 @@ function renderDetails() {
   if (routeKeyEl) {
     routeKeyEl.innerHTML = routeSegments
       .map((group) => `
-        <span class="route-key-item route-key-${escapeHtml(group.segment)}">
+        <span class="route-key-item route-key-${escapeHtml(normaliseRouteSegment(group.segment))}" style="${routeSegmentCssVars(group.segment)}">
           <span aria-hidden="true"></span>${escapeHtml(segmentLabel(group.segment))}
         </span>
       `)
@@ -2518,7 +2742,7 @@ function renderDetails() {
         const first = group.stops[0];
         const last = group.stops[group.stops.length - 1];
         return `
-          <article class="route-section route-section-${escapeHtml(group.segment)}">
+          <article class="route-section route-section-${escapeHtml(normaliseRouteSegment(group.segment))}" style="${routeSegmentCssVars(group.segment)}">
             <strong>${escapeHtml(group.segmentLabel || `${segmentLabel(group.segment)} section`)}</strong>
             <span>${escapeHtml(first?.name || 'Start')} to ${escapeHtml(last?.name || 'finish')}</span>
             <small>${group.stops.length} stop${group.stops.length === 1 ? '' : 's'} · ${escapeHtml(segmentLabel(group.segment))}</small>
@@ -2533,8 +2757,8 @@ function renderDetails() {
       const previous = selectedRoute.stops[index - 1];
       const segmentBreak = !previous || previous.segment !== stop.segment;
       return `
-        ${segmentBreak ? `<li class="segment-divider">${stop.segmentLabel}</li>` : ''}
-        <li data-segment="${stop.segment}">
+        ${segmentBreak ? `<li class="segment-divider" style="${routeSegmentCssVars(stop.segment)}"><span aria-hidden="true"></span>${escapeHtml(stop.segmentLabel || routeSegmentStyles[normaliseRouteSegment(stop.segment)]?.longLabel || segmentLabel(stop.segment))}</li>` : ''}
+        <li data-segment="${escapeHtml(normaliseRouteSegment(stop.segment))}" style="${routeSegmentCssVars(stop.segment)}">
           <span class="stop-index">${index + 1}</span>
           <div class="stop-copy">
             <strong>${stop.name}</strong>
@@ -2969,43 +3193,32 @@ function renderBasemapRepairLabels() {
 }
 
 function segmentStylesFor(segment) {
-  const colours = {
-    walk: '#c9483a',
-    bus: '#b45309',
-    tube: '#6f2dbd',
-    boat: '#0369a1',
-  };
-
-  return colours[segment] || '#c9483a';
+  const key = normaliseRouteSegment(segment);
+  if (key === 'walk') return selectedRoute.colour || selectedRoute.color || routeSegmentStyles.walk.colour;
+  return routeSegmentStyles[key]?.colour || routeSegmentStyles.custom.colour;
 }
 
 function segmentLabel(segment) {
-  const labels = {
-    walk: 'Walk',
-    bus: 'Bus',
-    tube: 'Tube',
-    boat: 'Boat',
-    train: 'Rail',
-  };
-  return labels[segment] || String(segment || 'Route');
+  return routeSegmentStyles[normaliseRouteSegment(segment)]?.label || String(segment || 'Route');
+}
+
+function routeSegmentCssVars(segment) {
+  const key = normaliseRouteSegment(segment);
+  return `--route-segment-colour: ${segmentStylesFor(key)}; --route-segment-dash: ${routeSegmentStyles[key]?.dashArray ? 'dashed' : 'solid'};`;
 }
 
 function routeLineDash(segment) {
-  const dashes = {
-    bus: '12 9',
-    boat: '2 10',
-    transfer: '4 8',
-  };
-  return dashes[segment] || null;
+  return routeSegmentStyles[normaliseRouteSegment(segment)]?.dashArray || null;
 }
 
 function routeStrokeStyle(segment) {
   const isCompact = window.matchMedia('(max-width: 900px)').matches;
+  const style = routeSegmentStyles[normaliseRouteSegment(segment)] || routeSegmentStyles.custom;
   return {
     casingOpacity: isCompact ? 0.94 : 0.98,
-    casingWeight: isCompact ? 12 : 16,
+    casingWeight: isCompact ? style.casingWeight.compact : style.casingWeight.full,
     lineOpacity: 1,
-    lineWeight: segment === 'tube' ? (isCompact ? 8 : 10) : segment === 'boat' ? (isCompact ? 6 : 8) : (isCompact ? 7 : 9),
+    lineWeight: isCompact ? style.lineWeight.compact : style.lineWeight.full,
   };
 }
 
@@ -3634,10 +3847,15 @@ function renderRouteMarkers() {
   routeMarkers = [];
 
   visibleRouteStops().forEach(({ stop, index }) => {
+    const segment = normaliseRouteSegment(stop.segment);
+    const previous = selectedRoute.stops[index - 1];
+    const next = selectedRoute.stops[index + 1];
+    const isTransfer = index > 0 && (previous?.segment !== stop.segment || next?.segment !== stop.segment);
+    const markerTitle = isTransfer ? routeSegmentStyles.transfer.markerLabel : routeSegmentStyles[segment]?.markerLabel || 'Route stop';
     const marker = L.marker([stop.lat, stop.lng], {
       icon: L.divIcon({
         className: '',
-        html: `<div class="poi-marker ${stop.segment === 'bus' ? 'poi-marker-bus' : ''}"><span>${index + 1}</span></div>`,
+        html: `<div class="poi-marker poi-marker-${escapeHtml(segment)} ${isTransfer ? 'poi-marker-transfer' : ''}" title="${escapeHtml(markerTitle)}" aria-label="${escapeHtml(markerTitle)}"><span>${index + 1}</span></div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 14],
       }),
@@ -4437,7 +4655,7 @@ editorClearButton.addEventListener('click', () => {
     if (!confirmed) return;
   }
   pushEditorHistory();
-  editorDraft = { path: [], mustShow: [], mustHide: [] };
+  editorDraft = { path: [], segments: [], mustShow: [], mustHide: [] };
   selectedEditorPointIndex = -1;
   saveEditorDraft();
   renderEditorPanel();
@@ -4470,13 +4688,35 @@ editorDownloadButton?.addEventListener('click', () => {
   setStatus('Route draft JSON downloaded.');
 });
 editorInspector?.addEventListener('click', (event) => {
+  const segmentTypeButton = event.target.closest('button[data-editor-segment-type]');
+  if (segmentTypeButton) {
+    setEditorSegmentAt(selectedEditorPointIndex, { type: segmentTypeButton.dataset.editorSegmentType });
+    return;
+  }
   const button = event.target.closest('button[data-editor-inspector-action]');
   if (!button) return;
   const action = button.dataset.editorInspectorAction;
   if (action === 'focus') selectEditorPoint(selectedEditorPointIndex, { focus: true });
   if (action === 'insert-after') insertEditorPointAfter();
+  if (action === 'split-segment') {
+    const current = editorSegmentForPoint(selectedEditorPointIndex);
+    setEditorSegmentAt(selectedEditorPointIndex, {
+      type: current?.type || 'walk',
+      label: current?.label || routeSegmentStyles[current?.type || 'walk']?.longLabel,
+    });
+  }
+  if (action === 'merge-segment') mergeEditorSegmentAt();
   if (action === 'duplicate') duplicateEditorPoint();
   if (action === 'delete') deleteEditorPoint();
+});
+editorInspector?.addEventListener('change', (event) => {
+  const input = event.target.closest('input[data-editor-segment-label]');
+  if (!input) return;
+  const current = editorSegmentForPoint(selectedEditorPointIndex);
+  setEditorSegmentAt(current?.fromPathIndex ?? selectedEditorPointIndex, {
+    type: current?.type || 'walk',
+    label: input.value,
+  });
 });
 editorValidation?.addEventListener('click', (event) => {
   const button = event.target.closest('button[data-validation-type]');

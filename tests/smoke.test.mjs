@@ -156,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-location'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-location/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-location/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-location/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-location/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-segments'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-segments/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-segments/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-segments/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-segments/);
   assert.match(html, /data-editor-mode="draw"/);
   assert.match(html, /data-editor-mode="edit"/);
   assert.match(html, /data-editor-mode="insert"/);
@@ -295,7 +295,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260701-location'/);
+  assert.match(js, /const assetVersion = '20260701-segments'/);
+  assert.match(js, /const cacheName = 'londontour-offline-v102'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -430,11 +431,21 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.doesNotMatch(js, /cartoBasemapUrl/);
   assert.doesNotMatch(js, /basemaps\.cartocdn\.com/);
   assert.match(js, /createPane\('basemapLabels'\)/);
+  assert.match(js, /const routeSegmentStyles = \{/);
+  assert.match(js, /bus:[\s\S]*dashArray: '13 8'/);
+  assert.match(js, /tube:[\s\S]*dashArray: '1 10'/);
+  assert.match(js, /boat:[\s\S]*dashArray: '2 9'/);
+  assert.match(js, /function editorSegmentsForExport/);
+  assert.match(js, /segments: editorSegmentsForExport\(\)/);
+  assert.match(js, /data-editor-segment-type="\$\{type\}"/);
+  assert.match(js, /data-editor-inspector-action="split-segment"/);
+  assert.match(js, /data-editor-inspector-action="merge-segment"/);
+  assert.match(js, /poi-marker-transfer/);
   assert.match(js, /function routeStrokeStyle/);
   assert.match(js, /casingOpacity: isCompact \? 0\.94 : 0\.98/);
-  assert.match(js, /casingWeight: isCompact \? 12 : 16/);
+  assert.match(js, /casingWeight: isCompact \? style\.casingWeight\.compact : style\.casingWeight\.full/);
   assert.match(js, /lineOpacity: 1/);
-  assert.match(js, /lineWeight: segment === 'tube' \? \(isCompact \? 8 : 10\) : segment === 'boat' \? \(isCompact \? 6 : 8\) : \(isCompact \? 7 : 9\)/);
+  assert.match(js, /lineWeight: isCompact \? style\.lineWeight\.compact : style\.lineWeight\.full/);
   assert.match(js, /const lineWeight = isSelected && displayLineIds\.length > 1 \? 6 : isSelected \? 7 : 5\.2/);
   assert.match(js, /const lineOpacity = isSelected \? 1 : 0\.5/);
   assert.match(js, /function browseTubeLineOffsetPixels/);
@@ -658,6 +669,11 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.layer-marker-bus-planning/);
   assert.match(css, /\.layer-marker\.is-editor-must-show/);
   assert.match(css, /\.editor-output/);
+  assert.match(css, /\.route-key-bus span/);
+  assert.match(css, /border: 3px var\(--route-segment-dash, solid\) var\(--route-segment-colour, var\(--route\)\)/);
+  assert.match(css, /\.directions \.segment-divider span/);
+  assert.match(css, /\.editor-segment-controls/);
+  assert.match(css, /\.poi-marker-transfer/);
   assert.match(css, /\.layer-marker-transport-boat/);
   assert.match(css, /\.boat-marker-icon/);
   assert.doesNotMatch(css, /\.boat-marker-icon::before/);
@@ -730,7 +746,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v101/);
+  assert.match(sw, /londontour-offline-v102/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
