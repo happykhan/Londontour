@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-notoptheme" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260630-notoptheme" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-nearbyicons" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-nearbyicons" />
   </head>
   <body>
     <main class="app-shell">
@@ -145,7 +145,7 @@
           <button id="browse-map-button" class="secondary-button" type="button" aria-controls="layers-panel" aria-expanded="false">Layers</button>
           <button id="search-button" class="icon-button" type="button" aria-label="Search map" aria-controls="search-panel" aria-expanded="false" title="Search map"><span class="search-icon" aria-hidden="true"></span></button>
           <button id="radius-button" class="icon-button" type="button" aria-label="Explore nearby" aria-controls="radius-panel" aria-expanded="false" title="Explore nearby"><span class="radius-icon" aria-hidden="true"></span></button>
-          <button id="locate-button" class="icon-button" type="button" aria-label="Use my location" title="Use my location"><span class="location-icon" aria-hidden="true"></span></button>
+          <button id="locate-button" class="icon-button" type="button" aria-label="Use my current location" title="Use my current location"><span class="location-arrow-icon" aria-hidden="true"></span></button>
           <button id="menu-button" class="icon-button" type="button" aria-label="Open menu" aria-controls="menu-panel offline-panel" aria-expanded="false" title="Menu"><span class="menu-icon" aria-hidden="true"></span></button>
         </div>
         <section id="search-panel" class="search-panel" role="dialog" aria-labelledby="search-title" hidden>
@@ -197,14 +197,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-notoptheme"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-notoptheme"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-notoptheme"></script>
-    <script src="assets/app.js?v=20260630-notoptheme"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-nearbyicons"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-nearbyicons"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-nearbyicons"></script>
+    <script src="assets/app.js?v=20260630-nearbyicons"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260630-notoptheme').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-nearbyicons').catch(() => {});
         });
       }
     </script>

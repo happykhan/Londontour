@@ -435,8 +435,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-notoptheme';
-const cacheName = 'londontour-offline-v90';
+const assetVersion = '20260630-nearbyicons';
+const cacheName = 'londontour-offline-v91';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1459,8 +1459,8 @@ function renderRadiusPanel() {
     const canLock = Boolean(radiusState.center);
     radiusLockButton.disabled = !canLock;
     radiusLockButton.setAttribute('aria-pressed', radiusState.locked ? 'true' : 'false');
-    radiusLockButton.setAttribute('aria-label', radiusState.locked ? 'Unlock nearby radius' : 'Lock nearby radius');
-    radiusLockButton.setAttribute('title', radiusState.locked ? 'Unlock nearby radius' : 'Lock nearby radius');
+    radiusLockButton.setAttribute('aria-label', radiusState.locked ? 'Search area locked. Tap to unlock search area.' : 'Search area unlocked. Tap to lock search area.');
+    radiusLockButton.setAttribute('title', radiusState.locked ? 'Unlock search area' : 'Lock search area');
   }
 
   if (!radiusState.center) {
@@ -3109,8 +3109,8 @@ function locateUser() {
 
       if (!isInsideLondon(latLng)) {
         locateButton?.classList.remove('is-loading', 'is-active');
-        locateButton?.setAttribute('aria-label', 'Use my location');
-        locateButton?.setAttribute('title', 'Use my location');
+        locateButton?.setAttribute('aria-label', 'Use my current location');
+        locateButton?.setAttribute('title', 'Use my current location');
         setStatus('Your position is outside the London map area. Route pins are still available.');
         return;
       }
@@ -3134,8 +3134,8 @@ function locateUser() {
       };
 
       locateButton?.classList.remove('is-loading', 'is-active');
-      locateButton?.setAttribute('aria-label', 'Use my location');
-      locateButton?.setAttribute('title', 'Use my location');
+      locateButton?.setAttribute('aria-label', 'Use my current location');
+      locateButton?.setAttribute('title', 'Use my current location');
       setStatus(messages[error.code] || 'Location lookup failed.');
     },
     {

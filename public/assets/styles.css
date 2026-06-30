@@ -757,6 +757,7 @@ body[data-theme="dark"] .zoom-indicator {
   padding: 0;
 }
 
+.location-arrow-icon,
 .location-icon {
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
@@ -768,6 +769,7 @@ body[data-theme="dark"] .zoom-indicator {
   width: 0;
 }
 
+.location-arrow-icon::after,
 .location-icon::after {
   border-left: 3px solid transparent;
   border-right: 3px solid transparent;
@@ -1147,13 +1149,56 @@ body[data-theme="dark"] .search-result:focus-visible {
 }
 
 .radius-lock-button {
+  background: var(--panel);
+  border: 1px solid rgba(20, 108, 100, 0.34);
+  color: var(--accent-strong);
   min-height: 40px;
   min-width: 40px;
 }
 
+.radius-lock-button:hover,
+.radius-lock-button:focus-visible {
+  background: #eef3f6;
+  color: var(--accent-strong);
+}
+
 .radius-lock-button[aria-pressed="true"] {
   background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
+}
+
+.radius-lock-button[aria-pressed="false"] .lock-icon::before {
+  left: 6px;
+  top: -7px;
+  transform: rotate(34deg);
+  transform-origin: left bottom;
+}
+
+.radius-lock-button:disabled {
+  background: var(--panel);
+  border-color: var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+body[data-theme="dark"] .radius-lock-button {
+  background: #202823;
+  border-color: #3a4640;
+  color: var(--accent);
+}
+
+body[data-theme="dark"] .radius-lock-button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+body[data-theme="dark"] .radius-lock-button:disabled {
+  background: #202823;
+  border-color: #3a4640;
+  color: var(--muted);
 }
 
 .radius-selection {
@@ -2266,15 +2311,19 @@ body[data-theme="dark"] .onboarding-panel {
   }
 
   .radius-actions {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
     justify-content: stretch;
   }
 
   .radius-actions > * {
-    flex: 1 1 auto;
+    min-height: 42px;
   }
 
   .radius-lock-button {
+    min-height: 42px;
     min-width: 44px;
+    width: 44px;
   }
 
   .search-form {

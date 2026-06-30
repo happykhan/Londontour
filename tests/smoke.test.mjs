@@ -136,20 +136,20 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="editor-validation"/);
   assert.match(html, /id="onboarding-panel"/);
   assert.match(html, /id="locate-button"/);
-  assert.match(html, /aria-label="Use my location"/);
+  assert.match(html, /aria-label="Use my current location"/);
   assert.doesNotMatch(html, /id="theme-button"/);
   assert.doesNotMatch(html, /aria-label="Switch to dark mode"/);
-  assert.match(html, /class="location-icon"/);
+  assert.match(html, /class="location-arrow-icon"/);
   assert.match(html, /class="menu-icon"/);
   assert.match(html, /id="route-share-button"/);
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-notoptheme'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-notoptheme/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-notoptheme/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-notoptheme/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-notoptheme/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-nearbyicons'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-nearbyicons/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-nearbyicons/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-nearbyicons/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-nearbyicons/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -236,6 +236,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /addEventListener\('pointermove', handleRadiusPointerMove\)/);
   assert.match(js, /addEventListener\('pointerup', handleRadiusPointerEnd\)/);
   assert.match(js, /setRadiusOpen\(!document\.body\.classList\.contains\('radius-open'\)\)/);
+  assert.match(js, /Search area locked\. Tap to unlock search area\./);
+  assert.match(js, /Search area unlocked\. Tap to lock search area\./);
   assert.match(js, /setSearchOpen\(!document\.body\.classList\.contains\('search-open'\)\)/);
   assert.match(js, /activeLayerIds\.add\(item\.layerId\)/);
   assert.match(js, /activeLayerIds\.add\('transport'\)/);
@@ -263,7 +265,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-notoptheme'/);
+  assert.match(js, /const assetVersion = '20260630-nearbyicons'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -489,6 +491,9 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.radius-selection/);
   assert.match(css, /\.radius-selection-card/);
   assert.match(css, /\.radius-lock-button/);
+  assert.match(css, /\.radius-lock-button\[aria-pressed="false"\] \.lock-icon::before/);
+  assert.match(css, /\.radius-lock-button:disabled/);
+  assert.match(css, /grid-template-columns: auto minmax\(0, 1fr\) minmax\(0, 1fr\)/);
   assert.match(css, /\.lock-icon/);
   assert.match(css, /--result-accent/);
   assert.match(css, /\.search-result-water/);
@@ -503,7 +508,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.radius-edge-marker/);
   assert.match(css, /\.radius-tick-label/);
   assert.match(css, /\.nearby-popup-actions/);
-  assert.match(css, /\.location-icon/);
+  assert.match(css, /\.location-arrow-icon/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
   assert.match(css, /\.panel-close-button/);
@@ -598,7 +603,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v90/);
+  assert.match(sw, /londontour-offline-v91/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
