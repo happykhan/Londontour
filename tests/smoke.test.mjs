@@ -156,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-simulation'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-simulation/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-simulation/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-simulation/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-simulation/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-validation'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-validation/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-validation/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-validation/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-validation/);
   assert.match(html, /id="simulation-panel"/);
   assert.match(html, /id="simulation-slider"/);
   assert.match(html, /id="simulation-play-button"/);
@@ -286,7 +286,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-simulation'/);
+  assert.match(js, /const assetVersion = '20260630-validation'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -310,6 +310,15 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /simulationSlider\?\.addEventListener\('input'/);
   assert.match(js, /simulationTimelineEl\?\.addEventListener\('click'/);
   assert.match(js, /simulationState\.firedEventIds = new Set\(\)/);
+  assert.match(js, /function validateRouteDraft/);
+  assert.match(js, /Route id/);
+  assert.match(js, /Draft route has fewer than 2 path points/);
+  assert.match(js, /less than 2 m from the previous point/);
+  assert.match(js, /uses unknown segment type/);
+  assert.match(js, /Guide event/);
+  assert.match(js, /function focusValidationIssue/);
+  assert.match(js, /data-validation-type/);
+  assert.match(js, /validation error/);
   assert.match(js, /function popupTitle/);
   assert.match(js, /function pointDetailText/);
   assert.match(js, /function pointFallbackDetail/);
@@ -576,6 +585,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.simulation-controls/);
   assert.match(css, /\.simulation-timeline/);
   assert.match(css, /\.simulation-marker/);
+  assert.match(css, /\.validation-summary button/);
   assert.match(css, /\.location-arrow-icon/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
@@ -672,7 +682,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v97/);
+  assert.match(sw, /londontour-offline-v98/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

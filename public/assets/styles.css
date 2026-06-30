@@ -2081,6 +2081,21 @@ body.route-view:not(.editor-mode) .layer-marker.is-background {
   padding-left: 1rem;
 }
 
+.validation-summary button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+}
+
+.validation-summary button:hover,
+.validation-summary button:focus {
+  text-decoration: underline;
+}
+
 .validation-error {
   color: #b91c1c;
 }

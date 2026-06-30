@@ -450,8 +450,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-simulation';
-const cacheName = 'londontour-offline-v97';
+const assetVersion = '20260630-validation';
+const cacheName = 'londontour-offline-v98';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -657,8 +657,20 @@ function editorExport() {
 
 function validateRouteDraft() {
   const issues = [];
+  const addIssue = (level, text, target = {}) => issues.push({ level, text, target });
   const ids = new Set();
   const duplicates = new Set();
+
+  if (!selectedRoute.id) addIssue('error', 'Route has no id.');
+  if (selectedRoute.id && !/^[a-z0-9-]+$/.test(selectedRoute.id)) addIssue('error', `Route id "${selectedRoute.id}" is not slug-safe.`);
+  if (routes.filter((route) => route.id === selectedRoute.id).length > 1) addIssue('error', `Route id "${selectedRoute.id}" is duplicated.`);
+  ['name', 'summary', 'kind', 'transport'].forEach((field) => {
+    if (!String(selectedRoute[field] || '').trim()) addIssue('error', `Route has no ${field}.`);
+  });
+  if (selectedRoute.colour && !/^#[0-9a-f]{6}$/i.test(selectedRoute.colour)) addIssue('warning', `Route colour "${selectedRoute.colour}" is not a valid hex colour.`);
+  if (!selectedRoute.stops?.[0]?.name || !selectedRoute.stops?.at(-1)?.name) addIssue('error', 'Route needs named start and end stops.');
+  if (editorDraft.path.length < 2) addIssue('error', 'Draft route has fewer than 2 path points.', { type: 'path', index: 0 });
+
   [...editorDraft.mustShow, ...editorDraft.mustHide].forEach((id) => {
     if (ids.has(id)) duplicates.add(id);
     ids.add(id);
@@ -666,33 +678,108 @@ function validateRouteDraft() {
 
   editorDraft.path.forEach((point, index) => {
     if (!Number.isFinite(point.lat) || !Number.isFinite(point.lng)) {
-      issues.push({ level: 'error', text: `Path point ${index + 1} has invalid coordinates.` });
+      addIssue('error', `Path point ${index + 1} has invalid coordinates.`, { type: 'path', index });
     } else if (!isInsideLondon([point.lat, point.lng])) {
-      issues.push({ level: 'warning', text: `Path point ${index + 1} is outside the London map area.` });
+      addIssue('warning', `Path point ${index + 1} is outside the London map area.`, { type: 'path', index });
     }
 
     const previous = editorDraft.path[index - 1];
     if (previous && Number.isFinite(point.lat) && Number.isFinite(previous.lat)) {
-      const jumpMeters = pointToSegmentDistanceMeters(point, previous, previous);
-      if (jumpMeters > 1800) {
-        issues.push({ level: 'warning', text: `Path point ${index + 1} jumps ${formatDistance(jumpMeters)} from the previous point.` });
+      const jumpMeters = stopDistanceMeters(previous, point);
+      if (jumpMeters < 2) {
+        addIssue('warning', `Path point ${index + 1} is less than 2 m from the previous point.`, { type: 'path', index });
+      } else if (jumpMeters > 1000) {
+        addIssue('error', `Path point ${index + 1} jumps ${formatDistance(jumpMeters)} from the previous point.`, { type: 'path', index });
+      } else if (jumpMeters > 300) {
+        addIssue('warning', `Path point ${index + 1} jumps ${formatDistance(jumpMeters)} from the previous point.`, { type: 'path', index });
       }
     }
   });
 
-  duplicates.forEach((id) => issues.push({ level: 'error', text: `Point ${id} is duplicated across editor lists.` }));
+  const totalDraftDistance = editorDraft.path.slice(1).reduce((sum, point, index) => sum + stopDistanceMeters(editorDraft.path[index], point), 0);
+  if (editorDraft.path.length >= 2 && totalDraftDistance < 100) addIssue('warning', `Draft route is only ${formatDistance(totalDraftDistance)} long.`, { type: 'path', index: 0 });
+
+  duplicates.forEach((id) => addIssue('error', `Point ${id} is duplicated across editor lists.`, { type: 'poi', id }));
   editorDraft.mustShow.filter((id) => editorDraft.mustHide.includes(id)).forEach((id) => {
-    issues.push({ level: 'error', text: `Point ${id} is both must-show and must-hide.` });
+    addIssue('error', `Point ${id} is both must-show and must-hide.`, { type: 'poi', id });
   });
   [...ids].filter((id) => !findLayerPoint(id)).forEach((id) => {
-    issues.push({ level: 'warning', text: `Point ${id} no longer exists in the layer data.` });
+    addIssue('warning', `Point ${id} no longer exists in the layer data.`, { type: 'poi', id });
   });
 
-  if (editorDraft.path.length === 1) {
-    issues.push({ level: 'warning', text: 'Draft route has only one path point.' });
-  }
+  const stopNames = new Set();
+  selectedRoute.stops.forEach((stop, index) => {
+    if (!String(stop.name || '').trim()) addIssue('error', `Stop ${index + 1} has no name.`, { type: 'stop', index });
+    if (!Number.isFinite(stop.lat) || !Number.isFinite(stop.lng)) {
+      addIssue('error', `Stop ${index + 1} has invalid coordinates.`, { type: 'stop', index });
+    } else if (!isInsideLondon([stop.lat, stop.lng])) {
+      addIssue('warning', `Stop "${stop.name}" is outside the London map area.`, { type: 'stop', index });
+    }
+    const key = String(stop.id || stop.name || '').toLowerCase();
+    if (key && stopNames.has(key)) addIssue('warning', `Stop "${stop.name}" is duplicated.`, { type: 'stop', index });
+    if (key) stopNames.add(key);
+    if (editorDraft.path.length >= 2) {
+      const routeDistance = Math.min(...editorDraft.path.slice(1).map((point, pointIndex) => pointToSegmentDistanceMeters(stop, editorDraft.path[pointIndex], point)));
+      if (routeDistance > 120) addIssue('warning', `Stop "${stop.name}" is ${formatDistance(routeDistance)} from the draft path.`, { type: 'stop', index });
+    }
+    if (stop.segment && !['walk', 'bus', 'tube', 'boat', 'train', 'custom'].includes(stop.segment)) addIssue('error', `Stop "${stop.name}" uses unknown segment type "${stop.segment}".`, { type: 'stop', index });
+    const previous = selectedRoute.stops[index - 1];
+    if (previous?.segment === stop.segment && previous?.segmentLabel !== stop.segmentLabel) addIssue('warning', `Stop "${stop.name}" changes label inside the same segment type.`, { type: 'stop', index });
+  });
+
+  routeSimulationEvents().forEach((event) => {
+    if (!event.id) addIssue('error', `Guide event for "${event.name}" has no id.`, { type: 'event', id: event.id });
+    if (!['start', 'direction', 'transport', 'end'].includes(event.kind)) addIssue('error', `Guide event "${event.name}" has unknown type "${event.kind}".`, { type: 'event', id: event.id });
+    if (!String(event.name || '').trim()) addIssue('error', 'Guide event has no title.', { type: 'event', id: event.id });
+    if (!Number.isFinite(event.distanceM) || event.distanceM < 0) addIssue('error', `Guide event "${event.name}" has invalid progress.`, { type: 'event', id: event.id });
+  });
 
   return issues;
+}
+
+function validationIssueTargetAttrs(issue, index) {
+  const target = issue.target || {};
+  if (!target.type) return '';
+  return ` data-validation-index="${index}" data-validation-type="${escapeHtml(target.type)}"${target.index !== undefined ? ` data-validation-target-index="${Number(target.index)}"` : ''}${target.id ? ` data-validation-target-id="${escapeHtml(target.id)}"` : ''}`;
+}
+
+function focusValidationIssue(target = {}) {
+  if (!map || !target.type) return;
+  if (target.type === 'path') {
+    const point = editorDraft.path[target.index] || editorDraft.path[0];
+    if (point) {
+      map.setView([point.lat, point.lng], Math.max(map.getZoom(), 16));
+      setStatus(`Focused path point ${Number(target.index || 0) + 1}.`);
+    }
+    return;
+  }
+  if (target.type === 'stop') {
+    const stop = selectedRoute.stops[target.index];
+    if (stop) {
+      map.setView([stop.lat, stop.lng], Math.max(map.getZoom(), 15));
+      L.popup().setLatLng([stop.lat, stop.lng]).setContent(`<strong>${escapeHtml(stop.name || `Stop ${target.index + 1}`)}</strong>`).openOn(map);
+      setStatus(`Focused stop ${stop.name || target.index + 1}.`);
+    }
+    return;
+  }
+  if (target.type === 'event') {
+    const event = routeSimulationEvents().find((item) => item.id === target.id);
+    if (event) {
+      simulationState.selectedEventId = event.id;
+      setSimulationProgress(event.distanceM, { focus: true });
+      setStatus(`Focused guide event ${event.name}.`);
+    }
+    return;
+  }
+  if (target.type === 'poi') {
+    const point = findLayerPoint(target.id);
+    if (point) {
+      selectedPointId = point.id;
+      map.setView([point.lat, point.lng], Math.max(map.getZoom(), 16));
+      renderLayerMarkers();
+      setStatus(`Focused POI ${point.name}.`);
+    }
+  }
 }
 
 function renderEditorPanel() {
@@ -709,7 +796,7 @@ function renderEditorPanel() {
     editorValidation.innerHTML = issues.length
       ? `
         <strong>${issues.filter((issue) => issue.level === 'error').length} error${issues.filter((issue) => issue.level === 'error').length === 1 ? '' : 's'} · ${issues.filter((issue) => issue.level === 'warning').length} warning${issues.filter((issue) => issue.level === 'warning').length === 1 ? '' : 's'}</strong>
-        <ul>${issues.map((issue) => `<li class="validation-${issue.level}">${escapeHtml(issue.text)}</li>`).join('')}</ul>
+        <ul>${issues.map((issue, index) => `<li class="validation-${issue.level}"><button type="button"${validationIssueTargetAttrs(issue, index)}>${escapeHtml(issue.text)}</button></li>`).join('')}</ul>
       `
       : '<strong>Ready to export</strong><span>No route draft validation issues found.</span>';
   }
@@ -3888,13 +3975,24 @@ editorClearButton.addEventListener('click', () => {
 editorCopyButton.addEventListener('click', async () => {
   if (!editorMode) return;
   renderEditorPanel();
+  const issues = validateRouteDraft();
+  const errorCount = issues.filter((issue) => issue.level === 'error').length;
   try {
     await navigator.clipboard.writeText(editorOutput.value);
-    setStatus('Route draft JSON copied.');
+    setStatus(errorCount ? `Route draft JSON copied with ${errorCount} validation error${errorCount === 1 ? '' : 's'} to review.` : 'Route draft JSON copied.');
   } catch (error) {
     editorOutput.select();
-    setStatus('Route draft JSON is selected.');
+    setStatus(errorCount ? `Route draft JSON is selected. Review ${errorCount} validation error${errorCount === 1 ? '' : 's'} before publishing.` : 'Route draft JSON is selected.');
   }
+});
+editorValidation?.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-validation-type]');
+  if (!button) return;
+  focusValidationIssue({
+    type: button.dataset.validationType,
+    index: button.dataset.validationTargetIndex === undefined ? undefined : Number(button.dataset.validationTargetIndex),
+    id: button.dataset.validationTargetId,
+  });
 });
 simulationSlider?.addEventListener('input', () => {
   stopSimulationPlayback();
