@@ -156,11 +156,17 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-popupcopy'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-popupcopy/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-popupcopy/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-popupcopy/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-popupcopy/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-simulation'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-simulation/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-simulation/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-simulation/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-simulation/);
+  assert.match(html, /id="simulation-panel"/);
+  assert.match(html, /id="simulation-slider"/);
+  assert.match(html, /id="simulation-play-button"/);
+  assert.match(html, /id="simulation-step-button"/);
+  assert.match(html, /id="simulation-reset-button"/);
+  assert.match(html, /id="simulation-timeline"/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -280,7 +286,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-popupcopy'/);
+  assert.match(js, /const assetVersion = '20260630-simulation'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -294,6 +300,16 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function findLayerPointForShare/);
   assert.match(js, /function restoreSharedPoiFromUrl/);
   assert.match(js, /restoreSharedPoiFromUrl\(\)/);
+  assert.match(js, /let simulationState = \{/);
+  assert.match(js, /function routeSimulationEvents/);
+  assert.match(js, /function simulationPositionAt/);
+  assert.match(js, /function renderSimulationPanel/);
+  assert.match(js, /function stepSimulationToNextEvent/);
+  assert.match(js, /function resetSimulation/);
+  assert.match(js, /data-simulation-event/);
+  assert.match(js, /simulationSlider\?\.addEventListener\('input'/);
+  assert.match(js, /simulationTimelineEl\?\.addEventListener\('click'/);
+  assert.match(js, /simulationState\.firedEventIds = new Set\(\)/);
   assert.match(js, /function popupTitle/);
   assert.match(js, /function pointDetailText/);
   assert.match(js, /function pointFallbackDetail/);
@@ -556,6 +572,10 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.radius-edge-marker/);
   assert.match(css, /\.radius-tick-label/);
   assert.match(css, /\.nearby-popup-actions/);
+  assert.match(css, /\.simulation-panel/);
+  assert.match(css, /\.simulation-controls/);
+  assert.match(css, /\.simulation-timeline/);
+  assert.match(css, /\.simulation-marker/);
   assert.match(css, /\.location-arrow-icon/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
@@ -652,7 +672,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v96/);
+  assert.match(sw, /londontour-offline-v97/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

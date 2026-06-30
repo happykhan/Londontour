@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-popupcopy" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260630-popupcopy" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-simulation" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-simulation" />
   </head>
   <body>
     <main class="app-shell">
@@ -55,6 +55,28 @@
           </div>
           <p id="editor-summary" class="offline-details"></p>
           <div id="editor-validation" class="validation-summary" aria-live="polite"></div>
+          <section id="simulation-panel" class="simulation-panel" aria-label="Route simulation">
+            <div class="section-row">
+              <h3>Simulation</h3>
+              <span id="simulation-progress-label">0 m</span>
+            </div>
+            <input id="simulation-slider" type="range" min="0" max="0" step="10" value="0" aria-label="Route simulation progress" />
+            <div class="simulation-controls" aria-label="Simulation controls">
+              <button id="simulation-play-button" class="secondary-button compact-button" type="button">Play</button>
+              <button id="simulation-step-button" class="secondary-button compact-button" type="button">Step next</button>
+              <button id="simulation-reset-button" class="secondary-button compact-button" type="button">Reset</button>
+              <label>
+                <span>Speed</span>
+                <select id="simulation-speed-select" aria-label="Simulation speed">
+                  <option value="1">1x</option>
+                  <option value="3" selected>3x</option>
+                  <option value="10">10x</option>
+                </select>
+              </label>
+            </div>
+            <div id="simulation-current" class="simulation-current" aria-live="polite"></div>
+            <ol id="simulation-timeline" class="simulation-timeline"></ol>
+          </section>
           <textarea id="editor-output" class="editor-output" readonly aria-label="Route editor JSON"></textarea>
           <button id="editor-copy-button" class="secondary-button" type="button">Copy route draft JSON</button>
         </section>
@@ -219,14 +241,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-popupcopy"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-popupcopy"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-popupcopy"></script>
-    <script src="assets/app.js?v=20260630-popupcopy"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-simulation"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-simulation"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-simulation"></script>
+    <script src="assets/app.js?v=20260630-simulation"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260630-popupcopy').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-simulation').catch(() => {});
         });
       }
     </script>

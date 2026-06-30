@@ -326,6 +326,15 @@ const editorOutput = document.querySelector('#editor-output');
 const editorUndoButton = document.querySelector('#editor-undo-button');
 const editorClearButton = document.querySelector('#editor-clear-button');
 const editorCopyButton = document.querySelector('#editor-copy-button');
+const simulationPanel = document.querySelector('#simulation-panel');
+const simulationSlider = document.querySelector('#simulation-slider');
+const simulationProgressLabel = document.querySelector('#simulation-progress-label');
+const simulationPlayButton = document.querySelector('#simulation-play-button');
+const simulationStepButton = document.querySelector('#simulation-step-button');
+const simulationResetButton = document.querySelector('#simulation-reset-button');
+const simulationSpeedSelect = document.querySelector('#simulation-speed-select');
+const simulationCurrentEl = document.querySelector('#simulation-current');
+const simulationTimelineEl = document.querySelector('#simulation-timeline');
 const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
@@ -441,8 +450,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-popupcopy';
-const cacheName = 'londontour-offline-v96';
+const assetVersion = '20260630-simulation';
+const cacheName = 'londontour-offline-v97';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -456,6 +465,16 @@ let followUser = initialSearchParams.get('follow') === '1';
 let lastLocationAccuracy = null;
 let guideSimulationTimer = null;
 let guideSimulationIndex = 0;
+let simulationTimer = null;
+let simulationMarker = null;
+let simulationState = {
+  active: false,
+  playing: false,
+  progressM: 0,
+  speedMultiplier: 3,
+  firedEventIds: new Set(),
+  selectedEventId: '',
+};
 
 function assetUrl(path) {
   return `${path}?v=${assetVersion}`;
@@ -695,6 +714,7 @@ function renderEditorPanel() {
       : '<strong>Ready to export</strong><span>No route draft validation issues found.</span>';
   }
   editorOutput.value = JSON.stringify(editorExport(), null, 2);
+  renderSimulationPanel();
 }
 
 function clearEditorDraftLayers() {
@@ -731,6 +751,138 @@ function renderEditorDraftOverlays() {
     marker.addTo(map);
     editorDraftLayers.push(marker);
   });
+}
+
+function stopSimulationPlayback() {
+  if (simulationTimer) window.clearInterval(simulationTimer);
+  simulationTimer = null;
+  simulationState.playing = false;
+  if (simulationPlayButton) simulationPlayButton.textContent = 'Play';
+}
+
+function updateSimulationMarker(options = {}) {
+  if (!map || !editorMode) return;
+  const position = simulationPositionAt(simulationState.progressM);
+  if (!position) return;
+  if (!simulationMarker) {
+    simulationMarker = L.marker([position.lat, position.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: '<div class="simulation-marker"><span></span></div>',
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+      }),
+    }).addTo(map);
+  } else {
+    simulationMarker.setLatLng([position.lat, position.lng]);
+  }
+  if (options.focus) map.setView([position.lat, position.lng], Math.max(map.getZoom(), 15));
+}
+
+function simulationEventLabel(event) {
+  if (!event) return 'No next event';
+  const labels = {
+    start: 'Start narration',
+    direction: 'Direction',
+    transport: 'Transport event',
+    end: 'End narration',
+  };
+  return `${labels[event.kind] || 'Guide event'}: ${event.name}`;
+}
+
+function markSimulationEventsFired(previousProgress, nextProgress) {
+  routeSimulationEvents()
+    .filter((event) => event.distanceM > previousProgress && event.distanceM <= nextProgress)
+    .forEach((event) => {
+      simulationState.firedEventIds.add(event.id);
+      simulationState.selectedEventId = event.id;
+      setStatus(`Simulation event: ${simulationEventLabel(event)}.`);
+    });
+}
+
+function setSimulationProgress(progressM, options = {}) {
+  const total = simulationTotalDistance();
+  const previousProgress = simulationState.progressM;
+  simulationState.active = true;
+  simulationState.progressM = Math.max(0, Math.min(total, Number(progressM) || 0));
+  if (options.fireEvents) markSimulationEventsFired(previousProgress, simulationState.progressM);
+  updateSimulationMarker(options);
+  renderSimulationPanel();
+}
+
+function renderSimulationPanel() {
+  if (!editorMode || !simulationPanel) return;
+  const events = routeSimulationEvents();
+  const total = simulationTotalDistance();
+  const current = simulationCurrentEvent(simulationState.progressM);
+  const next = simulationNextEvent(simulationState.progressM);
+  const position = simulationPositionAt(simulationState.progressM);
+  simulationSlider.max = String(total);
+  simulationSlider.value = String(Math.round(simulationState.progressM));
+  simulationProgressLabel.textContent = `${formatDistance(simulationState.progressM)} / ${formatDistance(total)}`;
+  simulationPlayButton.textContent = simulationState.playing ? 'Pause' : 'Play';
+  simulationSpeedSelect.value = String(simulationState.speedMultiplier);
+  simulationCurrentEl.innerHTML = `
+    <strong>Current</strong>
+    <span>${escapeHtml(formatDistance(simulationState.progressM))} · ${escapeHtml(position?.segmentLabel || current?.segmentLabel || 'Route')}</span>
+    <strong>Next event</strong>
+    <span>${escapeHtml(next ? `${simulationEventLabel(next)} in ${formatDistance(next.distanceM - simulationState.progressM)}` : 'End of route')}</span>
+  `;
+  simulationTimelineEl.innerHTML = events
+    .map((event) => `
+      <li>
+        <button class="${event.id === simulationState.selectedEventId ? 'is-selected' : ''}" type="button" data-simulation-event="${escapeHtml(event.id)}">
+          <span>${escapeHtml(formatDistance(event.distanceM))}</span>
+          <strong>${escapeHtml(simulationEventLabel(event))}</strong>
+          <small>${simulationState.firedEventIds.has(event.id) ? 'Fired' : escapeHtml(event.segmentLabel)}</small>
+        </button>
+      </li>
+    `)
+    .join('');
+  updateSimulationMarker();
+}
+
+function playSimulation() {
+  if (!editorMode) return;
+  if (simulationState.playing) {
+    stopSimulationPlayback();
+    renderSimulationPanel();
+    setStatus('Route simulation paused.');
+    return;
+  }
+  simulationState.playing = true;
+  simulationState.active = true;
+  simulationTimer = window.setInterval(() => {
+    const stepM = 1.4 * simulationState.speedMultiplier;
+    const total = simulationTotalDistance();
+    setSimulationProgress(simulationState.progressM + stepM, { fireEvents: true });
+    if (simulationState.progressM >= total) {
+      stopSimulationPlayback();
+      setStatus('Route simulation reached the end.');
+      renderSimulationPanel();
+    }
+  }, 1000);
+  renderSimulationPanel();
+  setStatus('Route simulation playing.');
+}
+
+function stepSimulationToNextEvent() {
+  const next = simulationNextEvent(simulationState.progressM);
+  if (!next) {
+    setStatus('Route simulation is already at the final event.');
+    return;
+  }
+  simulationState.selectedEventId = next.id;
+  setSimulationProgress(next.distanceM, { fireEvents: true, focus: true });
+}
+
+function resetSimulation() {
+  stopSimulationPlayback();
+  simulationState.progressM = 0;
+  simulationState.firedEventIds = new Set();
+  simulationState.selectedEventId = '';
+  setSimulationProgress(0, { focus: true });
+  setStatus('Route simulation reset.');
 }
 
 function handleEditorMapClick(event) {
@@ -2048,6 +2200,74 @@ function groupRouteStops(stops) {
   });
 
   return groups;
+}
+
+function stopDistanceMeters(a, b) {
+  const toRad = (value) => (value * Math.PI) / 180;
+  const radius = 6371000;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const sinLat = Math.sin(dLat / 2);
+  const sinLng = Math.sin(dLng / 2);
+  const h = sinLat * sinLat + Math.cos(lat1) * Math.cos(lat2) * sinLng * sinLng;
+  return 2 * radius * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+
+function routeSimulationEvents(route = selectedRoute) {
+  let distanceM = 0;
+  return route.stops.map((stop, index) => {
+    if (index > 0) distanceM += stopDistanceMeters(route.stops[index - 1], stop);
+    const previous = route.stops[index - 1];
+    const kind = index === 0 ? 'start' : index === route.stops.length - 1 ? 'end' : previous?.segment !== stop.segment ? 'transport' : 'direction';
+    return {
+      id: `${route.id}-event-${index}`,
+      index,
+      distanceM: Math.round(distanceM),
+      kind,
+      name: stop.name,
+      detail: stop.detail,
+      segment: stop.segment,
+      segmentLabel: stop.segmentLabel || segmentLabel(stop.segment),
+      lat: stop.lat,
+      lng: stop.lng,
+    };
+  });
+}
+
+function simulationTotalDistance(route = selectedRoute) {
+  const events = routeSimulationEvents(route);
+  return events.at(-1)?.distanceM || 0;
+}
+
+function simulationPositionAt(progressM, route = selectedRoute) {
+  const events = routeSimulationEvents(route);
+  if (!events.length) return null;
+  if (progressM <= 0) return events[0];
+  for (let index = 1; index < events.length; index += 1) {
+    const previous = events[index - 1];
+    const next = events[index];
+    if (progressM <= next.distanceM) {
+      const span = Math.max(1, next.distanceM - previous.distanceM);
+      const ratio = Math.max(0, Math.min(1, (progressM - previous.distanceM) / span));
+      return {
+        lat: previous.lat + (next.lat - previous.lat) * ratio,
+        lng: previous.lng + (next.lng - previous.lng) * ratio,
+        segment: next.segment,
+        segmentLabel: next.segmentLabel,
+      };
+    }
+  }
+  return events.at(-1);
+}
+
+function simulationCurrentEvent(progressM, route = selectedRoute) {
+  return [...routeSimulationEvents(route)].reverse().find((event) => progressM >= event.distanceM) || routeSimulationEvents(route)[0];
+}
+
+function simulationNextEvent(progressM, route = selectedRoute) {
+  return routeSimulationEvents(route).find((event) => progressM < event.distanceM);
 }
 
 function buildStopsBounds(route = selectedRoute) {
@@ -3675,6 +3895,28 @@ editorCopyButton.addEventListener('click', async () => {
     editorOutput.select();
     setStatus('Route draft JSON is selected.');
   }
+});
+simulationSlider?.addEventListener('input', () => {
+  stopSimulationPlayback();
+  setSimulationProgress(Number(simulationSlider.value), { focus: true });
+  setStatus(`Route simulation moved to ${formatDistance(simulationState.progressM)}.`);
+});
+simulationPlayButton?.addEventListener('click', playSimulation);
+simulationStepButton?.addEventListener('click', stepSimulationToNextEvent);
+simulationResetButton?.addEventListener('click', resetSimulation);
+simulationSpeedSelect?.addEventListener('change', () => {
+  simulationState.speedMultiplier = Number(simulationSpeedSelect.value) || 1;
+  renderSimulationPanel();
+});
+simulationTimelineEl?.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-simulation-event]');
+  if (!button) return;
+  const targetEvent = routeSimulationEvents().find((item) => item.id === button.dataset.simulationEvent);
+  if (!targetEvent) return;
+  stopSimulationPlayback();
+  simulationState.selectedEventId = targetEvent.id;
+  setSimulationProgress(targetEvent.distanceM, { focus: true });
+  setStatus(`Route simulation jumped to ${targetEvent.name}.`);
 });
 
 document.addEventListener('click', (event) => {

@@ -456,6 +456,84 @@ body[data-theme="dark"] .route-card.is-active {
   margin-top: 0.25rem;
 }
 
+.simulation-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.8rem;
+}
+
+.simulation-panel h3 {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.simulation-panel input[type="range"] {
+  width: 100%;
+}
+
+.simulation-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.simulation-controls label {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+.simulation-controls select {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  padding: 0.35rem 0.45rem;
+}
+
+.simulation-current {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 0.18rem;
+  padding-top: 0.65rem;
+}
+
+.simulation-current span,
+.simulation-timeline small,
+#simulation-progress-label {
+  color: var(--muted);
+}
+
+.simulation-timeline {
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  max-height: 14rem;
+  overflow: auto;
+  padding: 0;
+}
+
+.simulation-timeline button {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--ink);
+  cursor: pointer;
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.55rem;
+  text-align: left;
+  width: 100%;
+}
+
+.simulation-timeline button.is-selected {
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 0 2px rgba(20, 108, 100, 0.16);
+}
+
 .section-row {
   align-items: center;
   display: flex;
@@ -1928,6 +2006,25 @@ body.route-view:not(.editor-mode) .layer-marker.is-background {
 .layer-marker.is-route-hidden {
   filter: grayscale(1);
   opacity: 0.28;
+}
+
+.simulation-marker {
+  align-items: center;
+  background: #111827;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(17, 24, 39, 0.38);
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+
+.simulation-marker span {
+  background: #fbbf24;
+  border-radius: inherit;
+  height: 10px;
+  width: 10px;
 }
 
 .editor-popup-actions {
