@@ -600,6 +600,27 @@ body[data-theme="dark"] .route-card.is-active {
   line-height: 1.4;
 }
 
+.panel-close-button {
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+  min-height: 40px;
+  min-width: 40px;
+  width: 40px;
+}
+
+.panel-close-button:hover,
+.panel-close-button:focus {
+  background: rgba(20, 108, 100, 0.08);
+}
+
+.panel-close-button:focus-visible {
+  outline: 3px solid rgba(20, 108, 100, 0.38);
+  outline-offset: 2px;
+}
+
 .offline-options {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -622,7 +643,7 @@ body[data-theme="dark"] .route-card.is-active {
 .menu-actions {
   display: grid;
   gap: 0.6rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-bottom: 1rem;
 }
 
@@ -2174,11 +2195,17 @@ body[data-theme="dark"] .onboarding-panel {
   .map-topbar {
     display: grid;
     gap: 0.5rem;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     left: 0.75rem;
     right: 0.75rem;
     top: calc(0.75rem + env(safe-area-inset-top));
     width: calc(100vw - 1.5rem);
+  }
+
+  #recenter-button,
+  #radius-button,
+  #theme-button {
+    display: none;
   }
 
   .map-topbar button {

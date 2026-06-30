@@ -318,6 +318,7 @@ const zoomIndicator = document.querySelector('#zoom-indicator');
 const layerListEl = document.querySelector('#layer-list');
 const layersAllButton = document.querySelector('#layers-all-button');
 const layersNoneButton = document.querySelector('#layers-none-button');
+const layersCloseButton = document.querySelector('#layers-close-button');
 const editorPanel = document.querySelector('#editor-panel');
 const editorSummary = document.querySelector('#editor-summary');
 const editorValidation = document.querySelector('#editor-validation');
@@ -330,6 +331,10 @@ const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
 const menuButton = document.querySelector('#menu-button');
 const helpButton = document.querySelector('#help-button');
+const menuRecenterButton = document.querySelector('#menu-recenter-button');
+const menuNearbyButton = document.querySelector('#menu-nearby-button');
+const menuThemeButton = document.querySelector('#menu-theme-button');
+const menuShareButton = document.querySelector('#menu-share-button');
 const menuOfflineButton = document.querySelector('#menu-offline-button');
 const searchButton = document.querySelector('#search-button');
 const searchPanel = document.querySelector('#search-panel');
@@ -430,8 +435,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-zoomfix';
-const cacheName = 'londontour-offline-v87';
+const assetVersion = '20260630-panels';
+const cacheName = 'londontour-offline-v88';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -3024,6 +3029,7 @@ function applyTheme(theme) {
   document.body.dataset.theme = activeTheme;
   themeButton.setAttribute('aria-label', `Switch to ${nextTheme} mode`);
   themeButton.setAttribute('title', `Switch to ${nextTheme} mode`);
+  if (menuThemeButton) menuThemeButton.textContent = `Switch to ${nextTheme} mode`;
   applyBasemapTheme();
   void renderTubeNetwork();
   try {
@@ -3267,6 +3273,23 @@ pickerEl.addEventListener('click', (event) => {
 locateButton.addEventListener('click', locateUser);
 offlineButton.addEventListener('click', handleOfflineButtonClick);
 helpButton?.addEventListener('click', () => showOnboarding(true));
+menuRecenterButton?.addEventListener('click', () => {
+  setMainMenuOpen(false);
+  recenterRoute();
+});
+menuNearbyButton?.addEventListener('click', () => {
+  setMainMenuOpen(false);
+  setRadiusOpen(true);
+  setStatus('Explore nearby opened. Drop a pin or choose Nearby from a popup.');
+});
+menuThemeButton?.addEventListener('click', () => {
+  toggleTheme();
+  setMainMenuOpen(false);
+});
+menuShareButton?.addEventListener('click', () => {
+  setMainMenuOpen(false);
+  void shareRoute();
+});
 menuOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
 searchButton.addEventListener('click', () => setSearchOpen(!document.body.classList.contains('search-open')));
 searchCloseButton.addEventListener('click', () => setSearchOpen(false));
@@ -3299,6 +3322,10 @@ changeRouteButton.addEventListener('click', toggleRouteMenu);
 recenterButton.addEventListener('click', recenterRoute);
 browsePickerButton.addEventListener('click', handleBrowsePickerClick);
 browseMapButton.addEventListener('click', toggleBrowseLayers);
+layersCloseButton?.addEventListener('click', () => {
+  setBrowseLayersOpen(false);
+  setStatus('Map layers closed.');
+});
 themeButton.addEventListener('click', toggleTheme);
 shareButton?.addEventListener('click', shareRoute);
 routeShareButton?.addEventListener('click', shareRoute);

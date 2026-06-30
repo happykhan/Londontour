@@ -73,6 +73,8 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="layer-list"/);
   assert.match(html, /id="layers-all-button"/);
   assert.match(html, /id="layers-none-button"/);
+  assert.match(html, /id="layers-close-button"/);
+  assert.match(html, /aria-label="Close map layers panel"/);
   assert.match(html, /id="editor-panel"/);
   assert.match(html, /id="editor-output"/);
   assert.match(html, /id="menu-button"/);
@@ -97,6 +99,14 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="editor-link"/);
   assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
   assert.match(html, /id="help-button"/);
+  assert.match(html, /id="menu-recenter-button"/);
+  assert.match(html, />Recenter map<\/button>/);
+  assert.match(html, /id="menu-nearby-button"/);
+  assert.match(html, />Explore nearby<\/button>/);
+  assert.match(html, /id="menu-theme-button"/);
+  assert.match(html, />Switch theme<\/button>/);
+  assert.match(html, /id="menu-share-button"/);
+  assert.match(html, />Share view<\/button>/);
   assert.match(html, /id="menu-offline-button"/);
   assert.doesNotMatch(html, /id="basemap-proof-link"/);
   assert.doesNotMatch(html, /id="print-button"/);
@@ -137,11 +147,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-zoomfix'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-zoomfix/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-zoomfix/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-zoomfix/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-zoomfix/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-panels'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-panels/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-panels/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-panels/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-panels/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -182,6 +192,11 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function toggleRouteMenu/);
   assert.match(js, /function toggleMenu/);
   assert.match(js, /const menuButton = document\.querySelector\('#menu-button'\)/);
+  assert.match(js, /const layersCloseButton = document\.querySelector\('#layers-close-button'\)/);
+  assert.match(js, /const menuRecenterButton = document\.querySelector\('#menu-recenter-button'\)/);
+  assert.match(js, /const menuNearbyButton = document\.querySelector\('#menu-nearby-button'\)/);
+  assert.match(js, /const menuThemeButton = document\.querySelector\('#menu-theme-button'\)/);
+  assert.match(js, /const menuShareButton = document\.querySelector\('#menu-share-button'\)/);
   assert.match(js, /const searchButton = document\.querySelector\('#search-button'\)/);
   assert.match(js, /const searchInput = document\.querySelector\('#search-input'\)/);
   assert.match(js, /const radiusButton = document\.querySelector\('#radius-button'\)/);
@@ -250,7 +265,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-zoomfix'/);
+  assert.match(js, /const assetVersion = '20260630-panels'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -307,6 +322,13 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.doesNotMatch(js, /pois: \[/);
   assert.match(js, /function applyBasemapTheme/);
   assert.match(js, /map\._setBasemapTheme\(document\.body\.dataset\.theme === 'dark' \? 'dark' : 'light'\)/);
+  assert.match(js, /layersCloseButton\?\.addEventListener\('click', \(\) => \{/);
+  assert.match(js, /setBrowseLayersOpen\(false\);/);
+  assert.match(js, /menuRecenterButton\?\.addEventListener\('click'/);
+  assert.match(js, /menuNearbyButton\?\.addEventListener\('click'/);
+  assert.match(js, /setRadiusOpen\(true\);/);
+  assert.match(js, /menuThemeButton\?\.addEventListener\('click'/);
+  assert.match(js, /menuShareButton\?\.addEventListener\('click'/);
   assert.doesNotMatch(js, /cartoBasemapUrl/);
   assert.doesNotMatch(js, /basemaps\.cartocdn\.com/);
   assert.match(js, /createPane\('basemapLabels'\)/);
@@ -488,6 +510,10 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\[data-theme="dark"\] \.theme-icon::before/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
+  assert.match(css, /\.panel-close-button/);
+  assert.match(css, /\.panel-close-button:focus-visible/);
+  assert.match(css, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
+  assert.match(css, /#recenter-button,\s*#radius-button,\s*#theme-button[\s\S]*display: none/);
   assert.match(css, /\.about-notice/);
   assert.match(css, /\.licence-list/);
   assert.match(css, /\.licence-fineprint/);
@@ -572,7 +598,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v87/);
+  assert.match(sw, /londontour-offline-v88/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
