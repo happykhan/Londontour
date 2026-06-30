@@ -135,6 +135,7 @@ body.route-view .tour-panel {
 body.route-view.route-menu-open .tour-panel,
 body.route-view.browse-layers-open .tour-panel,
 body.route-view.offline-menu-open .tour-panel,
+body.route-view.about-menu-open .tour-panel,
 body.route-view.menu-open .tour-panel {
   display: block;
 }
@@ -146,6 +147,7 @@ body.route-view .layers-panel,
 body.route-view .directions-panel,
 body.route-view .highlights-panel,
 body.route-view .menu-panel,
+body.route-view .about-panel,
 body.route-view .offline-panel,
 body.route-view .editor-panel {
   display: none;
@@ -154,6 +156,7 @@ body.route-view .editor-panel {
 body.route-view.route-menu-open .route-pickers,
 body.route-view.browse-layers-open .layers-panel,
 body.route-view.offline-menu-open .offline-panel,
+body.route-view.about-menu-open .about-panel,
 body.route-view.menu-open .menu-panel,
 body.route-view.editor-mode.browse-layers-open .editor-panel {
   display: block;
@@ -231,6 +234,7 @@ h2 {
 .route-pickers,
 .route-card-view,
 .layers-panel,
+.about-panel,
 .menu-panel,
 .offline-panel,
 .section-row {
@@ -2103,6 +2107,10 @@ body[data-theme="dark"] .onboarding-panel {
     --mobile-sheet-height: 48dvh;
   }
 
+  body.about-menu-open {
+    --mobile-sheet-height: 58dvh;
+  }
+
   body.menu-open {
     --mobile-sheet-height: 48dvh;
   }
@@ -2172,6 +2180,7 @@ body[data-theme="dark"] .onboarding-panel {
   body:not(.route-view) .directions-panel,
   body:not(.route-view) .highlights-panel,
   body:not(.route-view) .menu-panel,
+  body:not(.route-view) .about-panel,
   body:not(.route-view) .offline-panel {
     display: none;
   }
@@ -2482,6 +2491,7 @@ body[data-theme="dark"] .onboarding-panel {
   }
 
   .layers-panel,
+  .about-panel,
   .offline-panel,
   .menu-panel {
     display: none;

@@ -329,13 +329,19 @@ const editorCopyButton = document.querySelector('#editor-copy-button');
 const offlineDetailsEl = document.querySelector('#offline-details');
 const locateButton = document.querySelector('#locate-button');
 const offlineButton = document.querySelector('#offline-button');
+const offlineBackButton = document.querySelector('#offline-back-button');
+const offlineCloseButton = document.querySelector('#offline-close-button');
 const menuButton = document.querySelector('#menu-button');
+const menuCloseButton = document.querySelector('#menu-close-button');
 const helpButton = document.querySelector('#help-button');
 const menuRecenterButton = document.querySelector('#menu-recenter-button');
 const menuNearbyButton = document.querySelector('#menu-nearby-button');
 const menuThemeButton = document.querySelector('#menu-theme-button');
 const menuShareButton = document.querySelector('#menu-share-button');
 const menuOfflineButton = document.querySelector('#menu-offline-button');
+const menuAboutButton = document.querySelector('#menu-about-button');
+const aboutBackButton = document.querySelector('#about-back-button');
+const aboutCloseButton = document.querySelector('#about-close-button');
 const searchButton = document.querySelector('#search-button');
 const searchPanel = document.querySelector('#search-panel');
 const searchForm = document.querySelector('#search-form');
@@ -435,8 +441,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-locksvg';
-const cacheName = 'londontour-offline-v92';
+const assetVersion = '20260630-menupanels';
+const cacheName = 'londontour-offline-v93';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -1235,7 +1241,7 @@ function setSearchOpen(open) {
   searchButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   if (isOpen) {
     document.body.classList.add('route-view');
-    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open');
+    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
     setRadiusOpen(false);
     setBrowseLayersOpen(false);
     setRouteMenuOpen(false);
@@ -1339,7 +1345,7 @@ function setRadiusOpen(open) {
   radiusButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   if (isOpen) {
     document.body.classList.add('route-view');
-    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open');
+    document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
     setSearchOpen(false);
     setBrowseLayersOpen(false);
     setRouteMenuOpen(false);
@@ -2897,7 +2903,7 @@ function setBrowseLayersOpen(open) {
   document.body.classList.toggle('browse-layers-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open');
+    document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
   }
@@ -2918,7 +2924,7 @@ function setRouteMenuOpen(open) {
   document.body.classList.toggle('route-menu-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('browse-layers-open', 'offline-menu-open', 'menu-open');
+    document.body.classList.remove('browse-layers-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
   }
@@ -2936,7 +2942,7 @@ function setOfflineMenuOpen(open) {
   document.body.classList.toggle('offline-menu-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'menu-open');
+    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'menu-open', 'about-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
     void renderOfflineDetails();
@@ -2955,7 +2961,7 @@ function setMainMenuOpen(open) {
   document.body.classList.toggle('menu-open', isOpen);
   if (isOpen) {
     clearTubeSelectionBeforePopup();
-    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'offline-menu-open');
+    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'offline-menu-open', 'about-menu-open');
     setSearchOpen(false);
     setRadiusOpen(false);
   }
@@ -2964,7 +2970,25 @@ function setMainMenuOpen(open) {
   changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
   updateMenuButtonState();
   updateBrowsePickerButtonState();
-  if (isOpen) setStatus('Menu opened. Help, about, and editor links are here.');
+  if (isOpen) setStatus('Menu opened. Choose a map action, offline download, about, or route editor.');
+  if (map) window.setTimeout(() => map.invalidateSize(), 0);
+}
+
+function setAboutMenuOpen(open) {
+  const isOpen = Boolean(open);
+  document.body.classList.toggle('about-menu-open', isOpen);
+  if (isOpen) {
+    clearTubeSelectionBeforePopup();
+    document.body.classList.remove('browse-layers-open', 'route-menu-open', 'offline-menu-open', 'menu-open');
+    setSearchOpen(false);
+    setRadiusOpen(false);
+  }
+  browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
+  browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
+  changeRouteButton.textContent = document.body.classList.contains('route-menu-open') ? 'Close' : 'Routes';
+  updateMenuButtonState();
+  updateBrowsePickerButtonState();
+  if (isOpen) setStatus('About and licences opened.');
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
@@ -2975,7 +2999,7 @@ function toggleBrowseLayers() {
 function enterBrowseMode(options = {}) {
   browseMode = true;
   document.body.classList.add('route-view', 'browse-view');
-  document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open');
+  document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
   setBrowseLayersOpen(options.openLayers ?? false);
   const url = new URL(window.location.href);
   url.searchParams.delete('route');
@@ -2998,7 +3022,7 @@ function selectRoute(route) {
   selectedRoute = route;
   selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
-  document.body.classList.remove('browse-view', 'browse-layers-open', 'route-menu-open', 'offline-menu-open', 'menu-open');
+  document.body.classList.remove('browse-view', 'browse-layers-open', 'route-menu-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
   setBrowseLayersOpen(false);
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
@@ -3272,6 +3296,12 @@ pickerEl.addEventListener('click', (event) => {
 
 locateButton.addEventListener('click', locateUser);
 offlineButton.addEventListener('click', handleOfflineButtonClick);
+offlineBackButton?.addEventListener('click', () => {
+  setOfflineMenuOpen(false);
+  setMainMenuOpen(true);
+});
+offlineCloseButton?.addEventListener('click', () => setOfflineMenuOpen(false));
+menuCloseButton?.addEventListener('click', () => setMainMenuOpen(false));
 helpButton?.addEventListener('click', () => showOnboarding(true));
 menuRecenterButton?.addEventListener('click', () => {
   setMainMenuOpen(false);
@@ -3291,6 +3321,12 @@ menuShareButton?.addEventListener('click', () => {
   void shareRoute();
 });
 menuOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
+menuAboutButton?.addEventListener('click', () => setAboutMenuOpen(true));
+aboutBackButton?.addEventListener('click', () => {
+  setAboutMenuOpen(false);
+  setMainMenuOpen(true);
+});
+aboutCloseButton?.addEventListener('click', () => setAboutMenuOpen(false));
 searchButton.addEventListener('click', () => setSearchOpen(!document.body.classList.contains('search-open')));
 searchCloseButton.addEventListener('click', () => setSearchOpen(false));
 searchForm.addEventListener('submit', (event) => {

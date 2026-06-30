@@ -96,9 +96,12 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="radius-results"/);
   assert.match(html, /Drop a pin on the map, then drag out the radius/);
   assert.match(html, /id="menu-panel"/);
+  assert.match(html, /id="menu-close-button"/);
   assert.match(html, /id="editor-link"/);
   assert.match(html, /href="\/\?mode=browse&amp;editor=1"/);
+  assert.match(html, />Route editor<\/a>/);
   assert.match(html, /id="help-button"/);
+  assert.match(html, />Help guide<\/button>/);
   assert.match(html, /id="menu-recenter-button"/);
   assert.match(html, />Recenter map<\/button>/);
   assert.match(html, /id="menu-nearby-button"/);
@@ -108,8 +111,14 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="menu-share-button"/);
   assert.match(html, />Share view<\/button>/);
   assert.match(html, /id="menu-offline-button"/);
+  assert.match(html, />Offline download<\/button>/);
+  assert.match(html, /id="menu-about-button"/);
+  assert.match(html, />About &amp; licences<\/button>/);
   assert.doesNotMatch(html, /id="basemap-proof-link"/);
   assert.doesNotMatch(html, /id="print-button"/);
+  assert.match(html, /<section id="about-panel"/);
+  assert.match(html, /id="about-back-button"/);
+  assert.match(html, /id="about-close-button"/);
   assert.match(html, /class="about-notice"/);
   assert.match(html, />About Londontour<\/h3>/);
   assert.match(html, />Data and licences<\/h3>/);
@@ -120,6 +129,8 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /PMTiles/);
   assert.match(html, /TfL Open Data/);
   assert.match(html, /id="offline-button"/);
+  assert.match(html, /id="offline-back-button"/);
+  assert.match(html, /id="offline-close-button"/);
   assert.match(html, />Download offline pack<\/button>/);
   assert.doesNotMatch(html, /class="map-actions"/);
   assert.match(html, /id="browse-picker-button"/);
@@ -145,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-locksvg'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-locksvg/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-locksvg/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-locksvg/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-locksvg/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-menupanels'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-menupanels/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-menupanels/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-menupanels/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-menupanels/);
 });
 
 test('app uses a real online basemap, local offline fallback, layer registry hooks, and both routes', () => {
@@ -190,11 +201,15 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function toggleRouteMenu/);
   assert.match(js, /function toggleMenu/);
   assert.match(js, /const menuButton = document\.querySelector\('#menu-button'\)/);
+  assert.match(js, /const menuCloseButton = document\.querySelector\('#menu-close-button'\)/);
   assert.match(js, /const layersCloseButton = document\.querySelector\('#layers-close-button'\)/);
   assert.match(js, /const menuRecenterButton = document\.querySelector\('#menu-recenter-button'\)/);
   assert.match(js, /const menuNearbyButton = document\.querySelector\('#menu-nearby-button'\)/);
   assert.match(js, /const menuThemeButton = document\.querySelector\('#menu-theme-button'\)/);
   assert.match(js, /const menuShareButton = document\.querySelector\('#menu-share-button'\)/);
+  assert.match(js, /const menuAboutButton = document\.querySelector\('#menu-about-button'\)/);
+  assert.match(js, /const aboutBackButton = document\.querySelector\('#about-back-button'\)/);
+  assert.match(js, /const aboutCloseButton = document\.querySelector\('#about-close-button'\)/);
   assert.match(js, /const searchButton = document\.querySelector\('#search-button'\)/);
   assert.match(js, /const searchInput = document\.querySelector\('#search-input'\)/);
   assert.match(js, /const radiusButton = document\.querySelector\('#radius-button'\)/);
@@ -265,7 +280,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-locksvg'/);
+  assert.match(js, /const assetVersion = '20260630-menupanels'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -329,6 +344,10 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /setRadiusOpen\(true\);/);
   assert.match(js, /menuThemeButton\?\.addEventListener\('click'/);
   assert.match(js, /menuShareButton\?\.addEventListener\('click'/);
+  assert.match(js, /function setAboutMenuOpen/);
+  assert.match(js, /menuAboutButton\?\.addEventListener\('click', \(\) => setAboutMenuOpen\(true\)\)/);
+  assert.match(js, /aboutBackButton\?\.addEventListener\('click'/);
+  assert.match(js, /offlineBackButton\?\.addEventListener\('click'/);
   assert.doesNotMatch(js, /cartoBasemapUrl/);
   assert.doesNotMatch(js, /basemaps\.cartocdn\.com/);
   assert.match(js, /createPane\('basemapLabels'\)/);
@@ -372,7 +391,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /overlayOrder: 60/);
   assert.match(js, /overlayOrder: 61/);
   assert.match(js, /if \(!activeLayerIds\.has\('transport'\)\) \{/);
-  assert.match(js, /clearTubeSelectionBeforePopup\(\);\n\s+document\.body\.classList\.remove\('route-menu-open', 'offline-menu-open', 'menu-open'\)/);
+  assert.match(js, /clearTubeSelectionBeforePopup\(\);\n\s+document\.body\.classList\.remove\('route-menu-open', 'offline-menu-open', 'menu-open', 'about-menu-open'\)/);
   assert.doesNotMatch(js, /useOfflineTiles/);
   assert.match(js, /\/assets\/tiles-manifest\.json/);
   assert.match(js, /function loadBasemapOfflineAssets/);
@@ -474,6 +493,8 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /body\.route-view\.route-menu-open \.route-card/);
   assert.match(css, /body\.route-view\.offline-menu-open \.tour-panel/);
   assert.match(css, /body\.route-view\.offline-menu-open \.offline-panel/);
+  assert.match(css, /body\.route-view\.about-menu-open \.tour-panel/);
+  assert.match(css, /body\.route-view\.about-menu-open \.about-panel/);
   assert.match(css, /body\.route-view\.menu-open \.menu-panel/);
   assert.match(css, /body\.route-view \.tour-panel[\s\S]*width: auto/);
   assert.match(css, /\.zoom-indicator/);
@@ -515,6 +536,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.location-arrow-icon/);
   assert.match(css, /\.menu-icon/);
   assert.match(css, /\.menu-actions/);
+  assert.match(css, /\.about-panel/);
   assert.match(css, /\.panel-close-button/);
   assert.match(css, /\.panel-close-button[\s\S]*background: var\(--panel\)/);
   assert.match(css, /\.panel-close-button[\s\S]*border: 1px solid #cfd5da/);
@@ -607,7 +629,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v92/);
+  assert.match(sw, /londontour-offline-v93/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-locksvg" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260630-locksvg" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-menupanels" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-menupanels" />
   </head>
   <body>
     <main class="app-shell">
@@ -95,15 +95,27 @@
         <section id="menu-panel" class="menu-panel" aria-label="Map menu">
           <div class="section-row">
             <h2>Menu</h2>
+            <button id="menu-close-button" class="secondary-button compact-button" type="button">Close</button>
           </div>
           <div class="menu-actions" aria-label="App actions">
-            <button id="help-button" class="secondary-button" type="button">Help</button>
+            <button id="help-button" class="secondary-button" type="button">Help guide</button>
             <button id="menu-recenter-button" class="secondary-button" type="button">Recenter map</button>
             <button id="menu-nearby-button" class="secondary-button" type="button">Explore nearby</button>
             <button id="menu-theme-button" class="secondary-button" type="button">Switch theme</button>
             <button id="menu-share-button" class="secondary-button" type="button">Share view</button>
-            <button id="menu-offline-button" class="secondary-button" type="button">Offline pack</button>
-            <a id="editor-link" class="secondary-button" href="/?mode=browse&amp;editor=1">Editor</a>
+            <button id="menu-offline-button" class="secondary-button" type="button">Offline download</button>
+            <button id="menu-about-button" class="secondary-button" type="button">About &amp; licences</button>
+            <a id="editor-link" class="secondary-button" href="/?mode=browse&amp;editor=1">Route editor</a>
+          </div>
+        </section>
+
+        <section id="about-panel" class="about-panel" aria-label="About and licences">
+          <div class="section-row">
+            <h2>About &amp; licences</h2>
+            <div class="layer-actions">
+              <button id="about-back-button" class="secondary-button compact-button" type="button">Menu</button>
+              <button id="about-close-button" class="secondary-button compact-button" type="button">Close</button>
+            </div>
           </div>
           <div class="about-notice" aria-label="About and licences">
             <h3>About Londontour</h3>
@@ -124,7 +136,11 @@
 
         <section id="offline-panel" class="offline-panel" aria-label="Offline pack manager">
           <div class="section-row">
-            <h2>Offline pack</h2>
+            <h2>Offline download</h2>
+            <div class="layer-actions">
+              <button id="offline-back-button" class="secondary-button compact-button" type="button">Menu</button>
+              <button id="offline-close-button" class="secondary-button compact-button" type="button">Close</button>
+            </div>
           </div>
           <fieldset class="offline-options">
             <label><input type="checkbox" name="offline-route" checked /> Selected route</label>
@@ -203,14 +219,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-locksvg"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-locksvg"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-locksvg"></script>
-    <script src="assets/app.js?v=20260630-locksvg"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-menupanels"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-menupanels"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-menupanels"></script>
+    <script src="assets/app.js?v=20260630-menupanels"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260630-locksvg').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-menupanels').catch(() => {});
         });
       }
     </script>
