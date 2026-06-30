@@ -900,26 +900,27 @@ body[data-theme="dark"] .theme-icon::before {
 }
 
 .lock-icon {
-  border: 2px solid currentColor;
-  border-radius: 4px;
-  box-sizing: border-box;
   display: block;
-  height: 14px;
-  position: relative;
-  width: 16px;
+  height: 22px;
+  overflow: visible;
+  width: 22px;
 }
 
-.lock-icon::before {
-  border: 2px solid currentColor;
-  border-bottom: 0;
-  border-radius: 999px 999px 0 0;
-  box-sizing: border-box;
-  content: "";
-  height: 9px;
-  left: 2px;
-  position: absolute;
-  top: -8px;
-  width: 8px;
+.lock-body,
+.lock-shackle {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.lock-shackle-open {
+  display: block;
+}
+
+.lock-shackle-closed {
+  display: none;
 }
 
 .search-panel {
@@ -1168,13 +1169,6 @@ body[data-theme="dark"] .search-result:focus-visible {
   color: #fff;
 }
 
-.radius-lock-button[aria-pressed="false"] .lock-icon::before {
-  left: 6px;
-  top: -7px;
-  transform: rotate(34deg);
-  transform-origin: left bottom;
-}
-
 .radius-lock-button:disabled {
   background: var(--panel);
   border-color: var(--line);
@@ -1193,6 +1187,14 @@ body[data-theme="dark"] .radius-lock-button[aria-pressed="true"] {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+.radius-lock-button[aria-pressed="true"] .lock-shackle-open {
+  display: none;
+}
+
+.radius-lock-button[aria-pressed="true"] .lock-shackle-closed {
+  display: block;
 }
 
 body[data-theme="dark"] .radius-lock-button:disabled {

@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-nearbyicons" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260630-nearbyicons" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260630-locksvg" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260630-locksvg" />
   </head>
   <body>
     <main class="app-shell">
@@ -168,7 +168,13 @@
               <p id="radius-summary" class="radius-summary">Drop a pin on the map, then drag out the radius.</p>
             </div>
             <div class="radius-actions">
-              <button id="radius-lock-button" class="icon-button radius-lock-button" type="button" aria-label="Lock nearby radius" aria-pressed="false" title="Lock nearby radius"><span class="lock-icon" aria-hidden="true"></span></button>
+              <button id="radius-lock-button" class="icon-button radius-lock-button" type="button" aria-label="Lock nearby radius" aria-pressed="false" title="Lock nearby radius">
+                <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <rect class="lock-body" x="5.5" y="10.5" width="13" height="9" rx="2" />
+                  <path class="lock-shackle lock-shackle-closed" d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" />
+                  <path class="lock-shackle lock-shackle-open" d="M8 10.5V8.2a4 4 0 0 1 6.9-2.8" />
+                </svg>
+              </button>
               <button id="radius-clear-button" class="secondary-button compact-button" type="button">Clear</button>
               <button id="radius-close-button" class="secondary-button compact-button" type="button">Cancel</button>
             </div>
@@ -197,14 +203,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-nearbyicons"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-nearbyicons"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-nearbyicons"></script>
-    <script src="assets/app.js?v=20260630-nearbyicons"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260630-locksvg"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260630-locksvg"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260630-locksvg"></script>
+    <script src="assets/app.js?v=20260630-locksvg"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260630-nearbyicons').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260630-locksvg').catch(() => {});
         });
       }
     </script>
