@@ -2384,12 +2384,31 @@ body[data-theme="dark"] .feature-hint-panel {
   width: 22px;
 }
 
+.user-location-marker.is-following {
+  box-shadow: 0 0 0 3px rgba(29, 111, 232, 0.22), 0 0 0 8px rgba(29, 111, 232, 0.12);
+}
+
+.user-location-marker.is-low-accuracy {
+  background: #b45309;
+  box-shadow: 0 0 0 3px rgba(180, 83, 9, 0.22);
+}
+
 .user-location-marker::after {
   background: #fff;
   border-radius: 999px;
   content: "";
   height: 6px;
   width: 6px;
+}
+
+#locate-button.is-following {
+  outline: 3px solid rgba(29, 111, 232, 0.28);
+  outline-offset: 2px;
+}
+
+#locate-button.is-error {
+  background: #fff7ed;
+  color: #9a3412;
 }
 
 @media (max-width: 900px) {

@@ -156,11 +156,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260630-hints'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260630-hints/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260630-hints/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260630-hints/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260630-hints/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-location'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-location/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-location/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-location/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-location/);
   assert.match(html, /data-editor-mode="draw"/);
   assert.match(html, /data-editor-mode="edit"/);
   assert.match(html, /data-editor-mode="insert"/);
@@ -295,7 +295,7 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260630-hints'/);
+  assert.match(js, /const assetVersion = '20260701-location'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -332,6 +332,16 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /editorDownloadButton\?\.addEventListener\('click'/);
   assert.match(js, /editorModeButtons\.forEach/);
   assert.match(js, /const featureHintStateKey = 'londontour-feature-hints-v1'/);
+  assert.match(js, /let locationState = \{/);
+  assert.match(js, /function locationStatusMessage/);
+  assert.match(js, /function updateLocationButtonState/);
+  assert.match(js, /function startFollowUser/);
+  assert.match(js, /navigator\.geolocation\.watchPosition/);
+  assert.match(js, /function stopFollowingUser/);
+  assert.match(js, /function handleManualMapPointerDown/);
+  assert.match(js, /userAccuracyCircle = L\.circle/);
+  assert.match(js, /Location permission was denied\. You can still use the map manually/);
+  assert.match(js, /Your position is outside the London map area\. The map remains available/);
   assert.match(js, /function showFeatureHint/);
   assert.match(js, /function dismissFeatureHint/);
   assert.match(js, /Route selected/);
@@ -620,6 +630,9 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.editor-midpoint-handle/);
   assert.match(css, /\.editor-export-actions/);
   assert.match(css, /\.feature-hint-panel/);
+  assert.match(css, /\.user-location-marker\.is-low-accuracy/);
+  assert.match(css, /#locate-button\.is-following/);
+  assert.match(css, /#locate-button\.is-error/);
   assert.match(css, /body\[data-theme="dark"\] \.feature-hint-panel/);
   assert.match(css, /\.location-arrow-icon/);
   assert.match(css, /\.menu-icon/);
@@ -717,7 +730,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v100/);
+  assert.match(sw, /londontour-offline-v101/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);

@@ -413,8 +413,17 @@ let onlineTileLayer;
 let offlineTileLayer;
 let editorDraftLayers = [];
 let userMarker;
+let userAccuracyCircle;
 let userLocation;
 let locationRequested = false;
+let locationState = {
+  status: 'idle',
+  latLng: null,
+  accuracyM: null,
+  watchId: null,
+  following: false,
+  lastUpdatedAt: null,
+};
 let routeRenderToken = 0;
 let selectedRouteBounds;
 let routeGeometryPromise;
@@ -458,8 +467,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260630-hints';
-const cacheName = 'londontour-offline-v100';
+const assetVersion = '20260701-location';
+const cacheName = 'londontour-offline-v101';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -2910,6 +2919,7 @@ function buildMap() {
   });
   map.on('click', handleRadiusMapClick);
   map.on('click', handleMapSelectionClear);
+  map.getContainer().addEventListener('pointerdown', handleManualMapPointerDown);
   map.getContainer().addEventListener('pointerdown', handleRadiusPointerStart);
   map.getContainer().addEventListener('pointermove', handleRadiusPointerMove);
   map.getContainer().addEventListener('pointerup', handleRadiusPointerEnd);
@@ -3990,61 +4000,160 @@ async function shareRoute() {
   }
 }
 
+function locationStatusMessage(status, accuracyM = locationState.accuracyM) {
+  const accuracyText = Number.isFinite(accuracyM) ? ` Accuracy about ${formatDistance(accuracyM)}.` : '';
+  const isLowAccuracy = Number.isFinite(accuracyM) && accuracyM > 100;
+  const messages = {
+    idle: 'Use my current location',
+    requesting: 'Finding your location',
+    denied: 'Location permission denied',
+    unavailable: 'Location unavailable',
+    timeout: 'Location lookup timed out',
+    outside: 'Location outside London',
+    found: isLowAccuracy ? `Your position is approximate.${accuracyText}` : `Your position is shown.${accuracyText}`,
+    following: isLowAccuracy ? `Following your approximate position.${accuracyText}` : `Following your position.${accuracyText}`,
+  };
+  return messages[status] || messages.idle;
+}
+
+function updateLocationButtonState() {
+  if (!locateButton) return;
+  const status = locationState.status;
+  const isRequesting = status === 'requesting';
+  const isActive = ['found', 'following'].includes(status);
+  const isError = ['denied', 'unavailable', 'timeout', 'outside'].includes(status);
+  locateButton.classList.toggle('is-loading', isRequesting);
+  locateButton.classList.toggle('is-active', isActive);
+  locateButton.classList.toggle('is-error', isError);
+  locateButton.classList.toggle('is-following', status === 'following');
+  locateButton.setAttribute('aria-busy', isRequesting ? 'true' : 'false');
+  locateButton.setAttribute('aria-pressed', locationState.following ? 'true' : 'false');
+  locateButton.setAttribute('aria-label', locationStatusMessage(status));
+  locateButton.setAttribute('title', locationStatusMessage(status));
+}
+
+function setLocationState(next = {}, options = {}) {
+  locationState = {
+    ...locationState,
+    ...next,
+  };
+  updateLocationButtonState();
+  if (options.status) setStatus(options.status);
+}
+
+function stopFollowingUser(message = 'Follow mode paused because the map moved.') {
+  if (locationState.watchId !== null && navigator.geolocation?.clearWatch) {
+    navigator.geolocation.clearWatch(locationState.watchId);
+  }
+  if (!locationState.following && locationState.watchId === null) return;
+  setLocationState({
+    status: locationState.latLng ? 'found' : 'idle',
+    following: false,
+    watchId: null,
+  }, message ? { status: message } : {});
+}
+
+function handleManualMapPointerDown(event) {
+  if (!locationState.following) return;
+  const target = event.target;
+  if (target?.closest?.('.leaflet-marker-icon, .leaflet-popup, .leaflet-control, .map-topbar, .search-panel, .radius-panel')) return;
+  stopFollowingUser();
+}
+
+function handleLocationSuccess(position, options = {}) {
+  const { latitude, longitude, accuracy } = position.coords;
+  const latLng = [latitude, longitude];
+  const accuracyM = Number.isFinite(accuracy) ? accuracy : null;
+  lastLocationAccuracy = accuracyM;
+
+  if (!isInsideLondon(latLng)) {
+    if (locationState.watchId !== null && navigator.geolocation?.clearWatch) {
+      navigator.geolocation.clearWatch(locationState.watchId);
+    }
+    setLocationState({
+      status: 'outside',
+      latLng,
+      accuracyM,
+      following: false,
+      watchId: null,
+    }, { status: 'Your position is outside the London map area. The map remains available.' });
+    return;
+  }
+
+  userLocation = latLng;
+  setLocationState({
+    status: options.following ? 'following' : 'found',
+    latLng,
+    accuracyM,
+    following: Boolean(options.following),
+    lastUpdatedAt: new Date().toISOString(),
+  });
+  addOrUpdateUserMarker();
+
+  const targetZoom = accuracyM && accuracyM > 100 ? Math.max(map.getZoom(), 14) : Math.max(map.getZoom(), 16);
+  if (options.recenter !== false || locationState.following) {
+    map.flyTo(latLng, targetZoom);
+  }
+  if (options.openPopup && userMarker?.getPopup()) userMarker.openPopup();
+  setStatus(locationStatusMessage(options.following ? 'following' : 'found', accuracyM));
+}
+
+function handleLocationError(error) {
+  const statusByCode = {
+    1: 'denied',
+    2: 'unavailable',
+    3: 'timeout',
+  };
+  const messages = {
+    denied: 'Location permission was denied. You can still use the map manually.',
+    unavailable: 'Location is unavailable right now. Try again outside or check browser settings.',
+    timeout: 'Location lookup timed out. Try again from the location button.',
+  };
+  const status = statusByCode[error.code] || 'unavailable';
+  stopFollowingUser('');
+  setLocationState({
+    status,
+    following: false,
+    watchId: null,
+  }, { status: messages[status] || 'Location lookup failed.' });
+}
+
+function startFollowUser() {
+  if (!navigator.geolocation?.watchPosition) {
+    setLocationState({ status: 'unavailable' }, { status: 'Location tracking is not available in this browser.' });
+    return;
+  }
+  if (locationState.watchId !== null) navigator.geolocation.clearWatch(locationState.watchId);
+  setLocationState({ status: 'requesting', following: true }, { status: 'Finding your location...' });
+  const watchId = navigator.geolocation.watchPosition(
+    (position) => handleLocationSuccess(position, { following: true, recenter: true }),
+    handleLocationError,
+    {
+      enableHighAccuracy: true,
+      maximumAge: 10000,
+      timeout: 12000,
+    }
+  );
+  setLocationState({ watchId, following: true, status: 'requesting' });
+}
+
 function locateUser() {
   if (!navigator.geolocation) {
-    setStatus('Geolocation is not available in this browser.');
+    setLocationState({ status: 'unavailable' }, { status: 'Geolocation is not available in this browser.' });
     return;
   }
 
   locationRequested = true;
-  locateButton?.classList.add('is-loading');
-  locateButton?.setAttribute('aria-label', 'Finding your location');
-  locateButton?.setAttribute('title', 'Finding your location');
-  setStatus('Finding your location...');
-
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const { latitude, longitude, accuracy } = position.coords;
-      const latLng = [latitude, longitude];
-      lastLocationAccuracy = Number.isFinite(accuracy) ? accuracy : null;
-
-      if (!isInsideLondon(latLng)) {
-        locateButton?.classList.remove('is-loading', 'is-active');
-        locateButton?.setAttribute('aria-label', 'Use my current location');
-        locateButton?.setAttribute('title', 'Use my current location');
-        setStatus('Your position is outside the London map area. Route pins are still available.');
-        return;
-      }
-
-      userLocation = latLng;
-      addOrUpdateUserMarker();
-
-      map.flyTo([latitude, longitude], Math.max(map.getZoom(), 16), { duration: 0.6 });
-      if (userMarker && userMarker.getPopup()) userMarker.openPopup();
-      locateButton?.classList.remove('is-loading');
-      locateButton?.classList.add('is-active');
-      locateButton?.setAttribute('aria-label', 'Your location is shown');
-      locateButton?.setAttribute('title', 'Your location is shown');
-      setStatus(`Your position is shown on the map${lastLocationAccuracy ? `, accuracy about ${formatDistance(lastLocationAccuracy)}` : ''}.`);
-    },
-    (error) => {
-      const messages = {
-        1: 'Location permission was denied. The tour map is still available.',
-        2: 'Your location could not be determined right now.',
-        3: 'Location lookup timed out. Try again from the map button.',
-      };
-
-      locateButton?.classList.remove('is-loading', 'is-active');
-      locateButton?.setAttribute('aria-label', 'Use my current location');
-      locateButton?.setAttribute('title', 'Use my current location');
-      setStatus(messages[error.code] || 'Location lookup failed.');
-    },
-    {
-      enableHighAccuracy: true,
-      maximumAge: 30000,
-      timeout: 10000,
-    }
-  );
+  if (!locationState.following) {
+    startFollowUser();
+    return;
+  }
+  if (locationState.latLng) {
+    map.flyTo(locationState.latLng, Math.max(map.getZoom(), 16));
+    setStatus('Following your location.');
+    return;
+  }
+  startFollowUser();
 }
 
 function addOrUpdateUserMarker() {
@@ -4053,11 +4162,26 @@ function addOrUpdateUserMarker() {
   if (userMarker) {
     userMarker.remove();
   }
+  if (userAccuracyCircle) {
+    userAccuracyCircle.remove();
+    userAccuracyCircle = null;
+  }
+
+  if (Number.isFinite(lastLocationAccuracy)) {
+    userAccuracyCircle = L.circle(userLocation, {
+      radius: Math.min(lastLocationAccuracy, 500),
+      color: lastLocationAccuracy > 100 ? '#b45309' : '#1d6fe8',
+      fillColor: lastLocationAccuracy > 100 ? '#f59e0b' : '#60a5fa',
+      fillOpacity: 0.08,
+      interactive: false,
+      weight: 2,
+    }).addTo(map);
+  }
 
   userMarker = L.marker(userLocation, {
     icon: L.divIcon({
       className: '',
-      html: '<div class="user-location-marker" title="Your position"></div>',
+      html: `<div class="user-location-marker ${lastLocationAccuracy > 100 ? 'is-low-accuracy' : ''} ${locationState.following ? 'is-following' : ''}" title="Your position"></div>`,
       iconSize: [22, 22],
       iconAnchor: [11, 11],
     }),
@@ -4501,6 +4625,7 @@ renderPicker();
 renderDetails();
 renderEditorPanel();
 buildMap();
+updateLocationButtonState();
 void loadLayerCatalog();
 void resetLegacyRuntime();
 if (browseMode) {
@@ -4508,5 +4633,8 @@ if (browseMode) {
 } else {
   void renderRouteOnMap();
   setStatus('Pick the route to open the map, then tap a marker or use my location. Available offline after the first visit.');
+}
+if (followUser) {
+  window.setTimeout(() => startFollowUser(), 400);
 }
 window.setTimeout(() => showOnboarding(false), 300);
