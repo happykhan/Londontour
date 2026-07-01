@@ -541,8 +541,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260701-overview';
-const cacheName = 'londontour-offline-v104';
+const assetVersion = '20260701-a11y';
+const cacheName = 'londontour-offline-v105';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -655,6 +655,23 @@ let radiusState = {
 };
 let radiusOverlayLayers = [];
 let radiusResultMarkers = [];
+let transientPanelReturnFocus = null;
+
+function rememberTransientPanelTrigger(trigger) {
+  const candidate = trigger || document.activeElement;
+  if (candidate && typeof candidate.focus === 'function') {
+    transientPanelReturnFocus = candidate;
+  }
+}
+
+function restoreTransientPanelFocus(options = {}) {
+  if (options.returnFocus === false) return;
+  const target = transientPanelReturnFocus;
+  transientPanelReturnFocus = null;
+  if (target && document.contains(target) && typeof target.focus === 'function') {
+    window.setTimeout(() => target.focus(), 0);
+  }
+}
 
 function saveActiveLayerIds() {
   try {
@@ -2079,7 +2096,7 @@ function renderSearchResults(query = searchInput?.value || '') {
 
   searchResultsEl.innerHTML = searchResults
     .map((item, index) => `
-      <button class="${searchResultClass(item)}" type="button" role="option" data-search-index="${index}">
+      <button class="${searchResultClass(item)}" type="button" role="option" aria-selected="false" aria-label="${escapeHtml(`Show ${item.name} on the map${item.label ? `, ${item.label}` : ''}`)}" data-search-index="${index}">
         <strong>${escapeHtml(item.name)}</strong>
         <span>${escapeHtml(item.label || item.type)}</span>
         <small>${escapeHtml(item.detail || '')}</small>
@@ -2094,25 +2111,29 @@ async function runSearch() {
   renderSearchResults(query);
 }
 
-function setSearchOpen(open) {
+function setSearchOpen(open, options = {}) {
   const isOpen = Boolean(open);
   if (!searchPanel || !searchButton) return;
+  const wasOpen = !searchPanel.hidden;
   document.body.classList.toggle('search-open', isOpen);
   searchPanel.hidden = !isOpen;
   searchButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || searchButton);
     document.body.classList.add('route-view');
     document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
-    setRadiusOpen(false);
-    setBrowseLayersOpen(false);
-    setRouteMenuOpen(false);
-    setOfflineMenuOpen(false);
+    setRadiusOpen(false, { returnFocus: false });
+    setBrowseLayersOpen(false, { returnFocus: false });
+    setRouteMenuOpen(false, { returnFocus: false });
+    setOfflineMenuOpen(false, { returnFocus: false });
     window.setTimeout(() => {
       searchInput?.focus();
       searchInput?.select();
     }, 0);
     void runSearch();
     setStatus('Search the map by place, layer item, pier, or tube station.');
+  } else if (wasOpen) {
+    restoreTransientPanelFocus(options);
   }
 }
 
@@ -2164,7 +2185,7 @@ function focusSearchResult(item) {
   const layerChanged = activateSearchLayer(item);
   const targetZoom = item.stationId ? 15 : item.layerId === 'transport' ? 16 : 16;
 
-  setSearchOpen(false);
+  setSearchOpen(false, { returnFocus: false });
   map.flyTo([item.lat, item.lng], Math.max(map.getZoom(), targetZoom), { duration: 0.45 });
 
   window.setTimeout(() => {
@@ -2200,25 +2221,28 @@ function formatDistance(meters) {
   return `${Math.round(meters)} m`;
 }
 
-function setRadiusOpen(open) {
+function setRadiusOpen(open, options = {}) {
   const isOpen = Boolean(open);
   if (!radiusPanel || !radiusButton) return;
+  const wasOpen = !radiusPanel.hidden;
   radiusState.active = isOpen;
   document.body.classList.toggle('radius-open', isOpen);
   radiusPanel.hidden = !isOpen;
   radiusButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || radiusButton);
     document.body.classList.add('route-view');
     document.body.classList.remove('route-menu-open', 'browse-layers-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
-    setSearchOpen(false);
-    setBrowseLayersOpen(false);
-    setRouteMenuOpen(false);
-    setOfflineMenuOpen(false);
+    setSearchOpen(false, { returnFocus: false });
+    setBrowseLayersOpen(false, { returnFocus: false });
+    setRouteMenuOpen(false, { returnFocus: false });
+    setOfflineMenuOpen(false, { returnFocus: false });
     setStatus(radiusState.center ? (radiusState.locked ? 'Nearby radius locked. Tap markers to inspect them.' : 'Drag on the map to set the nearby radius.') : 'Drop a nearby search pin on the map.');
     showFeatureHint('nearby', 'Explore nearby', 'Tap Nearby on a place, then drag the radius edge to find pubs, toilets, water, stations, and other useful stops around it.');
   } else {
     radiusState.dragging = false;
     if (map?.dragging) map.dragging.enable();
+    if (wasOpen) restoreTransientPanelFocus(options);
   }
   renderRadiusPanel();
   renderRadiusOverlays();
@@ -4080,14 +4104,18 @@ function updateBrowsePickerButtonState() {
   browsePickerButton.textContent = browseMode && document.body.classList.contains('route-menu-open') ? 'Cancel' : 'Browse map';
 }
 
-function setBrowseLayersOpen(open) {
+function setBrowseLayersOpen(open, options = {}) {
   const isOpen = Boolean(open);
+  const wasOpen = document.body.classList.contains('browse-layers-open');
   document.body.classList.toggle('browse-layers-open', isOpen);
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || browseMapButton);
     clearTubeSelectionBeforePopup();
     document.body.classList.remove('route-menu-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
-    setSearchOpen(false);
-    setRadiusOpen(false);
+    setSearchOpen(false, { returnFocus: false });
+    setRadiusOpen(false, { returnFocus: false });
+  } else if (wasOpen) {
+    restoreTransientPanelFocus(options);
   }
   browseMapButton.textContent = isOpen ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
@@ -4101,14 +4129,18 @@ function setBrowseLayersOpen(open) {
   }, 0);
 }
 
-function setRouteMenuOpen(open) {
+function setRouteMenuOpen(open, options = {}) {
   const isOpen = Boolean(open);
+  const wasOpen = document.body.classList.contains('route-menu-open');
   document.body.classList.toggle('route-menu-open', isOpen);
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || changeRouteButton);
     clearTubeSelectionBeforePopup();
     document.body.classList.remove('browse-layers-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
-    setSearchOpen(false);
-    setRadiusOpen(false);
+    setSearchOpen(false, { returnFocus: false });
+    setRadiusOpen(false, { returnFocus: false });
+  } else if (wasOpen) {
+    restoreTransientPanelFocus(options);
   }
   changeRouteButton.textContent = isOpen ? 'Close' : 'Routes';
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
@@ -4119,15 +4151,19 @@ function setRouteMenuOpen(open) {
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
-function setOfflineMenuOpen(open) {
+function setOfflineMenuOpen(open, options = {}) {
   const isOpen = Boolean(open);
+  const wasOpen = document.body.classList.contains('offline-menu-open');
   document.body.classList.toggle('offline-menu-open', isOpen);
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || routeOfflineButton || menuOfflineButton);
     clearTubeSelectionBeforePopup();
     document.body.classList.remove('browse-layers-open', 'route-menu-open', 'menu-open', 'about-menu-open');
-    setSearchOpen(false);
-    setRadiusOpen(false);
+    setSearchOpen(false, { returnFocus: false });
+    setRadiusOpen(false, { returnFocus: false });
     void renderOfflineDetails();
+  } else if (wasOpen) {
+    restoreTransientPanelFocus(options);
   }
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
@@ -4139,14 +4175,18 @@ function setOfflineMenuOpen(open) {
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
-function setMainMenuOpen(open) {
+function setMainMenuOpen(open, options = {}) {
   const isOpen = Boolean(open);
+  const wasOpen = document.body.classList.contains('menu-open');
   document.body.classList.toggle('menu-open', isOpen);
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || menuButton);
     clearTubeSelectionBeforePopup();
     document.body.classList.remove('browse-layers-open', 'route-menu-open', 'offline-menu-open', 'about-menu-open');
-    setSearchOpen(false);
-    setRadiusOpen(false);
+    setSearchOpen(false, { returnFocus: false });
+    setRadiusOpen(false, { returnFocus: false });
+  } else if (wasOpen) {
+    restoreTransientPanelFocus(options);
   }
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
@@ -4157,14 +4197,18 @@ function setMainMenuOpen(open) {
   if (map) window.setTimeout(() => map.invalidateSize(), 0);
 }
 
-function setAboutMenuOpen(open) {
+function setAboutMenuOpen(open, options = {}) {
   const isOpen = Boolean(open);
+  const wasOpen = document.body.classList.contains('about-menu-open');
   document.body.classList.toggle('about-menu-open', isOpen);
   if (isOpen) {
+    rememberTransientPanelTrigger(options.trigger || menuAboutButton);
     clearTubeSelectionBeforePopup();
     document.body.classList.remove('browse-layers-open', 'route-menu-open', 'offline-menu-open', 'menu-open');
-    setSearchOpen(false);
-    setRadiusOpen(false);
+    setSearchOpen(false, { returnFocus: false });
+    setRadiusOpen(false, { returnFocus: false });
+  } else if (wasOpen) {
+    restoreTransientPanelFocus(options);
   }
   browseMapButton.textContent = document.body.classList.contains('browse-layers-open') ? 'Close' : 'Layers';
   browseMapButton.setAttribute('aria-expanded', document.body.classList.contains('browse-layers-open') ? 'true' : 'false');
@@ -4206,7 +4250,7 @@ function selectRoute(route) {
   selectedRouteBounds = undefined;
   document.body.classList.add('route-view');
   document.body.classList.remove('browse-view', 'browse-layers-open', 'route-menu-open', 'offline-menu-open', 'menu-open', 'about-menu-open');
-  setBrowseLayersOpen(false);
+  setBrowseLayersOpen(false, { returnFocus: false });
   const url = new URL(window.location.href);
   url.searchParams.set('route', route.id);
   url.searchParams.delete('mode');
@@ -4637,8 +4681,8 @@ pickerEl.addEventListener('click', (event) => {
 locateButton.addEventListener('click', locateUser);
 offlineButton.addEventListener('click', handleOfflineButtonClick);
 offlineBackButton?.addEventListener('click', () => {
-  setOfflineMenuOpen(false);
-  setMainMenuOpen(true);
+  setOfflineMenuOpen(false, { returnFocus: false });
+  setMainMenuOpen(true, { trigger: menuButton });
 });
 offlineCloseButton?.addEventListener('click', () => setOfflineMenuOpen(false));
 menuCloseButton?.addEventListener('click', () => setMainMenuOpen(false));
@@ -4651,8 +4695,8 @@ menuRecenterButton?.addEventListener('click', () => {
   recenterRoute();
 });
 menuNearbyButton?.addEventListener('click', () => {
-  setMainMenuOpen(false);
-  setRadiusOpen(true);
+  setMainMenuOpen(false, { returnFocus: false });
+  setRadiusOpen(true, { trigger: menuNearbyButton });
   setStatus('Explore nearby opened. Drop a pin or choose Nearby from a popup.');
 });
 menuThemeButton?.addEventListener('click', () => {
@@ -4663,14 +4707,14 @@ menuShareButton?.addEventListener('click', () => {
   setMainMenuOpen(false);
   void shareRoute();
 });
-menuOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
-menuAboutButton?.addEventListener('click', () => setAboutMenuOpen(true));
+menuOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true, { trigger: menuOfflineButton }));
+menuAboutButton?.addEventListener('click', () => setAboutMenuOpen(true, { trigger: menuAboutButton }));
 aboutBackButton?.addEventListener('click', () => {
-  setAboutMenuOpen(false);
-  setMainMenuOpen(true);
+  setAboutMenuOpen(false, { returnFocus: false });
+  setMainMenuOpen(true, { trigger: menuButton });
 });
 aboutCloseButton?.addEventListener('click', () => setAboutMenuOpen(false));
-searchButton.addEventListener('click', () => setSearchOpen(!document.body.classList.contains('search-open')));
+searchButton.addEventListener('click', () => setSearchOpen(!document.body.classList.contains('search-open'), { trigger: searchButton }));
 searchCloseButton.addEventListener('click', () => setSearchOpen(false));
 searchForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -4684,7 +4728,7 @@ searchResultsEl.addEventListener('click', (event) => {
   if (!resultButton) return;
   focusSearchResult(searchResults[Number(resultButton.dataset.searchIndex)]);
 });
-radiusButton.addEventListener('click', () => setRadiusOpen(!document.body.classList.contains('radius-open')));
+radiusButton.addEventListener('click', () => setRadiusOpen(!document.body.classList.contains('radius-open'), { trigger: radiusButton }));
 radiusCloseButton.addEventListener('click', () => setRadiusOpen(false));
 radiusLockButton?.addEventListener('click', () => {
   if (!radiusState.center) return;
@@ -4708,7 +4752,7 @@ layersCloseButton?.addEventListener('click', () => {
 themeButton?.addEventListener('click', toggleTheme);
 shareButton?.addEventListener('click', shareRoute);
 routeShareButton?.addEventListener('click', shareRoute);
-routeOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true));
+routeOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true, { trigger: routeOfflineButton }));
 routeRecenterButton?.addEventListener('click', recenterRoute);
 startGuideButton?.addEventListener('click', startGuideSimulation);
 onboardingDismissButton?.addEventListener('click', () => dismissOnboarding(true));
@@ -4925,6 +4969,26 @@ document.addEventListener('keydown', (event) => {
   }
   if (event.key === 'Escape' && document.body.classList.contains('radius-open')) {
     setRadiusOpen(false);
+    return;
+  }
+  if (event.key === 'Escape' && document.body.classList.contains('browse-layers-open')) {
+    setBrowseLayersOpen(false);
+    return;
+  }
+  if (event.key === 'Escape' && document.body.classList.contains('route-menu-open')) {
+    setRouteMenuOpen(false);
+    return;
+  }
+  if (event.key === 'Escape' && document.body.classList.contains('offline-menu-open')) {
+    setOfflineMenuOpen(false);
+    return;
+  }
+  if (event.key === 'Escape' && document.body.classList.contains('about-menu-open')) {
+    setAboutMenuOpen(false);
+    return;
+  }
+  if (event.key === 'Escape' && document.body.classList.contains('menu-open')) {
+    setMainMenuOpen(false);
   }
 });
 

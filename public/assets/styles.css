@@ -64,6 +64,23 @@ button:focus-visible {
   background: var(--accent-strong);
 }
 
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="option"]:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 2px;
+}
+
+button:disabled,
+button[aria-disabled="true"] {
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  opacity: 0.55;
+}
+
 .secondary-button {
   background: var(--panel);
   border: 1px solid #cfd5da;
@@ -1562,7 +1579,7 @@ body[data-theme="dark"] .radius-lock-button:disabled {
 
 .leaflet-popup-close-button:focus-visible,
 .maplibregl-popup-close-button:focus-visible {
-  outline: 2px solid #111827;
+  outline: 3px solid #facc15;
   outline-offset: 2px;
 }
 

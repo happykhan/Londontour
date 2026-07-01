@@ -11,11 +11,11 @@ async function readText(url) {
 
 test('production shell loads the app scripts', async () => {
   const html = await readText(liveUrl);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-overview/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-overview/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-overview/);
-  assert.match(html, /assets\/app\.js\?v=20260701-overview/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-overview'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-a11y/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-a11y/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-a11y/);
+  assert.match(html, /assets\/app\.js\?v=20260701-a11y/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-a11y'\)/);
   assert.doesNotMatch(html, /tile\.openstreetmap\.org/i);
   assert.doesNotMatch(html, /basemaps\.cartocdn\.com/i);
 });
