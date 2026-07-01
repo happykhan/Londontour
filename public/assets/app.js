@@ -541,8 +541,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260701-a11y';
-const cacheName = 'londontour-offline-v105';
+const assetVersion = '20260701-guide';
+const cacheName = 'londontour-offline-v106';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -555,8 +555,24 @@ let selectedPointId = initialSharedPoi?.pointId || initialSearchParams.get('sele
 let sharedPoiRestored = false;
 let followUser = initialSearchParams.get('follow') === '1';
 let lastLocationAccuracy = null;
-let guideSimulationTimer = null;
-let guideSimulationIndex = 0;
+let guideState = {
+  active: false,
+  watchId: null,
+  routeId: null,
+  progressM: 0,
+  distanceFromRouteM: null,
+  accuracyM: null,
+  currentEventId: null,
+  nextEventId: null,
+  firedEventIds: new Set(),
+  muted: false,
+  paused: false,
+  lastPosition: null,
+  lastOffRouteWarningAt: 0,
+  offRouteSince: null,
+  wakeLock: null,
+  routePoints: [],
+};
 let activeFeatureHintKey = '';
 let simulationTimer = null;
 let simulationMarker = null;
@@ -2971,6 +2987,110 @@ function simulationNextEvent(progressM, route = selectedRoute) {
   return routeSimulationEvents(route).find((event) => progressM < event.distanceM);
 }
 
+function guideEvents(route = selectedRoute) {
+  return routeSimulationEvents(route).map((event) => ({
+    id: event.id,
+    type: event.kind === 'start' || event.kind === 'end' ? 'narration' : event.kind,
+    progressM: event.distanceM,
+    lat: event.lat,
+    lng: event.lng,
+    radiusM: event.kind === 'transport' ? 150 : 60,
+    preAlertM: event.kind === 'direction' || event.kind === 'transport' ? 80 : 0,
+    title: event.name,
+    body: event.detail,
+    speak: true,
+    once: true,
+    segment: event.segment,
+    segmentLabel: event.segmentLabel,
+    priority: event.kind === 'transport' ? 2 : event.kind === 'direction' ? 3 : 1,
+  }));
+}
+
+async function buildGuideRoutePoints(route = selectedRoute) {
+  const groups = groupRouteStops(route.stops);
+  const routePoints = [];
+  let cumulativeM = 0;
+
+  for (const group of groups) {
+    const coordinates = group.stops.map((stop) => [stop.lng, stop.lat]);
+    let geometry = [];
+    try {
+      geometry = await fetchRouteGeometry(group.segment, coordinates);
+    } catch (error) {
+      geometry = coordinates;
+    }
+    geometry.forEach((coordinate) => {
+      const point = {
+        lat: Number(coordinate[1]),
+        lng: Number(coordinate[0]),
+        segment: group.segment,
+        segmentLabel: group.segmentLabel || segmentLabel(group.segment),
+        progressM: cumulativeM,
+      };
+      const previous = routePoints[routePoints.length - 1];
+      if (previous) cumulativeM += stopDistanceMeters(previous, point);
+      point.progressM = Math.round(cumulativeM);
+      routePoints.push(point);
+    });
+  }
+
+  return routePoints.length >= 2 ? routePoints : route.stops.map((stop, index) => ({ ...stop, progressM: routeSimulationEvents(route)[index]?.distanceM || 0 }));
+}
+
+function projectToGuideSegment(user, start, end) {
+  const originLat = ((Number(start.lat) + Number(end.lat)) / 2) * Math.PI / 180;
+  const latMeters = 110540;
+  const lngMeters = 111320 * Math.cos(originLat);
+  const ax = Number(start.lng) * lngMeters;
+  const ay = Number(start.lat) * latMeters;
+  const bx = Number(end.lng) * lngMeters;
+  const by = Number(end.lat) * latMeters;
+  const px = Number(user.lng) * lngMeters;
+  const py = Number(user.lat) * latMeters;
+  const dx = bx - ax;
+  const dy = by - ay;
+  const lengthSq = dx * dx + dy * dy;
+  const t = lengthSq ? Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / lengthSq)) : 0;
+  const snapped = {
+    lat: Number(start.lat) + (Number(end.lat) - Number(start.lat)) * t,
+    lng: Number(start.lng) + (Number(end.lng) - Number(start.lng)) * t,
+  };
+  const segmentDistance = stopDistanceMeters(start, end);
+  return {
+    ...snapped,
+    distanceM: stopDistanceMeters(user, snapped),
+    progressM: Math.round(Number(start.progressM || 0) + segmentDistance * t),
+    segment: end.segment || start.segment,
+    segmentLabel: end.segmentLabel || start.segmentLabel,
+  };
+}
+
+function snapToGuideRoute(user, routePoints = guideState.routePoints) {
+  if (!routePoints.length) return null;
+  if (routePoints.length === 1) {
+    return { ...routePoints[0], distanceM: stopDistanceMeters(user, routePoints[0]), progressM: 0 };
+  }
+  let best = null;
+  for (let index = 1; index < routePoints.length; index += 1) {
+    const snapped = projectToGuideSegment(user, routePoints[index - 1], routePoints[index]);
+    if (!best || snapped.distanceM < best.distanceM) best = snapped;
+  }
+  return best;
+}
+
+function isGuideEventDue(event, user, snapped) {
+  if (!event || !snapped) return false;
+  if (event.once && guideState.firedEventIds.has(event.id)) return false;
+  const progressDelta = Number(event.progressM || 0) - snapped.progressM;
+  const distanceToEvent = stopDistanceMeters(user, event);
+  const radiusM = Number(event.radiusM || 60);
+  return distanceToEvent <= radiusM || Math.abs(progressDelta) <= radiusM || (Number(event.preAlertM || 0) > 0 && progressDelta > 0 && progressDelta <= Number(event.preAlertM));
+}
+
+function guideNextEvent(progressM = guideState.progressM) {
+  return guideEvents().find((event) => !guideState.firedEventIds.has(event.id) && Number(event.progressM || 0) >= progressM) || null;
+}
+
 function buildStopsBounds(route = selectedRoute) {
   const bounds = L.latLngBounds([]);
   route.stops.forEach((stop) => bounds.extend([stop.lat, stop.lng]));
@@ -4602,59 +4722,193 @@ function dismissFeatureHint(remember = true) {
 
 function renderGuidePanel() {
   if (!guidePanel) return;
-  const stops = selectedRoute.stops;
-  const current = stops[Math.min(guideSimulationIndex, stops.length - 1)];
-  const next = stops[Math.min(guideSimulationIndex + 1, stops.length - 1)];
+  const next = guideNextEvent();
+  const currentEvent = guideEvents().find((event) => event.id === guideState.currentEventId);
   guidePanel.hidden = false;
   guidePanel.innerHTML = `
-    <strong>${guideSimulationTimer ? 'Guide simulation running' : 'Audio guide preview'}</strong>
-    <span>Current: ${escapeHtml(current?.name || selectedRoute.name)}</span>
-    <span>Next: ${escapeHtml(next?.name || 'End of route')}</span>
+    <strong>${guideState.active ? 'Audio guide running' : 'Audio guide ready'}</strong>
+    <span>Progress: ${escapeHtml(formatDistance(guideState.progressM))} · ${guideState.distanceFromRouteM === null ? 'waiting for GPS' : `${escapeHtml(formatDistance(guideState.distanceFromRouteM))} from route`}</span>
+    <span>Current: ${escapeHtml(currentEvent?.title || guideState.currentEventId || selectedRoute.name)}</span>
+    <span>Next: ${escapeHtml(next ? `${next.title} in ${formatDistance(Math.max(0, next.progressM - guideState.progressM))}` : 'End of route')}</span>
+    ${guideState.offRouteSince ? '<span class="guide-warning">Off-route warning armed. Open the map and rejoin the route.</span>' : ''}
     <div class="guide-actions">
-      <button id="guide-pause-button" class="secondary-button compact-button" type="button">${guideSimulationTimer ? 'Pause' : 'Resume'}</button>
+      <button id="guide-pause-button" class="secondary-button compact-button" type="button">${guideState.paused ? 'Resume' : 'Pause'}</button>
+      <button id="guide-mute-button" class="secondary-button compact-button" type="button">${guideState.muted ? 'Unmute' : 'Mute'}</button>
+      <button id="guide-map-button" class="secondary-button compact-button" type="button">Show map</button>
       <button id="guide-stop-button" class="secondary-button compact-button" type="button">Stop</button>
     </div>
   `;
 }
 
-function stopGuideSimulation() {
-  if (guideSimulationTimer) window.clearInterval(guideSimulationTimer);
-  guideSimulationTimer = null;
-  guideSimulationIndex = 0;
+async function requestGuideWakeLock() {
+  if (!navigator.wakeLock?.request) return;
+  try {
+    guideState.wakeLock = await navigator.wakeLock.request('screen');
+  } catch (error) {
+    guideState.wakeLock = null;
+  }
+}
+
+async function releaseGuideWakeLock() {
+  if (!guideState.wakeLock) return;
+  try {
+    await guideState.wakeLock.release();
+  } catch (error) {
+    // Wake lock may already have been released by the browser.
+  } finally {
+    guideState.wakeLock = null;
+  }
+}
+
+function speakGuideText(text, options = {}) {
+  if (guideState.muted || !('speechSynthesis' in window)) return;
+  if (options.interrupt) window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-GB';
+  utterance.rate = options.rate || 1;
+  window.speechSynthesis.speak(utterance);
+}
+
+function triggerGuideEvent(event) {
+  if (!event || (event.once && guideState.firedEventIds.has(event.id))) return;
+  guideState.currentEventId = event.id;
+  guideState.firedEventIds.add(event.id);
+  if (event.speak) {
+    speakGuideText([event.title, event.body].filter(Boolean).join('. '), {
+      interrupt: ['direction', 'transport', 'warning'].includes(event.type),
+    });
+  }
+  setStatus(`Guide: ${event.title}.`);
+  renderGuidePanel();
+}
+
+function guideOffRouteThreshold(segment) {
+  return ['bus', 'tube', 'boat', 'train'].includes(normaliseRouteSegment(segment)) ? 250 : 120;
+}
+
+function warnIfGuideOffRoute(snapped) {
+  const now = Date.now();
+  if (!snapped || (guideState.accuracyM && guideState.accuracyM > 80)) return;
+  if (snapped.distanceM < guideOffRouteThreshold(snapped.segment)) {
+    guideState.offRouteSince = null;
+    return;
+  }
+  if (!guideState.offRouteSince) {
+    guideState.offRouteSince = now;
+    return;
+  }
+  if (now - guideState.offRouteSince < 30000 || now - guideState.lastOffRouteWarningAt < 90000) return;
+  guideState.lastOffRouteWarningAt = now;
+  triggerGuideEvent({
+    id: `off-route-${now}`,
+    type: 'warning',
+    title: 'Off route',
+    body: 'You seem to be off the route. Open the map to rejoin the trail.',
+    speak: true,
+    once: false,
+  });
+}
+
+function handleGuidePosition(position) {
+  if (!guideState.active) return;
+  const user = {
+    lat: Number(position.coords.latitude),
+    lng: Number(position.coords.longitude),
+    accuracyM: Number(position.coords.accuracy || 0),
+  };
+  guideState.accuracyM = user.accuracyM;
+  guideState.lastPosition = user;
+  handleLocationSuccess(position, { recenter: false, following: false });
+  const snapped = snapToGuideRoute(user);
+  if (!snapped) return;
+  guideState.progressM = snapped.progressM;
+  guideState.distanceFromRouteM = Math.round(snapped.distanceM);
+  const next = guideNextEvent(snapped.progressM);
+  guideState.nextEventId = next?.id || null;
+  if (!guideState.paused) {
+    guideEvents()
+      .filter((event) => isGuideEventDue(event, user, snapped))
+      .sort((a, b) => (b.priority || 0) - (a.priority || 0) || a.progressM - b.progressM)
+      .slice(0, 1)
+      .forEach(triggerGuideEvent);
+    warnIfGuideOffRoute(snapped);
+  }
+  renderGuidePanel();
+}
+
+function handleGuideError(error) {
+  handleLocationError(error);
+  setStatus('Audio guide could not update location. Check location permission and signal.');
+}
+
+function stopGuideMode() {
+  if (guideState.watchId !== null && navigator.geolocation?.clearWatch) {
+    navigator.geolocation.clearWatch(guideState.watchId);
+  }
+  window.speechSynthesis?.cancel?.();
+  void releaseGuideWakeLock();
+  guideState = {
+    ...guideState,
+    active: false,
+    watchId: null,
+    routeId: null,
+    progressM: 0,
+    distanceFromRouteM: null,
+    accuracyM: null,
+    currentEventId: null,
+    nextEventId: null,
+    firedEventIds: new Set(),
+    paused: false,
+    lastPosition: null,
+    offRouteSince: null,
+    routePoints: [],
+  };
   if (guidePanel) guidePanel.hidden = true;
   startGuideButton.textContent = 'Start guide';
-  setStatus('Guide simulation stopped.');
+  startGuideButton.setAttribute('aria-pressed', 'false');
+  setStatus('Audio guide stopped.');
 }
 
-function stepGuideSimulation() {
-  guideSimulationIndex = Math.min(guideSimulationIndex + 1, selectedRoute.stops.length - 1);
-  const stop = selectedRoute.stops[guideSimulationIndex];
-  if (stop) setStatus(`Guide simulation: ${stop.name}.`);
-  renderGuidePanel();
-  if (guideSimulationIndex >= selectedRoute.stops.length - 1) {
-    stopGuideSimulation();
-    setStatus('Guide simulation reached the end of the route.');
-  }
-}
-
-function startGuideSimulation() {
+async function startGuideMode() {
   if (browseMode) {
-    setStatus('Choose a route before starting guide simulation.');
+    setStatus('Choose a route before starting the audio guide.');
     return;
   }
-  if (guideSimulationTimer) {
-    window.clearInterval(guideSimulationTimer);
-    guideSimulationTimer = null;
-    startGuideButton.textContent = 'Resume guide';
+  if (guideState.active) {
+    guideState.paused = !guideState.paused;
+    startGuideButton.textContent = guideState.paused ? 'Resume guide' : 'Pause guide';
     renderGuidePanel();
-    setStatus('Guide simulation paused.');
+    setStatus(guideState.paused ? 'Audio guide paused.' : 'Audio guide resumed.');
     return;
   }
-  guideSimulationIndex = Math.min(guideSimulationIndex, selectedRoute.stops.length - 1);
-  guideSimulationTimer = window.setInterval(stepGuideSimulation, 3000);
+  if (!navigator.geolocation?.watchPosition) {
+    setStatus('Location is not available in this browser.');
+    return;
+  }
+  guideState = {
+    ...guideState,
+    active: true,
+    routeId: selectedRoute.id,
+    progressM: 0,
+    distanceFromRouteM: null,
+    currentEventId: null,
+    nextEventId: null,
+    firedEventIds: new Set(),
+    paused: false,
+    offRouteSince: null,
+    routePoints: await buildGuideRoutePoints(selectedRoute),
+  };
+  guideState.watchId = navigator.geolocation.watchPosition(handleGuidePosition, handleGuideError, {
+    enableHighAccuracy: true,
+    maximumAge: 5000,
+    timeout: 15000,
+  });
+  void requestGuideWakeLock();
+  triggerGuideEvent(guideEvents()[0]);
   startGuideButton.textContent = 'Pause guide';
+  startGuideButton.setAttribute('aria-pressed', 'true');
   renderGuidePanel();
-  setStatus('Guide simulation started. This prototype uses authored route stops without live rerouting.');
+  setStatus('Audio guide started. Keep the app open for GPS directions and narration.');
 }
 
 function handleOfflineButtonClick() {
@@ -4754,7 +5008,7 @@ shareButton?.addEventListener('click', shareRoute);
 routeShareButton?.addEventListener('click', shareRoute);
 routeOfflineButton?.addEventListener('click', () => setOfflineMenuOpen(true, { trigger: routeOfflineButton }));
 routeRecenterButton?.addEventListener('click', recenterRoute);
-startGuideButton?.addEventListener('click', startGuideSimulation);
+startGuideButton?.addEventListener('click', () => void startGuideMode());
 onboardingDismissButton?.addEventListener('click', () => dismissOnboarding(true));
 featureHintDismissButton?.addEventListener('click', () => dismissFeatureHint(true));
 onboardingRouteButton?.addEventListener('click', () => {
@@ -4921,12 +5175,27 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('click', (event) => {
-  const guideButton = event.target.closest('#guide-pause-button, #guide-stop-button');
+  const guideButton = event.target.closest('#guide-pause-button, #guide-mute-button, #guide-map-button, #guide-stop-button');
   if (!guideButton) return;
   if (guideButton.id === 'guide-stop-button') {
-    stopGuideSimulation();
+    stopGuideMode();
+  } else if (guideButton.id === 'guide-mute-button') {
+    guideState.muted = !guideState.muted;
+    window.speechSynthesis?.cancel?.();
+    renderGuidePanel();
+    setStatus(guideState.muted ? 'Audio guide muted.' : 'Audio guide unmuted.');
+  } else if (guideButton.id === 'guide-map-button') {
+    setRouteMenuOpen(false);
+    map?.setView(guideState.lastPosition ? [guideState.lastPosition.lat, guideState.lastPosition.lng] : selectedRoute.center, Math.max(map?.getZoom?.() || 14, 16));
+    setStatus('Map shown for the active audio guide.');
   } else {
-    startGuideSimulation();
+    void startGuideMode();
+  }
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && guideState.active) {
+    void requestGuideWakeLock();
   }
 });
 

@@ -558,6 +558,21 @@ body[data-theme="dark"] .poi-item button {
   margin-top: 0.25rem;
 }
 
+.guide-warning {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  color: #78350f !important;
+  font-weight: 850;
+  padding: 0.55rem;
+}
+
+body[data-theme="dark"] .guide-warning {
+  background: #422006;
+  border-color: #d97706;
+  color: #fde68a !important;
+}
+
 .simulation-panel {
   background: var(--card);
   border: 1px solid var(--line);

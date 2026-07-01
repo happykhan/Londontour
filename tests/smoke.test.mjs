@@ -149,6 +149,7 @@ test('index renders the route picker and offline controls', () => {
   assert.match(html, /id="route-sections"/);
   assert.match(html, /id="route-insights"/);
   assert.match(html, /id="start-guide-button"/);
+  assert.match(html, /id="start-guide-button" type="button" aria-pressed="false"/);
   assert.match(html, /id="editor-validation"/);
   assert.match(html, /id="onboarding-panel"/);
   assert.match(html, /id="locate-button"/);
@@ -161,11 +162,11 @@ test('index renders the route picker and offline controls', () => {
   assert.doesNotMatch(html, /getRegistrations\(\)/);
   assert.doesNotMatch(html, /caches\.keys\(\)/);
   assert.match(html, /aria-controls="layers-panel"/);
-  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-a11y'\)/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-a11y/);
-  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-a11y/);
-  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-a11y/);
-  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-a11y/);
+  assert.match(html, /serviceWorker\.register\('\/sw\.js\?v=20260701-guide'\)/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.js\?v=20260701-guide/);
+  assert.match(html, /assets\/vendor\/maplibre\/maplibre-gl\.css\?v=20260701-guide/);
+  assert.match(html, /assets\/vendor\/pmtiles\/pmtiles\.js\?v=20260701-guide/);
+  assert.match(html, /assets\/maplibre-leaflet-adapter\.js\?v=20260701-guide/);
   assert.match(html, /data-editor-mode="draw"/);
   assert.match(html, /data-editor-mode="edit"/);
   assert.match(html, /data-editor-mode="insert"/);
@@ -307,8 +308,8 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /clearSelectedTubeStation\(\{ closePopup: false, status: 'Tube line filter cleared\.' \}\)/);
   assert.match(js, /function handleMapSelectionClear/);
   assert.match(js, /map\.on\('click', handleMapSelectionClear\)/);
-  assert.match(js, /const assetVersion = '20260701-a11y'/);
-  assert.match(js, /const cacheName = 'londontour-offline-v105'/);
+  assert.match(js, /const assetVersion = '20260701-guide'/);
+  assert.match(js, /const cacheName = 'londontour-offline-v106'/);
   assert.match(js, /const layerStateKey = 'londontour-layer-state-v3'/);
   assert.match(js, /const zoomIndicator = document\.querySelector\('#zoom-indicator'\)/);
   assert.match(js, /function updateZoomIndicator/);
@@ -323,6 +324,31 @@ test('app uses a real online basemap, local offline fallback, layer registry hoo
   assert.match(js, /function restoreSharedPoiFromUrl/);
   assert.match(js, /restoreSharedPoiFromUrl\(\)/);
   assert.match(js, /let simulationState = \{/);
+  assert.match(js, /let guideState = \{/);
+  assert.match(js, /function guideEvents/);
+  assert.match(js, /async function buildGuideRoutePoints/);
+  assert.match(js, /function projectToGuideSegment/);
+  assert.match(js, /function snapToGuideRoute/);
+  assert.match(js, /function isGuideEventDue/);
+  assert.match(js, /function guideNextEvent/);
+  assert.match(js, /async function requestGuideWakeLock/);
+  assert.match(js, /async function releaseGuideWakeLock/);
+  assert.match(js, /function speakGuideText/);
+  assert.match(js, /function triggerGuideEvent/);
+  assert.match(js, /function guideOffRouteThreshold/);
+  assert.match(js, /function warnIfGuideOffRoute/);
+  assert.match(js, /function handleGuidePosition/);
+  assert.match(js, /function stopGuideMode/);
+  assert.match(js, /async function startGuideMode/);
+  assert.match(js, /navigator\.geolocation\.watchPosition\(handleGuidePosition, handleGuideError/);
+  assert.match(js, /navigator\.geolocation\.clearWatch\(guideState\.watchId\)/);
+  assert.match(js, /new SpeechSynthesisUtterance/);
+  assert.match(js, /wakeLock\.request\('screen'\)/);
+  assert.match(js, /distanceFromRouteM/);
+  assert.match(js, /offRouteSince/);
+  assert.match(js, /guide-mute-button/);
+  assert.match(js, /guide-map-button/);
+  assert.match(js, /visibilitychange/);
   assert.match(js, /function routeSimulationEvents/);
   assert.match(js, /function simulationPositionAt/);
   assert.match(js, /function renderSimulationPanel/);
@@ -663,6 +689,7 @@ test('dark mode has explicit mobile surfaces and controls', () => {
   assert.match(css, /\.simulation-controls/);
   assert.match(css, /\.simulation-timeline/);
   assert.match(css, /\.simulation-marker/);
+  assert.match(css, /\.guide-warning/);
   assert.match(css, /\.validation-summary button/);
   assert.match(css, /\.editor-mode-tabs/);
   assert.match(css, /\.editor-inspector/);
@@ -786,7 +813,7 @@ test('public directory is the single deployable app tree', () => {
 
 test('service worker precaches the local tile pack', () => {
   const sw = read('sw.js');
-  assert.match(sw, /londontour-offline-v105/);
+  assert.match(sw, /londontour-offline-v106/);
   assert.match(sw, /isAppShell/);
   assert.match(sw, /clients\.matchAll/);
   assert.match(sw, /client\.navigate\(client\.url\)/);
