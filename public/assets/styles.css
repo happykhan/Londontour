@@ -241,6 +241,14 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.route-card-view {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(23, 32, 42, 0.08);
+  padding: 1rem;
+}
+
 .route-picker-heading {
   display: none;
 }
@@ -326,29 +334,33 @@ body[data-theme="dark"] .route-card.is-active {
 }
 
 .route-topline {
+  border-bottom: 1px solid var(--line);
   display: grid;
-  gap: 0.2rem;
+  gap: 0.25rem;
+  padding-bottom: 0.75rem;
 }
 
 .route-summary-text {
-  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+  margin: 0.75rem 0 1rem;
 }
 
 .route-meta {
   display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.55rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .route-meta div {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 0.8rem;
+  padding: 0.7rem;
 }
 
 .route-meta strong {
   display: block;
+  line-height: 1.25;
   margin-top: 0.2rem;
 }
 
@@ -414,6 +426,16 @@ body[data-theme="dark"] .route-card.is-active {
   padding: 0.75rem;
 }
 
+.route-section strong::before {
+  background: var(--route-segment-colour, var(--route));
+  border-radius: 999px;
+  content: "";
+  display: inline-block;
+  height: 0.62rem;
+  margin-right: 0.45rem;
+  width: 0.62rem;
+}
+
 .route-section-bus,
 .route-section-tube,
 .route-section-boat,
@@ -440,6 +462,72 @@ body[data-theme="dark"] .route-card.is-active {
   gap: 0.45rem;
   margin-top: 0.85rem;
   padding: 0.8rem;
+}
+
+.route-insights {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 0.85rem;
+}
+
+.route-insight-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem;
+}
+
+.route-insight-card span,
+.route-insight-card small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.route-insight-wide {
+  grid-column: 1 / -1;
+}
+
+.route-comfort-list,
+.route-highlight-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.route-comfort-list span,
+.route-highlight-chips span,
+.route-highlight-chips button {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.32rem 0.55rem;
+}
+
+.route-highlight-chips button {
+  cursor: pointer;
+}
+
+.route-highlight-chips button:hover,
+.route-highlight-chips button:focus {
+  border-color: var(--accent);
+}
+
+body[data-theme="dark"] .route-card-view {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+}
+
+body[data-theme="dark"] .route-comfort-list span,
+body[data-theme="dark"] .route-highlight-chips span,
+body[data-theme="dark"] .route-highlight-chips button,
+body[data-theme="dark"] .poi-item button {
+  background: #202823;
 }
 
 .guide-panel[hidden] {
@@ -568,6 +656,25 @@ body[data-theme="dark"] .route-card.is-active {
   padding: 0.9rem;
 }
 
+.directions .transfer-step {
+  align-items: center;
+  background: color-mix(in srgb, var(--route-segment-colour) 10%, #fff);
+  border-color: color-mix(in srgb, var(--route-segment-colour) 28%, var(--line));
+  color: var(--ink);
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.directions .transfer-step span {
+  align-items: center;
+  background: var(--route-segment-colour, var(--accent));
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  height: 1.65rem;
+  justify-content: center;
+  width: 1.65rem;
+}
+
 .stop-index {
   align-items: center;
   background: var(--route-segment-colour, var(--accent));
@@ -649,6 +756,26 @@ body[data-theme="dark"] .route-card.is-active {
 .poi-item span {
   color: var(--muted);
   line-height: 1.45;
+}
+
+.poi-item button {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 850;
+  justify-self: start;
+  margin-top: 0.25rem;
+  min-height: 32px;
+  padding: 0.35rem 0.55rem;
+}
+
+.poi-item button:hover,
+.poi-item button:focus {
+  border-color: var(--accent);
 }
 
 .poi-empty {
@@ -2605,6 +2732,10 @@ body[data-theme="dark"] .feature-hint-panel {
   }
 
   .route-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .route-insights {
     grid-template-columns: 1fr;
   }
 

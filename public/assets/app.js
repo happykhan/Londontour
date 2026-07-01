@@ -386,6 +386,7 @@ const summaryEl = document.querySelector('#route-summary');
 const metaEl = document.querySelector('#route-meta');
 const directionsEl = document.querySelector('#directions');
 const highlightsEl = document.querySelector('#route-highlights');
+const routeInsightsEl = document.querySelector('#route-insights');
 const statusEl = document.querySelector('#status');
 const zoomIndicator = document.querySelector('#zoom-indicator');
 const layerListEl = document.querySelector('#layer-list');
@@ -540,8 +541,8 @@ const majorTubeStationNames = new Set([
   'west ham',
   'westminster',
 ]);
-const assetVersion = '20260701-markers';
-const cacheName = 'londontour-offline-v103';
+const assetVersion = '20260701-overview';
+const cacheName = 'londontour-offline-v104';
 const layerStateKey = 'londontour-layer-state-v3';
 const editorLayerStateKey = 'londontour-editor-layer-state-v1';
 const editorDraftStateKey = 'londontour-editor-draft-v1';
@@ -2718,6 +2719,7 @@ function renderDetails() {
   const startStop = selectedRoute.stops[0];
   const endStop = selectedRoute.stops[selectedRoute.stops.length - 1];
   metaEl.innerHTML = `
+    <div><span class="label">Type</span><strong>${escapeHtml(selectedRoute.kind || 'Route')}</strong></div>
     <div><span class="label">Start</span><strong>${escapeHtml(startStop?.name || 'Not set')}</strong></div>
     <div><span class="label">End</span><strong>${escapeHtml(endStop?.name || 'Not set')}</strong></div>
     <div><span class="label">Transport</span><strong>${selectedRoute.transport}</strong></div>
@@ -2745,19 +2747,52 @@ function renderDetails() {
           <article class="route-section route-section-${escapeHtml(normaliseRouteSegment(group.segment))}" style="${routeSegmentCssVars(group.segment)}">
             <strong>${escapeHtml(group.segmentLabel || `${segmentLabel(group.segment)} section`)}</strong>
             <span>${escapeHtml(first?.name || 'Start')} to ${escapeHtml(last?.name || 'finish')}</span>
-            <small>${group.stops.length} stop${group.stops.length === 1 ? '' : 's'} · ${escapeHtml(segmentLabel(group.segment))}</small>
+            <small>${group.stops.length} stop${group.stops.length === 1 ? '' : 's'} · ${escapeHtml(segmentLabel(group.segment))} · ${escapeHtml(routeSegmentDistanceText(group))}</small>
           </article>
         `;
       })
       .join('');
   }
 
+  if (routeInsightsEl) {
+    const pois = activeLayerPoints(selectedRoute, false);
+    const offlineState = getOfflineState();
+    const guideEvents = routeSimulationEvents();
+    const comfortRows = routeComfortRows(pois);
+    const topHighlights = pois
+      .filter((poi) => !['Toilets', 'Water refill points', 'Supermarkets'].includes(poi.layerLabel))
+      .slice(0, 4);
+    routeInsightsEl.innerHTML = `
+      <article class="route-insight-card">
+        <strong>Ready to go</strong>
+        <span>${escapeHtml(offlineState ? `Offline ready · saved ${formatOfflineSavedAt(offlineState.savedAt)}` : 'Offline pack not downloaded yet')}</span>
+        <small>${guideEvents.length} guide cue${guideEvents.length === 1 ? '' : 's'} ready for route preview</small>
+      </article>
+      <article class="route-insight-card">
+        <strong>Facilities near route</strong>
+        <div class="route-comfort-list">
+          ${comfortRows.map((row) => `<span>${escapeHtml(row.label)} <strong>${row.count}</strong></span>`).join('')}
+        </div>
+      </article>
+      <article class="route-insight-card route-insight-wide">
+        <strong>Highlights on this route</strong>
+        <div class="route-highlight-chips">
+          ${topHighlights.length
+            ? topHighlights.map((poi) => `<button type="button" data-highlight-layer="${escapeHtml(poi.layerId)}" data-highlight-point="${escapeHtml(poi.id)}">${escapeHtml(poi.name)}</button>`).join('')
+            : '<span>No active highlight layers near this route.</span>'}
+        </div>
+      </article>
+    `;
+  }
+
   directionsEl.innerHTML = selectedRoute.stops
     .map((stop, index) => {
       const previous = selectedRoute.stops[index - 1];
       const segmentBreak = !previous || previous.segment !== stop.segment;
+      const isTransfer = index > 0 && previous?.segment !== stop.segment;
       return `
         ${segmentBreak ? `<li class="segment-divider" style="${routeSegmentCssVars(stop.segment)}"><span aria-hidden="true"></span>${escapeHtml(stop.segmentLabel || routeSegmentStyles[normaliseRouteSegment(stop.segment)]?.longLabel || segmentLabel(stop.segment))}</li>` : ''}
+        ${isTransfer ? `<li class="transfer-step" style="${routeSegmentCssVars(stop.segment)}"><span aria-hidden="true">⇄</span><strong>${escapeHtml(transportInstruction(stop))}</strong></li>` : ''}
         <li data-segment="${escapeHtml(normaliseRouteSegment(stop.segment))}" style="${routeSegmentCssVars(stop.segment)}">
           <span class="stop-index">${index + 1}</span>
           <div class="stop-copy">
@@ -2788,6 +2823,7 @@ function renderDetails() {
               <li class="poi-item">
                 <strong>${escapeHtml(poi.name)}</strong>
                 <span>${escapeHtml(poi.layerLabel)}: ${escapeHtml(poi.detail)}</span>
+                <button type="button" data-highlight-layer="${escapeHtml(poi.layerId)}" data-highlight-point="${escapeHtml(poi.id)}">Show on map</button>
               </li>
             `
           )
@@ -2796,6 +2832,30 @@ function renderDetails() {
   }
 
   void renderOfflineDetails();
+}
+
+function routeSegmentDistanceText(group) {
+  const distance = group.stops.slice(1).reduce((sum, stop, index) => sum + stopDistanceMeters(group.stops[index], stop), 0);
+  return distance ? `approx ${formatDistance(distance)}` : 'distance not set';
+}
+
+function transportInstruction(stop) {
+  const segment = normaliseRouteSegment(stop.segment);
+  if (segment === 'bus') return `Board ${stop.segmentLabel || 'bus'} near ${stop.name}`;
+  if (segment === 'tube') return `Enter tube at ${stop.name}`;
+  if (segment === 'boat') return `Board river boat at ${stop.name}`;
+  if (segment === 'train') return `Board rail service at ${stop.name}`;
+  return `Continue by ${segmentLabel(segment)}`;
+}
+
+function routeComfortRows(pois = []) {
+  const labels = [
+    ['Toilets', (poi) => poi.layerId === 'toilets'],
+    ['Water', (poi) => poi.layerId === 'water'],
+    ['Food', (poi) => ['pubs', 'markets', 'supermarkets'].includes(poi.layerId)],
+    ['Transport', (poi) => poi.layerId === 'transport' || poi.layerId === 'bus-planning'],
+  ];
+  return labels.map(([label, predicate]) => ({ label, count: pois.filter(predicate).length }));
 }
 
 function groupRouteStops(stops) {
@@ -4750,6 +4810,26 @@ editorValidation?.addEventListener('click', (event) => {
     index: button.dataset.validationTargetIndex === undefined ? undefined : Number(button.dataset.validationTargetIndex),
     id: button.dataset.validationTargetId,
   });
+});
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-highlight-point]');
+  if (!button) return;
+  if (!map) return;
+  const point = findLayerPoint(button.dataset.highlightPoint);
+  if (!point) return;
+  selectedPointId = point.id;
+  if (point.layerId && !activeLayerIds.has(point.layerId)) {
+    activeLayerIds.add(point.layerId);
+    saveActiveLayerIds();
+    renderLayerControls();
+  }
+  map.setView([point.lat, point.lng], Math.max(map.getZoom?.() || 14, 16));
+  renderLayerMarkers();
+  L.popup()
+    .setLatLng([point.lat, point.lng])
+    .setContent(poiPopupContent(point))
+    .openOn(map);
+  setStatus(`${point.name} highlighted on the map.`);
 });
 simulationSlider?.addEventListener('input', () => {
   stopSimulationPlayback();

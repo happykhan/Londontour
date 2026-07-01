@@ -8,8 +8,8 @@
       name="description"
       content="Browse a London tour map, switch layers, choose routes, and print directions."
     />
-    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260701-markers" />
-    <link rel="stylesheet" href="assets/styles.css?v=20260701-markers" />
+    <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css?v=20260701-overview" />
+    <link rel="stylesheet" href="assets/styles.css?v=20260701-overview" />
   </head>
   <body>
     <main class="app-shell">
@@ -109,6 +109,7 @@
           </div>
           <div id="route-key" class="route-key" aria-label="Route key"></div>
           <div id="route-sections" class="route-sections" aria-label="Route sections"></div>
+          <div id="route-insights" class="route-insights" aria-label="Route readiness and highlights"></div>
           <div id="guide-panel" class="guide-panel" hidden></div>
         </section>
 
@@ -260,14 +261,14 @@
       </section>
     </main>
 
-    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260701-markers"></script>
-    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260701-markers"></script>
-    <script src="assets/maplibre-leaflet-adapter.js?v=20260701-markers"></script>
-    <script src="assets/app.js?v=20260701-markers"></script>
+    <script src="assets/vendor/maplibre/maplibre-gl.js?v=20260701-overview"></script>
+    <script src="assets/vendor/pmtiles/pmtiles.js?v=20260701-overview"></script>
+    <script src="assets/maplibre-leaflet-adapter.js?v=20260701-overview"></script>
+    <script src="assets/app.js?v=20260701-overview"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=20260701-markers').catch(() => {});
+          navigator.serviceWorker.register('/sw.js?v=20260701-overview').catch(() => {});
         });
       }
     </script>
